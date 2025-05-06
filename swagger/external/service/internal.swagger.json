@@ -1,0 +1,605 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "external/service/internal.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/internal/api-keys": {
+      "get": {
+        "summary": "ListAPIKeys lists the available API keys.",
+        "operationId": "InternalService_ListApiKeys",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serviceListApiKeysResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "description": "Max number of items to return.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "description": "Offset in the result-set (for pagination).",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "isAdmin",
+            "description": "Return only admin keys.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "organizationID",
+            "description": "Filter on tenant ID.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "InternalService"
+        ]
+      },
+      "post": {
+        "summary": "CreateAPIKey creates the given API key.",
+        "operationId": "InternalService_CreateApiKey",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serviceCreateApiKeyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/serviceCreateApiKeyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InternalService"
+        ]
+      }
+    },
+    "/api/internal/api-keys/{id}": {
+      "delete": {
+        "summary": "DeleteAPIKey deletes the API key.",
+        "operationId": "InternalService_DeleteApiKey",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "API key ID.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "InternalService"
+        ]
+      }
+    },
+    "/api/internal/login": {
+      "post": {
+        "summary": "Log in a user",
+        "operationId": "InternalService_Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serviceLoginResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/serviceLoginRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InternalService"
+        ]
+      }
+    },
+    "/api/internal/oidc/login": {
+      "get": {
+        "summary": "OpenID Connect login.",
+        "operationId": "InternalService_OpenIDConnectLogin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serviceOpenIDConnectLoginResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "code",
+            "description": "OpenID Connect callback code.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "state",
+            "description": "OpenID Connect callback state.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "InternalService"
+        ]
+      }
+    },
+    "/api/internal/profile": {
+      "get": {
+        "summary": "Get the current user's profile",
+        "operationId": "InternalService_Profile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serviceProfileResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "InternalService"
+        ]
+      }
+    },
+    "/api/internal/search": {
+      "get": {
+        "summary": "Perform a global search.",
+        "operationId": "InternalService_GlobalSearch",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serviceGlobalSearchResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search",
+            "description": "Search query.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "description": "Max number of results to return.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "description": "Offset offset of the result-set (for pagination).",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "InternalService"
+        ]
+      }
+    },
+    "/api/internal/settings": {
+      "get": {
+        "summary": "Get the global settings.",
+        "operationId": "InternalService_Settings",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serviceSettingsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "InternalService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "serviceApiKey": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "API key ID.\nThis value will be automatically generated on create."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name."
+        },
+        "isAdmin": {
+          "type": "boolean",
+          "description": "Is global admin key."
+        },
+        "organizationID": {
+          "type": "string",
+          "description": "Tenant ID.\nIn case the API key is intended to manage resources under a single tenant."
+        }
+      }
+    },
+    "serviceBranding": {
+      "type": "object",
+      "properties": {
+        "registration": {
+          "type": "string",
+          "description": "Registration html."
+        },
+        "footer": {
+          "type": "string",
+          "description": "Footer html."
+        }
+      }
+    },
+    "serviceCreateApiKeyRequest": {
+      "type": "object",
+      "properties": {
+        "apiKey": {
+          "$ref": "#/definitions/serviceApiKey",
+          "description": "The API key to create."
+        }
+      }
+    },
+    "serviceCreateApiKeyResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "API key ID."
+        },
+        "token": {
+          "type": "string",
+          "description": "API token for authentication API requests."
+        }
+      }
+    },
+    "serviceGlobalSearchResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serviceGlobalSearchResult"
+          }
+        }
+      }
+    },
+    "serviceGlobalSearchResult": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "Record kind."
+        },
+        "score": {
+          "type": "number",
+          "format": "float",
+          "description": "Search score."
+        },
+        "organizationID": {
+          "type": "string",
+          "description": "Organization id."
+        },
+        "organizationName": {
+          "type": "string",
+          "description": "Organization name."
+        },
+        "applicationId": {
+          "type": "string",
+          "description": "Application id."
+        },
+        "applicationName": {
+          "type": "string",
+          "description": "Application name."
+        },
+        "deviceDevEui": {
+          "type": "string",
+          "description": "Device DevEUI (hex encoded)."
+        },
+        "deviceName": {
+          "type": "string",
+          "description": "Device name."
+        },
+        "gatewayMac": {
+          "type": "string",
+          "description": "Gateway MAC (hex encoded)."
+        },
+        "gatewayName": {
+          "type": "string",
+          "description": "Gateway name."
+        }
+      }
+    },
+    "serviceListApiKeysResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total number of API keys."
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serviceApiKey"
+          }
+        }
+      }
+    },
+    "serviceLoginRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Email of the user."
+        },
+        "password": {
+          "type": "string",
+          "description": "Password of the user."
+        }
+      }
+    },
+    "serviceLoginResponse": {
+      "type": "object",
+      "properties": {
+        "jwt": {
+          "type": "string",
+          "description": "The JWT tag to be used to access chirpstack-application-server interfaces."
+        }
+      }
+    },
+    "serviceOpenIDConnect": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable OpenID Connect authentication."
+        },
+        "loginURL": {
+          "type": "string",
+          "description": "Login url."
+        },
+        "loginLabel": {
+          "type": "string",
+          "description": "Login label."
+        },
+        "logoutURL": {
+          "type": "string",
+          "description": "Logout url."
+        }
+      }
+    },
+    "serviceOpenIDConnectLoginResponse": {
+      "type": "object",
+      "properties": {
+        "jwtToken": {
+          "type": "string",
+          "description": "JWT token to use for authentication."
+        }
+      }
+    },
+    "serviceOrganizationLink": {
+      "type": "object",
+      "properties": {
+        "organizationID": {
+          "type": "string",
+          "description": "Organization ID."
+        },
+        "organizationName": {
+          "type": "string",
+          "description": "Organization name."
+        },
+        "isAdmin": {
+          "type": "boolean",
+          "description": "User is admin within the context of this organization.\nThere is no need to set the is_device_admin and is_gateway_admin flags."
+        },
+        "isEditor": {
+          "type": "boolean",
+          "description": "User is able to modify device related resources (applications,\ndevice-profiles, devices, multicast-groups)."
+        },
+        "isViewer": {
+          "type": "boolean",
+          "description": "User is able to modify gateways."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Created at timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp."
+        }
+      },
+      "description": "Defines an organization to which an user is associated."
+    },
+    "serviceProfileResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/serviceUser",
+          "description": "User object."
+        },
+        "organizations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serviceOrganizationLink"
+          },
+          "description": "Organizations to which the user is associated."
+        }
+      }
+    },
+    "serviceSettingsResponse": {
+      "type": "object",
+      "properties": {
+        "branding": {
+          "$ref": "#/definitions/serviceBranding",
+          "description": "Branding settings."
+        },
+        "openidConnect": {
+          "$ref": "#/definitions/serviceOpenIDConnect",
+          "description": "OpenID Connect settings."
+        }
+      }
+    },
+    "serviceUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "User ID (UUID).\nWill be set automatically on create."
+        },
+        "isAdmin": {
+          "type": "boolean",
+          "description": "Set to true to make the user a global administrator."
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "Set to false to disable the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "E-mail of the user."
+        },
+        "note": {
+          "type": "string",
+          "description": "Optional note to store with the user."
+        }
+      }
+    }
+  }
+}

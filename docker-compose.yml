@@ -1,0 +1,17 @@
+version: "2"
+services:
+  platform-api-go:
+    build:
+      context: .
+      dockerfile: Dockerfile-go
+    command: bash -c "cd go && make all"
+    volumes:
+      - ./:/platform-api
+  platform-api-swagger:
+    build:
+      context: .
+      dockerfile: Dockerfile-go
+    command: bash -c "cd swagger && make all"
+    volumes:
+      - ./:/platform-api
+  
