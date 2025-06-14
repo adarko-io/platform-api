@@ -35,7 +35,7 @@ service InternalService {
 	}
 
     // CreateAPIKey creates the given API key.
-    rpc CreateApiKey(CreateApiKeyRequest) returns (CreateApiKeyResponse) {
+    rpc CreateAPIKey(CreateAPIKeyRequest) returns (CreateAPIKeyResponse) {
         option(google.api.http) = {
             post: "/api/internal/api-keys"
             body: "*"
@@ -43,14 +43,14 @@ service InternalService {
     }
 
     // DeleteAPIKey deletes the API key.
-    rpc DeleteApiKey(DeleteApiKeyRequest) returns (google.protobuf.Empty) {
+    rpc DeleteAPIKey(DeleteAPIKeyRequest) returns (google.protobuf.Empty) {
         option(google.api.http) = {
             delete: "/api/internal/api-keys/{id}"
         };
     }
 
     // ListAPIKeys lists the available API keys.
-    rpc ListApiKeys(ListApiKeysRequest) returns (ListApiKeysResponse) {
+    rpc ListAPIKeys(ListAPIKeysRequest) returns (ListAPIKeysResponse) {
         option(google.api.http) = {
             get: "/api/internal/api-keys"
         };
@@ -70,80 +70,89 @@ service InternalService {
         };
     }
 
-    // // GetDevicesSummary returns an aggregated summary of the devices.
-    // rpc GetDevicesSummary(GetDevicesSummaryRequest) returns (GetDevicesSummaryResponse) {
-    //     option(google.api.http) = {
-    //         get: "/api/internal/devices/summary"
-    //     };
-    // }
+    // GetDevicesSummary returns an aggregated summary of the devices.
+    rpc GetDevicesSummary(GetDevicesSummaryRequest) returns (GetDevicesSummaryResponse) {
+        option(google.api.http) = {
+            get: "/api/internal/devices/summary"
+        };
+    }
 
-    // // GetGatewaysSummary returns an aggregated summary of the gateways.
-    // rpc GetGatewaysSummary(GetGatewaysSummaryRequest) returns (GetGatewaysSummaryResponse) {
-    //     option(google.api.http) = {
-    //         get: "/api/internal/gateways/summary"
-    //     };
-    // }
+    // GetGatewaysSummary returns an aggregated summary of the gateways.
+    rpc GetGatewaysSummary(GetGatewaysSummaryRequest) returns (GetGatewaysSummaryResponse) {
+        option(google.api.http) = {
+            get: "/api/internal/gateways/summary"
+        };
+    }
 }
 
-message ApiKey {
+message APIKey {
     // API key ID.
     // This value will be automatically generated on create.
     string id = 1;
-  
+
     // Name.
     string name = 2;
-  
+
     // Is global admin key.
     bool is_admin = 3;
-  
-    // Tenant ID.
-    // In case the API key is intended to manage resources under a single tenant.
-    string organization_id = 4 [json_name = "organizationID"];
-  }
-  
-  message CreateApiKeyRequest {
+
+    // Organization ID.
+    // In case this API key is to manage resources within a single organization
+    // set this to the ID of this organization.
+    int64 organization_id = 4 [json_name = "organizationID"];
+
+    // Application ID.
+    // In case the API key is to manage resources within an application, set
+    // this to the ID of this application.message
+    int64 application_id = 5 [json_name = "applicationID"];
+}
+
+message CreateAPIKeyRequest {
     // The API key to create.
-    ApiKey api_key = 1;
-  }
-  
-  message CreateApiKeyResponse {
+    APIKey api_key = 1;
+}
+
+message CreateAPIKeyResponse {
     // API key ID.
     string id = 1;
-  
-    // API token for authentication API requests.
-    string token = 2;
-  }
-  
-  message DeleteApiKeyRequest {
+
+    // JWT token for this API Key.
+    string jwt_token = 2;
+}
+
+message DeleteAPIKeyRequest {
     // API key ID.
     string id = 1;
-  }
-  
-  message ListApiKeysRequest {
+}
+
+message ListAPIKeysRequest {
     // Max number of items to return.
-    uint32 limit = 1;
-  
+    int64 limit = 1;
+
     // Offset in the result-set (for pagination).
-    uint32 offset = 2;
-  
+    int64 offset = 2;
+
     // Return only admin keys.
     bool is_admin = 3;
-  
-    // Filter on tenant ID.
-    string organization_id = 4 [json_name = "organizationID"];
-  }
-  
-  message ListApiKeysResponse {
+
+    // Filter on organization ID.
+    int64 organization_id = 4 [json_name = "organizationID"];
+
+    // Filter on application ID.
+    int64 application_id = 5 [json_name = "applicationID"];
+}
+
+message ListAPIKeysResponse {
     // Total number of API keys.
-    uint32 total_count = 1;
-  
-    repeated ApiKey result = 2;
-  }
+    int64 total_count = 1;
+
+    repeated APIKey result = 2;
+}
 
 // Defines an organization to which an user is associated.
 message OrganizationLink {
     // Organization ID.
-    string organization_id = 1 [json_name = "organizationID"];
+    int64 organization_id = 1 [json_name = "organizationID"];
 
     // Organization name.
     string organization_name = 2;
@@ -154,10 +163,10 @@ message OrganizationLink {
 
     // User is able to modify device related resources (applications,
     // device-profiles, devices, multicast-groups).
-    bool is_editor = 6;
+    bool is_device_admin = 6;
 
     // User is able to modify gateways.
-    bool is_viewer = 7;
+    bool is_gateway_admin = 7;
 
     // Created at timestamp.
     google.protobuf.Timestamp created_at = 4;
@@ -184,7 +193,7 @@ message ProfileResponse {
     User user = 1;
 
     // Organizations to which the user is associated.
-    repeated OrganizationLink organizations = 2;
+    repeated OrganizationLink organizations = 3;
 }
 
 message GlobalSearchRequest {
@@ -210,25 +219,25 @@ message GlobalSearchResult {
 	float score = 2;
 
 	// Organization id.
-	string organization_id = 3 [json_name = "organizationID"];
+	int64 organization_id = 3 [json_name = "organizationID"];
 
 	// Organization name.
 	string organization_name = 4;
 
 	// Application id.
-	string application_id = 5;
+	int64 application_id = 5 [json_name = "applicationID"];
 
 	// Application name.
 	string application_name = 6;
 
 	// Device DevEUI (hex encoded).
-	string device_dev_eui = 7;
+	string device_dev_eui = 7 [json_name = "deviceDevEUI"];
 
 	// Device name.
 	string device_name = 8;
 
 	// Gateway MAC (hex encoded).
-	string gateway_mac = 9;
+	string gateway_mac = 9 [json_name = "gatewayMAC"];
 
 	// Gateway name.
 	string gateway_name = 10;
@@ -236,10 +245,10 @@ message GlobalSearchResult {
 
 message SettingsResponse {
     // Branding settings.
-    Branding branding = 1;
+    Branding branding = 2;
 
     // OpenID Connect settings.
-    OpenIDConnect openid_connect = 2;
+    OpenIDConnect openid_connect = 3;
 }
 
 message Branding {
@@ -277,38 +286,38 @@ message OpenIDConnectLoginResponse {
     string jwt_token = 1;
 }
 
-// message GetDevicesSummaryRequest {
-//     // Organization ID.
-//     int64 organization_id = 1 [json_name = "organizationID"];
-// }
+message GetDevicesSummaryRequest {
+    // Organization ID.
+    int64 organization_id = 1 [json_name = "organizationID"];
+}
 
-// message GetDevicesSummaryResponse {
-//     // Active count.
-//     uint32 active_count = 1;
+message GetDevicesSummaryResponse {
+    // Active count.
+    uint32 active_count = 1;
 
-//     // Inactive count.
-//     uint32 inactive_count = 2;
+    // Inactive count.
+    uint32 inactive_count = 2;
 
-//     // per data-rate count.
-//     // Devices that have never been seen are excluded.
-//     map<uint32, uint32> dr_count = 3;
+    // per data-rate count.
+    // Devices that have never been seen are excluded.
+    map<uint32, uint32> dr_count = 3;
 
-//     // Never seen count.
-//     uint32 never_seen_count = 4;
-// }
+    // Never seen count.
+    uint32 never_seen_count = 4;
+}
 
-// message GetGatewaysSummaryRequest {
-//     // Organization ID.
-//     int64 organization_id = 1 [json_name = "organizationID"];
-// }
+message GetGatewaysSummaryRequest {
+    // Organization ID.
+    int64 organization_id = 1 [json_name = "organizationID"];
+}
 
-// message GetGatewaysSummaryResponse {
-//     // Active count.
-//     uint32 active_count = 1;
+message GetGatewaysSummaryResponse {
+    // Active count.
+    uint32 active_count = 1;
 
-//     // Inactive count.
-//     uint32 inactive_count = 2;
+    // Inactive count.
+    uint32 inactive_count = 2;
 
-//     // Never seen count.
-//     uint32 never_seen_count = 3;
-// }
+    // Never seen count.
+    uint32 never_seen_count = 3;
+}

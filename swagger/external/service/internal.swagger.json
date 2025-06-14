@@ -14,12 +14,12 @@
     "/api/internal/api-keys": {
       "get": {
         "summary": "ListAPIKeys lists the available API keys.",
-        "operationId": "InternalService_ListApiKeys",
+        "operationId": "InternalService_ListAPIKeys",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/serviceListApiKeysResponse"
+              "$ref": "#/definitions/serviceListAPIKeysResponse"
             }
           },
           "default": {
@@ -35,7 +35,7 @@
             "description": "Max number of items to return.",
             "in": "query",
             "required": false,
-            "type": "integer",
+            "type": "string",
             "format": "int64"
           },
           {
@@ -43,7 +43,7 @@
             "description": "Offset in the result-set (for pagination).",
             "in": "query",
             "required": false,
-            "type": "integer",
+            "type": "string",
             "format": "int64"
           },
           {
@@ -55,10 +55,19 @@
           },
           {
             "name": "organizationID",
-            "description": "Filter on tenant ID.",
+            "description": "Filter on organization ID.",
             "in": "query",
             "required": false,
-            "type": "string"
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "applicationID",
+            "description": "Filter on application ID.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -67,12 +76,12 @@
       },
       "post": {
         "summary": "CreateAPIKey creates the given API key.",
-        "operationId": "InternalService_CreateApiKey",
+        "operationId": "InternalService_CreateAPIKey",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/serviceCreateApiKeyResponse"
+              "$ref": "#/definitions/serviceCreateAPIKeyResponse"
             }
           },
           "default": {
@@ -88,7 +97,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/serviceCreateApiKeyRequest"
+              "$ref": "#/definitions/serviceCreateAPIKeyRequest"
             }
           }
         ],
@@ -100,7 +109,7 @@
     "/api/internal/api-keys/{id}": {
       "delete": {
         "summary": "DeleteAPIKey deletes the API key.",
-        "operationId": "InternalService_DeleteApiKey",
+        "operationId": "InternalService_DeleteAPIKey",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -122,6 +131,72 @@
             "in": "path",
             "required": true,
             "type": "string"
+          }
+        ],
+        "tags": [
+          "InternalService"
+        ]
+      }
+    },
+    "/api/internal/devices/summary": {
+      "get": {
+        "summary": "GetDevicesSummary returns an aggregated summary of the devices.",
+        "operationId": "InternalService_GetDevicesSummary",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serviceGetDevicesSummaryResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "organizationID",
+            "description": "Organization ID.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "InternalService"
+        ]
+      }
+    },
+    "/api/internal/gateways/summary": {
+      "get": {
+        "summary": "GetGatewaysSummary returns an aggregated summary of the gateways.",
+        "operationId": "InternalService_GetGatewaysSummary",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serviceGetGatewaysSummaryResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "organizationID",
+            "description": "Organization ID.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -330,7 +405,7 @@
         }
       }
     },
-    "serviceApiKey": {
+    "serviceAPIKey": {
       "type": "object",
       "properties": {
         "id": {
@@ -347,7 +422,13 @@
         },
         "organizationID": {
           "type": "string",
-          "description": "Tenant ID.\nIn case the API key is intended to manage resources under a single tenant."
+          "format": "int64",
+          "description": "Organization ID.\nIn case this API key is to manage resources within a single organization\nset this to the ID of this organization."
+        },
+        "applicationID": {
+          "type": "string",
+          "format": "int64",
+          "title": "Application ID.\nIn case the API key is to manage resources within an application, set\nthis to the ID of this application.message"
         }
       }
     },
@@ -364,25 +445,73 @@
         }
       }
     },
-    "serviceCreateApiKeyRequest": {
+    "serviceCreateAPIKeyRequest": {
       "type": "object",
       "properties": {
         "apiKey": {
-          "$ref": "#/definitions/serviceApiKey",
+          "$ref": "#/definitions/serviceAPIKey",
           "description": "The API key to create."
         }
       }
     },
-    "serviceCreateApiKeyResponse": {
+    "serviceCreateAPIKeyResponse": {
       "type": "object",
       "properties": {
         "id": {
           "type": "string",
           "description": "API key ID."
         },
-        "token": {
+        "jwtToken": {
           "type": "string",
-          "description": "API token for authentication API requests."
+          "description": "JWT token for this API Key."
+        }
+      }
+    },
+    "serviceGetDevicesSummaryResponse": {
+      "type": "object",
+      "properties": {
+        "activeCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Active count."
+        },
+        "inactiveCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Inactive count."
+        },
+        "drCount": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": "per data-rate count.\nDevices that have never been seen are excluded."
+        },
+        "neverSeenCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Never seen count."
+        }
+      }
+    },
+    "serviceGetGatewaysSummaryResponse": {
+      "type": "object",
+      "properties": {
+        "activeCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Active count."
+        },
+        "inactiveCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Inactive count."
+        },
+        "neverSeenCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Never seen count."
         }
       }
     },
@@ -411,21 +540,23 @@
         },
         "organizationID": {
           "type": "string",
+          "format": "int64",
           "description": "Organization id."
         },
         "organizationName": {
           "type": "string",
           "description": "Organization name."
         },
-        "applicationId": {
+        "applicationID": {
           "type": "string",
+          "format": "int64",
           "description": "Application id."
         },
         "applicationName": {
           "type": "string",
           "description": "Application name."
         },
-        "deviceDevEui": {
+        "deviceDevEUI": {
           "type": "string",
           "description": "Device DevEUI (hex encoded)."
         },
@@ -433,7 +564,7 @@
           "type": "string",
           "description": "Device name."
         },
-        "gatewayMac": {
+        "gatewayMAC": {
           "type": "string",
           "description": "Gateway MAC (hex encoded)."
         },
@@ -443,18 +574,18 @@
         }
       }
     },
-    "serviceListApiKeysResponse": {
+    "serviceListAPIKeysResponse": {
       "type": "object",
       "properties": {
         "totalCount": {
-          "type": "integer",
+          "type": "string",
           "format": "int64",
           "description": "Total number of API keys."
         },
         "result": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/serviceApiKey"
+            "$ref": "#/definitions/serviceAPIKey"
           }
         }
       }
@@ -516,6 +647,7 @@
       "properties": {
         "organizationID": {
           "type": "string",
+          "format": "int64",
           "description": "Organization ID."
         },
         "organizationName": {
@@ -526,11 +658,11 @@
           "type": "boolean",
           "description": "User is admin within the context of this organization.\nThere is no need to set the is_device_admin and is_gateway_admin flags."
         },
-        "isEditor": {
+        "isDeviceAdmin": {
           "type": "boolean",
           "description": "User is able to modify device related resources (applications,\ndevice-profiles, devices, multicast-groups)."
         },
-        "isViewer": {
+        "isGatewayAdmin": {
           "type": "boolean",
           "description": "User is able to modify gateways."
         },
