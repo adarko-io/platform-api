@@ -1,0 +1,183 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "github.com/adarko-io/platform-api/go/v4/external/service";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+
+// DeviceService is the service managing the devices.
+service DeviceService {
+    // Create creates the given device.
+    rpc Create(CreateDeviceRequest) returns (google.protobuf.Empty) {
+        option(google.api.http) = {
+            post: "/api/devices"
+            body: "*"
+        };
+    }
+
+    // Get returns the device matching the given DevEUI.
+    rpc Get(GetDeviceRequest) returns (GetDeviceResponse) {
+        option (google.api.http) = {
+            get: "/api/devices/{eui}"
+        };
+    }
+
+    // List returns the available devices.
+    rpc List(ListDeviceRequest) returns (ListDeviceResponse) {
+        option (google.api.http) = {
+            get: "/api/devices"
+        };
+    }
+
+    // Delete deletes the device matching the given DevEUI.
+    rpc Delete(DeleteDeviceRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "/api/devices/{eui}"
+        };
+    }
+
+    // Update updates the device matching the given DevEUI.
+    rpc Update(UpdateDeviceRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            put: "/api/devices/{device.eui}"
+            body: "*"
+        };
+    }
+
+   
+}
+
+
+message Device {
+
+    // Device Serial Number 
+    string id = 1 [json_name = "ID"];
+
+    // Device EUI (HEX encoded).
+    string eui = 2 [json_name = "EUI"];
+
+    // Name of the device (if left blank, it will be set to the DevEUI).
+    string name = 3;
+
+    // ID of the application to which the device must be added.
+    // It is possible to move a device to a different application on update,
+    // given that both the old and the new application share the same
+    // service-profile.
+    int64 application_id = 4 [json_name = "applicationID"];
+
+    // Description of the device.
+    string description = 5;
+
+    // DeviceProfileID attached to the device.
+    string device_profile_id = 6 [json_name = "deviceProfileID"];
+
+
+    // Tags (user defined).
+    // These tags are exposed in the event payloads or to integration. Tags are
+    // intended for aggregation and filtering.
+    map<string, string> tags = 7;
+
+    // Device is disabled.
+    bool is_disabled = 8 [json_name = "isDisabled"];
+}
+
+
+message DeviceListItem {
+    // Device EUI (HEX encoded).
+    string dev_eui = 1 [json_name = "devEUI"];
+
+    // Name of the device.
+    string name = 2;
+
+    // Application ID.
+    int64 application_id = 3 [json_name = "applicationID"];
+
+    // Description of the device.
+    string description = 4;
+
+    // Device-profile ID attached to the device.
+    string device_profile_id = 5 [json_name = "deviceProfileID"];
+
+
+    // Tags (user defined).
+    // These tags are exposed in the event payloads or to integration. Tags are
+    // intended for aggregation and filtering.
+   map<string, string> tags = 7;
+
+    // The last time the application-server received any data from the device,
+    // or an empty string when the device never sent any data.
+    google.protobuf.Timestamp last_seen_at = 9 [json_name = "lastSeenAt"];
+}
+
+
+message CreateDeviceRequest {
+    // Device object to create.
+    Device device = 1;
+}
+
+message GetDeviceRequest {
+    // Device Serial Number 
+    string id = 1 [json_name = "ID"];
+
+    // Device EUI (HEX encoded).
+    string eui = 2 [json_name = "EUI"];
+}
+
+message GetDeviceResponse {
+    // Device object.
+    Device device = 1;
+
+  
+
+    // Last seen timestamp.
+    google.protobuf.Timestamp last_seen_at = 5 [json_name = "lastSeenAt"];
+
+    // Tags (user defined).
+    // These tags are exposed in the event payloads or to integration. Tags are
+    // intended for aggregation and filtering.
+   map<string, string> tags = 7;
+
+}
+
+message ListDeviceRequest {
+    // Max number of devices to return in the result-set.
+    int64 limit = 1;
+
+    // Offset in the result-set (for pagination).
+    int64 offset = 2;
+
+    // Application ID to filter on.
+    int64 application_id = 3 [json_name = "applicationID"];
+
+    // Search on name or DevEUI.
+    string search = 4;
+
+    // Tags to filter on.
+    map<string, string> tags = 5;
+}
+
+message ListDeviceResponse {
+    // Total number of devices available within the result-set.
+    int64 total_count = 1;
+
+    // Devices within this result-set.
+    repeated DeviceListItem result = 2;
+}
+
+message DeleteDeviceRequest {
+    // Device Serial Number 
+    string id = 1 [json_name = "ID"];
+
+    // Device EUI (HEX encoded).
+    string eui = 2 [json_name = "EUI"];
+}
+
+
+message UpdateDeviceRequest {
+    // Device object to update.
+    Device device = 1;
+}
