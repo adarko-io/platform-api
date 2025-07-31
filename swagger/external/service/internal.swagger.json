@@ -11,15 +11,15 @@
     "application/json"
   ],
   "paths": {
-    "/api/internal/api-keys": {
+    "/api/internal/apikeys": {
       "get": {
-        "summary": "ListAPIKeys lists the available API keys.",
-        "operationId": "InternalService_ListAPIKeys",
+        "summary": "ListApiKeys lists the available API keys.",
+        "operationId": "InternalService_ListApiKeys",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/serviceListAPIKeysResponse"
+              "$ref": "#/definitions/serviceListApiKeysResponse"
             }
           },
           "default": {
@@ -32,10 +32,10 @@
         "parameters": [
           {
             "name": "limit",
-            "description": "Max number of items to return.",
+            "description": "Max number of items to return.\nIf not set, it will be treated as 0, and the response will only return the total_count.",
             "in": "query",
             "required": false,
-            "type": "string",
+            "type": "integer",
             "format": "int64"
           },
           {
@@ -43,7 +43,7 @@
             "description": "Offset in the result-set (for pagination).",
             "in": "query",
             "required": false,
-            "type": "string",
+            "type": "integer",
             "format": "int64"
           },
           {
@@ -54,20 +54,11 @@
             "type": "boolean"
           },
           {
-            "name": "organizationID",
-            "description": "Filter on organization ID.",
+            "name": "tenantId",
+            "description": "Filter on tenant ID.",
             "in": "query",
             "required": false,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "applicationID",
-            "description": "Filter on application ID.",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "tags": [
@@ -75,13 +66,13 @@
         ]
       },
       "post": {
-        "summary": "CreateAPIKey creates the given API key.",
-        "operationId": "InternalService_CreateAPIKey",
+        "summary": "CreateApiKey creates the given API key.",
+        "operationId": "InternalService_CreateApiKey",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/serviceCreateAPIKeyResponse"
+              "$ref": "#/definitions/serviceCreateApiKeyResponse"
             }
           },
           "default": {
@@ -97,7 +88,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/serviceCreateAPIKeyRequest"
+              "$ref": "#/definitions/serviceCreateApiKeyRequest"
             }
           }
         ],
@@ -106,10 +97,10 @@
         ]
       }
     },
-    "/api/internal/api-keys/{id}": {
+    "/api/internal/apikeys/{id}": {
       "delete": {
-        "summary": "DeleteAPIKey deletes the API key.",
-        "operationId": "InternalService_DeleteAPIKey",
+        "summary": "DeleteApiKey deletes the API key.",
+        "operationId": "InternalService_DeleteApiKey",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -131,72 +122,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          }
-        ],
-        "tags": [
-          "InternalService"
-        ]
-      }
-    },
-    "/api/internal/devices/summary": {
-      "get": {
-        "summary": "GetDevicesSummary returns an aggregated summary of the devices.",
-        "operationId": "InternalService_GetDevicesSummary",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/serviceGetDevicesSummaryResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "organizationID",
-            "description": "Organization ID.",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "int64"
-          }
-        ],
-        "tags": [
-          "InternalService"
-        ]
-      }
-    },
-    "/api/internal/gateways/summary": {
-      "get": {
-        "summary": "GetGatewaysSummary returns an aggregated summary of the gateways.",
-        "operationId": "InternalService_GetGatewaysSummary",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/serviceGetGatewaysSummaryResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "organizationID",
-            "description": "Organization ID.",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "int64"
           }
         ],
         "tags": [
@@ -237,45 +162,6 @@
         ]
       }
     },
-    "/api/internal/oidc/login": {
-      "get": {
-        "summary": "OpenID Connect login.",
-        "operationId": "InternalService_OpenIDConnectLogin",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/serviceOpenIDConnectLoginResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "code",
-            "description": "OpenID Connect callback code.",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "state",
-            "description": "OpenID Connect callback state.",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "InternalService"
-        ]
-      }
-    },
     "/api/internal/profile": {
       "get": {
         "summary": "Get the current user's profile",
@@ -300,7 +186,7 @@
       }
     },
     "/api/internal/search": {
-      "get": {
+      "post": {
         "summary": "Perform a global search.",
         "operationId": "InternalService_GlobalSearch",
         "responses": {
@@ -319,52 +205,14 @@
         },
         "parameters": [
           {
-            "name": "search",
-            "description": "Search query.",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "limit",
-            "description": "Max number of results to return.",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "offset",
-            "description": "Offset offset of the result-set (for pagination).",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "int64"
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/serviceGlobalSearchRequest"
+            }
           }
         ],
-        "tags": [
-          "InternalService"
-        ]
-      }
-    },
-    "/api/internal/settings": {
-      "get": {
-        "summary": "Get the global settings.",
-        "operationId": "InternalService_Settings",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/serviceSettingsResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
         "tags": [
           "InternalService"
         ]
@@ -405,7 +253,32 @@
         }
       }
     },
-    "serviceAPIKey": {
+    "runtimeStreamError": {
+      "type": "object",
+      "properties": {
+        "grpcCode": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "httpCode": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "httpStatus": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "serviceApiKey": {
       "type": "object",
       "properties": {
         "id": {
@@ -420,98 +293,50 @@
           "type": "boolean",
           "description": "Is global admin key."
         },
-        "organizationID": {
+        "tenantId": {
           "type": "string",
-          "format": "int64",
-          "description": "Organization ID.\nIn case this API key is to manage resources within a single organization\nset this to the ID of this organization."
-        },
-        "applicationID": {
-          "type": "string",
-          "format": "int64",
-          "title": "Application ID.\nIn case the API key is to manage resources within an application, set\nthis to the ID of this application.message"
+          "description": "Tenant ID.\nIn case the API key is intended to manage resources under a single tenant."
         }
       }
     },
-    "serviceBranding": {
-      "type": "object",
-      "properties": {
-        "registration": {
-          "type": "string",
-          "description": "Registration html."
-        },
-        "footer": {
-          "type": "string",
-          "description": "Footer html."
-        }
-      }
-    },
-    "serviceCreateAPIKeyRequest": {
+    "serviceCreateApiKeyRequest": {
       "type": "object",
       "properties": {
         "apiKey": {
-          "$ref": "#/definitions/serviceAPIKey",
+          "$ref": "#/definitions/serviceApiKey",
           "description": "The API key to create."
         }
       }
     },
-    "serviceCreateAPIKeyResponse": {
+    "serviceCreateApiKeyResponse": {
       "type": "object",
       "properties": {
         "id": {
           "type": "string",
           "description": "API key ID."
         },
-        "jwtToken": {
+        "token": {
           "type": "string",
-          "description": "JWT token for this API Key."
+          "description": "API token for authentication API requests."
         }
       }
     },
-    "serviceGetDevicesSummaryResponse": {
+    "serviceGlobalSearchRequest": {
       "type": "object",
       "properties": {
-        "activeCount": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Active count."
+        "search": {
+          "type": "string",
+          "description": "Search query."
         },
-        "inactiveCount": {
-          "type": "integer",
+        "limit": {
+          "type": "string",
           "format": "int64",
-          "description": "Inactive count."
+          "description": "Max number of results to return.\nIf not set, it will be treated as 0, and the response will only return the total_count."
         },
-        "drCount": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "description": "per data-rate count.\nDevices that have never been seen are excluded."
-        },
-        "neverSeenCount": {
-          "type": "integer",
+        "offset": {
+          "type": "string",
           "format": "int64",
-          "description": "Never seen count."
-        }
-      }
-    },
-    "serviceGetGatewaysSummaryResponse": {
-      "type": "object",
-      "properties": {
-        "activeCount": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Active count."
-        },
-        "inactiveCount": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Inactive count."
-        },
-        "neverSeenCount": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Never seen count."
+          "description": "Offset offset of the result-set (for pagination)."
         }
       }
     },
@@ -538,55 +363,74 @@
           "format": "float",
           "description": "Search score."
         },
-        "organizationID": {
+        "tenantId": {
           "type": "string",
-          "format": "int64",
           "description": "Organization id."
         },
-        "organizationName": {
+        "tenantName": {
           "type": "string",
           "description": "Organization name."
         },
-        "applicationID": {
+        "applicationId": {
           "type": "string",
-          "format": "int64",
           "description": "Application id."
         },
         "applicationName": {
           "type": "string",
           "description": "Application name."
         },
-        "deviceDevEUI": {
+        "eui": {
           "type": "string",
-          "description": "Device DevEUI (hex encoded)."
+          "description": "Device EUI (hex encoded)."
         },
         "deviceName": {
           "type": "string",
           "description": "Device name."
-        },
-        "gatewayMAC": {
-          "type": "string",
-          "description": "Gateway MAC (hex encoded)."
-        },
-        "gatewayName": {
-          "type": "string",
-          "description": "Gateway name."
         }
       }
     },
-    "serviceListAPIKeysResponse": {
+    "serviceListApiKeysResponse": {
       "type": "object",
       "properties": {
         "totalCount": {
-          "type": "string",
+          "type": "integer",
           "format": "int64",
           "description": "Total number of API keys."
         },
         "result": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/serviceAPIKey"
+            "$ref": "#/definitions/serviceApiKey"
           }
+        }
+      }
+    },
+    "serviceLogItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID."
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp."
+        },
+        "description": {
+          "type": "string",
+          "description": "Message."
+        },
+        "body": {
+          "type": "string",
+          "description": "Body."
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Properties."
         }
       }
     },
@@ -612,73 +456,6 @@
         }
       }
     },
-    "serviceOpenIDConnect": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enable OpenID Connect authentication."
-        },
-        "loginURL": {
-          "type": "string",
-          "description": "Login url."
-        },
-        "loginLabel": {
-          "type": "string",
-          "description": "Login label."
-        },
-        "logoutURL": {
-          "type": "string",
-          "description": "Logout url."
-        }
-      }
-    },
-    "serviceOpenIDConnectLoginResponse": {
-      "type": "object",
-      "properties": {
-        "jwtToken": {
-          "type": "string",
-          "description": "JWT token to use for authentication."
-        }
-      }
-    },
-    "serviceOrganizationLink": {
-      "type": "object",
-      "properties": {
-        "organizationID": {
-          "type": "string",
-          "format": "int64",
-          "description": "Organization ID."
-        },
-        "organizationName": {
-          "type": "string",
-          "description": "Organization name."
-        },
-        "isAdmin": {
-          "type": "boolean",
-          "description": "User is admin within the context of this organization.\nThere is no need to set the is_device_admin and is_gateway_admin flags."
-        },
-        "isDeviceAdmin": {
-          "type": "boolean",
-          "description": "User is able to modify device related resources (applications,\ndevice-profiles, devices, multicast-groups)."
-        },
-        "isGatewayAdmin": {
-          "type": "boolean",
-          "description": "User is able to modify gateways."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Created at timestamp."
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Last update timestamp."
-        }
-      },
-      "description": "Defines an organization to which an user is associated."
-    },
     "serviceProfileResponse": {
       "type": "object",
       "properties": {
@@ -686,25 +463,12 @@
           "$ref": "#/definitions/serviceUser",
           "description": "User object."
         },
-        "organizations": {
+        "tenants": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/serviceOrganizationLink"
+            "$ref": "#/definitions/serviceUserTenantLink"
           },
-          "description": "Organizations to which the user is associated."
-        }
-      }
-    },
-    "serviceSettingsResponse": {
-      "type": "object",
-      "properties": {
-        "branding": {
-          "$ref": "#/definitions/serviceBranding",
-          "description": "Branding settings."
-        },
-        "openidConnect": {
-          "$ref": "#/definitions/serviceOpenIDConnect",
-          "description": "OpenID Connect settings."
+          "description": "Tenants to which the user is associated."
         }
       }
     },
@@ -713,8 +477,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "int64",
-          "description": "User ID.\nWill be set automatically on create."
+          "description": "User ID (UUID).\nWill be set automatically on create."
         },
         "sessionTTL": {
           "type": "integer",
@@ -724,6 +487,18 @@
         "isAdmin": {
           "type": "boolean",
           "description": "Set to true to make the user a global administrator."
+        },
+        "isEditor": {
+          "type": "boolean",
+          "description": "Set to true to make the user a global editor."
+        },
+        "isViewer": {
+          "type": "boolean",
+          "description": "Set to true to make the user a global viewer."
+        },
+        "isConsumer": {
+          "type": "boolean",
+          "description": "Set to true to make the user a consumer."
         },
         "isActive": {
           "type": "boolean",
@@ -738,6 +513,38 @@
           "description": "Optional note to store with the user."
         }
       }
+    },
+    "serviceUserTenantLink": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Created at timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant ID."
+        },
+        "isAdmin": {
+          "type": "boolean",
+          "description": "User is admin within the context of this tenant.\nThere is no need to set the is_device_admin and is_gateway_admin flags."
+        },
+        "isEditor": {
+          "type": "boolean",
+          "description": "User is able to modify device related resources (applications,\ndevice-profiles, devices, multicast-groups)."
+        },
+        "isViewer": {
+          "type": "boolean",
+          "description": "User is able to viewer."
+        }
+      },
+      "description": "Defines a tenant to which the user is associated."
     }
   }
 }

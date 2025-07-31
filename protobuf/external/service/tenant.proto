@@ -1,0 +1,290 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "github.com/adarko-io/platform-api/go/v4/external/service";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+
+// TenantService is the service providing API methods for managing tenants.
+service TenantService {
+  // Create a new tenant.
+  rpc Create(CreateTenantRequest) returns (CreateTenantResponse) {
+    option (google.api.http) = {
+      post : "/api/tenants"
+      body : "*"
+    };
+  }
+
+  // Get the tenant for the given ID.
+  rpc Get(GetTenantRequest) returns (GetTenantResponse) {
+    option (google.api.http) = {
+      get : "/api/tenants/{id}"
+    };
+  }
+
+  // Update the given tenant.
+  rpc Update(UpdateTenantRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put : "/api/tenants/{tenant.id}"
+      body : "*"
+    };
+  }
+
+  // Delete the tenant with the given ID.
+  rpc Delete(DeleteTenantRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete : "/api/tenants/{id}"
+    };
+  }
+
+  // Get the list of tenants.
+  rpc List(ListTenantsRequest) returns (ListTenantsResponse) {
+    option (google.api.http) = {
+      get : "/api/tenants"
+    };
+  }
+
+  // Add an user to the tenant.
+  // Note: the user must already exist.
+  rpc AddUser(AddTenantUserRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/api/tenants/{tenant_user.tenant_id}/users"
+      body : "*"
+    };
+  }
+
+  // Get the the tenant user for the given tenant and user IDs.
+  rpc GetUser(GetTenantUserRequest) returns (GetTenantUserResponse) {
+    option (google.api.http) = {
+      get : "/api/tenants/{tenant_id}/users/{user_id}"
+    };
+  }
+
+  // Update the given tenant user.
+  rpc UpdateUser(UpdateTenantUserRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put : "/api/tenants/{tenant_user.tenant_id}/users/{tenant_user.user_id}"
+      body : "*"
+    };
+  }
+
+  // Delete the given tenant user.
+  rpc DeleteUser(DeleteTenantUserRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete : "/api/tenants/{tenant_id}/users/{user_id}"
+    };
+  }
+
+  // Get the list of tenant users.
+  rpc ListUsers(ListTenantUsersRequest) returns (ListTenantUsersResponse) {
+    option (google.api.http) = {
+      get : "/api/tenants/{tenant_id}/users"
+    };
+  }
+}
+
+message Tenant {
+  // Tenant ID (UUID).
+  // Note: this value will be automatically generated on create.
+  string id = 1;
+
+  // Tenant name,
+  string name = 2;
+
+  // Tenant description.
+  string description = 3;
+
+  
+  // Max. device count for tenant.
+  // When set to 0, the tenant can have unlimited devices.
+  uint32 max_device_count = 4;
+
+}
+
+message TenantListItem {
+  // Tenant ID (UUID).
+  string id = 1;
+
+  // Created at timestamp.
+  google.protobuf.Timestamp created_at = 2;
+
+  // Last update timestamp.
+  google.protobuf.Timestamp updated_at = 3;
+
+  // Tenant name.
+  string name = 4;
+
+  // Max device count.
+  // 0 = unlimited.
+  uint32 max_device_count = 5;
+}
+
+message CreateTenantRequest {
+  // Tenant object to create.
+  Tenant tenant = 1;
+}
+
+message CreateTenantResponse {
+  // Tenant ID.
+  string id = 1;
+}
+
+message GetTenantRequest {
+  // Tenant ID.
+  string id = 1;
+}
+
+message GetTenantResponse {
+  // Tenant object.
+  Tenant tenant = 1;
+
+  // Created at timestamp.
+  google.protobuf.Timestamp created_at = 2;
+
+  // Last update timestamp.
+  google.protobuf.Timestamp updated_at = 3;
+}
+
+message UpdateTenantRequest {
+  // Tenant object.
+  Tenant tenant = 1;
+}
+
+message DeleteTenantRequest {
+  // Tenant ID.
+  string id = 1;
+}
+
+message ListTenantsRequest {
+  // Max number of tenants to return in the result-set.
+  // If not set, it will be treated as 0, and the response will only return the total_count.
+  uint32 limit = 1;
+
+  // Offset in the result-set (for pagination).
+  uint32 offset = 2;
+
+  // If set, the given string will be used to search on name.
+  string search = 3;
+
+  // If set, filters the result set to the tenants of the user.
+  // Only global API keys are able to filter by this field.
+  string user_id = 4;
+}
+
+message ListTenantsResponse {
+  // Total number of tenants.
+  uint32 total_count = 1;
+
+  // Result-set.
+  repeated TenantListItem result = 2;
+}
+
+message TenantUser {
+  // Tenant ID (UUID).
+  string tenant_id = 1;
+
+  // User ID (UUID).
+  string user_id = 2;
+
+  // User is admin within the context of the tenant.
+  bool is_admin = 3;
+
+  // User is able to modify device related resources (applications,
+  // device-profiles, devices, multicast-groups).
+  bool is_editor = 4;
+
+  // User is able to viewer.
+  bool is_viewer = 5;
+
+  // Email (only used on get and when adding a user to a tenant).
+  string email = 6;
+}
+
+message TenantUserListItem {
+  // Tenant ID (UUID).
+  string tenant_id = 1;
+
+  // User ID (UUID).
+  string user_id = 2;
+
+  // Created at timestamp.
+  google.protobuf.Timestamp created_at = 3;
+
+  // Last update timestamp.
+  google.protobuf.Timestamp updated_at = 4;
+
+  // Email.
+  string email = 5;
+
+  // User is admin within the context of the tenant.
+  // There is no need to set the is_device_admin and is_gateway_admin flags.
+  bool is_admin = 6;
+
+  // User is able to modify device related resources (applications,
+  // device-profiles, devices, multicast-groups).
+  bool is_editor = 7;
+
+  // User is able to viewer.
+  bool is_viewer = 8;
+}
+
+message AddTenantUserRequest {
+  // Tenant user object.
+  TenantUser tenant_user = 1;
+}
+
+message GetTenantUserRequest {
+  // Tenant ID (UUID).
+  string tenant_id = 1;
+
+  // User ID (UUID).
+  string user_id = 2;
+}
+
+message GetTenantUserResponse {
+  // Tenant user object.
+  TenantUser tenant_user = 1;
+
+  // Created at timestamp.
+  google.protobuf.Timestamp created_at = 2;
+
+  // Last update timestamp.
+  google.protobuf.Timestamp updated_at = 3;
+}
+
+message UpdateTenantUserRequest {
+  // Tenant user object.
+  TenantUser tenant_user = 1;
+}
+
+message DeleteTenantUserRequest {
+  // Tenant ID (UUID).
+  string tenant_id = 1;
+
+  // User ID (UUID).
+  string user_id = 2;
+}
+
+message ListTenantUsersRequest {
+  // Tenant ID (UUID).
+  string tenant_id = 1;
+
+  // Max number of tenants to return in the result-set.
+  // If not set, it will be treated as 0, and the response will only return the total_count.
+  uint32 limit = 2;
+
+  // Offset in the result-set (for pagination).
+  uint32 offset = 3;
+}
+
+message ListTenantUsersResponse {
+  // Total number of tenants.
+  uint32 total_count = 1;
+
+  // Result-set.
+  repeated TenantUserListItem result = 2;
+}

@@ -104,11 +104,10 @@
         "parameters": [
           {
             "name": "id",
-            "description": "User ID.",
+            "description": "User ID (UUID).",
             "in": "path",
             "required": true,
-            "type": "string",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "tags": [
@@ -135,11 +134,10 @@
         "parameters": [
           {
             "name": "id",
-            "description": "User ID.",
+            "description": "User ID (UUID).",
             "in": "path",
             "required": true,
-            "type": "string",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "tags": [
@@ -168,11 +166,10 @@
         "parameters": [
           {
             "name": "user.id",
-            "description": "User ID.\nWill be set automatically on create.",
+            "description": "User ID (UUID).\nWill be set automatically on create.",
             "in": "path",
             "required": true,
-            "type": "string",
-            "format": "int64"
+            "type": "string"
           },
           {
             "name": "body",
@@ -212,8 +209,7 @@
             "description": "User ID.",
             "in": "path",
             "required": true,
-            "type": "string",
-            "format": "int64"
+            "type": "string"
           },
           {
             "name": "body",
@@ -275,12 +271,12 @@
           "type": "string",
           "description": "Password of the user."
         },
-        "organizations": {
+        "tenants": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/serviceUserOrganization"
+            "$ref": "#/definitions/serviceUserTenant"
           },
-          "description": "Add the user to the following organizations."
+          "description": "Add the user to the following Tenants."
         }
       }
     },
@@ -289,8 +285,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "int64",
-          "description": "User ID."
+          "description": "User ID (UUID)."
         }
       }
     },
@@ -335,7 +330,6 @@
       "properties": {
         "userId": {
           "type": "string",
-          "format": "int64",
           "description": "User ID."
         },
         "password": {
@@ -358,8 +352,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "int64",
-          "description": "User ID.\nWill be set automatically on create."
+          "description": "User ID (UUID).\nWill be set automatically on create."
         },
         "sessionTTL": {
           "type": "integer",
@@ -369,6 +362,18 @@
         "isAdmin": {
           "type": "boolean",
           "description": "Set to true to make the user a global administrator."
+        },
+        "isEditor": {
+          "type": "boolean",
+          "description": "Set to true to make the user a global editor."
+        },
+        "isViewer": {
+          "type": "boolean",
+          "description": "Set to true to make the user a global viewer."
+        },
+        "isConsumer": {
+          "type": "boolean",
+          "description": "Set to true to make the user a consumer."
         },
         "isActive": {
           "type": "boolean",
@@ -389,8 +394,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "int64",
-          "description": "User ID.\nWill be set automatically on create."
+          "description": "User ID (UUID).\nWill be set automatically on create."
         },
         "email": {
           "type": "string",
@@ -404,6 +408,18 @@
         "isAdmin": {
           "type": "boolean",
           "description": "Set to true to make the user a global administrator."
+        },
+        "isEditor": {
+          "type": "boolean",
+          "description": "Set to true to make the user a global editor."
+        },
+        "isViewer": {
+          "type": "boolean",
+          "description": "Set to true to make the user a global viewer."
+        },
+        "isConsumer": {
+          "type": "boolean",
+          "description": "Set to true to make the user a consumer."
         },
         "isActive": {
           "type": "boolean",
@@ -421,23 +437,22 @@
         }
       }
     },
-    "serviceUserOrganization": {
+    "serviceUserTenant": {
       "type": "object",
       "properties": {
-        "organizationID": {
+        "tenantId": {
           "type": "string",
-          "format": "int64",
-          "description": "Organization ID."
+          "description": "Tenant ID."
         },
         "isAdmin": {
           "type": "boolean",
-          "description": "User is admin within the context of the organization.\nThere is no need to set the is_device_admin and is_gateway_admin flags."
+          "description": "User is admin within the context of the Tenant."
         },
-        "isDeviceAdmin": {
+        "isEditor": {
           "type": "boolean",
-          "description": "User is able to modify device related resources (applications,\ndevice-profiles, devices, multicast-groups)."
+          "title": "User is able to modify device related resources"
         },
-        "isGatewayAdmin": {
+        "isViewer": {
           "type": "boolean",
           "description": "User is able to modify gateways."
         }

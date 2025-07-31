@@ -8,236 +8,145 @@ import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
-// ApplicationService is the service managing applications.
+// ApplicationService is the service providing API methods for managing
+// applications.
 service ApplicationService {
-	// Create creates the given application.
-	rpc Create(CreateApplicationRequest) returns (CreateApplicationResponse) {
-		option(google.api.http) = {
-			post: "/api/applications"
-			body: "*"
-		};
-	}
+  // Create creates the given application.
+  rpc Create(CreateApplicationRequest) returns (CreateApplicationResponse) {
+    option (google.api.http) = {
+      post : "/api/applications"
+      body : "*"
+    };
+  }
 
-	// Get returns the requested application.
-	rpc Get(GetApplicationRequest) returns (GetApplicationResponse) {
-		option(google.api.http) = {
-			get: "/api/applications/{id}"
-		};
-	}
+  // Get the application for the given ID.
+  rpc Get(GetApplicationRequest) returns (GetApplicationResponse) {
+    option (google.api.http) = {
+      get : "/api/applications/{id}"
+    };
+  }
 
-	// Update updates the given application.
-	rpc Update(UpdateApplicationRequest) returns (google.protobuf.Empty) {
-		option(google.api.http) = {
-			put: "/api/applications/{application.id}"
-			body: "*"
-		};
-	}
+  // Update updates the given application.
+  rpc Update(UpdateApplicationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put : "/api/applications/{application.id}"
+      body : "*"
+    };
+  }
 
-	// Delete deletes the given application.
-	rpc Delete(DeleteApplicationRequest) returns (google.protobuf.Empty) {
-		option(google.api.http) = {
-			delete: "/api/applications/{id}"
-		};
-	}
+  // Delete the application for the given ID.
+  rpc Delete(DeleteApplicationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete : "/api/applications/{id}"
+    };
+  }
 
-	// List lists the available applications.
-	rpc List(ListApplicationRequest) returns (ListApplicationResponse) {
-		option(google.api.http) = {
-			get: "/api/applications"
-		};
-	}
+  // Get the list of applications.
+  rpc List(ListApplicationsRequest) returns (ListApplicationsResponse) {
+    option (google.api.http) = {
+      get : "/api/applications"
+    };
+  }
 
-	// CreateHTTPIntegration creates a HTTP application-integration.
-	rpc CreateHTTPIntegration(CreateHTTPIntegrationRequest) returns (google.protobuf.Empty) {
-		option(google.api.http) = {
-			post: "/api/applications/{integration.application_id}/integrations/http"
-			body: "*"
-		};
-	}
 
-	// GetHTTPIntegration returns the HTTP application-integration.
-	rpc GetHTTPIntegration(GetHTTPIntegrationRequest) returns (GetHTTPIntegrationResponse) {
-		option(google.api.http) = {
-			get: "/api/applications/{application_id}/integrations/http"
-		};
-	}
-
-	// UpdateHTTPIntegration updates the HTTP application-integration.
-	rpc UpdateHTTPIntegration(UpdateHTTPIntegrationRequest) returns (google.protobuf.Empty) {
-		option(google.api.http) = {
-			put: "/api/applications/{integration.application_id}/integrations/http"
-			body: "*"
-		};
-	}
-
-	// DeleteIntegration deletes the HTTP application-integration.
-	rpc DeleteHTTPIntegration(DeleteHTTPIntegrationRequest) returns (google.protobuf.Empty) {
-		option(google.api.http) = {
-			delete: "/api/applications/{application_id}/integrations/http"
-		};
-	}
-
-	
 }
 
-enum IntegrationKind {
-	HTTP = 0;
-	
-}
 
-enum Marshaler {
-    JSON = 0;
-    PROTOBUF = 1;
-    JSON_V3 = 2;
-}
 
 message Application {
-	// Application ID.
-	// This will be automatically assigned on create.
-	int64 id = 1;
+  // Application ID (UUID).
+  // Note: on create this will be automatically generated.
+  string id = 1;
 
-	// Name of the application (must be unique).
-	string name = 2;
+  // Application name.
+  string name = 2;
 
-	// Description of the application.
-	string description = 3;
+  // Application description.
+  string description = 3;
 
-	// ID of the organization to which the application belongs.
-    // After create, this can not be modified.
-	int64 organization_id = 4 [json_name = "organizationID"];
+  // Tenant ID (UUID).
+  string tenant_id = 4;
 
+  // Tags (user defined).
+  // These tags can be used to add additional information to the application.
+  // These tags are exposed in all the integration events of devices under
+  // this application.
+  map<string, string> tags = 5;
 }
 
 message ApplicationListItem {
-	// Application ID.
-	int64 id = 1;
+  // Application ID (UUID).
+  string id = 1;
 
-	// Name of the application.
-	string name = 2;
+  // Created at timestamp.
+  google.protobuf.Timestamp created_at = 2;
 
-	// Description of the application.
-	string description = 3;
+  // Last update timestamp.
+  google.protobuf.Timestamp updated_at = 3;
 
-	// ID of the organization to which the application belongs.
-	int64 organization_id = 4 [json_name = "organizationID"];
+  // Application name.
+  string name = 4;
 
+  // Application description.
+  string description = 5;
 }
 
-
 message CreateApplicationRequest {
-	// Application object to create.
-	Application application = 1;
+  // Application object to create.
+  Application application = 1;
 }
 
 message CreateApplicationResponse {
-	// Application ID.
-	int64 id = 1;
+  // Application ID (UUID).
+  string id = 1;
 }
 
 message GetApplicationRequest {
-	// Application ID.
-	int64 id = 1;
+  // Application ID (UUID).
+  string id = 1;
 }
 
 message GetApplicationResponse {
-	// Application object.
-	Application application = 1;
+  // Application object.
+  Application application = 1;
+
+  // Created at timestamp.
+  google.protobuf.Timestamp created_at = 2;
+
+  // Last update timestamp.
+  google.protobuf.Timestamp updated_at = 3;
+
 }
 
 message UpdateApplicationRequest {
-	// Application object to update.
-	Application application = 1;
+  // Application object.
+  Application application = 1;
 }
 
 message DeleteApplicationRequest {
-	// Application ID.
-	int64 id = 1;
+  // Application ID (UUID).
+  string id = 1;
 }
 
-message ListApplicationRequest {
-	// Max number of applications to return in the result-test.
-	int64 limit = 1;
+message ListApplicationsRequest {
+  // Max number of applications to return in the result-set.
+  // If not set, it will be treated as 0, and the response will only return the total_count.
+  uint32 limit = 1;
 
-	// Offset in the result-set (for pagination).
-	int64 offset = 2;
+  // Offset in the result-set (for pagination).
+  uint32 offset = 2;
 
-	// ID of the organization to filter on.
-	int64 organization_id = 3 [json_name = "organizationID"];
+  // If set, the given string will be used to search on name (optional).
+  string search = 3;
 
-	// Search on name (optional).
-	string search = 4;
+  // Tenant ID to list the applications for.
+  string tenant_id = 4;
 }
 
-message ListApplicationResponse {
-	// Total number of applications available within the result-set.
-	int64 total_count = 1;
+message ListApplicationsResponse {
+  // Total number of applications.
+  uint32 total_count = 1;
 
-	// Applications within this result-set.
-	repeated ApplicationListItem result = 2;
-}
-
-message HTTPIntegrationHeader {
-	// Key
-	string key = 1;
-
-	// Value
-	string value = 2;
-}
-
-message HTTPIntegration {
-	// The id of the application.
-	int64 application_id = 1 [json_name = "applicationID"];
-
-	// The headers to use when making HTTP callbacks.
-	repeated HTTPIntegrationHeader headers = 2;
-
-
-    // Event endpoint URL.
-    // The HTTP integration will POST all events to this enpoint. The request
-    // will contain a query parameters "event" containing the type of the
-    // event.
-    string event_endpoint_url = 3 [json_name = "eventEndpointURL"];
-}
-
-message CreateHTTPIntegrationRequest {
-	// Integration object to create.
-	HTTPIntegration integration = 1;
-}
-
-message GetHTTPIntegrationRequest {
-	// Application ID.
-	int64 application_id = 1 [json_name = "applicationID"];
-}
-
-message GetHTTPIntegrationResponse {
-	// Integration object.
-	HTTPIntegration integration = 1;
-}
-
-message UpdateHTTPIntegrationRequest {
-	// Integration object to update.
-	HTTPIntegration integration = 1;
-}
-
-message DeleteHTTPIntegrationRequest {
-	// The id of the application.
-	int64 application_id = 1 [json_name = "applicationID"];
-}
-
-message ListIntegrationRequest {
-	// The id of the application.
-	int64 application_id = 1 [json_name = "applicationID"];
-}
-
-message IntegrationListItem {
-	// Integration kind.
-	IntegrationKind kind = 1;
-}
-
-message ListIntegrationResponse {
-	// Total number of integrations available within the result-set.
-	int64 total_count = 1;
-
-	// Integrations within result-set.
-	repeated IntegrationListItem result = 2;
+  // Result-set.
+  repeated ApplicationListItem result = 2;
 }
