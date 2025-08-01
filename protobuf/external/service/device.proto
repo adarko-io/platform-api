@@ -178,7 +178,7 @@ message ListDevicesRequest {
 
   enum OrderBy {
     NAME = 0;
-    DEV_EUI = 1;
+    EUI = 1;
     LAST_SEEN_AT = 2;
     DEVICE_PROFILE_NAME = 3;  
   }

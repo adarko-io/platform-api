@@ -68,7 +68,7 @@
             "type": "string",
             "enum": [
               "NAME",
-              "DEV_EUI",
+              "EUI",
               "LAST_SEEN_AT",
               "DEVICE_PROFILE_NAME"
             ],
@@ -226,7 +226,7 @@
       "type": "string",
       "enum": [
         "NAME",
-        "DEV_EUI",
+        "EUI",
         "LAST_SEEN_AT",
         "DEVICE_PROFILE_NAME"
       ],
