@@ -522,6 +522,10 @@
           "type": "string",
           "title": "Tenant name,"
         },
+        "email": {
+          "type": "string",
+          "title": "Tenant email,"
+        },
         "description": {
           "type": "string",
           "description": "Tenant description."
