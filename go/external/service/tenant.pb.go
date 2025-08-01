@@ -744,7 +744,7 @@ type TenantUserListItem struct {
 	// User is able to modify device related resources (applications,
 	// device-profiles, devices, multicast-groups).
 	IsEditor bool `protobuf:"varint,7,opt,name=is_editor,json=isEditor,proto3" json:"is_editor,omitempty"`
-	// User is able to viewe.
+	// User is able to viewer.
 	IsViewer bool `protobuf:"varint,8,opt,name=is_viewer,json=isViewer,proto3" json:"is_viewer,omitempty"`
 }
 
