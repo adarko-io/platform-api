@@ -14,37 +14,37 @@ service ApplicationService {
   // Create creates the given application.
   rpc Create(CreateApplicationRequest) returns (CreateApplicationResponse) {
     option (google.api.http) = {
-      post : "/api/applications"
-      body : "*"
+      post: "/api/applications"
+      body: "*"
     };
   }
 
   // Get the application for the given ID.
   rpc Get(GetApplicationRequest) returns (GetApplicationResponse) {
     option (google.api.http) = {
-      get : "/api/applications/{id}"
+      get: "/api/applications/{id}"
     };
   }
 
   // Update updates the given application.
   rpc Update(UpdateApplicationRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put : "/api/applications/{application.id}"
-      body : "*"
+      put: "/api/applications/{application.id}"
+      body: "*"
     };
   }
 
   // Delete the application for the given ID.
   rpc Delete(DeleteApplicationRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete : "/api/applications/{id}"
+      delete: "/api/applications/{id}"
     };
   }
 
   // Get the list of applications.
   rpc List(ListApplicationsRequest) returns (ListApplicationsResponse) {
     option (google.api.http) = {
-      get : "/api/applications"
+      get: "/api/applications"
     };
   }
 
@@ -89,6 +89,10 @@ message ApplicationListItem {
 
   // Application description.
   string description = 5;
+
+  // Tenant ID (UUID).
+  string tenant_id = 6;
+
 }
 
 message CreateApplicationRequest {
