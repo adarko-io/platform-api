@@ -253,6 +253,10 @@
         "description": {
           "type": "string",
           "description": "Application description."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant ID (UUID)."
         }
       }
     },
