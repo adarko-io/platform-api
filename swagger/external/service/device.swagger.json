@@ -264,6 +264,14 @@
           "type": "boolean",
           "description": "Device is disabled."
         },
+        "serialNumber": {
+          "type": "string",
+          "description": "SerialNo."
+        },
+        "deviceType": {
+          "type": "string",
+          "description": "Device Type."
+        },
         "variables": {
           "type": "object",
           "additionalProperties": {

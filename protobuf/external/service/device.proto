@@ -14,37 +14,37 @@ service DeviceService {
   // Create the given device.
   rpc Create(CreateDeviceRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post : "/api/devices"
-      body : "*"
+      post: "/api/devices"
+      body: "*"
     };
   }
 
   // Get returns the device for the given EUI.
   rpc Get(GetDeviceRequest) returns (GetDeviceResponse) {
     option (google.api.http) = {
-      get : "/api/devices/{eui}"
+      get: "/api/devices/{eui}"
     };
   }
 
   // Update the given device.
   rpc Update(UpdateDeviceRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put : "/api/devices/{device.eui}"
-      body : "*"
+      put: "/api/devices/{device.eui}"
+      body: "*"
     };
   }
 
   // Delete the device with the given EUI.
   rpc Delete(DeleteDeviceRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete : "/api/devices/{eui}"
+      delete: "/api/devices/{eui}"
     };
   }
 
   // Get the list of devices.
   rpc List(ListDevicesRequest) returns (ListDevicesResponse) {
     option (google.api.http) = {
-      get : "/api/devices"
+      get: "/api/devices"
     };
   }
 
@@ -66,16 +66,22 @@ message Device {
   // Device is disabled.
   bool is_disabled = 5;
 
+  // SerialNo.
+  string serial_number = 6;
+
+  // Device Type.
+  string device_type = 7;
+
   // Variables (user defined).
   // These variables can be used together with integrations to store tokens /
   // secrets that must be configured per device. These variables are not
   // exposed in the event payloads.
-  map<string, string> variables = 6;
+  map<string, string> variables = 8;
 
   // Tags (user defined).
   // These tags can be used to add additional information to the device.
   // These tags are exposed in all the integration events.
-  map<string, string> tags = 7;
+  map<string, string> tags = 9;
 
 }
 
@@ -180,7 +186,7 @@ message ListDevicesRequest {
     NAME = 0;
     EUI = 1;
     LAST_SEEN_AT = 2;
-    DEVICE_PROFILE_NAME = 3;  
+    DEVICE_PROFILE_NAME = 3;
   }
 
   // If set, the given value will be used to sort by (optional).
@@ -192,7 +198,7 @@ message ListDevicesRequest {
   // Tags to filter devices on.
   map<string, string> tags = 7;
 
-  
+
 }
 
 message ListDevicesResponse {
