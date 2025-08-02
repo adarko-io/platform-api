@@ -226,16 +226,6 @@
             "type": "string"
           },
           "description": "Tags (user defined).\nThese tags can be used to add additional information to the application.\nThese tags are exposed in all the integration events of devices under\nthis application."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Created at timestamp."
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Last update timestamp."
         }
       }
     },

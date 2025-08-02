@@ -72,12 +72,6 @@ message Application {
   // These tags are exposed in all the integration events of devices under
   // this application.
   map<string, string> tags = 5;
-
-  // Created at timestamp.
-  google.protobuf.Timestamp created_at = 6;
-
-  // Last update timestamp.
-  google.protobuf.Timestamp updated_at = 7;
 }
 
 message ApplicationListItem {
