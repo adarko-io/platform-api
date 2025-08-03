@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package test;
+
+// Test import of LoRaWAN device.proto
+import "lorawan/external/service/device.proto";
+import "lorawan/util/util.proto";
+
+// Test message to verify the import works
+message TestMessage {
+  // This should reference the Device from console-lorawan-api
+  service.Device lorawan_device = 1;
+  
+  // This should reference util types
+  util.DeviceClass device_class = 2;
+  util.Region region = 3;
+}
