@@ -1,0 +1,686 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "external/service/common.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/common/enums": {
+      "get": {
+        "summary": "Get all enum definitions for UI mapping.",
+        "operationId": "CommonService_GetEnums",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiGetEnumsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "category",
+            "description": "Optional filter by category.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "includeDeprecated",
+            "description": "Include deprecated values.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "tags": [
+          "CommonService"
+        ]
+      }
+    },
+    "/api/common/enums/category/{category}": {
+      "get": {
+        "summary": "Get enum collections by category.",
+        "operationId": "CommonService_GetEnumsByCategory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiGetEnumsByCategoryResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "category",
+            "description": "Category name (device, lorawan, data, inventory).",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "includeDeprecated",
+            "description": "Include deprecated values.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "tags": [
+          "CommonService"
+        ]
+      }
+    },
+    "/api/common/enums/{enumName}": {
+      "get": {
+        "summary": "Get specific enum values by name.",
+        "operationId": "CommonService_GetEnum",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiGetEnumResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "enumName",
+            "description": "Enum name.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "includeDeprecated",
+            "description": "Include deprecated values.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "tags": [
+          "CommonService"
+        ]
+      }
+    },
+    "/api/common/helper": {
+      "get": {
+        "summary": "Simple helper endpoint to get all enum values for UI dropdowns.",
+        "operationId": "CommonService_ListEnums",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiListEnumsHelperResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "CommonService"
+        ]
+      }
+    },
+    "/api/common/metadata": {
+      "get": {
+        "summary": "Get platform metadata and version information.",
+        "operationId": "CommonService_GetMetadata",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiGetMetadataResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "CommonService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "apiAggregationTypeItem": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "apiCellularNetworkTypeItem": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "apiCodecRuntimeItem": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "apiDeviceClassItem": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "apiDeviceTypeItem": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "apiDownlinkModeItem": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "apiEnumCategory": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Category name."
+        },
+        "description": {
+          "type": "string",
+          "description": "Category description."
+        },
+        "enums": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiEnumDefinition"
+          },
+          "description": "Enums in this category."
+        }
+      },
+      "description": "Enum category grouping."
+    },
+    "apiEnumDefinition": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Enum name."
+        },
+        "description": {
+          "type": "string",
+          "description": "Enum description."
+        },
+        "category": {
+          "type": "string",
+          "description": "Category (e.g., \"device\", \"lorawan\", \"network\")."
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiEnumValue"
+          },
+          "description": "Enum values."
+        },
+        "package": {
+          "type": "string",
+          "description": "Package/service this enum belongs to."
+        }
+      },
+      "description": "Enum definition structure."
+    },
+    "apiEnumValue": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Value name."
+        },
+        "value": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Numeric value."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description."
+        },
+        "deprecated": {
+          "type": "boolean",
+          "description": "Whether this value is deprecated."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name (human-readable)."
+        },
+        "uiHint": {
+          "type": "string",
+          "description": "Optional icon or color for UI."
+        }
+      },
+      "description": "Individual enum value."
+    },
+    "apiGetEnumResponse": {
+      "type": "object",
+      "properties": {
+        "enum": {
+          "$ref": "#/definitions/apiEnumDefinition",
+          "description": "Enum definition."
+        }
+      },
+      "description": "Response for a specific enum."
+    },
+    "apiGetEnumsByCategoryResponse": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "$ref": "#/definitions/apiEnumCategory",
+          "description": "Category information."
+        }
+      },
+      "description": "Response for enums by category."
+    },
+    "apiGetEnumsResponse": {
+      "type": "object",
+      "properties": {
+        "categories": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/apiEnumCategory"
+          },
+          "description": "All available enums grouped by category."
+        },
+        "totalCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total number of enums."
+        }
+      },
+      "description": "Response containing all enum definitions."
+    },
+    "apiGetMetadataResponse": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Platform version."
+        },
+        "buildTime": {
+          "type": "string",
+          "description": "Build timestamp."
+        },
+        "gitCommit": {
+          "type": "string",
+          "description": "Git commit hash."
+        },
+        "services": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Available services."
+        },
+        "protocols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Supported protocols."
+        },
+        "enumCategories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Available enum categories."
+        }
+      },
+      "description": "Response containing platform metadata."
+    },
+    "apiInventoryStatusItem": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "apiJoinModeItem": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "apiListEnumsHelperResponse": {
+      "type": "object",
+      "properties": {
+        "macVersions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiMacVersionItem"
+          },
+          "description": "LoRaWAN MAC versions."
+        },
+        "deviceClasses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiDeviceClassItem"
+          },
+          "description": "LoRaWAN device classes."
+        },
+        "joinModes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiJoinModeItem"
+          },
+          "description": "LoRaWAN join modes."
+        },
+        "regions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiRegionItem"
+          },
+          "description": "LoRaWAN regions."
+        },
+        "regParamsRevisions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiRegParamsRevisionItem"
+          },
+          "description": "LoRaWAN regional parameters revisions."
+        },
+        "codecRuntimes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiCodecRuntimeItem"
+          },
+          "description": "Payload codec runtimes."
+        },
+        "locationSources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiLocationSourceItem"
+          },
+          "description": "Location sources."
+        },
+        "deviceTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiDeviceTypeItem"
+          },
+          "description": "Device types."
+        },
+        "inventoryStatuses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiInventoryStatusItem"
+          },
+          "description": "Inventory statuses."
+        },
+        "downlinkModes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiDownlinkModeItem"
+          },
+          "description": "Downlink modes."
+        },
+        "cellularNetworkTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiCellularNetworkTypeItem"
+          },
+          "description": "Cellular network types."
+        },
+        "transportProtocols": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiTransportProtocolItem"
+          },
+          "description": "Transport protocols."
+        },
+        "aggregationTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiAggregationTypeItem"
+          },
+          "description": "Aggregation types."
+        },
+        "timeIntervals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiTimeIntervalItem"
+          },
+          "description": "Time intervals."
+        }
+      },
+      "description": "Simple response for UI helper endpoint with concrete enum values."
+    },
+    "apiLocationSourceItem": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "apiMacVersionItem": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      },
+      "description": "Simple enum item structures for UI consumption."
+    },
+    "apiRegParamsRevisionItem": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "apiRegionItem": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "apiTimeIntervalItem": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "apiTransportProtocolItem": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

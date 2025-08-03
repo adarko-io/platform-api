@@ -1,0 +1,300 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "github.com/adarko-io/platform-api/go/v4/external/service";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+// CommonService provides common utilities and metadata for the platform API.
+// This includes enum definitions for UI mapping and validation.
+service CommonService {
+  // Get all enum definitions for UI mapping.
+  rpc GetEnums(GetEnumsRequest) returns (GetEnumsResponse) {
+    option (google.api.http) = {
+      get: "/api/common/enums"
+    };
+  }
+
+  // Get specific enum values by name.
+  rpc GetEnum(GetEnumRequest) returns (GetEnumResponse) {
+    option (google.api.http) = {
+      get: "/api/common/enums/{enum_name}"
+    };
+  }
+
+  // Get platform metadata and version information.
+  rpc GetMetadata(GetMetadataRequest) returns (GetMetadataResponse) {
+    option (google.api.http) = {
+      get: "/api/common/metadata"
+    };
+  }
+
+  // Get enum collections by category.
+  rpc GetEnumsByCategory(GetEnumsByCategoryRequest) returns (GetEnumsByCategoryResponse) {
+    option (google.api.http) = {
+      get: "/api/common/enums/category/{category}"
+    };
+  }
+
+  // Simple helper endpoint to get all enum values for UI dropdowns.
+  rpc ListEnums(google.protobuf.Empty) returns (ListEnumsHelperResponse) {
+    option (google.api.http) = {
+      get: "/api/common/helper"
+    };
+  }
+}
+
+// Request to get all enum definitions.
+message GetEnumsRequest {
+  // Optional filter by category.
+  string category = 1;
+  
+  // Include deprecated values.
+  bool include_deprecated = 2;
+}
+
+// Response containing all enum definitions.
+message GetEnumsResponse {
+  // All available enums grouped by category.
+  map<string, EnumCategory> categories = 1;
+  
+  // Total number of enums.
+  int32 total_count = 2;
+}
+
+// Request to get a specific enum.
+message GetEnumRequest {
+  // Enum name.
+  string enum_name = 1;
+  
+  // Include deprecated values.
+  bool include_deprecated = 2;
+}
+
+// Response for a specific enum.
+message GetEnumResponse {
+  // Enum definition.
+  EnumDefinition enum = 1;
+}
+
+// Request to get enums by category.
+message GetEnumsByCategoryRequest {
+  // Category name (device, lorawan, data, inventory).
+  string category = 1;
+  
+  // Include deprecated values.
+  bool include_deprecated = 2;
+}
+
+// Response for enums by category.
+message GetEnumsByCategoryResponse {
+  // Category information.
+  EnumCategory category = 1;
+}
+
+// Request for platform metadata.
+message GetMetadataRequest {}
+
+// Response containing platform metadata.
+message GetMetadataResponse {
+  // Platform version.
+  string version = 1;
+  
+  // Build timestamp.
+  string build_time = 2;
+  
+  // Git commit hash.
+  string git_commit = 3;
+  
+  // Available services.
+  repeated string services = 4;
+  
+  // Supported protocols.
+  repeated string protocols = 5;
+  
+  // Available enum categories.
+  repeated string enum_categories = 6;
+}
+
+// Enum category grouping.
+message EnumCategory {
+  // Category name.
+  string name = 1;
+  
+  // Category description.
+  string description = 2;
+  
+  // Enums in this category.
+  repeated EnumDefinition enums = 3;
+}
+
+// Enum definition structure.
+message EnumDefinition {
+  // Enum name.
+  string name = 1;
+  
+  // Enum description.
+  string description = 2;
+  
+  // Category (e.g., "device", "lorawan", "network").
+  string category = 3;
+  
+  // Enum values.
+  repeated EnumValue values = 4;
+  
+  // Package/service this enum belongs to.
+  string package = 5;
+}
+
+// Individual enum value.
+message EnumValue {
+  // Value name.
+  string name = 1;
+  
+  // Numeric value.
+  int32 value = 2;
+  
+  // Description.
+  string description = 3;
+  
+  // Whether this value is deprecated.
+  bool deprecated = 4;
+  
+  // Display name (human-readable).
+  string display_name = 5;
+  
+  // Optional icon or color for UI.
+  string ui_hint = 6;
+}
+
+// Simple response for UI helper endpoint with concrete enum values.
+message ListEnumsHelperResponse {
+  // LoRaWAN MAC versions.
+  repeated MacVersionItem mac_versions = 1;
+
+  // LoRaWAN device classes.
+  repeated DeviceClassItem device_classes = 2;
+
+  // LoRaWAN join modes.
+  repeated JoinModeItem join_modes = 3;
+
+  // LoRaWAN regions.
+  repeated RegionItem regions = 4;
+
+  // LoRaWAN regional parameters revisions.
+  repeated RegParamsRevisionItem reg_params_revisions = 5;
+
+  // Payload codec runtimes.
+  repeated CodecRuntimeItem codec_runtimes = 6;
+
+  // Location sources.
+  repeated LocationSourceItem location_sources = 7;
+
+  // Device types.
+  repeated DeviceTypeItem device_types = 8;
+
+  // Inventory statuses.
+  repeated InventoryStatusItem inventory_statuses = 9;
+
+  // Downlink modes.
+  repeated DownlinkModeItem downlink_modes = 10;
+
+  // Cellular network types.
+  repeated CellularNetworkTypeItem cellular_network_types = 11;
+
+  // Transport protocols.
+  repeated TransportProtocolItem transport_protocols = 12;
+
+  // Aggregation types.
+  repeated AggregationTypeItem aggregation_types = 13;
+
+  // Time intervals.
+  repeated TimeIntervalItem time_intervals = 14;
+}
+
+// Simple enum item structures for UI consumption.
+message MacVersionItem {
+  int32 value = 1;
+  string name = 2;
+  string display_name = 3;
+}
+
+message DeviceClassItem {
+  int32 value = 1;
+  string name = 2;
+  string display_name = 3;
+}
+
+message JoinModeItem {
+  int32 value = 1;
+  string name = 2;
+  string display_name = 3;
+}
+
+message RegionItem {
+  int32 value = 1;
+  string name = 2;
+  string display_name = 3;
+}
+
+message RegParamsRevisionItem {
+  int32 value = 1;
+  string name = 2;
+  string display_name = 3;
+}
+
+message CodecRuntimeItem {
+  int32 value = 1;
+  string name = 2;
+  string display_name = 3;
+}
+
+message LocationSourceItem {
+  int32 value = 1;
+  string name = 2;
+  string display_name = 3;
+}
+
+message DeviceTypeItem {
+  int32 value = 1;
+  string name = 2;
+  string display_name = 3;
+}
+
+message InventoryStatusItem {
+  int32 value = 1;
+  string name = 2;
+  string display_name = 3;
+}
+
+message DownlinkModeItem {
+  int32 value = 1;
+  string name = 2;
+  string display_name = 3;
+}
+
+message CellularNetworkTypeItem {
+  int32 value = 1;
+  string name = 2;
+  string display_name = 3;
+}
+
+message TransportProtocolItem {
+  int32 value = 1;
+  string name = 2;
+  string display_name = 3;
+}
+
+message AggregationTypeItem {
+  int32 value = 1;
+  string name = 2;
+  string display_name = 3;
+}
+
+message TimeIntervalItem {
+  int32 value = 1;
+  string name = 2;
+  string display_name = 3;
+}
