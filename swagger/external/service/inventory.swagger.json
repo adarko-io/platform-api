@@ -1028,10 +1028,6 @@
         "batchId": {
           "type": "string",
           "description": "Batch/lot information."
-        },
-        "procurement": {
-          "$ref": "#/definitions/apiProcurementInfo",
-          "description": "Procurement information."
         }
       },
       "description": "InventoryDevice represents a device in the inventory with all necessary configuration."
@@ -1121,10 +1117,6 @@
           "type": "string",
           "description": "Device EUI (unique identifier)."
         },
-        "name": {
-          "type": "string",
-          "description": "Device name."
-        },
         "description": {
           "type": "string",
           "description": "Device description."
@@ -1135,7 +1127,7 @@
         },
         "devAddr": {
           "type": "string",
-          "description": "DevAddr (device address). \nOnly used with ABP (activation-by-personalization)."
+          "description": "DevAddr (device address).\nOnly used with ABP (activation-by-personalization)."
         },
         "joinMode": {
           "$ref": "#/definitions/apiJoinMode",
@@ -1276,10 +1268,6 @@
           "type": "string",
           "description": "Gateway ID (EUI64)."
         },
-        "name": {
-          "type": "string",
-          "description": "Name."
-        },
         "description": {
           "type": "string",
           "description": "Description."
@@ -1415,39 +1403,6 @@
       ],
       "default": "LORAWAN_1_0_0",
       "description": "LoRaWAN MAC version."
-    },
-    "apiProcurementInfo": {
-      "type": "object",
-      "properties": {
-        "supplier": {
-          "type": "string",
-          "description": "Supplier/vendor."
-        },
-        "purchaseOrder": {
-          "type": "string",
-          "description": "Purchase order number."
-        },
-        "purchaseDate": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Purchase date."
-        },
-        "unitCost": {
-          "type": "number",
-          "format": "double",
-          "description": "Unit cost."
-        },
-        "currency": {
-          "type": "string",
-          "description": "Currency."
-        },
-        "warrantyExpiry": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Warranty expiry."
-        }
-      },
-      "description": "Procurement information."
     },
     "apiRegParamsRevision": {
       "type": "string",
