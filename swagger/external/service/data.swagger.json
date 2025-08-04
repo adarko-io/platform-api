@@ -217,26 +217,26 @@
           },
           {
             "name": "transportProtocols",
-            "description": "Filter by transport protocol.\n\n - PROTOCOL_UNKNOWN: Unknown protocol.\n - LORAWAN: LoRaWAN.\n - CELLULAR_HTTP: HTTP/HTTPS over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - CELLULAR_MQTT: MQTT over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - CELLULAR_TCP: TCP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - CELLULAR_UDP: UDP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - CELLULAR_COAP: CoAP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - HTTP: HTTP/HTTPS over WiFi/Ethernet.\n - MQTT: MQTT over WiFi/Ethernet.\n - TCP: TCP over WiFi/Ethernet.\n - UDP: UDP over WiFi/Ethernet.\n - COAP: CoAP over WiFi/Ethernet.\n - WEBSOCKET: WebSocket.",
+            "description": "Filter by transport protocol.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_CELLULAR_HTTP: HTTP/HTTPS over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_MQTT: MQTT over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_TCP: TCP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_UDP: UDP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_COAP: CoAP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_HTTP: HTTP/HTTPS over WiFi/Ethernet.\n - TRANSPORT_MQTT: MQTT over WiFi/Ethernet.\n - TRANSPORT_TCP: TCP over WiFi/Ethernet.\n - TRANSPORT_UDP: UDP over WiFi/Ethernet.\n - TRANSPORT_COAP: CoAP over WiFi/Ethernet.\n - TRANSPORT_WEBSOCKET: WebSocket.",
             "in": "query",
             "required": false,
             "type": "array",
             "items": {
               "type": "string",
               "enum": [
-                "PROTOCOL_UNKNOWN",
-                "LORAWAN",
-                "CELLULAR_HTTP",
-                "CELLULAR_MQTT",
-                "CELLULAR_TCP",
-                "CELLULAR_UDP",
-                "CELLULAR_COAP",
-                "HTTP",
-                "MQTT",
-                "TCP",
-                "UDP",
-                "COAP",
-                "WEBSOCKET"
+                "TRANSPORT_PROTOCOL_UNKNOWN",
+                "TRANSPORT_LORAWAN",
+                "TRANSPORT_CELLULAR_HTTP",
+                "TRANSPORT_CELLULAR_MQTT",
+                "TRANSPORT_CELLULAR_TCP",
+                "TRANSPORT_CELLULAR_UDP",
+                "TRANSPORT_CELLULAR_COAP",
+                "TRANSPORT_HTTP",
+                "TRANSPORT_MQTT",
+                "TRANSPORT_TCP",
+                "TRANSPORT_UDP",
+                "TRANSPORT_COAP",
+                "TRANSPORT_WEBSOCKET"
               ]
             },
             "collectionFormat": "multi"
@@ -539,17 +539,17 @@
     "apiAggregationType": {
       "type": "string",
       "enum": [
-        "NONE_NO",
-        "AVG",
-        "MIN",
-        "MAX",
-        "SUM",
-        "COUNT",
-        "FIRST",
-        "LAST"
+        "AGGREGATION_TYPE_NONE",
+        "AGGREGATION_TYPE_AVG",
+        "AGGREGATION_TYPE_MIN",
+        "AGGREGATION_TYPE_MAX",
+        "AGGREGATION_TYPE_SUM",
+        "AGGREGATION_TYPE_COUNT",
+        "AGGREGATION_TYPE_FIRST",
+        "AGGREGATION_TYPE_LAST"
       ],
-      "default": "NONE_NO",
-      "description": "Aggregation type for time-series data.\n\n - NONE_NO: No aggregation (raw data).\n - AVG: Average values.\n - MIN: Minimum values.\n - MAX: Maximum values.\n - SUM: Sum of values.\n - COUNT: Count of data points.\n - FIRST: First value in time window.\n - LAST: Last value in time window."
+      "default": "AGGREGATION_TYPE_NONE",
+      "description": "Aggregation type for time-series data.\n\n - AGGREGATION_TYPE_NONE: No aggregation (raw data).\n - AGGREGATION_TYPE_AVG: Average values.\n - AGGREGATION_TYPE_MIN: Minimum values.\n - AGGREGATION_TYPE_MAX: Maximum values.\n - AGGREGATION_TYPE_SUM: Sum of values.\n - AGGREGATION_TYPE_COUNT: Count of data points.\n - AGGREGATION_TYPE_FIRST: First value in time window.\n - AGGREGATION_TYPE_LAST: Last value in time window."
     },
     "apiCellularMetadata": {
       "type": "object",
@@ -753,7 +753,7 @@
           "description": "Accuracy in meters."
         },
         "source": {
-          "$ref": "#/definitions/apiSource",
+          "$ref": "#/definitions/apiLocationSource",
           "description": "Location source."
         }
       },
@@ -1049,6 +1049,24 @@
       },
       "description": "LoRaWAN specific metadata."
     },
+    "apiLocationSource": {
+      "type": "string",
+      "enum": [
+        "LOCATION_SOURCE_UNKNOWN",
+        "LOCATION_SOURCE_GPS",
+        "LOCATION_SOURCE_MANUAL",
+        "LOCATION_SOURCE_TRIANGULATION",
+        "LOCATION_SOURCE_WIFI",
+        "LOCATION_SOURCE_MANUAL_OVERRIDE",
+        "LOCATION_SOURCE_CONFIG",
+        "LOCATION_SOURCE_GEO_RESOLVER_TDOA",
+        "LOCATION_SOURCE_GEO_RESOLVER_RSSI",
+        "LOCATION_SOURCE_GEO_RESOLVER_GNSS",
+        "LOCATION_SOURCE_GEO_RESOLVER_WIFI"
+      ],
+      "default": "LOCATION_SOURCE_UNKNOWN",
+      "description": "Location source enumeration - unified across all services.\n\n - LOCATION_SOURCE_UNKNOWN: Unknown location source.\n - LOCATION_SOURCE_GPS: GPS coordinates.\n - LOCATION_SOURCE_MANUAL: Manually configured.\n - LOCATION_SOURCE_TRIANGULATION: Calculated via triangulation.\n - LOCATION_SOURCE_WIFI: WiFi-based location.\n - LOCATION_SOURCE_MANUAL_OVERRIDE: Manual override.\n - LOCATION_SOURCE_CONFIG: Configuration-based.\n - LOCATION_SOURCE_GEO_RESOLVER_TDOA: GEO resolver TDOA.\n - LOCATION_SOURCE_GEO_RESOLVER_RSSI: GEO resolver RSSI.\n - LOCATION_SOURCE_GEO_RESOLVER_GNSS: GEO resolver GNSS.\n - LOCATION_SOURCE_GEO_RESOLVER_WIFI: GEO resolver WiFi."
+    },
     "apiMQTTMetadata": {
       "type": "object",
       "properties": {
@@ -1159,19 +1177,6 @@
       },
       "description": "Signal quality metrics (protocol-specific)."
     },
-    "apiSource": {
-      "type": "string",
-      "enum": [
-        "LOCATION_UNKNOWN",
-        "SOURCE_GPS",
-        "MANUAL",
-        "TRIANGULATION",
-        "WIFI",
-        "MANUAL_OVERRIDE"
-      ],
-      "default": "LOCATION_UNKNOWN",
-      "description": "Location source enumeration.\n\n - LOCATION_UNKNOWN: Unknown location source.\n - SOURCE_GPS: GPS coordinates.\n - MANUAL: Manually configured.\n - TRIANGULATION: Calculated via triangulation.\n - WIFI: WiFi-based location.\n - MANUAL_OVERRIDE: Manual"
-    },
     "apiTCPMetadata": {
       "type": "object",
       "properties": {
@@ -1203,39 +1208,39 @@
     "apiTimeInterval": {
       "type": "string",
       "enum": [
-        "MINUTE",
-        "MINUTE_5",
-        "MINUTE_15",
-        "MINUTE_30",
-        "HOUR",
-        "HOUR_6",
-        "HOUR_12",
-        "DAY",
-        "WEEK",
-        "MONTH"
+        "TIME_INTERVAL_MINUTE",
+        "TIME_INTERVAL_MINUTE_5",
+        "TIME_INTERVAL_MINUTE_15",
+        "TIME_INTERVAL_MINUTE_30",
+        "TIME_INTERVAL_HOUR",
+        "TIME_INTERVAL_HOUR_6",
+        "TIME_INTERVAL_HOUR_12",
+        "TIME_INTERVAL_DAY",
+        "TIME_INTERVAL_WEEK",
+        "TIME_INTERVAL_MONTH"
       ],
-      "default": "MINUTE",
-      "description": "Time interval for aggregation.\n\n - MINUTE: 1 minute intervals.\n - MINUTE_5: 5 minute intervals.\n - MINUTE_15: 15 minute intervals.\n - MINUTE_30: 30 minute intervals.\n - HOUR: 1 hour intervals.\n - HOUR_6: 6 hour intervals.\n - HOUR_12: 12 hour intervals.\n - DAY: 1 day intervals.\n - WEEK: 1 week intervals.\n - MONTH: 1 month intervals."
+      "default": "TIME_INTERVAL_MINUTE",
+      "description": "Time interval for aggregation.\n\n - TIME_INTERVAL_MINUTE: 1 minute intervals.\n - TIME_INTERVAL_MINUTE_5: 5 minute intervals.\n - TIME_INTERVAL_MINUTE_15: 15 minute intervals.\n - TIME_INTERVAL_MINUTE_30: 30 minute intervals.\n - TIME_INTERVAL_HOUR: 1 hour intervals.\n - TIME_INTERVAL_HOUR_6: 6 hour intervals.\n - TIME_INTERVAL_HOUR_12: 12 hour intervals.\n - TIME_INTERVAL_DAY: 1 day intervals.\n - TIME_INTERVAL_WEEK: 1 week intervals.\n - TIME_INTERVAL_MONTH: 1 month intervals."
     },
     "apiTransportProtocol": {
       "type": "string",
       "enum": [
-        "PROTOCOL_UNKNOWN",
-        "LORAWAN",
-        "CELLULAR_HTTP",
-        "CELLULAR_MQTT",
-        "CELLULAR_TCP",
-        "CELLULAR_UDP",
-        "CELLULAR_COAP",
-        "HTTP",
-        "MQTT",
-        "TCP",
-        "UDP",
-        "COAP",
-        "WEBSOCKET"
+        "TRANSPORT_PROTOCOL_UNKNOWN",
+        "TRANSPORT_LORAWAN",
+        "TRANSPORT_CELLULAR_HTTP",
+        "TRANSPORT_CELLULAR_MQTT",
+        "TRANSPORT_CELLULAR_TCP",
+        "TRANSPORT_CELLULAR_UDP",
+        "TRANSPORT_CELLULAR_COAP",
+        "TRANSPORT_HTTP",
+        "TRANSPORT_MQTT",
+        "TRANSPORT_TCP",
+        "TRANSPORT_UDP",
+        "TRANSPORT_COAP",
+        "TRANSPORT_WEBSOCKET"
       ],
-      "default": "PROTOCOL_UNKNOWN",
-      "description": "Transport protocol enumeration.\n\n - PROTOCOL_UNKNOWN: Unknown protocol.\n - LORAWAN: LoRaWAN.\n - CELLULAR_HTTP: HTTP/HTTPS over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - CELLULAR_MQTT: MQTT over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - CELLULAR_TCP: TCP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - CELLULAR_UDP: UDP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - CELLULAR_COAP: CoAP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - HTTP: HTTP/HTTPS over WiFi/Ethernet.\n - MQTT: MQTT over WiFi/Ethernet.\n - TCP: TCP over WiFi/Ethernet.\n - UDP: UDP over WiFi/Ethernet.\n - COAP: CoAP over WiFi/Ethernet.\n - WEBSOCKET: WebSocket."
+      "default": "TRANSPORT_PROTOCOL_UNKNOWN",
+      "description": "Transport protocol enumeration - unified for inventory and data services.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_CELLULAR_HTTP: HTTP/HTTPS over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_MQTT: MQTT over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_TCP: TCP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_UDP: UDP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_COAP: CoAP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_HTTP: HTTP/HTTPS over WiFi/Ethernet.\n - TRANSPORT_MQTT: MQTT over WiFi/Ethernet.\n - TRANSPORT_TCP: TCP over WiFi/Ethernet.\n - TRANSPORT_UDP: UDP over WiFi/Ethernet.\n - TRANSPORT_COAP: CoAP over WiFi/Ethernet.\n - TRANSPORT_WEBSOCKET: WebSocket."
     },
     "apiUDPMetadata": {
       "type": "object",

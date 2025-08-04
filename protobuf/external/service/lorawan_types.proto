@@ -4,6 +4,8 @@ package api;
 
 option go_package = "github.com/adarko-io/platform-api/go/v4/external/service";
 
+import "external/service/shared_enums.proto";
+
 // Simplified LoRaWAN Device definition for inventory integration
 // This defines the minimal required fields for device configuration
 // Full LoRaWAN device management is handled by the console-lorawan-api service
@@ -216,16 +218,7 @@ message Location {
   float accuracy = 5;
 }
 
-// Location source enumeration.
-enum LocationSource {
-  UNKNOWN = 0;
-  GPS = 1;
-  CONFIG = 2;
-  GEO_RESOLVER_TDOA = 3;
-  GEO_RESOLVER_RSSI = 4;
-  GEO_RESOLVER_GNSS = 5;
-  GEO_RESOLVER_WIFI = 6;
-}
+// NOTE: LocationSource enum moved to shared_enums.proto to avoid conflicts.
 
 // LoRaWAN device join mode.
 enum JoinMode {

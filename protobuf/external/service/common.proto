@@ -6,6 +6,8 @@ option go_package = "github.com/adarko-io/platform-api/go/v4/external/service";
 
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
+import "external/service/shared_enums.proto";
+import "external/service/lorawan_types.proto";
 
 // CommonService provides common utilities and metadata for the platform API.
 // This includes enum definitions for UI mapping and validation.

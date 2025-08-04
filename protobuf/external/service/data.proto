@@ -7,6 +7,7 @@ option go_package = "github.com/adarko-io/platform-api/go/v4/external/service";
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
+import "external/service/shared_enums.proto";
 
 // DataService is the service providing API methods for managing device data.
 // This service is designed to work with TimescaleDB for time-series data storage.
@@ -359,131 +360,10 @@ message DeviceLocation {
   float accuracy = 4;
 
   // Location source.
-  Source source = 5;
+  LocationSource source = 5;
 }
 
-// Location source enumeration.
-enum Source {
-  // Unknown location source.
-  LOCATION_UNKNOWN = 0;
-  
-  // GPS coordinates.
-  SOURCE_GPS = 1;
-  
-  // Manually configured.
-  MANUAL = 2;
-  
-  // Calculated via triangulation.
-  TRIANGULATION = 3;
-  
-  // WiFi-based location.
-  WIFI = 4;
-
-  //Manual
-  MANUAL_OVERRIDE = 5;
-}
-
-// Transport protocol enumeration.
-enum TransportProtocol {
-  // Unknown protocol.
-  PROTOCOL_UNKNOWN = 0;
-  
-  // LoRaWAN.
-  LORAWAN = 1;
-  
-  // HTTP/HTTPS over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).
-  CELLULAR_HTTP = 2;
-  
-  // MQTT over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).
-  CELLULAR_MQTT = 3;
-  
-  // TCP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).
-  CELLULAR_TCP = 4;
-  
-  // UDP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).
-  CELLULAR_UDP = 5;
-  
-  // CoAP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).
-  CELLULAR_COAP = 6;
-  
-  // HTTP/HTTPS over WiFi/Ethernet.
-  HTTP = 7;
-  
-  // MQTT over WiFi/Ethernet.
-  MQTT = 8;
-  
-  // TCP over WiFi/Ethernet.
-  TCP = 9;
-  
-  // UDP over WiFi/Ethernet.
-  UDP = 10;
-  
-  // CoAP over WiFi/Ethernet.
-  COAP = 11;
-  
-  // WebSocket.
-  WEBSOCKET = 12;
-}
-
-// Aggregation type for time-series data.
-enum AggregationType {
-  // No aggregation (raw data).
-  NONE_NO = 0;
-  
-  // Average values.
-  AVG = 1;
-  
-  // Minimum values.
-  MIN = 2;
-  
-  // Maximum values.
-  MAX = 3;
-  
-  // Sum of values.
-  SUM = 4;
-  
-  // Count of data points.
-  COUNT = 5;
-  
-  // First value in time window.
-  FIRST = 6;
-  
-  // Last value in time window.
-  LAST = 7;
-}
-
-// Time interval for aggregation.
-enum TimeInterval {
-  // 1 minute intervals.
-  MINUTE = 0;
-  
-  // 5 minute intervals.
-  MINUTE_5 = 1;
-  
-  // 15 minute intervals.
-  MINUTE_15 = 2;
-  
-  // 30 minute intervals.
-  MINUTE_30 = 3;
-  
-  // 1 hour intervals.
-  HOUR = 4;
-  
-  // 6 hour intervals.
-  HOUR_6 = 5;
-  
-  // 12 hour intervals.
-  HOUR_12 = 6;
-  
-  // 1 day intervals.
-  DAY = 7;
-  
-  // 1 week intervals.
-  WEEK = 8;
-  
-  // 1 month intervals.
-  MONTH = 9;
-}
+// NOTE: Enums moved to shared_enums.proto to avoid conflicts between services.
 
 // Request to insert device data.
 message InsertDataRequest {

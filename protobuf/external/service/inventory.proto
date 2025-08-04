@@ -8,6 +8,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 import "external/service/lorawan_types.proto";
+import "external/service/shared_enums.proto";
 
 // InventoryService manages device inventory, provisioning, and device-specific configurations.
 // Devices must exist in inventory before they can be added to the device service.
@@ -122,74 +123,7 @@ message InventoryDevice {
   ProcurementInfo procurement = 15;
 }
 
-// Device type enumeration.
-enum DeviceType {
-  // Unknown device type.
-  DEVICE_TYPE_UNKNOWN = 0;
-
-  // LoRaWAN device.
-  LORAWAN = 1;
-
-  // Cellular MQTT device.
-  CELLULAR_MQTT = 2;
-
-  // Cellular TCP device.
-  CELLULAR_TCP = 3;
-
-  // Cellular UDP device.
-  CELLULAR_UDP = 4;
-
-  // Cellular HTTP device.
-  CELLULAR_HTTP = 5;
-
-  // Cellular CoAP device.
-  CELLULAR_COAP = 6;
-
-  // WiFi/Ethernet MQTT device.
-  WIFI_MQTT = 7;
-
-  // WiFi/Ethernet TCP device.
-  WIFI_TCP = 8;
-
-  // WiFi/Ethernet UDP device.
-  WIFI_UDP = 9;
-
-  // WiFi/Ethernet HTTP device.
-  WIFI_HTTP = 10;
-
-  // WiFi/Ethernet CoAP device.
-  WIFI_COAP = 11;
-
-  // WebSocket device.
-  WEBSOCKET = 12;
-
-  // Gateway device.
-  GATEWAY = 13;
-
-  // LoRaWAN Gateway device.
-  LORAWAN_GATEWAY = 14;
-}
-
-// Inventory status enumeration.
-enum InventoryStatus {
-  // Device in inventory, not yet onboarded.
-  INVENTORY = 0;
-
-  // Device onboarded to platform.
-  ONBOARDED = 1;
-
-  // Device provisioned and active.
-  PROVISIONED = 2;
-
-  // Device decommissioned.
-  DECOMMISSIONED = 3;
-
-  // Device reported as faulty.
-  FAULTY = 4;
-
-  // Device lost or stolen.
-  LOST = 5;
-}
+// NOTE: Enums moved to shared_enums.proto to avoid conflicts between services.
 
 // Device-type specific configuration.
 message DeviceConfiguration {
@@ -544,27 +478,7 @@ message WebSocketConfig {
   TLSConfig tls = 5;
 }
 
-// Supporting enums for non-LoRaWAN devices (LoRaWAN enums are imported from console-lorawan-api).
-enum DownlinkMode {
-  // Immediate downlink (for always-on devices).
-  IMMEDIATE = 0;
-  
-  // Queued downlink (for battery-powered devices, sent on next uplink).
-  QUEUED = 1;
-  
-  // Scheduled downlink (sent at specific time).
-  SCHEDULED = 2;
-}
-
-enum CellularNetworkType {
-  CELLULAR_AUTO = 0;
-  GSM_2G = 1;
-  UMTS_3G = 2;
-  LTE_4G = 3;
-  NR_5G = 4;
-  NB_IOT = 5;
-  LTE_M = 6;
-}
+// NOTE: Supporting enums moved to shared_enums.proto to avoid conflicts.
 
 // Authentication configurations.
 message MQTTAuth {

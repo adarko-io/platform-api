@@ -48,7 +48,7 @@
           },
           {
             "name": "deviceTypes",
-            "description": "Filter by device type.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - LORAWAN: LoRaWAN device.\n - CELLULAR_MQTT: Cellular MQTT device.\n - CELLULAR_TCP: Cellular TCP device.\n - CELLULAR_UDP: Cellular UDP device.\n - CELLULAR_HTTP: Cellular HTTP device.\n - CELLULAR_COAP: Cellular CoAP device.\n - WIFI_MQTT: WiFi/Ethernet MQTT device.\n - WIFI_TCP: WiFi/Ethernet TCP device.\n - WIFI_UDP: WiFi/Ethernet UDP device.\n - WIFI_HTTP: WiFi/Ethernet HTTP device.\n - WIFI_COAP: WiFi/Ethernet CoAP device.\n - WEBSOCKET: WebSocket device.\n - GATEWAY: Gateway device.\n - LORAWAN_GATEWAY: LoRaWAN Gateway device.",
+            "description": "Filter by device type.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN: LoRaWAN device.\n - DEVICE_TYPE_CELLULAR_MQTT: Cellular MQTT device.\n - DEVICE_TYPE_CELLULAR_TCP: Cellular TCP device.\n - DEVICE_TYPE_CELLULAR_UDP: Cellular UDP device.\n - DEVICE_TYPE_CELLULAR_HTTP: Cellular HTTP device.\n - DEVICE_TYPE_CELLULAR_COAP: Cellular CoAP device.\n - DEVICE_TYPE_WIFI_MQTT: WiFi/Ethernet MQTT device.\n - DEVICE_TYPE_WIFI_TCP: WiFi/Ethernet TCP device.\n - DEVICE_TYPE_WIFI_UDP: WiFi/Ethernet UDP device.\n - DEVICE_TYPE_WIFI_HTTP: WiFi/Ethernet HTTP device.\n - DEVICE_TYPE_WIFI_COAP: WiFi/Ethernet CoAP device.\n - DEVICE_TYPE_WEBSOCKET: WebSocket device.\n - DEVICE_TYPE_GATEWAY: Gateway device.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device.",
             "in": "query",
             "required": false,
             "type": "array",
@@ -56,39 +56,39 @@
               "type": "string",
               "enum": [
                 "DEVICE_TYPE_UNKNOWN",
-                "LORAWAN",
-                "CELLULAR_MQTT",
-                "CELLULAR_TCP",
-                "CELLULAR_UDP",
-                "CELLULAR_HTTP",
-                "CELLULAR_COAP",
-                "WIFI_MQTT",
-                "WIFI_TCP",
-                "WIFI_UDP",
-                "WIFI_HTTP",
-                "WIFI_COAP",
-                "WEBSOCKET",
-                "GATEWAY",
-                "LORAWAN_GATEWAY"
+                "DEVICE_TYPE_LORAWAN",
+                "DEVICE_TYPE_CELLULAR_MQTT",
+                "DEVICE_TYPE_CELLULAR_TCP",
+                "DEVICE_TYPE_CELLULAR_UDP",
+                "DEVICE_TYPE_CELLULAR_HTTP",
+                "DEVICE_TYPE_CELLULAR_COAP",
+                "DEVICE_TYPE_WIFI_MQTT",
+                "DEVICE_TYPE_WIFI_TCP",
+                "DEVICE_TYPE_WIFI_UDP",
+                "DEVICE_TYPE_WIFI_HTTP",
+                "DEVICE_TYPE_WIFI_COAP",
+                "DEVICE_TYPE_WEBSOCKET",
+                "DEVICE_TYPE_GATEWAY",
+                "DEVICE_TYPE_LORAWAN_GATEWAY"
               ]
             },
             "collectionFormat": "multi"
           },
           {
             "name": "statuses",
-            "description": "Filter by status.\n\n - INVENTORY: Device in inventory, not yet onboarded.\n - ONBOARDED: Device onboarded to platform.\n - PROVISIONED: Device provisioned and active.\n - DECOMMISSIONED: Device decommissioned.\n - FAULTY: Device reported as faulty.\n - LOST: Device lost or stolen.",
+            "description": "Filter by status.\n\n - INVENTORY_STATUS_INVENTORY: Device in inventory, not yet onboarded.\n - INVENTORY_STATUS_ONBOARDED: Device onboarded to platform.\n - INVENTORY_STATUS_PROVISIONED: Device provisioned and active.\n - INVENTORY_STATUS_DECOMMISSIONED: Device decommissioned.\n - INVENTORY_STATUS_FAULTY: Device reported as faulty.\n - INVENTORY_STATUS_LOST: Device lost or stolen.",
             "in": "query",
             "required": false,
             "type": "array",
             "items": {
               "type": "string",
               "enum": [
-                "INVENTORY",
-                "ONBOARDED",
-                "PROVISIONED",
-                "DECOMMISSIONED",
-                "FAULTY",
-                "LOST"
+                "INVENTORY_STATUS_INVENTORY",
+                "INVENTORY_STATUS_ONBOARDED",
+                "INVENTORY_STATUS_PROVISIONED",
+                "INVENTORY_STATUS_DECOMMISSIONED",
+                "INVENTORY_STATUS_FAULTY",
+                "INVENTORY_STATUS_LOST"
               ]
             },
             "collectionFormat": "multi"
@@ -563,15 +563,16 @@
     "apiCellularNetworkType": {
       "type": "string",
       "enum": [
-        "CELLULAR_AUTO",
-        "GSM_2G",
-        "UMTS_3G",
-        "LTE_4G",
-        "NR_5G",
-        "NB_IOT",
-        "LTE_M"
+        "CELLULAR_NETWORK_TYPE_AUTO",
+        "CELLULAR_NETWORK_TYPE_GSM_2G",
+        "CELLULAR_NETWORK_TYPE_UMTS_3G",
+        "CELLULAR_NETWORK_TYPE_LTE_4G",
+        "CELLULAR_NETWORK_TYPE_NR_5G",
+        "CELLULAR_NETWORK_TYPE_NB_IOT",
+        "CELLULAR_NETWORK_TYPE_LTE_M"
       ],
-      "default": "CELLULAR_AUTO"
+      "default": "CELLULAR_NETWORK_TYPE_AUTO",
+      "description": "Cellular network type enumeration."
     },
     "apiCellularTCPConfig": {
       "type": "object",
@@ -846,33 +847,33 @@
       "type": "string",
       "enum": [
         "DEVICE_TYPE_UNKNOWN",
-        "LORAWAN",
-        "CELLULAR_MQTT",
-        "CELLULAR_TCP",
-        "CELLULAR_UDP",
-        "CELLULAR_HTTP",
-        "CELLULAR_COAP",
-        "WIFI_MQTT",
-        "WIFI_TCP",
-        "WIFI_UDP",
-        "WIFI_HTTP",
-        "WIFI_COAP",
-        "WEBSOCKET",
-        "GATEWAY",
-        "LORAWAN_GATEWAY"
+        "DEVICE_TYPE_LORAWAN",
+        "DEVICE_TYPE_CELLULAR_MQTT",
+        "DEVICE_TYPE_CELLULAR_TCP",
+        "DEVICE_TYPE_CELLULAR_UDP",
+        "DEVICE_TYPE_CELLULAR_HTTP",
+        "DEVICE_TYPE_CELLULAR_COAP",
+        "DEVICE_TYPE_WIFI_MQTT",
+        "DEVICE_TYPE_WIFI_TCP",
+        "DEVICE_TYPE_WIFI_UDP",
+        "DEVICE_TYPE_WIFI_HTTP",
+        "DEVICE_TYPE_WIFI_COAP",
+        "DEVICE_TYPE_WEBSOCKET",
+        "DEVICE_TYPE_GATEWAY",
+        "DEVICE_TYPE_LORAWAN_GATEWAY"
       ],
       "default": "DEVICE_TYPE_UNKNOWN",
-      "description": "Device type enumeration.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - LORAWAN: LoRaWAN device.\n - CELLULAR_MQTT: Cellular MQTT device.\n - CELLULAR_TCP: Cellular TCP device.\n - CELLULAR_UDP: Cellular UDP device.\n - CELLULAR_HTTP: Cellular HTTP device.\n - CELLULAR_COAP: Cellular CoAP device.\n - WIFI_MQTT: WiFi/Ethernet MQTT device.\n - WIFI_TCP: WiFi/Ethernet TCP device.\n - WIFI_UDP: WiFi/Ethernet UDP device.\n - WIFI_HTTP: WiFi/Ethernet HTTP device.\n - WIFI_COAP: WiFi/Ethernet CoAP device.\n - WEBSOCKET: WebSocket device.\n - GATEWAY: Gateway device.\n - LORAWAN_GATEWAY: LoRaWAN Gateway device."
+      "description": "Device type enumeration - unified for inventory and other services.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN: LoRaWAN device.\n - DEVICE_TYPE_CELLULAR_MQTT: Cellular MQTT device.\n - DEVICE_TYPE_CELLULAR_TCP: Cellular TCP device.\n - DEVICE_TYPE_CELLULAR_UDP: Cellular UDP device.\n - DEVICE_TYPE_CELLULAR_HTTP: Cellular HTTP device.\n - DEVICE_TYPE_CELLULAR_COAP: Cellular CoAP device.\n - DEVICE_TYPE_WIFI_MQTT: WiFi/Ethernet MQTT device.\n - DEVICE_TYPE_WIFI_TCP: WiFi/Ethernet TCP device.\n - DEVICE_TYPE_WIFI_UDP: WiFi/Ethernet UDP device.\n - DEVICE_TYPE_WIFI_HTTP: WiFi/Ethernet HTTP device.\n - DEVICE_TYPE_WIFI_COAP: WiFi/Ethernet CoAP device.\n - DEVICE_TYPE_WEBSOCKET: WebSocket device.\n - DEVICE_TYPE_GATEWAY: Gateway device.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device."
     },
     "apiDownlinkMode": {
       "type": "string",
       "enum": [
-        "IMMEDIATE",
-        "QUEUED",
-        "SCHEDULED"
+        "DOWNLINK_MODE_IMMEDIATE",
+        "DOWNLINK_MODE_QUEUED",
+        "DOWNLINK_MODE_SCHEDULED"
       ],
-      "default": "IMMEDIATE",
-      "description": "Supporting enums for non-LoRaWAN devices (LoRaWAN enums are imported from console-lorawan-api).\n\n - IMMEDIATE: Immediate downlink (for always-on devices).\n - QUEUED: Queued downlink (for battery-powered devices, sent on next uplink).\n - SCHEDULED: Scheduled downlink (sent at specific time)."
+      "default": "DOWNLINK_MODE_IMMEDIATE",
+      "description": "Downlink delivery mode enumeration.\n\n - DOWNLINK_MODE_IMMEDIATE: Immediate downlink (for always-on devices).\n - DOWNLINK_MODE_QUEUED: Queued downlink (for battery-powered devices, sent on next uplink).\n - DOWNLINK_MODE_SCHEDULED: Scheduled downlink (sent at specific time)."
     },
     "apiGatewayConfig": {
       "type": "object",
@@ -1077,15 +1078,15 @@
     "apiInventoryStatus": {
       "type": "string",
       "enum": [
-        "INVENTORY",
-        "ONBOARDED",
-        "PROVISIONED",
-        "DECOMMISSIONED",
-        "FAULTY",
-        "LOST"
+        "INVENTORY_STATUS_INVENTORY",
+        "INVENTORY_STATUS_ONBOARDED",
+        "INVENTORY_STATUS_PROVISIONED",
+        "INVENTORY_STATUS_DECOMMISSIONED",
+        "INVENTORY_STATUS_FAULTY",
+        "INVENTORY_STATUS_LOST"
       ],
-      "default": "INVENTORY",
-      "description": "Inventory status enumeration.\n\n - INVENTORY: Device in inventory, not yet onboarded.\n - ONBOARDED: Device onboarded to platform.\n - PROVISIONED: Device provisioned and active.\n - DECOMMISSIONED: Device decommissioned.\n - FAULTY: Device reported as faulty.\n - LOST: Device lost or stolen."
+      "default": "INVENTORY_STATUS_INVENTORY",
+      "description": "Inventory status enumeration.\n\n - INVENTORY_STATUS_INVENTORY: Device in inventory, not yet onboarded.\n - INVENTORY_STATUS_ONBOARDED: Device onboarded to platform.\n - INVENTORY_STATUS_PROVISIONED: Device provisioned and active.\n - INVENTORY_STATUS_DECOMMISSIONED: Device decommissioned.\n - INVENTORY_STATUS_FAULTY: Device reported as faulty.\n - INVENTORY_STATUS_LOST: Device lost or stolen."
     },
     "apiJoinMode": {
       "type": "string",
@@ -1365,16 +1366,20 @@
     "apiLocationSource": {
       "type": "string",
       "enum": [
-        "UNKNOWN",
-        "GPS",
-        "CONFIG",
-        "GEO_RESOLVER_TDOA",
-        "GEO_RESOLVER_RSSI",
-        "GEO_RESOLVER_GNSS",
-        "GEO_RESOLVER_WIFI"
+        "LOCATION_SOURCE_UNKNOWN",
+        "LOCATION_SOURCE_GPS",
+        "LOCATION_SOURCE_MANUAL",
+        "LOCATION_SOURCE_TRIANGULATION",
+        "LOCATION_SOURCE_WIFI",
+        "LOCATION_SOURCE_MANUAL_OVERRIDE",
+        "LOCATION_SOURCE_CONFIG",
+        "LOCATION_SOURCE_GEO_RESOLVER_TDOA",
+        "LOCATION_SOURCE_GEO_RESOLVER_RSSI",
+        "LOCATION_SOURCE_GEO_RESOLVER_GNSS",
+        "LOCATION_SOURCE_GEO_RESOLVER_WIFI"
       ],
-      "default": "UNKNOWN",
-      "description": "Location source enumeration."
+      "default": "LOCATION_SOURCE_UNKNOWN",
+      "description": "Location source enumeration - unified across all services.\n\n - LOCATION_SOURCE_UNKNOWN: Unknown location source.\n - LOCATION_SOURCE_GPS: GPS coordinates.\n - LOCATION_SOURCE_MANUAL: Manually configured.\n - LOCATION_SOURCE_TRIANGULATION: Calculated via triangulation.\n - LOCATION_SOURCE_WIFI: WiFi-based location.\n - LOCATION_SOURCE_MANUAL_OVERRIDE: Manual override.\n - LOCATION_SOURCE_CONFIG: Configuration-based.\n - LOCATION_SOURCE_GEO_RESOLVER_TDOA: GEO resolver TDOA.\n - LOCATION_SOURCE_GEO_RESOLVER_RSSI: GEO resolver RSSI.\n - LOCATION_SOURCE_GEO_RESOLVER_GNSS: GEO resolver GNSS.\n - LOCATION_SOURCE_GEO_RESOLVER_WIFI: GEO resolver WiFi."
     },
     "apiMQTTAuth": {
       "type": "object",
