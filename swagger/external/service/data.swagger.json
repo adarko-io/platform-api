@@ -1163,14 +1163,14 @@
       "type": "string",
       "enum": [
         "LOCATION_UNKNOWN",
-        "GPS",
+        "SOURCE_GPS",
         "MANUAL",
         "TRIANGULATION",
         "WIFI",
         "MANUAL_OVERRIDE"
       ],
       "default": "LOCATION_UNKNOWN",
-      "description": "Location source enumeration.\n\n - LOCATION_UNKNOWN: Unknown location source.\n - GPS: GPS coordinates.\n - MANUAL: Manually configured.\n - TRIANGULATION: Calculated via triangulation.\n - WIFI: WiFi-based location.\n - MANUAL_OVERRIDE: Manual"
+      "description": "Location source enumeration.\n\n - LOCATION_UNKNOWN: Unknown location source.\n - SOURCE_GPS: GPS coordinates.\n - MANUAL: Manually configured.\n - TRIANGULATION: Calculated via triangulation.\n - WIFI: WiFi-based location.\n - MANUAL_OVERRIDE: Manual"
     },
     "apiTCPMetadata": {
       "type": "object",

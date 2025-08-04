@@ -368,7 +368,7 @@ enum Source {
   LOCATION_UNKNOWN = 0;
   
   // GPS coordinates.
-  GPS = 1;
+  SOURCE_GPS = 1;
   
   // Manually configured.
   MANUAL = 2;
