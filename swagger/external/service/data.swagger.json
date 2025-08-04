@@ -539,7 +539,7 @@
     "apiAggregationType": {
       "type": "string",
       "enum": [
-        "NONE",
+        "NONE_NO",
         "AVG",
         "MIN",
         "MAX",
@@ -548,8 +548,8 @@
         "FIRST",
         "LAST"
       ],
-      "default": "NONE",
-      "description": "Aggregation type for time-series data.\n\n - NONE: No aggregation (raw data).\n - AVG: Average values.\n - MIN: Minimum values.\n - MAX: Maximum values.\n - SUM: Sum of values.\n - COUNT: Count of data points.\n - FIRST: First value in time window.\n - LAST: Last value in time window."
+      "default": "NONE_NO",
+      "description": "Aggregation type for time-series data.\n\n - NONE_NO: No aggregation (raw data).\n - AVG: Average values.\n - MIN: Minimum values.\n - MAX: Maximum values.\n - SUM: Sum of values.\n - COUNT: Count of data points.\n - FIRST: First value in time window.\n - LAST: Last value in time window."
     },
     "apiCellularMetadata": {
       "type": "object",

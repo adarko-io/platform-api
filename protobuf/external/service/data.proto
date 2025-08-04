@@ -428,7 +428,7 @@ enum TransportProtocol {
 // Aggregation type for time-series data.
 enum AggregationType {
   // No aggregation (raw data).
-  NONE = 0;
+  NONE_NO = 0;
   
   // Average values.
   AVG = 1;
