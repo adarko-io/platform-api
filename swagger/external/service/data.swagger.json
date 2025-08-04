@@ -753,7 +753,7 @@
           "description": "Accuracy in meters."
         },
         "source": {
-          "$ref": "#/definitions/apiLocationSource",
+          "$ref": "#/definitions/apiSource",
           "description": "Location source."
         }
       },
@@ -1049,18 +1049,6 @@
       },
       "description": "LoRaWAN specific metadata."
     },
-    "apiLocationSource": {
-      "type": "string",
-      "enum": [
-        "LOCATION_UNKNOWN",
-        "GPS",
-        "MANUAL",
-        "TRIANGULATION",
-        "WIFI"
-      ],
-      "default": "LOCATION_UNKNOWN",
-      "description": "Location source enumeration.\n\n - LOCATION_UNKNOWN: Unknown location source.\n - GPS: GPS coordinates.\n - MANUAL: Manually configured.\n - TRIANGULATION: Calculated via triangulation.\n - WIFI: WiFi-based location."
-    },
     "apiMQTTMetadata": {
       "type": "object",
       "properties": {
@@ -1170,6 +1158,19 @@
         }
       },
       "description": "Signal quality metrics (protocol-specific)."
+    },
+    "apiSource": {
+      "type": "string",
+      "enum": [
+        "LOCATION_UNKNOWN",
+        "GPS",
+        "MANUAL",
+        "TRIANGULATION",
+        "WIFI",
+        "MANUAL_OVERRIDE"
+      ],
+      "default": "LOCATION_UNKNOWN",
+      "description": "Location source enumeration.\n\n - LOCATION_UNKNOWN: Unknown location source.\n - GPS: GPS coordinates.\n - MANUAL: Manually configured.\n - TRIANGULATION: Calculated via triangulation.\n - WIFI: WiFi-based location.\n - MANUAL_OVERRIDE: Manual"
     },
     "apiTCPMetadata": {
       "type": "object",

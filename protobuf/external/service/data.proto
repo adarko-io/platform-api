@@ -359,11 +359,11 @@ message DeviceLocation {
   float accuracy = 4;
 
   // Location source.
-  LocationSource source = 5;
+  Source source = 5;
 }
 
 // Location source enumeration.
-enum LocationSource {
+enum Source {
   // Unknown location source.
   LOCATION_UNKNOWN = 0;
   
@@ -378,6 +378,9 @@ enum LocationSource {
   
   // WiFi-based location.
   WIFI = 4;
+
+  //Manual
+  MANUAL_OVERRIDE = 5;
 }
 
 // Transport protocol enumeration.
