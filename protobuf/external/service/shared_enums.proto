@@ -49,52 +49,52 @@ enum TransportProtocol {
   TRANSPORT_WEBSOCKET = 12;
 }
 
-// Device type enumeration - unified for inventory and other services.
-enum DeviceType {
-  // Unknown device type.
-  DEVICE_TYPE_UNKNOWN = 0;
+// Communication mode enumeration - unified for inventory and other services.
+enum CommunicationMode {
+  // Unknown communication mode.
+  COMMUNICATION_MODE_UNKNOWN = 0;
 
-  // LoRaWAN device.
-  DEVICE_TYPE_LORAWAN = 1;
+  // LoRaWAN communication mode.
+  COMMUNICATION_MODE_LORAWAN = 1;
 
-  // Cellular MQTT device.
-  DEVICE_TYPE_CELLULAR_MQTT = 2;
+  // Cellular MQTT communication mode.
+  COMMUNICATION_MODE_CELLULAR_MQTT = 2;
 
-  // Cellular TCP device.
-  DEVICE_TYPE_CELLULAR_TCP = 3;
+  // Cellular TCP communication mode.
+  COMMUNICATION_MODE_CELLULAR_TCP = 3;
 
-  // Cellular UDP device.
-  DEVICE_TYPE_CELLULAR_UDP = 4;
+  // Cellular UDP communication mode.
+  COMMUNICATION_MODE_CELLULAR_UDP = 4;
 
-  // Cellular HTTP device.
-  DEVICE_TYPE_CELLULAR_HTTP = 5;
+  // Cellular HTTP communication mode.
+  COMMUNICATION_MODE_CELLULAR_HTTP = 5;
 
-  // Cellular CoAP device.
-  DEVICE_TYPE_CELLULAR_COAP = 6;
+  // Cellular CoAP communication mode.
+  COMMUNICATION_MODE_CELLULAR_COAP = 6;
 
-  // WiFi/Ethernet MQTT device.
-  DEVICE_TYPE_WIFI_MQTT = 7;
+  // WiFi/Ethernet MQTT communication mode.
+  COMMUNICATION_MODE_WIFI_MQTT = 7;
 
-  // WiFi/Ethernet TCP device.
-  DEVICE_TYPE_WIFI_TCP = 8;
+  // WiFi/Ethernet TCP communication mode.
+  COMMUNICATION_MODE_WIFI_TCP = 8;
 
-  // WiFi/Ethernet UDP device.
-  DEVICE_TYPE_WIFI_UDP = 9;
+  // WiFi/Ethernet UDP communication mode.
+  COMMUNICATION_MODE_WIFI_UDP = 9;
 
-  // WiFi/Ethernet HTTP device.
-  DEVICE_TYPE_WIFI_HTTP = 10;
+  // WiFi/Ethernet HTTP communication mode.
+  COMMUNICATION_MODE_WIFI_HTTP = 10;
 
-  // WiFi/Ethernet CoAP device.
-  DEVICE_TYPE_WIFI_COAP = 11;
+  // WiFi/Ethernet CoAP communication mode.
+  COMMUNICATION_MODE_WIFI_COAP = 11;
 
-  // WebSocket device.
-  DEVICE_TYPE_WEBSOCKET = 12;
+  // WebSocket communication mode.
+  COMMUNICATION_MODE_WEBSOCKET = 12;
 
-  // Gateway device.
-  DEVICE_TYPE_GATEWAY = 13;
+  // Gateway communication mode.
+  COMMUNICATION_MODE_GATEWAY = 13;
 
-  // LoRaWAN Gateway device.
-  DEVICE_TYPE_LORAWAN_GATEWAY = 14;
+  // LoRaWAN Gateway communication mode.
+  COMMUNICATION_MODE_LORAWAN_GATEWAY = 14;
 }
 
 // Location source enumeration - unified across all services.

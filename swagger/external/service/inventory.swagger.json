@@ -47,29 +47,29 @@
             "format": "int64"
           },
           {
-            "name": "deviceTypes",
-            "description": "Filter by device type.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN: LoRaWAN device.\n - DEVICE_TYPE_CELLULAR_MQTT: Cellular MQTT device.\n - DEVICE_TYPE_CELLULAR_TCP: Cellular TCP device.\n - DEVICE_TYPE_CELLULAR_UDP: Cellular UDP device.\n - DEVICE_TYPE_CELLULAR_HTTP: Cellular HTTP device.\n - DEVICE_TYPE_CELLULAR_COAP: Cellular CoAP device.\n - DEVICE_TYPE_WIFI_MQTT: WiFi/Ethernet MQTT device.\n - DEVICE_TYPE_WIFI_TCP: WiFi/Ethernet TCP device.\n - DEVICE_TYPE_WIFI_UDP: WiFi/Ethernet UDP device.\n - DEVICE_TYPE_WIFI_HTTP: WiFi/Ethernet HTTP device.\n - DEVICE_TYPE_WIFI_COAP: WiFi/Ethernet CoAP device.\n - DEVICE_TYPE_WEBSOCKET: WebSocket device.\n - DEVICE_TYPE_GATEWAY: Gateway device.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device.",
+            "name": "communicationModes",
+            "description": "Filter by device type.\n\n - COMMUNICATION_MODE_UNKNOWN: Unknown communication mode.\n - COMMUNICATION_MODE_LORAWAN: LoRaWAN communication mode.\n - COMMUNICATION_MODE_CELLULAR_MQTT: Cellular MQTT communication mode.\n - COMMUNICATION_MODE_CELLULAR_TCP: Cellular TCP communication mode.\n - COMMUNICATION_MODE_CELLULAR_UDP: Cellular UDP communication mode.\n - COMMUNICATION_MODE_CELLULAR_HTTP: Cellular HTTP communication mode.\n - COMMUNICATION_MODE_CELLULAR_COAP: Cellular CoAP communication mode.\n - COMMUNICATION_MODE_WIFI_MQTT: WiFi/Ethernet MQTT communication mode.\n - COMMUNICATION_MODE_WIFI_TCP: WiFi/Ethernet TCP communication mode.\n - COMMUNICATION_MODE_WIFI_UDP: WiFi/Ethernet UDP communication mode.\n - COMMUNICATION_MODE_WIFI_HTTP: WiFi/Ethernet HTTP communication mode.\n - COMMUNICATION_MODE_WIFI_COAP: WiFi/Ethernet CoAP communication mode.\n - COMMUNICATION_MODE_WEBSOCKET: WebSocket communication mode.\n - COMMUNICATION_MODE_GATEWAY: Gateway communication mode.\n - COMMUNICATION_MODE_LORAWAN_GATEWAY: LoRaWAN Gateway communication mode.",
             "in": "query",
             "required": false,
             "type": "array",
             "items": {
               "type": "string",
               "enum": [
-                "DEVICE_TYPE_UNKNOWN",
-                "DEVICE_TYPE_LORAWAN",
-                "DEVICE_TYPE_CELLULAR_MQTT",
-                "DEVICE_TYPE_CELLULAR_TCP",
-                "DEVICE_TYPE_CELLULAR_UDP",
-                "DEVICE_TYPE_CELLULAR_HTTP",
-                "DEVICE_TYPE_CELLULAR_COAP",
-                "DEVICE_TYPE_WIFI_MQTT",
-                "DEVICE_TYPE_WIFI_TCP",
-                "DEVICE_TYPE_WIFI_UDP",
-                "DEVICE_TYPE_WIFI_HTTP",
-                "DEVICE_TYPE_WIFI_COAP",
-                "DEVICE_TYPE_WEBSOCKET",
-                "DEVICE_TYPE_GATEWAY",
-                "DEVICE_TYPE_LORAWAN_GATEWAY"
+                "COMMUNICATION_MODE_UNKNOWN",
+                "COMMUNICATION_MODE_LORAWAN",
+                "COMMUNICATION_MODE_CELLULAR_MQTT",
+                "COMMUNICATION_MODE_CELLULAR_TCP",
+                "COMMUNICATION_MODE_CELLULAR_UDP",
+                "COMMUNICATION_MODE_CELLULAR_HTTP",
+                "COMMUNICATION_MODE_CELLULAR_COAP",
+                "COMMUNICATION_MODE_WIFI_MQTT",
+                "COMMUNICATION_MODE_WIFI_TCP",
+                "COMMUNICATION_MODE_WIFI_UDP",
+                "COMMUNICATION_MODE_WIFI_HTTP",
+                "COMMUNICATION_MODE_WIFI_COAP",
+                "COMMUNICATION_MODE_WEBSOCKET",
+                "COMMUNICATION_MODE_GATEWAY",
+                "COMMUNICATION_MODE_LORAWAN_GATEWAY"
               ]
             },
             "collectionFormat": "multi"
@@ -660,6 +660,28 @@
       "default": "NONE",
       "description": "Payload codec runtime."
     },
+    "apiCommunicationMode": {
+      "type": "string",
+      "enum": [
+        "COMMUNICATION_MODE_UNKNOWN",
+        "COMMUNICATION_MODE_LORAWAN",
+        "COMMUNICATION_MODE_CELLULAR_MQTT",
+        "COMMUNICATION_MODE_CELLULAR_TCP",
+        "COMMUNICATION_MODE_CELLULAR_UDP",
+        "COMMUNICATION_MODE_CELLULAR_HTTP",
+        "COMMUNICATION_MODE_CELLULAR_COAP",
+        "COMMUNICATION_MODE_WIFI_MQTT",
+        "COMMUNICATION_MODE_WIFI_TCP",
+        "COMMUNICATION_MODE_WIFI_UDP",
+        "COMMUNICATION_MODE_WIFI_HTTP",
+        "COMMUNICATION_MODE_WIFI_COAP",
+        "COMMUNICATION_MODE_WEBSOCKET",
+        "COMMUNICATION_MODE_GATEWAY",
+        "COMMUNICATION_MODE_LORAWAN_GATEWAY"
+      ],
+      "default": "COMMUNICATION_MODE_UNKNOWN",
+      "description": "Communication mode enumeration - unified for inventory and other services.\n\n - COMMUNICATION_MODE_UNKNOWN: Unknown communication mode.\n - COMMUNICATION_MODE_LORAWAN: LoRaWAN communication mode.\n - COMMUNICATION_MODE_CELLULAR_MQTT: Cellular MQTT communication mode.\n - COMMUNICATION_MODE_CELLULAR_TCP: Cellular TCP communication mode.\n - COMMUNICATION_MODE_CELLULAR_UDP: Cellular UDP communication mode.\n - COMMUNICATION_MODE_CELLULAR_HTTP: Cellular HTTP communication mode.\n - COMMUNICATION_MODE_CELLULAR_COAP: Cellular CoAP communication mode.\n - COMMUNICATION_MODE_WIFI_MQTT: WiFi/Ethernet MQTT communication mode.\n - COMMUNICATION_MODE_WIFI_TCP: WiFi/Ethernet TCP communication mode.\n - COMMUNICATION_MODE_WIFI_UDP: WiFi/Ethernet UDP communication mode.\n - COMMUNICATION_MODE_WIFI_HTTP: WiFi/Ethernet HTTP communication mode.\n - COMMUNICATION_MODE_WIFI_COAP: WiFi/Ethernet CoAP communication mode.\n - COMMUNICATION_MODE_WEBSOCKET: WebSocket communication mode.\n - COMMUNICATION_MODE_GATEWAY: Gateway communication mode.\n - COMMUNICATION_MODE_LORAWAN_GATEWAY: LoRaWAN Gateway communication mode."
+    },
     "apiCreateInventoryDeviceRequest": {
       "type": "object",
       "properties": {
@@ -843,28 +865,6 @@
       },
       "title": "Device Keys for OTAA"
     },
-    "apiDeviceType": {
-      "type": "string",
-      "enum": [
-        "DEVICE_TYPE_UNKNOWN",
-        "DEVICE_TYPE_LORAWAN",
-        "DEVICE_TYPE_CELLULAR_MQTT",
-        "DEVICE_TYPE_CELLULAR_TCP",
-        "DEVICE_TYPE_CELLULAR_UDP",
-        "DEVICE_TYPE_CELLULAR_HTTP",
-        "DEVICE_TYPE_CELLULAR_COAP",
-        "DEVICE_TYPE_WIFI_MQTT",
-        "DEVICE_TYPE_WIFI_TCP",
-        "DEVICE_TYPE_WIFI_UDP",
-        "DEVICE_TYPE_WIFI_HTTP",
-        "DEVICE_TYPE_WIFI_COAP",
-        "DEVICE_TYPE_WEBSOCKET",
-        "DEVICE_TYPE_GATEWAY",
-        "DEVICE_TYPE_LORAWAN_GATEWAY"
-      ],
-      "default": "DEVICE_TYPE_UNKNOWN",
-      "description": "Device type enumeration - unified for inventory and other services.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN: LoRaWAN device.\n - DEVICE_TYPE_CELLULAR_MQTT: Cellular MQTT device.\n - DEVICE_TYPE_CELLULAR_TCP: Cellular TCP device.\n - DEVICE_TYPE_CELLULAR_UDP: Cellular UDP device.\n - DEVICE_TYPE_CELLULAR_HTTP: Cellular HTTP device.\n - DEVICE_TYPE_CELLULAR_COAP: Cellular CoAP device.\n - DEVICE_TYPE_WIFI_MQTT: WiFi/Ethernet MQTT device.\n - DEVICE_TYPE_WIFI_TCP: WiFi/Ethernet TCP device.\n - DEVICE_TYPE_WIFI_UDP: WiFi/Ethernet UDP device.\n - DEVICE_TYPE_WIFI_HTTP: WiFi/Ethernet HTTP device.\n - DEVICE_TYPE_WIFI_COAP: WiFi/Ethernet CoAP device.\n - DEVICE_TYPE_WEBSOCKET: WebSocket device.\n - DEVICE_TYPE_GATEWAY: Gateway device.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device."
-    },
     "apiDownlinkMode": {
       "type": "string",
       "enum": [
@@ -886,10 +886,10 @@
           "type": "string",
           "description": "Gateway type (Cellular, WiFi, etc. - not LoRaWAN)."
         },
-        "supportedDeviceTypes": {
+        "supportedCommunicationModes": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/apiDeviceType"
+            "$ref": "#/definitions/apiCommunicationMode"
           },
           "description": "Supported device types."
         },
@@ -979,9 +979,9 @@
           "type": "string",
           "description": "Device description."
         },
-        "deviceType": {
-          "$ref": "#/definitions/apiDeviceType",
-          "description": "Device type (determines which configuration is used)."
+        "communicationMode": {
+          "$ref": "#/definitions/apiCommunicationMode",
+          "description": "Communication Mode (determines which configuration is used)."
         },
         "status": {
           "$ref": "#/definitions/apiInventoryStatus",
@@ -1043,8 +1043,8 @@
           "type": "string",
           "description": "Device name."
         },
-        "deviceType": {
-          "$ref": "#/definitions/apiDeviceType",
+        "communicationMode": {
+          "$ref": "#/definitions/apiCommunicationMode",
           "description": "Device type."
         },
         "status": {

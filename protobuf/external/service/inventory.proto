@@ -86,8 +86,8 @@ message InventoryDevice {
   // Device description.
   string description = 3;
 
-  // Device type (determines which configuration is used).
-  DeviceType device_type = 4;
+  // Communication Mode (determines which configuration is used).
+  CommunicationMode communication_mode = 4;
 
   // Current inventory status.
   InventoryStatus status = 5;
@@ -178,7 +178,7 @@ message GatewayConfig {
   string gateway_type = 2;
 
   // Supported device types.
-  repeated DeviceType supported_device_types = 3;
+  repeated CommunicationMode supported_communication_modes = 3;
 
   // Network configuration.
   map<string, string> network_config = 4;
@@ -603,7 +603,7 @@ message ListInventoryDevicesRequest {
   uint32 offset = 2;
 
   // Filter by device type.
-  repeated DeviceType device_types = 3;
+  repeated CommunicationMode communication_modes = 3;
 
   // Filter by status.
   repeated InventoryStatus statuses = 4;
@@ -629,7 +629,7 @@ message InventoryDeviceListItem {
   string name = 2;
 
   // Device type.
-  DeviceType device_type = 3;
+  CommunicationMode communication_mode = 3;
 
   // Current status.
   InventoryStatus status = 4;
