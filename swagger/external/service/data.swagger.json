@@ -505,6 +505,39 @@
           "DataService"
         ]
       }
+    },
+    "/api/device-data": {
+      "post": {
+        "summary": "Insert device data from datalogger (specific endpoint for datalogger integration).",
+        "operationId": "DataService_InsertFromDatalogger",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiInsertFromDataloggerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiInsertFromDataloggerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DataService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -1019,6 +1052,58 @@
         }
       },
       "description": "Request to insert device data."
+    },
+    "apiInsertFromDataloggerRequest": {
+      "type": "object",
+      "properties": {
+        "eui": {
+          "type": "string",
+          "description": "Device EUI (EUI64 as string)."
+        },
+        "protocol": {
+          "type": "string",
+          "description": "Protocol used (e.g., \"mqtt-lorawan\", \"mqtt\", \"tcp\", \"udp\")."
+        },
+        "data": {
+          "type": "string",
+          "description": "Processed data (JSON string containing decoded sensor readings)."
+        },
+        "originalData": {
+          "type": "string",
+          "description": "Original data (raw message as received, JSON string)."
+        },
+        "receivedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when data was received by datalogger."
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Optional: Additional metadata."
+        }
+      },
+      "description": "Request to insert device data from datalogger."
+    },
+    "apiInsertFromDataloggerResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Success status."
+        },
+        "message": {
+          "type": "string",
+          "description": "Message (error message if success=false)."
+        },
+        "dataId": {
+          "type": "string",
+          "description": "Assigned data ID (if applicable)."
+        }
+      },
+      "description": "Response from inserting datalogger data."
     },
     "apiLoRaWANMetadata": {
       "type": "object",

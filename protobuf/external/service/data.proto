@@ -20,6 +20,14 @@ service DataService {
     };
   }
 
+  // Insert device data from datalogger (specific endpoint for datalogger integration).
+  rpc InsertFromDatalogger(InsertFromDataloggerRequest) returns (InsertFromDataloggerResponse) {
+    option (google.api.http) = {
+      post: "/api/device-data"
+      body: "*"
+    };
+  }
+
   // Get device data for a specific device within a time range.
   rpc GetDeviceData(GetDeviceDataRequest) returns (GetDeviceDataResponse) {
     option (google.api.http) = {
@@ -364,6 +372,39 @@ message DeviceLocation {
 }
 
 // NOTE: Enums moved to shared_enums.proto to avoid conflicts between services.
+
+// Request to insert device data from datalogger.
+message InsertFromDataloggerRequest {
+  // Device EUI (EUI64 as string).
+  string eui = 1;
+
+  // Protocol used (e.g., "mqtt-lorawan", "mqtt", "tcp", "udp").
+  string protocol = 2;
+
+  // Processed data (JSON string containing decoded sensor readings).
+  string data = 3;
+
+  // Original data (raw message as received, JSON string).
+  string original_data = 4;
+
+  // Timestamp when data was received by datalogger.
+  google.protobuf.Timestamp received_at = 5;
+
+  // Optional: Additional metadata.
+  map<string, string> metadata = 6;
+}
+
+// Response from inserting datalogger data.
+message InsertFromDataloggerResponse {
+  // Success status.
+  bool success = 1;
+
+  // Message (error message if success=false).
+  string message = 2;
+
+  // Assigned data ID (if applicable).
+  string data_id = 3;
+}
 
 // Request to insert device data.
 message InsertDataRequest {
