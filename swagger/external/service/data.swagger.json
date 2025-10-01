@@ -1056,6 +1056,10 @@
     "apiInsertFromDataloggerRequest": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "string",
+          "description": "Local device data ID (UUID from datalogger storage)."
+        },
         "eui": {
           "type": "string",
           "description": "Device EUI (EUI64 as string)."

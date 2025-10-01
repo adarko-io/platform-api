@@ -375,23 +375,26 @@ message DeviceLocation {
 
 // Request to insert device data from datalogger.
 message InsertFromDataloggerRequest {
+  // Local device data ID (UUID from datalogger storage).
+  string id = 1;
+
   // Device EUI (EUI64 as string).
-  string eui = 1;
+  string eui = 2;
 
   // Protocol used (e.g., "mqtt-lorawan", "mqtt", "tcp", "udp").
-  string protocol = 2;
+  string protocol = 3;
 
   // Processed data (JSON string containing decoded sensor readings).
-  string data = 3;
+  string data = 4;
 
   // Original data (raw message as received, JSON string).
-  string original_data = 4;
+  string original_data = 5;
 
   // Timestamp when data was received by datalogger.
-  google.protobuf.Timestamp received_at = 5;
+  google.protobuf.Timestamp received_at = 6;
 
   // Optional: Additional metadata.
-  map<string, string> metadata = 6;
+  map<string, string> metadata = 7;
 }
 
 // Response from inserting datalogger data.
