@@ -15,86 +15,47 @@ enum TransportProtocol {
   // LoRaWAN.
   TRANSPORT_LORAWAN = 1;
   
-  // HTTP/HTTPS over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).
-  TRANSPORT_CELLULAR_HTTP = 2;
+  // HTTP/HTTPS over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).
+  TRANSPORT_HTTP = 2;
   
-  // MQTT over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).
-  TRANSPORT_CELLULAR_MQTT = 3;
+  // MQTT over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).
+  TRANSPORT_MQTT = 3;
   
-  // TCP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).
-  TRANSPORT_CELLULAR_TCP = 4;
+  // TCP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).
+  TRANSPORT_TCP = 4;
   
-  // UDP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).
-  TRANSPORT_CELLULAR_UDP = 5;
+  // UDP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).
+  TRANSPORT_UDP = 5;
   
-  // CoAP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).
-  TRANSPORT_CELLULAR_COAP = 6;
-  
-  // HTTP/HTTPS over WiFi/Ethernet.
-  TRANSPORT_HTTP = 7;
-  
-  // MQTT over WiFi/Ethernet.
-  TRANSPORT_MQTT = 8;
-  
-  // TCP over WiFi/Ethernet.
-  TRANSPORT_TCP = 9;
-  
-  // UDP over WiFi/Ethernet.
-  TRANSPORT_UDP = 10;
-  
-  // CoAP over WiFi/Ethernet.
-  TRANSPORT_COAP = 11;
-  
+  // CoAP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).
+  TRANSPORT_COAP = 6;
+    
   // WebSocket.
-  TRANSPORT_WEBSOCKET = 12;
+  TRANSPORT_WEBSOCKET = 7;
 }
 
 // Communication mode enumeration - unified for inventory and other services.
-enum CommunicationMode {
-  // Unknown communication mode.
-  COMMUNICATION_MODE_UNKNOWN = 0;
+enum DeviceType {
+  // Unknown device type.
+  DEVICE_TYPE_UNKNOWN = 0;
 
-  // LoRaWAN communication mode.
-  COMMUNICATION_MODE_LORAWAN = 1;
+  // LoRaWAN device type.
+  DEVICE_TYPE_LORAWAN = 1;
 
-  // Cellular MQTT communication mode.
-  COMMUNICATION_MODE_CELLULAR_MQTT = 2;
+  // Cellular MQTT device type.
+  DEVICE_TYPE_CELLULAR_GSM = 2;
 
-  // Cellular TCP communication mode.
-  COMMUNICATION_MODE_CELLULAR_TCP = 3;
+  // Cellular TCP device type.
+  DEVICE_TYPE_CELLULAR_LTE = 3;
 
-  // Cellular UDP communication mode.
-  COMMUNICATION_MODE_CELLULAR_UDP = 4;
+  // Cellular UDP device type.
+  DEVICE_TYPE_CELLULAR_GSM_LTE = 4;
 
-  // Cellular HTTP communication mode.
-  COMMUNICATION_MODE_CELLULAR_HTTP = 5;
+  // Gateway device type.
+  DEVICE_TYPE_GATEWAY = 5;
 
-  // Cellular CoAP communication mode.
-  COMMUNICATION_MODE_CELLULAR_COAP = 6;
-
-  // WiFi/Ethernet MQTT communication mode.
-  COMMUNICATION_MODE_WIFI_MQTT = 7;
-
-  // WiFi/Ethernet TCP communication mode.
-  COMMUNICATION_MODE_WIFI_TCP = 8;
-
-  // WiFi/Ethernet UDP communication mode.
-  COMMUNICATION_MODE_WIFI_UDP = 9;
-
-  // WiFi/Ethernet HTTP communication mode.
-  COMMUNICATION_MODE_WIFI_HTTP = 10;
-
-  // WiFi/Ethernet CoAP communication mode.
-  COMMUNICATION_MODE_WIFI_COAP = 11;
-
-  // WebSocket communication mode.
-  COMMUNICATION_MODE_WEBSOCKET = 12;
-
-  // Gateway communication mode.
-  COMMUNICATION_MODE_GATEWAY = 13;
-
-  // LoRaWAN Gateway communication mode.
-  COMMUNICATION_MODE_LORAWAN_GATEWAY = 14;
+  // LoRaWAN Gateway device type.
+  DEVICE_TYPE_LORAWAN_GATEWAY = 6;
 }
 
 // Location source enumeration - unified across all services.
@@ -166,16 +127,6 @@ enum DownlinkMode {
   DOWNLINK_MODE_SCHEDULED = 2;
 }
 
-// Cellular network type enumeration.
-enum CellularNetworkType {
-  CELLULAR_NETWORK_TYPE_AUTO = 0;
-  CELLULAR_NETWORK_TYPE_GSM_2G = 1;
-  CELLULAR_NETWORK_TYPE_UMTS_3G = 2;
-  CELLULAR_NETWORK_TYPE_LTE_4G = 3;
-  CELLULAR_NETWORK_TYPE_NR_5G = 4;
-  CELLULAR_NETWORK_TYPE_NB_IOT = 5;
-  CELLULAR_NETWORK_TYPE_LTE_M = 6;
-}
 
 // Aggregation type for time-series data.
 enum AggregationType {
@@ -237,31 +188,31 @@ enum TimeInterval {
   TIME_INTERVAL_MONTH = 9;
 }
 
-enum DeviceType {
-  // Unknown device type.
-  DEVICE_TYPE_UNKNOWN = 0;
+enum AssetType {
+  // Unknown asset type.
+  ASSET_TYPE_UNKNOWN = 0;
   
   // AMR Water meter Inductive.
-  DEVICE_AMR_WATER_METER_INDUCTIVE = 1;
+  ASSET_TYPE_AMR_WATER_METER_INDUCTIVE = 1;
   
   // AMR Water meter magnetic device.
-  DEVICE_AMR_WATER_METER_MAGNETIC = 2;
+  ASSET_TYPE_WATER_METER_MAGNETIC = 2;
   
   // AMR Water meter pulse device.
-  DEVICE_AMR_WATER_METER_PULSE = 3;
+  ASSET_TYPE_AMR_WATER_METER_PULSE = 3;
   
   // ULTRASONIC Water Meter device.
-  DEVICE_ULTRASONIC_WATER_METER = 4;
+  ASSET_TYPE_ULTRASONIC_WATER_METER = 4;
   
   // Energy Meter device.
-  DEVICE_ENERGY_METER = 5;
+  ASSET_TYPE_ENERGY_METER = 5;
   
   // GAS Meter device.
-  DEVICE_GAS_METER = 6;
+  ASSET_TYPE_GAS_METER = 6;
   
   // GPS Tracker device.
-  DEVICE_GPS_TRACKER = 7;
+  ASSET_TYPE_GPS_TRACKER = 7;
 
-  // BLE LoRaWAN Gateway device.
-  DEVICE_BLE_LORAWAN_GATEWAY = 8;
+  // LoRaWAN Gateway device.
+  ASSET_TYPE_LORAWAN_GATEWAY = 8;
 }

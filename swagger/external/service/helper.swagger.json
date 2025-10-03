@@ -51,55 +51,35 @@
       "default": "AGGREGATION_TYPE_NONE",
       "description": "Aggregation type for time-series data.\n\n - AGGREGATION_TYPE_NONE: No aggregation (raw data).\n - AGGREGATION_TYPE_AVG: Average values.\n - AGGREGATION_TYPE_MIN: Minimum values.\n - AGGREGATION_TYPE_MAX: Maximum values.\n - AGGREGATION_TYPE_SUM: Sum of values.\n - AGGREGATION_TYPE_COUNT: Count of data points.\n - AGGREGATION_TYPE_FIRST: First value in time window.\n - AGGREGATION_TYPE_LAST: Last value in time window."
     },
-    "apiCellularNetworkType": {
+    "apiAssetType": {
       "type": "string",
       "enum": [
-        "CELLULAR_NETWORK_TYPE_AUTO",
-        "CELLULAR_NETWORK_TYPE_GSM_2G",
-        "CELLULAR_NETWORK_TYPE_UMTS_3G",
-        "CELLULAR_NETWORK_TYPE_LTE_4G",
-        "CELLULAR_NETWORK_TYPE_NR_5G",
-        "CELLULAR_NETWORK_TYPE_NB_IOT",
-        "CELLULAR_NETWORK_TYPE_LTE_M"
+        "ASSET_TYPE_UNKNOWN",
+        "ASSET_TYPE_AMR_WATER_METER_INDUCTIVE",
+        "ASSET_TYPE_WATER_METER_MAGNETIC",
+        "ASSET_TYPE_AMR_WATER_METER_PULSE",
+        "ASSET_TYPE_ULTRASONIC_WATER_METER",
+        "ASSET_TYPE_ENERGY_METER",
+        "ASSET_TYPE_GAS_METER",
+        "ASSET_TYPE_GPS_TRACKER",
+        "ASSET_TYPE_LORAWAN_GATEWAY"
       ],
-      "default": "CELLULAR_NETWORK_TYPE_AUTO",
-      "description": "Cellular network type enumeration."
-    },
-    "apiCodecRuntime": {
-      "type": "string",
-      "enum": [
-        "NONE",
-        "CAYENNE_LPP",
-        "JS"
-      ],
-      "default": "NONE",
-      "description": "Payload codec runtime."
-    },
-    "apiDeviceClass": {
-      "type": "string",
-      "enum": [
-        "CLASS_A",
-        "CLASS_B",
-        "CLASS_C"
-      ],
-      "default": "CLASS_A",
-      "description": "LoRaWAN device class."
+      "default": "ASSET_TYPE_UNKNOWN",
+      "description": " - ASSET_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_TYPE_AMR_WATER_METER_INDUCTIVE: AMR Water meter Inductive.\n - ASSET_TYPE_WATER_METER_MAGNETIC: AMR Water meter magnetic device.\n - ASSET_TYPE_AMR_WATER_METER_PULSE: AMR Water meter pulse device.\n - ASSET_TYPE_ULTRASONIC_WATER_METER: ULTRASONIC Water Meter device.\n - ASSET_TYPE_ENERGY_METER: Energy Meter device.\n - ASSET_TYPE_GAS_METER: GAS Meter device.\n - ASSET_TYPE_GPS_TRACKER: GPS Tracker device.\n - ASSET_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device."
     },
     "apiDeviceType": {
       "type": "string",
       "enum": [
         "DEVICE_TYPE_UNKNOWN",
-        "DEVICE_AMR_WATER_METER_INDUCTIVE",
-        "DEVICE_AMR_WATER_METER_MAGNETIC",
-        "DEVICE_AMR_WATER_METER_PULSE",
-        "DEVICE_ULTRASONIC_WATER_METER",
-        "DEVICE_ENERGY_METER",
-        "DEVICE_GAS_METER",
-        "DEVICE_GPS_TRACKER",
-        "DEVICE_BLE_LORAWAN_GATEWAY"
+        "DEVICE_TYPE_LORAWAN",
+        "DEVICE_TYPE_CELLULAR_GSM",
+        "DEVICE_TYPE_CELLULAR_LTE",
+        "DEVICE_TYPE_CELLULAR_GSM_LTE",
+        "DEVICE_TYPE_GATEWAY",
+        "DEVICE_TYPE_LORAWAN_GATEWAY"
       ],
       "default": "DEVICE_TYPE_UNKNOWN",
-      "description": " - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_AMR_WATER_METER_INDUCTIVE: AMR Water meter Inductive.\n - DEVICE_AMR_WATER_METER_MAGNETIC: AMR Water meter magnetic device.\n - DEVICE_AMR_WATER_METER_PULSE: AMR Water meter pulse device.\n - DEVICE_ULTRASONIC_WATER_METER: ULTRASONIC Water Meter device.\n - DEVICE_ENERGY_METER: Energy Meter device.\n - DEVICE_GAS_METER: GAS Meter device.\n - DEVICE_GPS_TRACKER: GPS Tracker device.\n - DEVICE_BLE_LORAWAN_GATEWAY: BLE LoRaWAN Gateway device."
+      "description": "Communication mode enumeration - unified for inventory and other services.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN: LoRaWAN device type.\n - DEVICE_TYPE_CELLULAR_GSM: Cellular MQTT device type.\n - DEVICE_TYPE_CELLULAR_LTE: Cellular TCP device type.\n - DEVICE_TYPE_CELLULAR_GSM_LTE: Cellular UDP device type.\n - DEVICE_TYPE_GATEWAY: Gateway device type.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device type."
     },
     "apiDownlinkMode": {
       "type": "string",
@@ -124,59 +104,12 @@
       "default": "INVENTORY_STATUS_INVENTORY",
       "description": "Inventory status enumeration.\n\n - INVENTORY_STATUS_INVENTORY: Device in inventory, not yet onboarded.\n - INVENTORY_STATUS_ONBOARDED: Device onboarded to platform.\n - INVENTORY_STATUS_PROVISIONED: Device provisioned and active.\n - INVENTORY_STATUS_DECOMMISSIONED: Device decommissioned.\n - INVENTORY_STATUS_FAULTY: Device reported as faulty.\n - INVENTORY_STATUS_LOST: Device lost or stolen."
     },
-    "apiJoinMode": {
-      "type": "string",
-      "enum": [
-        "OTAA",
-        "ABP"
-      ],
-      "default": "OTAA",
-      "description": "LoRaWAN device join mode.\n\n - OTAA: Over-the-air activation.\n - ABP: Activation by personalization."
-    },
     "apiListEnumsHelperResponse": {
       "type": "object",
       "properties": {
-        "macVersions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/apiMacVersion"
-          },
-          "description": "LoRaWAN MAC versions."
-        },
-        "deviceClasses": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/apiDeviceClass"
-          },
-          "description": "LoRaWAN device classes."
-        },
-        "joinModes": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/apiJoinMode"
-          },
-          "description": "LoRaWAN join modes."
-        },
-        "regions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/apiRegion"
-          },
-          "description": "LoRaWAN regions."
-        },
-        "regParamsRevisions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/apiRegParamsRevision"
-          },
-          "description": "LoRaWAN regional parameters revisions."
-        },
-        "codecRuntimes": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/apiCodecRuntime"
-          },
-          "description": "Payload codec runtimes."
+        "lorawan": {
+          "type": "string",
+          "description": "LoRaWAN enums."
         },
         "locationSources": {
           "type": "array",
@@ -206,10 +139,10 @@
           },
           "description": "Downlink modes."
         },
-        "cellularNetworkTypes": {
+        "assetType": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/apiCellularNetworkType"
+            "$ref": "#/definitions/apiAssetType"
           },
           "description": "Cellular network types."
         },
@@ -255,54 +188,6 @@
       "default": "LOCATION_SOURCE_UNKNOWN",
       "description": "Location source enumeration - unified across all services.\n\n - LOCATION_SOURCE_UNKNOWN: Unknown location source.\n - LOCATION_SOURCE_GPS: GPS coordinates.\n - LOCATION_SOURCE_MANUAL: Manually configured.\n - LOCATION_SOURCE_TRIANGULATION: Calculated via triangulation.\n - LOCATION_SOURCE_WIFI: WiFi-based location.\n - LOCATION_SOURCE_MANUAL_OVERRIDE: Manual override.\n - LOCATION_SOURCE_CONFIG: Configuration-based.\n - LOCATION_SOURCE_GEO_RESOLVER_TDOA: GEO resolver TDOA.\n - LOCATION_SOURCE_GEO_RESOLVER_RSSI: GEO resolver RSSI.\n - LOCATION_SOURCE_GEO_RESOLVER_GNSS: GEO resolver GNSS.\n - LOCATION_SOURCE_GEO_RESOLVER_WIFI: GEO resolver WiFi."
     },
-    "apiMacVersion": {
-      "type": "string",
-      "enum": [
-        "LORAWAN_1_0_0",
-        "LORAWAN_1_0_1",
-        "LORAWAN_1_0_2",
-        "LORAWAN_1_0_3",
-        "LORAWAN_1_0_4",
-        "LORAWAN_1_1_0"
-      ],
-      "default": "LORAWAN_1_0_0",
-      "description": "LoRaWAN MAC version."
-    },
-    "apiRegParamsRevision": {
-      "type": "string",
-      "enum": [
-        "A",
-        "B",
-        "RP002_1_0_0",
-        "RP002_1_0_1",
-        "RP002_1_0_2",
-        "RP002_1_0_3",
-        "RP002_1_0_4"
-      ],
-      "default": "A",
-      "description": "LoRaWAN regional parameters revision."
-    },
-    "apiRegion": {
-      "type": "string",
-      "enum": [
-        "EU868",
-        "US915",
-        "CN779",
-        "EU433",
-        "AU915",
-        "CN470",
-        "AS923",
-        "AS923_2",
-        "AS923_3",
-        "AS923_4",
-        "KR920",
-        "IN865",
-        "RU864",
-        "ISM2400"
-      ],
-      "default": "EU868",
-      "description": "LoRaWAN region."
-    },
     "apiTimeInterval": {
       "type": "string",
       "enum": [
@@ -325,11 +210,6 @@
       "enum": [
         "TRANSPORT_PROTOCOL_UNKNOWN",
         "TRANSPORT_LORAWAN",
-        "TRANSPORT_CELLULAR_HTTP",
-        "TRANSPORT_CELLULAR_MQTT",
-        "TRANSPORT_CELLULAR_TCP",
-        "TRANSPORT_CELLULAR_UDP",
-        "TRANSPORT_CELLULAR_COAP",
         "TRANSPORT_HTTP",
         "TRANSPORT_MQTT",
         "TRANSPORT_TCP",
@@ -338,7 +218,7 @@
         "TRANSPORT_WEBSOCKET"
       ],
       "default": "TRANSPORT_PROTOCOL_UNKNOWN",
-      "description": "Transport protocol enumeration - unified for inventory and data services.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_CELLULAR_HTTP: HTTP/HTTPS over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_MQTT: MQTT over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_TCP: TCP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_UDP: UDP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_COAP: CoAP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_HTTP: HTTP/HTTPS over WiFi/Ethernet.\n - TRANSPORT_MQTT: MQTT over WiFi/Ethernet.\n - TRANSPORT_TCP: TCP over WiFi/Ethernet.\n - TRANSPORT_UDP: UDP over WiFi/Ethernet.\n - TRANSPORT_COAP: CoAP over WiFi/Ethernet.\n - TRANSPORT_WEBSOCKET: WebSocket."
+      "description": "Transport protocol enumeration - unified for inventory and data services.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_HTTP: HTTP/HTTPS over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_MQTT: MQTT over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_TCP: TCP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_UDP: UDP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_COAP: CoAP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_WEBSOCKET: WebSocket."
     },
     "protobufAny": {
       "type": "object",

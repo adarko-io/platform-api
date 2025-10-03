@@ -217,7 +217,7 @@
           },
           {
             "name": "transportProtocols",
-            "description": "Filter by transport protocol.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_CELLULAR_HTTP: HTTP/HTTPS over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_MQTT: MQTT over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_TCP: TCP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_UDP: UDP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_COAP: CoAP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_HTTP: HTTP/HTTPS over WiFi/Ethernet.\n - TRANSPORT_MQTT: MQTT over WiFi/Ethernet.\n - TRANSPORT_TCP: TCP over WiFi/Ethernet.\n - TRANSPORT_UDP: UDP over WiFi/Ethernet.\n - TRANSPORT_COAP: CoAP over WiFi/Ethernet.\n - TRANSPORT_WEBSOCKET: WebSocket.",
+            "description": "Filter by transport protocol.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_HTTP: HTTP/HTTPS over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_MQTT: MQTT over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_TCP: TCP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_UDP: UDP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_COAP: CoAP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_WEBSOCKET: WebSocket.",
             "in": "query",
             "required": false,
             "type": "array",
@@ -226,11 +226,6 @@
               "enum": [
                 "TRANSPORT_PROTOCOL_UNKNOWN",
                 "TRANSPORT_LORAWAN",
-                "TRANSPORT_CELLULAR_HTTP",
-                "TRANSPORT_CELLULAR_MQTT",
-                "TRANSPORT_CELLULAR_TCP",
-                "TRANSPORT_CELLULAR_UDP",
-                "TRANSPORT_CELLULAR_COAP",
                 "TRANSPORT_HTTP",
                 "TRANSPORT_MQTT",
                 "TRANSPORT_TCP",
@@ -1316,11 +1311,6 @@
       "enum": [
         "TRANSPORT_PROTOCOL_UNKNOWN",
         "TRANSPORT_LORAWAN",
-        "TRANSPORT_CELLULAR_HTTP",
-        "TRANSPORT_CELLULAR_MQTT",
-        "TRANSPORT_CELLULAR_TCP",
-        "TRANSPORT_CELLULAR_UDP",
-        "TRANSPORT_CELLULAR_COAP",
         "TRANSPORT_HTTP",
         "TRANSPORT_MQTT",
         "TRANSPORT_TCP",
@@ -1329,7 +1319,7 @@
         "TRANSPORT_WEBSOCKET"
       ],
       "default": "TRANSPORT_PROTOCOL_UNKNOWN",
-      "description": "Transport protocol enumeration - unified for inventory and data services.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_CELLULAR_HTTP: HTTP/HTTPS over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_MQTT: MQTT over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_TCP: TCP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_UDP: UDP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_COAP: CoAP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_HTTP: HTTP/HTTPS over WiFi/Ethernet.\n - TRANSPORT_MQTT: MQTT over WiFi/Ethernet.\n - TRANSPORT_TCP: TCP over WiFi/Ethernet.\n - TRANSPORT_UDP: UDP over WiFi/Ethernet.\n - TRANSPORT_COAP: CoAP over WiFi/Ethernet.\n - TRANSPORT_WEBSOCKET: WebSocket."
+      "description": "Transport protocol enumeration - unified for inventory and data services.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_HTTP: HTTP/HTTPS over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_MQTT: MQTT over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_TCP: TCP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_UDP: UDP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_COAP: CoAP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_WEBSOCKET: WebSocket."
     },
     "apiUDPMetadata": {
       "type": "object",

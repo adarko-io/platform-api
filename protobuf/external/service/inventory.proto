@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package api;
 
-import "external/service/lorawan_types.proto";
 import "external/service/shared_enums.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
@@ -80,14 +79,14 @@ message InventoryDevice {
   // EUI (EUI64) - Primary identifier.
   string eui = 1;
 
+  // Serial number.
+  string serial_number = 2;
+
   // Device name/model.
-  string name = 2;
+  string name = 3;
 
   // Device description.
-  string description = 3;
-
-  // Communication Mode (determines which configuration is used).
-  CommunicationMode communication_mode = 4;
+  string description = 4;
 
   // Current inventory status.
   InventoryStatus status = 5;
@@ -104,459 +103,27 @@ message InventoryDevice {
   // Firmware version.
   string firmware_version = 9;
 
-  // Serial number.
-  string serial_number = 10;
+  // Device type specific configuration JSON.
+  string configuration = 10;
 
-  // Device type specific configuration.
-  DeviceConfiguration configuration = 11;
+ //Device Type LoRaWAN Gateway, LoRaWAN Device, Cellular Device, Wifi etc.
+  DeviceType device_type = 11;
+
+//Asset Type Water Meter, Gas Meter, Energy Meter etc.
+  AssetType asset_type = 12;
 
   // Device tags/labels.
-  map<string, string> tags = 12;
+  map<string, string> tags = 13;
 
   // Additional metadata.
-  map<string, string> metadata = 13;
+  map<string, string> metadata = 14;
 
   // Batch/lot information.
-  string batch_id = 14;
+  string batch_id = 15;
 }
 
 // NOTE: Enums moved to shared_enums.proto to avoid conflicts between services.
 
-// Device-type specific configuration.
-message DeviceConfiguration {
-  oneof device_config {
-    // LoRaWAN device configuration
-    LoRaWANDevice lorawan_device = 1;
-
-    // Cellular MQTT specific configuration.
-    CellularMQTTConfig cellular_mqtt = 2;
-
-    // Cellular TCP specific configuration.
-    CellularTCPConfig cellular_tcp = 3;
-
-    // Cellular UDP specific configuration.
-    CellularUDPConfig cellular_udp = 4;
-
-    // Cellular HTTP specific configuration.
-    CellularHTTPConfig cellular_http = 5;
-
-    // Cellular CoAP specific configuration.
-    CellularCoAPConfig cellular_coap = 6;
-
-    // WiFi/Ethernet MQTT specific configuration.
-    WiFiMQTTConfig wifi_mqtt = 7;
-
-    // WiFi/Ethernet TCP specific configuration.
-    WiFiTCPConfig wifi_tcp = 8;
-
-    // WiFi/Ethernet UDP specific configuration.
-    WiFiUDPConfig wifi_udp = 9;
-
-    // WiFi/Ethernet HTTP specific configuration.
-    WiFiHTTPConfig wifi_http = 10;
-
-    // WiFi/Ethernet CoAP specific configuration.
-    WiFiCoAPConfig wifi_coap = 11;
-
-    // WebSocket specific configuration.
-    WebSocketConfig websocket = 12;
-
-    // Gateway specific configuration.
-    GatewayConfig gateway = 13;
-
-    // LoRaWAN Gateway specific configuration.
-    LoRaWANGateway lorawan_gateway = 14;
-  }
-}
-
-// Generic gateway configuration (for non-LoRaWAN gateways).
-message GatewayConfig {
-  // Gateway EUI.
-  string gateway_eui = 1;
-
-  // Gateway type (Cellular, WiFi, etc. - not LoRaWAN).
-  string gateway_type = 2;
-
-  // Supported device types.
-  repeated CommunicationMode supported_communication_modes = 3;
-
-  // Network configuration.
-  map<string, string> network_config = 4;
-}
-
-// Cellular MQTT device configuration.
-message CellularMQTTConfig {
-  // IMEI number.
-  string imei = 1;
-
-  // IMSI number.
-  string imsi = 2;
-
-  // MQTT broker endpoint.
-  string broker_endpoint = 3;
-
-  // MQTT broker port.
-  uint32 broker_port = 4;
-
-  // Uplink topic.
-  string uplink_topic = 5;
-
-  // Downlink topic.
-  string downlink_topic = 6;
-
-  // Downlink delivery mode.
-  DownlinkMode downlink_mode = 7;
-
-  // QoS level for uplink.
-  uint32 uplink_qos = 8;
-
-  // QoS level for downlink.
-  uint32 downlink_qos = 9;
-
-  // Keep alive interval (seconds).
-  uint32 keep_alive = 10;
-
-  // Authentication credentials.
-  MQTTAuth authentication = 11;
-
-  // TLS/SSL configuration.
-  TLSConfig tls = 12;
-
-  // Network type preference.
-  CellularNetworkType network_type = 13;
-}
-
-// Cellular TCP device configuration.
-message CellularTCPConfig {
-  // IMEI number.
-  string imei = 1;
-
-  // IMSI number.
-  string imsi = 2;
-
-  // Server endpoint.
-  string server_endpoint = 3;
-
-  // Server port.
-  uint32 server_port = 4;
-
-  // Downlink delivery mode.
-  DownlinkMode downlink_mode = 5;
-
-  // Keep alive interval (seconds).
-  uint32 keep_alive = 6;
-
-  // Connection timeout (seconds).
-  uint32 connection_timeout = 7;
-
-  // TLS/SSL configuration.
-  TLSConfig tls = 8;
-
-  // Network type preference.
-  CellularNetworkType network_type = 9;
-}
-
-// Cellular UDP device configuration.
-message CellularUDPConfig {
-  // IMEI number.
-  string imei = 1;
-
-  // IMSI number.
-  string imsi = 2;
-
-  // Server endpoint.
-  string server_endpoint = 3;
-
-  // Server port.
-  uint32 server_port = 4;
-
-  // Downlink delivery mode.
-  DownlinkMode downlink_mode = 5;
-
-  // Network type preference.
-  CellularNetworkType network_type = 6;
-}
-
-// Cellular HTTP device configuration.
-message CellularHTTPConfig {
-  // IMEI number.
-  string imei = 1;
-
-  // IMSI number.
-  string imsi = 2;
-
-  // Server endpoint.
-  string server_endpoint = 3;
-
-  // Server port.
-  uint32 server_port = 4;
-
-  // Uplink endpoint path.
-  string uplink_path = 5;
-
-  // Downlink endpoint path.
-  string downlink_path = 6;
-
-  // HTTP method for uplink.
-  string uplink_method = 7;
-
-  // Downlink delivery mode.
-  DownlinkMode downlink_mode = 8;
-
-  // Authentication credentials.
-  HTTPAuth authentication = 9;
-
-  // TLS/SSL configuration.
-  TLSConfig tls = 10;
-
-  // Network type preference.
-  CellularNetworkType network_type = 11;
-}
-
-// Cellular CoAP device configuration.
-message CellularCoAPConfig {
-  // IMEI number.
-  string imei = 1;
-
-  // IMSI number.
-  string imsi = 2;
-
-  // Server endpoint.
-  string server_endpoint = 3;
-
-  // Server port.
-  uint32 server_port = 4;
-
-  // Uplink URI path.
-  string uplink_path = 5;
-
-  // Downlink URI path.
-  string downlink_path = 6;
-
-  // Downlink delivery mode.
-  DownlinkMode downlink_mode = 7;
-
-  // DTLS configuration.
-  DTLSConfig dtls = 8;
-
-  // Network type preference.
-  CellularNetworkType network_type = 9;
-}
-
-// WiFi/Ethernet MQTT device configuration.
-message WiFiMQTTConfig {
-  // MAC address.
-  string mac_address = 1;
-
-  // MQTT broker endpoint.
-  string broker_endpoint = 2;
-
-  // MQTT broker port.
-  uint32 broker_port = 3;
-
-  // Uplink topic.
-  string uplink_topic = 4;
-
-  // Downlink topic.
-  string downlink_topic = 5;
-
-  // QoS level for uplink.
-  uint32 uplink_qos = 6;
-
-  // QoS level for downlink.
-  uint32 downlink_qos = 7;
-
-  // Keep alive interval (seconds).
-  uint32 keep_alive = 8;
-
-  // Authentication credentials.
-  MQTTAuth authentication = 9;
-
-  // TLS/SSL configuration.
-  TLSConfig tls = 10;
-}
-
-// WiFi/Ethernet TCP device configuration.
-message WiFiTCPConfig {
-  // MAC address.
-  string mac_address = 1;
-
-  // Server endpoint.
-  string server_endpoint = 2;
-
-  // Server port.
-  uint32 server_port = 3;
-
-  // Keep alive interval (seconds).
-  uint32 keep_alive = 4;
-
-  // Connection timeout (seconds).
-  uint32 connection_timeout = 5;
-
-  // TLS/SSL configuration.
-  TLSConfig tls = 6;
-}
-
-// WiFi/Ethernet UDP device configuration.
-message WiFiUDPConfig {
-  // MAC address.
-  string mac_address = 1;
-
-  // Server endpoint.
-  string server_endpoint = 2;
-
-  // Server port.
-  uint32 server_port = 3;
-}
-
-// WiFi/Ethernet HTTP device configuration.
-message WiFiHTTPConfig {
-  // MAC address.
-  string mac_address = 1;
-
-  // Server endpoint.
-  string server_endpoint = 2;
-
-  // Server port.
-  uint32 server_port = 3;
-
-  // Uplink endpoint path.
-  string uplink_path = 4;
-
-  // Downlink endpoint path.
-  string downlink_path = 5;
-
-  // HTTP method for uplink.
-  string uplink_method = 6;
-
-  // Authentication credentials.
-  HTTPAuth authentication = 7;
-
-  // TLS/SSL configuration.
-  TLSConfig tls = 8;
-}
-
-// WiFi/Ethernet CoAP device configuration.
-message WiFiCoAPConfig {
-  // MAC address.
-  string mac_address = 1;
-
-  // Server endpoint.
-  string server_endpoint = 2;
-
-  // Server port.
-  uint32 server_port = 3;
-
-  // Uplink URI path.
-  string uplink_path = 4;
-
-  // Downlink URI path.
-  string downlink_path = 5;
-
-  // DTLS configuration.
-  DTLSConfig dtls = 6;
-}
-
-// WebSocket device configuration.
-message WebSocketConfig {
-  // MAC address.
-  string mac_address = 1;
-
-  // WebSocket endpoint.
-  string endpoint = 2;
-
-  // WebSocket subprotocol.
-  string subprotocol = 3;
-
-  // Authentication credentials.
-  WebSocketAuth authentication = 4;
-
-  // TLS/SSL configuration.
-  TLSConfig tls = 5;
-}
-
-// NOTE: Supporting enums moved to shared_enums.proto to avoid conflicts.
-
-// Authentication configurations.
-message MQTTAuth {
-  // Username.
-  string username = 1;
-
-  // Password.
-  string password = 2;
-
-  // Client certificate (for mutual TLS).
-  string client_cert = 3;
-
-  // Client private key.
-  string client_key = 4;
-}
-
-message HTTPAuth {
-  // HTTP authentication type.
-  string auth_type = 1; // basic, bearer, api_key
-
-  // Username (for basic auth).
-  string username = 2;
-
-  // Password (for basic auth).
-  string password = 3;
-
-  // Token (for bearer auth).
-  string token = 4;
-
-  // API key.
-  string api_key = 5;
-
-  // API key header name.
-  string api_key_header = 6;
-}
-
-message WebSocketAuth {
-  // Authentication type.
-  string auth_type = 1;
-
-  // Authentication credentials.
-  map<string, string> credentials = 2;
-}
-
-// Security configurations.
-message TLSConfig {
-  // Enable TLS.
-  bool enabled = 1;
-
-  // CA certificate.
-  string ca_cert = 2;
-
-  // Client certificate.
-  string client_cert = 3;
-
-  // Client private key.
-  string client_key = 4;
-
-  // Skip certificate verification (for testing).
-  bool skip_verify = 5;
-}
-
-message DTLSConfig {
-  // Enable DTLS.
-  bool enabled = 1;
-
-  // Pre-shared key.
-  string psk = 2;
-
-  // PSK identity.
-  string psk_identity = 3;
-
-  // CA certificate.
-  string ca_cert = 4;
-
-  // Client certificate.
-  string client_cert = 5;
-
-  // Client private key.
-  string client_key = 6;
-}
 
 // Request/Response messages.
 message CreateInventoryDeviceRequest {
@@ -602,23 +169,18 @@ message ListInventoryDevicesRequest {
   // Offset for pagination.
   uint32 offset = 2;
 
-  // Filter by device type.
-  repeated CommunicationMode communication_modes = 3;
-
-  // Filter by status.
-  repeated InventoryStatus statuses = 4;
 
   // Filter by manufacturer.
-  string manufacturer = 5;
+  string manufacturer = 3;
 
   // Filter by model.
-  string model = 6;
+  string model = 4;
 
   // Search query (name, description, etc.).
-  string search = 7;
+  string search = 5;
 
   // Filter by tags.
-  map<string, string> tags = 8;
+  map<string, string> tags = 6;
 }
 
 message InventoryDeviceListItem {
@@ -628,23 +190,21 @@ message InventoryDeviceListItem {
   // Device name.
   string name = 2;
 
-  // Device type.
-  CommunicationMode communication_mode = 3;
 
   // Current status.
-  InventoryStatus status = 4;
+  InventoryStatus status = 3;
 
   // Manufacturer.
-  string manufacturer = 5;
+  string manufacturer = 4;
 
   // Model.
-  string model = 6;
+  string model = 5;
 
   // Created at timestamp.
-  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp created_at = 6;
 
   // Last update timestamp.
-  google.protobuf.Timestamp updated_at = 8;
+  google.protobuf.Timestamp updated_at = 7;
 }
 
 message ListInventoryDevicesResponse {

@@ -20,7 +20,6 @@ external-api:
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/external/service --go_out=plugins=grpc,paths=source_relative:. external/service/device.proto
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/external/service --go_out=plugins=grpc,paths=source_relative:. external/service/data.proto
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/external/service --go_out=plugins=grpc,paths=source_relative:. external/service/shared_enums.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/external/service --go_out=plugins=grpc,paths=source_relative:. external/service/lorawan_types.proto
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/external/service --go_out=plugins=grpc,paths=source_relative:. external/service/helper.proto
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/external/service --go_out=plugins=grpc,paths=source_relative:. external/service/inventory.proto
 	
@@ -31,6 +30,5 @@ external-api:
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/external/service --grpc-gateway_out=paths=source_relative,logtostderr=true:. external/service/device.proto
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/external/service --grpc-gateway_out=paths=source_relative,logtostderr=true:. external/service/data.proto
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/external/service --go_out=plugins=grpc,paths=source_relative:. external/service/shared_enums.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/external/service --go_out=plugins=grpc,paths=source_relative:. external/service/lorawan_types.proto
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/external/service --grpc-gateway_out=paths=source_relative,logtostderr=true:. external/service/helper.proto
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/external/service --grpc-gateway_out=paths=source_relative,logtostderr=true:. external/service/inventory.proto

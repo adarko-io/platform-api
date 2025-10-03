@@ -47,53 +47,6 @@
             "format": "int64"
           },
           {
-            "name": "communicationModes",
-            "description": "Filter by device type.\n\n - COMMUNICATION_MODE_UNKNOWN: Unknown communication mode.\n - COMMUNICATION_MODE_LORAWAN: LoRaWAN communication mode.\n - COMMUNICATION_MODE_CELLULAR_MQTT: Cellular MQTT communication mode.\n - COMMUNICATION_MODE_CELLULAR_TCP: Cellular TCP communication mode.\n - COMMUNICATION_MODE_CELLULAR_UDP: Cellular UDP communication mode.\n - COMMUNICATION_MODE_CELLULAR_HTTP: Cellular HTTP communication mode.\n - COMMUNICATION_MODE_CELLULAR_COAP: Cellular CoAP communication mode.\n - COMMUNICATION_MODE_WIFI_MQTT: WiFi/Ethernet MQTT communication mode.\n - COMMUNICATION_MODE_WIFI_TCP: WiFi/Ethernet TCP communication mode.\n - COMMUNICATION_MODE_WIFI_UDP: WiFi/Ethernet UDP communication mode.\n - COMMUNICATION_MODE_WIFI_HTTP: WiFi/Ethernet HTTP communication mode.\n - COMMUNICATION_MODE_WIFI_COAP: WiFi/Ethernet CoAP communication mode.\n - COMMUNICATION_MODE_WEBSOCKET: WebSocket communication mode.\n - COMMUNICATION_MODE_GATEWAY: Gateway communication mode.\n - COMMUNICATION_MODE_LORAWAN_GATEWAY: LoRaWAN Gateway communication mode.",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "COMMUNICATION_MODE_UNKNOWN",
-                "COMMUNICATION_MODE_LORAWAN",
-                "COMMUNICATION_MODE_CELLULAR_MQTT",
-                "COMMUNICATION_MODE_CELLULAR_TCP",
-                "COMMUNICATION_MODE_CELLULAR_UDP",
-                "COMMUNICATION_MODE_CELLULAR_HTTP",
-                "COMMUNICATION_MODE_CELLULAR_COAP",
-                "COMMUNICATION_MODE_WIFI_MQTT",
-                "COMMUNICATION_MODE_WIFI_TCP",
-                "COMMUNICATION_MODE_WIFI_UDP",
-                "COMMUNICATION_MODE_WIFI_HTTP",
-                "COMMUNICATION_MODE_WIFI_COAP",
-                "COMMUNICATION_MODE_WEBSOCKET",
-                "COMMUNICATION_MODE_GATEWAY",
-                "COMMUNICATION_MODE_LORAWAN_GATEWAY"
-              ]
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "statuses",
-            "description": "Filter by status.\n\n - INVENTORY_STATUS_INVENTORY: Device in inventory, not yet onboarded.\n - INVENTORY_STATUS_ONBOARDED: Device onboarded to platform.\n - INVENTORY_STATUS_PROVISIONED: Device provisioned and active.\n - INVENTORY_STATUS_DECOMMISSIONED: Device decommissioned.\n - INVENTORY_STATUS_FAULTY: Device reported as faulty.\n - INVENTORY_STATUS_LOST: Device lost or stolen.",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "INVENTORY_STATUS_INVENTORY",
-                "INVENTORY_STATUS_ONBOARDED",
-                "INVENTORY_STATUS_PROVISIONED",
-                "INVENTORY_STATUS_DECOMMISSIONED",
-                "INVENTORY_STATUS_FAULTY",
-                "INVENTORY_STATUS_LOST"
-              ]
-            },
-            "collectionFormat": "multi"
-          },
-          {
             "name": "manufacturer",
             "description": "Filter by manufacturer.",
             "in": "query",
@@ -361,6 +314,22 @@
     }
   },
   "definitions": {
+    "apiAssetType": {
+      "type": "string",
+      "enum": [
+        "ASSET_TYPE_UNKNOWN",
+        "ASSET_TYPE_AMR_WATER_METER_INDUCTIVE",
+        "ASSET_TYPE_WATER_METER_MAGNETIC",
+        "ASSET_TYPE_AMR_WATER_METER_PULSE",
+        "ASSET_TYPE_ULTRASONIC_WATER_METER",
+        "ASSET_TYPE_ENERGY_METER",
+        "ASSET_TYPE_GAS_METER",
+        "ASSET_TYPE_GPS_TRACKER",
+        "ASSET_TYPE_LORAWAN_GATEWAY"
+      ],
+      "default": "ASSET_TYPE_UNKNOWN",
+      "description": " - ASSET_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_TYPE_AMR_WATER_METER_INDUCTIVE: AMR Water meter Inductive.\n - ASSET_TYPE_WATER_METER_MAGNETIC: AMR Water meter magnetic device.\n - ASSET_TYPE_AMR_WATER_METER_PULSE: AMR Water meter pulse device.\n - ASSET_TYPE_ULTRASONIC_WATER_METER: ULTRASONIC Water Meter device.\n - ASSET_TYPE_ENERGY_METER: Energy Meter device.\n - ASSET_TYPE_GAS_METER: GAS Meter device.\n - ASSET_TYPE_GPS_TRACKER: GPS Tracker device.\n - ASSET_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device."
+    },
     "apiBulkImportRequest": {
       "type": "object",
       "properties": {
@@ -404,284 +373,6 @@
         }
       }
     },
-    "apiCellularCoAPConfig": {
-      "type": "object",
-      "properties": {
-        "imei": {
-          "type": "string",
-          "description": "IMEI number."
-        },
-        "imsi": {
-          "type": "string",
-          "description": "IMSI number."
-        },
-        "serverEndpoint": {
-          "type": "string",
-          "description": "Server endpoint."
-        },
-        "serverPort": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Server port."
-        },
-        "uplinkPath": {
-          "type": "string",
-          "description": "Uplink URI path."
-        },
-        "downlinkPath": {
-          "type": "string",
-          "description": "Downlink URI path."
-        },
-        "downlinkMode": {
-          "$ref": "#/definitions/apiDownlinkMode",
-          "description": "Downlink delivery mode."
-        },
-        "dtls": {
-          "$ref": "#/definitions/apiDTLSConfig",
-          "description": "DTLS configuration."
-        },
-        "networkType": {
-          "$ref": "#/definitions/apiCellularNetworkType",
-          "description": "Network type preference."
-        }
-      },
-      "description": "Cellular CoAP device configuration."
-    },
-    "apiCellularHTTPConfig": {
-      "type": "object",
-      "properties": {
-        "imei": {
-          "type": "string",
-          "description": "IMEI number."
-        },
-        "imsi": {
-          "type": "string",
-          "description": "IMSI number."
-        },
-        "serverEndpoint": {
-          "type": "string",
-          "description": "Server endpoint."
-        },
-        "serverPort": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Server port."
-        },
-        "uplinkPath": {
-          "type": "string",
-          "description": "Uplink endpoint path."
-        },
-        "downlinkPath": {
-          "type": "string",
-          "description": "Downlink endpoint path."
-        },
-        "uplinkMethod": {
-          "type": "string",
-          "description": "HTTP method for uplink."
-        },
-        "downlinkMode": {
-          "$ref": "#/definitions/apiDownlinkMode",
-          "description": "Downlink delivery mode."
-        },
-        "authentication": {
-          "$ref": "#/definitions/apiHTTPAuth",
-          "description": "Authentication credentials."
-        },
-        "tls": {
-          "$ref": "#/definitions/apiTLSConfig",
-          "description": "TLS/SSL configuration."
-        },
-        "networkType": {
-          "$ref": "#/definitions/apiCellularNetworkType",
-          "description": "Network type preference."
-        }
-      },
-      "description": "Cellular HTTP device configuration."
-    },
-    "apiCellularMQTTConfig": {
-      "type": "object",
-      "properties": {
-        "imei": {
-          "type": "string",
-          "description": "IMEI number."
-        },
-        "imsi": {
-          "type": "string",
-          "description": "IMSI number."
-        },
-        "brokerEndpoint": {
-          "type": "string",
-          "description": "MQTT broker endpoint."
-        },
-        "brokerPort": {
-          "type": "integer",
-          "format": "int64",
-          "description": "MQTT broker port."
-        },
-        "uplinkTopic": {
-          "type": "string",
-          "description": "Uplink topic."
-        },
-        "downlinkTopic": {
-          "type": "string",
-          "description": "Downlink topic."
-        },
-        "downlinkMode": {
-          "$ref": "#/definitions/apiDownlinkMode",
-          "description": "Downlink delivery mode."
-        },
-        "uplinkQos": {
-          "type": "integer",
-          "format": "int64",
-          "description": "QoS level for uplink."
-        },
-        "downlinkQos": {
-          "type": "integer",
-          "format": "int64",
-          "description": "QoS level for downlink."
-        },
-        "keepAlive": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Keep alive interval (seconds)."
-        },
-        "authentication": {
-          "$ref": "#/definitions/apiMQTTAuth",
-          "description": "Authentication credentials."
-        },
-        "tls": {
-          "$ref": "#/definitions/apiTLSConfig",
-          "description": "TLS/SSL configuration."
-        },
-        "networkType": {
-          "$ref": "#/definitions/apiCellularNetworkType",
-          "description": "Network type preference."
-        }
-      },
-      "description": "Cellular MQTT device configuration."
-    },
-    "apiCellularNetworkType": {
-      "type": "string",
-      "enum": [
-        "CELLULAR_NETWORK_TYPE_AUTO",
-        "CELLULAR_NETWORK_TYPE_GSM_2G",
-        "CELLULAR_NETWORK_TYPE_UMTS_3G",
-        "CELLULAR_NETWORK_TYPE_LTE_4G",
-        "CELLULAR_NETWORK_TYPE_NR_5G",
-        "CELLULAR_NETWORK_TYPE_NB_IOT",
-        "CELLULAR_NETWORK_TYPE_LTE_M"
-      ],
-      "default": "CELLULAR_NETWORK_TYPE_AUTO",
-      "description": "Cellular network type enumeration."
-    },
-    "apiCellularTCPConfig": {
-      "type": "object",
-      "properties": {
-        "imei": {
-          "type": "string",
-          "description": "IMEI number."
-        },
-        "imsi": {
-          "type": "string",
-          "description": "IMSI number."
-        },
-        "serverEndpoint": {
-          "type": "string",
-          "description": "Server endpoint."
-        },
-        "serverPort": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Server port."
-        },
-        "downlinkMode": {
-          "$ref": "#/definitions/apiDownlinkMode",
-          "description": "Downlink delivery mode."
-        },
-        "keepAlive": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Keep alive interval (seconds)."
-        },
-        "connectionTimeout": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Connection timeout (seconds)."
-        },
-        "tls": {
-          "$ref": "#/definitions/apiTLSConfig",
-          "description": "TLS/SSL configuration."
-        },
-        "networkType": {
-          "$ref": "#/definitions/apiCellularNetworkType",
-          "description": "Network type preference."
-        }
-      },
-      "description": "Cellular TCP device configuration."
-    },
-    "apiCellularUDPConfig": {
-      "type": "object",
-      "properties": {
-        "imei": {
-          "type": "string",
-          "description": "IMEI number."
-        },
-        "imsi": {
-          "type": "string",
-          "description": "IMSI number."
-        },
-        "serverEndpoint": {
-          "type": "string",
-          "description": "Server endpoint."
-        },
-        "serverPort": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Server port."
-        },
-        "downlinkMode": {
-          "$ref": "#/definitions/apiDownlinkMode",
-          "description": "Downlink delivery mode."
-        },
-        "networkType": {
-          "$ref": "#/definitions/apiCellularNetworkType",
-          "description": "Network type preference."
-        }
-      },
-      "description": "Cellular UDP device configuration."
-    },
-    "apiCodecRuntime": {
-      "type": "string",
-      "enum": [
-        "NONE",
-        "CAYENNE_LPP",
-        "JS"
-      ],
-      "default": "NONE",
-      "description": "Payload codec runtime."
-    },
-    "apiCommunicationMode": {
-      "type": "string",
-      "enum": [
-        "COMMUNICATION_MODE_UNKNOWN",
-        "COMMUNICATION_MODE_LORAWAN",
-        "COMMUNICATION_MODE_CELLULAR_MQTT",
-        "COMMUNICATION_MODE_CELLULAR_TCP",
-        "COMMUNICATION_MODE_CELLULAR_UDP",
-        "COMMUNICATION_MODE_CELLULAR_HTTP",
-        "COMMUNICATION_MODE_CELLULAR_COAP",
-        "COMMUNICATION_MODE_WIFI_MQTT",
-        "COMMUNICATION_MODE_WIFI_TCP",
-        "COMMUNICATION_MODE_WIFI_UDP",
-        "COMMUNICATION_MODE_WIFI_HTTP",
-        "COMMUNICATION_MODE_WIFI_COAP",
-        "COMMUNICATION_MODE_WEBSOCKET",
-        "COMMUNICATION_MODE_GATEWAY",
-        "COMMUNICATION_MODE_LORAWAN_GATEWAY"
-      ],
-      "default": "COMMUNICATION_MODE_UNKNOWN",
-      "description": "Communication mode enumeration - unified for inventory and other services.\n\n - COMMUNICATION_MODE_UNKNOWN: Unknown communication mode.\n - COMMUNICATION_MODE_LORAWAN: LoRaWAN communication mode.\n - COMMUNICATION_MODE_CELLULAR_MQTT: Cellular MQTT communication mode.\n - COMMUNICATION_MODE_CELLULAR_TCP: Cellular TCP communication mode.\n - COMMUNICATION_MODE_CELLULAR_UDP: Cellular UDP communication mode.\n - COMMUNICATION_MODE_CELLULAR_HTTP: Cellular HTTP communication mode.\n - COMMUNICATION_MODE_CELLULAR_COAP: Cellular CoAP communication mode.\n - COMMUNICATION_MODE_WIFI_MQTT: WiFi/Ethernet MQTT communication mode.\n - COMMUNICATION_MODE_WIFI_TCP: WiFi/Ethernet TCP communication mode.\n - COMMUNICATION_MODE_WIFI_UDP: WiFi/Ethernet UDP communication mode.\n - COMMUNICATION_MODE_WIFI_HTTP: WiFi/Ethernet HTTP communication mode.\n - COMMUNICATION_MODE_WIFI_COAP: WiFi/Ethernet CoAP communication mode.\n - COMMUNICATION_MODE_WEBSOCKET: WebSocket communication mode.\n - COMMUNICATION_MODE_GATEWAY: Gateway communication mode.\n - COMMUNICATION_MODE_LORAWAN_GATEWAY: LoRaWAN Gateway communication mode."
-    },
     "apiCreateInventoryDeviceRequest": {
       "type": "object",
       "properties": {
@@ -701,207 +392,19 @@
         }
       }
     },
-    "apiDTLSConfig": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enable DTLS."
-        },
-        "psk": {
-          "type": "string",
-          "description": "Pre-shared key."
-        },
-        "pskIdentity": {
-          "type": "string",
-          "description": "PSK identity."
-        },
-        "caCert": {
-          "type": "string",
-          "description": "CA certificate."
-        },
-        "clientCert": {
-          "type": "string",
-          "description": "Client certificate."
-        },
-        "clientKey": {
-          "type": "string",
-          "description": "Client private key."
-        }
-      }
-    },
-    "apiDeviceActivation": {
-      "type": "object",
-      "properties": {
-        "devEui": {
-          "type": "string",
-          "description": "Device EUI (EUI64)."
-        },
-        "devAddr": {
-          "type": "string",
-          "description": "Device address (HEX encoded)."
-        },
-        "appSKey": {
-          "type": "string",
-          "description": "Application session key (HEX encoded)."
-        },
-        "nwkSEncKey": {
-          "type": "string",
-          "title": "Network session encryption key (HEX encoded).\nNote: For ABP in LoRaWAN 1.0.x, use this, the serving and the forwarding\nnetwork session integrity key fields with the LoRaWAN 1.0.x 'NwkSKey'!"
-        },
-        "sNwkSIntKey": {
-          "type": "string",
-          "description": "Serving network session integrity key (HEX encoded)."
-        },
-        "fNwkSIntKey": {
-          "type": "string",
-          "description": "Forwarding network session integrity key (HEX encoded)."
-        },
-        "fCntUp": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Uplink frame-counter."
-        },
-        "nFCntDown": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Downlink network frame-counter."
-        },
-        "aFCntDown": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Downlink application frame-counter."
-        }
-      },
-      "title": "Device activation object for ABP"
-    },
-    "apiDeviceClass": {
+    "apiDeviceType": {
       "type": "string",
       "enum": [
-        "CLASS_A",
-        "CLASS_B",
-        "CLASS_C"
+        "DEVICE_TYPE_UNKNOWN",
+        "DEVICE_TYPE_LORAWAN",
+        "DEVICE_TYPE_CELLULAR_GSM",
+        "DEVICE_TYPE_CELLULAR_LTE",
+        "DEVICE_TYPE_CELLULAR_GSM_LTE",
+        "DEVICE_TYPE_GATEWAY",
+        "DEVICE_TYPE_LORAWAN_GATEWAY"
       ],
-      "default": "CLASS_A",
-      "description": "LoRaWAN device class."
-    },
-    "apiDeviceConfiguration": {
-      "type": "object",
-      "properties": {
-        "lorawanDevice": {
-          "$ref": "#/definitions/apiLoRaWANDevice",
-          "title": "LoRaWAN device configuration"
-        },
-        "cellularMqtt": {
-          "$ref": "#/definitions/apiCellularMQTTConfig",
-          "description": "Cellular MQTT specific configuration."
-        },
-        "cellularTcp": {
-          "$ref": "#/definitions/apiCellularTCPConfig",
-          "description": "Cellular TCP specific configuration."
-        },
-        "cellularUdp": {
-          "$ref": "#/definitions/apiCellularUDPConfig",
-          "description": "Cellular UDP specific configuration."
-        },
-        "cellularHttp": {
-          "$ref": "#/definitions/apiCellularHTTPConfig",
-          "description": "Cellular HTTP specific configuration."
-        },
-        "cellularCoap": {
-          "$ref": "#/definitions/apiCellularCoAPConfig",
-          "description": "Cellular CoAP specific configuration."
-        },
-        "wifiMqtt": {
-          "$ref": "#/definitions/apiWiFiMQTTConfig",
-          "description": "WiFi/Ethernet MQTT specific configuration."
-        },
-        "wifiTcp": {
-          "$ref": "#/definitions/apiWiFiTCPConfig",
-          "description": "WiFi/Ethernet TCP specific configuration."
-        },
-        "wifiUdp": {
-          "$ref": "#/definitions/apiWiFiUDPConfig",
-          "description": "WiFi/Ethernet UDP specific configuration."
-        },
-        "wifiHttp": {
-          "$ref": "#/definitions/apiWiFiHTTPConfig",
-          "description": "WiFi/Ethernet HTTP specific configuration."
-        },
-        "wifiCoap": {
-          "$ref": "#/definitions/apiWiFiCoAPConfig",
-          "description": "WiFi/Ethernet CoAP specific configuration."
-        },
-        "websocket": {
-          "$ref": "#/definitions/apiWebSocketConfig",
-          "description": "WebSocket specific configuration."
-        },
-        "gateway": {
-          "$ref": "#/definitions/apiGatewayConfig",
-          "description": "Gateway specific configuration."
-        },
-        "lorawanGateway": {
-          "$ref": "#/definitions/apiLoRaWANGateway",
-          "description": "LoRaWAN Gateway specific configuration."
-        }
-      },
-      "description": "Device-type specific configuration."
-    },
-    "apiDeviceKeys": {
-      "type": "object",
-      "properties": {
-        "devEui": {
-          "type": "string",
-          "description": "DevEUI (EUI64)."
-        },
-        "nwkKey": {
-          "type": "string",
-          "title": "Network root key (128 bit).\nNote: For LoRaWAN 1.0.x, use this field for the LoRaWAN 1.0.x 'AppKey'!"
-        },
-        "appKey": {
-          "type": "string",
-          "title": "Application root key (128 bit).\nNote: This field only needs to be set for LoRaWAN 1.1.x devices!"
-        }
-      },
-      "title": "Device Keys for OTAA"
-    },
-    "apiDownlinkMode": {
-      "type": "string",
-      "enum": [
-        "DOWNLINK_MODE_IMMEDIATE",
-        "DOWNLINK_MODE_QUEUED",
-        "DOWNLINK_MODE_SCHEDULED"
-      ],
-      "default": "DOWNLINK_MODE_IMMEDIATE",
-      "description": "Downlink delivery mode enumeration.\n\n - DOWNLINK_MODE_IMMEDIATE: Immediate downlink (for always-on devices).\n - DOWNLINK_MODE_QUEUED: Queued downlink (for battery-powered devices, sent on next uplink).\n - DOWNLINK_MODE_SCHEDULED: Scheduled downlink (sent at specific time)."
-    },
-    "apiGatewayConfig": {
-      "type": "object",
-      "properties": {
-        "gatewayEui": {
-          "type": "string",
-          "description": "Gateway EUI."
-        },
-        "gatewayType": {
-          "type": "string",
-          "description": "Gateway type (Cellular, WiFi, etc. - not LoRaWAN)."
-        },
-        "supportedCommunicationModes": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/apiCommunicationMode"
-          },
-          "description": "Supported device types."
-        },
-        "networkConfig": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Network configuration."
-        }
-      },
-      "description": "Generic gateway configuration (for non-LoRaWAN gateways)."
+      "default": "DEVICE_TYPE_UNKNOWN",
+      "description": "Communication mode enumeration - unified for inventory and other services.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN: LoRaWAN device type.\n - DEVICE_TYPE_CELLULAR_GSM: Cellular MQTT device type.\n - DEVICE_TYPE_CELLULAR_LTE: Cellular TCP device type.\n - DEVICE_TYPE_CELLULAR_GSM_LTE: Cellular UDP device type.\n - DEVICE_TYPE_GATEWAY: Gateway device type.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device type."
     },
     "apiGetInventoryDeviceResponse": {
       "type": "object",
@@ -919,35 +422,6 @@
           "type": "string",
           "format": "date-time",
           "description": "Last update timestamp."
-        }
-      }
-    },
-    "apiHTTPAuth": {
-      "type": "object",
-      "properties": {
-        "authType": {
-          "type": "string",
-          "description": "HTTP authentication type."
-        },
-        "username": {
-          "type": "string",
-          "description": "Username (for basic auth)."
-        },
-        "password": {
-          "type": "string",
-          "description": "Password (for basic auth)."
-        },
-        "token": {
-          "type": "string",
-          "description": "Token (for bearer auth)."
-        },
-        "apiKey": {
-          "type": "string",
-          "description": "API key."
-        },
-        "apiKeyHeader": {
-          "type": "string",
-          "description": "API key header name."
         }
       }
     },
@@ -971,6 +445,10 @@
           "type": "string",
           "description": "EUI (EUI64) - Primary identifier."
         },
+        "serialNumber": {
+          "type": "string",
+          "description": "Serial number."
+        },
         "name": {
           "type": "string",
           "description": "Device name/model."
@@ -978,10 +456,6 @@
         "description": {
           "type": "string",
           "description": "Device description."
-        },
-        "communicationMode": {
-          "$ref": "#/definitions/apiCommunicationMode",
-          "description": "Communication Mode (determines which configuration is used)."
         },
         "status": {
           "$ref": "#/definitions/apiInventoryStatus",
@@ -1003,13 +477,17 @@
           "type": "string",
           "description": "Firmware version."
         },
-        "serialNumber": {
-          "type": "string",
-          "description": "Serial number."
-        },
         "configuration": {
-          "$ref": "#/definitions/apiDeviceConfiguration",
-          "description": "Device type specific configuration."
+          "type": "string",
+          "description": "Device type specific configuration JSON."
+        },
+        "deviceType": {
+          "$ref": "#/definitions/apiDeviceType",
+          "description": "Device Type LoRaWAN Gateway, LoRaWAN Device, Cellular Device, Wifi etc."
+        },
+        "assetType": {
+          "$ref": "#/definitions/apiAssetType",
+          "description": "Asset Type Water Meter, Gas Meter, Energy Meter etc."
         },
         "tags": {
           "type": "object",
@@ -1042,10 +520,6 @@
         "name": {
           "type": "string",
           "description": "Device name."
-        },
-        "communicationMode": {
-          "$ref": "#/definitions/apiCommunicationMode",
-          "description": "Device type."
         },
         "status": {
           "$ref": "#/definitions/apiInventoryStatus",
@@ -1084,15 +558,6 @@
       "default": "INVENTORY_STATUS_INVENTORY",
       "description": "Inventory status enumeration.\n\n - INVENTORY_STATUS_INVENTORY: Device in inventory, not yet onboarded.\n - INVENTORY_STATUS_ONBOARDED: Device onboarded to platform.\n - INVENTORY_STATUS_PROVISIONED: Device provisioned and active.\n - INVENTORY_STATUS_DECOMMISSIONED: Device decommissioned.\n - INVENTORY_STATUS_FAULTY: Device reported as faulty.\n - INVENTORY_STATUS_LOST: Device lost or stolen."
     },
-    "apiJoinMode": {
-      "type": "string",
-      "enum": [
-        "OTAA",
-        "ABP"
-      ],
-      "default": "OTAA",
-      "description": "LoRaWAN device join mode.\n\n - OTAA: Over-the-air activation.\n - ABP: Activation by personalization."
-    },
     "apiListInventoryDevicesResponse": {
       "type": "object",
       "properties": {
@@ -1109,335 +574,6 @@
           "description": "Device list."
         }
       }
-    },
-    "apiLoRaWANDevice": {
-      "type": "object",
-      "properties": {
-        "devEui": {
-          "type": "string",
-          "description": "Device EUI (unique identifier)."
-        },
-        "description": {
-          "type": "string",
-          "description": "Device description."
-        },
-        "applicationId": {
-          "type": "string",
-          "description": "Application identifier."
-        },
-        "devAddr": {
-          "type": "string",
-          "description": "DevAddr (device address).\nOnly used with ABP (activation-by-personalization)."
-        },
-        "joinMode": {
-          "$ref": "#/definitions/apiJoinMode",
-          "description": "Device join mode."
-        },
-        "deviceClass": {
-          "$ref": "#/definitions/apiDeviceClass",
-          "description": "Device class."
-        },
-        "region": {
-          "$ref": "#/definitions/apiRegion",
-          "description": "Regional parameters region."
-        },
-        "macVersion": {
-          "$ref": "#/definitions/apiMacVersion",
-          "description": "MAC version."
-        },
-        "regParamsRevision": {
-          "$ref": "#/definitions/apiRegParamsRevision",
-          "description": "Regional parameters revision."
-        },
-        "adrEnabled": {
-          "type": "boolean",
-          "description": "ADR (adaptive data rate) enabled."
-        },
-        "expectedUplinkIntervalSec": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Expected uplink interval in seconds."
-        },
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Device tags."
-        },
-        "variables": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Device variables."
-        },
-        "skipFcntCheck": {
-          "type": "boolean",
-          "description": "Skip frame-counter validation."
-        },
-        "isDisabled": {
-          "type": "boolean",
-          "description": "Device is disabled."
-        },
-        "joinEui": {
-          "type": "string",
-          "description": "JoinEUI (optional, EUI64).\nThis field will be automatically set / updated on OTAA. However, in some\ncases it must be pre-configured. For example to allow OTAA using a Relay."
-        },
-        "keys": {
-          "$ref": "#/definitions/apiDeviceKeys",
-          "title": "Device Keys for OTAA"
-        },
-        "deviceActivation": {
-          "$ref": "#/definitions/apiDeviceActivation",
-          "description": "Device activation object."
-        },
-        "adrAlgorithmId": {
-          "type": "string",
-          "description": "ADR algorithm ID."
-        },
-        "payloadCodecRuntime": {
-          "$ref": "#/definitions/apiCodecRuntime",
-          "description": "Payload codec runtime."
-        },
-        "payloadCodecScript": {
-          "type": "string",
-          "description": "Payload codec script."
-        },
-        "classBTimeout": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Class-B timeout (seconds)."
-        },
-        "classBPingSlotNbK": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Class-B ping-slots per beacon period."
-        },
-        "classBPingSlotDr": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Class-B ping-slot DR."
-        },
-        "classBPingSlotFreq": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Class-B ping-slot freq (Hz)."
-        },
-        "classCTimeout": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Class-C timeout (seconds)."
-        },
-        "abpRx1Delay": {
-          "type": "integer",
-          "format": "int64",
-          "description": "RX1 delay (for ABP)."
-        },
-        "abpRx1DrOffset": {
-          "type": "integer",
-          "format": "int64",
-          "description": "RX1 DR offset (for ABP)."
-        },
-        "abpRx2Dr": {
-          "type": "integer",
-          "format": "int64",
-          "description": "RX2 DR (for ABP)."
-        },
-        "abpRx2Freq": {
-          "type": "integer",
-          "format": "int64",
-          "description": "RX2 frequency (for ABP, Hz)."
-        },
-        "flushQueueOnActivate": {
-          "type": "boolean",
-          "description": "Flush queue on device activation."
-        },
-        "deviceStatusReqInterval": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Device-status request interval (times / day)."
-        }
-      },
-      "title": "Simplified LoRaWAN Device definition for inventory integration\nThis defines the minimal required fields for device configuration\nFull LoRaWAN device management is handled by the console-lorawan-api service"
-    },
-    "apiLoRaWANGateway": {
-      "type": "object",
-      "properties": {
-        "gatewayId": {
-          "type": "string",
-          "description": "Gateway ID (EUI64)."
-        },
-        "description": {
-          "type": "string",
-          "description": "Description."
-        },
-        "location": {
-          "$ref": "#/definitions/apiLocation",
-          "description": "Gateway location."
-        },
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Tags."
-        },
-        "metadata": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Metadata (provided by the gateway)."
-        },
-        "statsInterval": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Stats interval (seconds).\nThis defines the expected interval in which the gateway sends its\nstatistics."
-        },
-        "region": {
-          "$ref": "#/definitions/apiRegion",
-          "description": "Gateway region."
-        },
-        "model": {
-          "type": "string",
-          "description": "Gateway model."
-        },
-        "firmwareVersion": {
-          "type": "string",
-          "description": "Firmware version."
-        },
-        "hardwareVersion": {
-          "type": "string",
-          "description": "Hardware version."
-        },
-        "networkConfig": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Network configuration."
-        }
-      },
-      "title": "LoRaWAN Gateway definition for inventory integration"
-    },
-    "apiLocation": {
-      "type": "object",
-      "properties": {
-        "latitude": {
-          "type": "number",
-          "format": "double",
-          "description": "Latitude."
-        },
-        "longitude": {
-          "type": "number",
-          "format": "double",
-          "description": "Longitude."
-        },
-        "altitude": {
-          "type": "number",
-          "format": "double",
-          "description": "Altitude."
-        },
-        "source": {
-          "$ref": "#/definitions/apiLocationSource",
-          "description": "Location source."
-        },
-        "accuracy": {
-          "type": "number",
-          "format": "float",
-          "description": "Accuracy (meters)."
-        }
-      },
-      "title": "Location information (simplified from util.Location)"
-    },
-    "apiLocationSource": {
-      "type": "string",
-      "enum": [
-        "LOCATION_SOURCE_UNKNOWN",
-        "LOCATION_SOURCE_GPS",
-        "LOCATION_SOURCE_MANUAL",
-        "LOCATION_SOURCE_TRIANGULATION",
-        "LOCATION_SOURCE_WIFI",
-        "LOCATION_SOURCE_MANUAL_OVERRIDE",
-        "LOCATION_SOURCE_CONFIG",
-        "LOCATION_SOURCE_GEO_RESOLVER_TDOA",
-        "LOCATION_SOURCE_GEO_RESOLVER_RSSI",
-        "LOCATION_SOURCE_GEO_RESOLVER_GNSS",
-        "LOCATION_SOURCE_GEO_RESOLVER_WIFI"
-      ],
-      "default": "LOCATION_SOURCE_UNKNOWN",
-      "description": "Location source enumeration - unified across all services.\n\n - LOCATION_SOURCE_UNKNOWN: Unknown location source.\n - LOCATION_SOURCE_GPS: GPS coordinates.\n - LOCATION_SOURCE_MANUAL: Manually configured.\n - LOCATION_SOURCE_TRIANGULATION: Calculated via triangulation.\n - LOCATION_SOURCE_WIFI: WiFi-based location.\n - LOCATION_SOURCE_MANUAL_OVERRIDE: Manual override.\n - LOCATION_SOURCE_CONFIG: Configuration-based.\n - LOCATION_SOURCE_GEO_RESOLVER_TDOA: GEO resolver TDOA.\n - LOCATION_SOURCE_GEO_RESOLVER_RSSI: GEO resolver RSSI.\n - LOCATION_SOURCE_GEO_RESOLVER_GNSS: GEO resolver GNSS.\n - LOCATION_SOURCE_GEO_RESOLVER_WIFI: GEO resolver WiFi."
-    },
-    "apiMQTTAuth": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string",
-          "description": "Username."
-        },
-        "password": {
-          "type": "string",
-          "description": "Password."
-        },
-        "clientCert": {
-          "type": "string",
-          "description": "Client certificate (for mutual TLS)."
-        },
-        "clientKey": {
-          "type": "string",
-          "description": "Client private key."
-        }
-      },
-      "description": "Authentication configurations."
-    },
-    "apiMacVersion": {
-      "type": "string",
-      "enum": [
-        "LORAWAN_1_0_0",
-        "LORAWAN_1_0_1",
-        "LORAWAN_1_0_2",
-        "LORAWAN_1_0_3",
-        "LORAWAN_1_0_4",
-        "LORAWAN_1_1_0"
-      ],
-      "default": "LORAWAN_1_0_0",
-      "description": "LoRaWAN MAC version."
-    },
-    "apiRegParamsRevision": {
-      "type": "string",
-      "enum": [
-        "A",
-        "B",
-        "RP002_1_0_0",
-        "RP002_1_0_1",
-        "RP002_1_0_2",
-        "RP002_1_0_3",
-        "RP002_1_0_4"
-      ],
-      "default": "A",
-      "description": "LoRaWAN regional parameters revision."
-    },
-    "apiRegion": {
-      "type": "string",
-      "enum": [
-        "EU868",
-        "US915",
-        "CN779",
-        "EU433",
-        "AU915",
-        "CN470",
-        "AS923",
-        "AS923_2",
-        "AS923_3",
-        "AS923_4",
-        "KR920",
-        "IN865",
-        "RU864",
-        "ISM2400"
-      ],
-      "default": "EU868",
-      "description": "LoRaWAN region."
     },
     "apiSearchInventoryDeviceRequest": {
       "type": "object",
@@ -1468,32 +604,6 @@
         }
       }
     },
-    "apiTLSConfig": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enable TLS."
-        },
-        "caCert": {
-          "type": "string",
-          "description": "CA certificate."
-        },
-        "clientCert": {
-          "type": "string",
-          "description": "Client certificate."
-        },
-        "clientKey": {
-          "type": "string",
-          "description": "Client private key."
-        },
-        "skipVerify": {
-          "type": "boolean",
-          "description": "Skip certificate verification (for testing)."
-        }
-      },
-      "description": "Security configurations."
-    },
     "apiUpdateDeviceStatusRequest": {
       "type": "object",
       "properties": {
@@ -1519,220 +629,6 @@
           "description": "Device to update."
         }
       }
-    },
-    "apiWebSocketAuth": {
-      "type": "object",
-      "properties": {
-        "authType": {
-          "type": "string",
-          "description": "Authentication type."
-        },
-        "credentials": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Authentication credentials."
-        }
-      }
-    },
-    "apiWebSocketConfig": {
-      "type": "object",
-      "properties": {
-        "macAddress": {
-          "type": "string",
-          "description": "MAC address."
-        },
-        "endpoint": {
-          "type": "string",
-          "description": "WebSocket endpoint."
-        },
-        "subprotocol": {
-          "type": "string",
-          "description": "WebSocket subprotocol."
-        },
-        "authentication": {
-          "$ref": "#/definitions/apiWebSocketAuth",
-          "description": "Authentication credentials."
-        },
-        "tls": {
-          "$ref": "#/definitions/apiTLSConfig",
-          "description": "TLS/SSL configuration."
-        }
-      },
-      "description": "WebSocket device configuration."
-    },
-    "apiWiFiCoAPConfig": {
-      "type": "object",
-      "properties": {
-        "macAddress": {
-          "type": "string",
-          "description": "MAC address."
-        },
-        "serverEndpoint": {
-          "type": "string",
-          "description": "Server endpoint."
-        },
-        "serverPort": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Server port."
-        },
-        "uplinkPath": {
-          "type": "string",
-          "description": "Uplink URI path."
-        },
-        "downlinkPath": {
-          "type": "string",
-          "description": "Downlink URI path."
-        },
-        "dtls": {
-          "$ref": "#/definitions/apiDTLSConfig",
-          "description": "DTLS configuration."
-        }
-      },
-      "description": "WiFi/Ethernet CoAP device configuration."
-    },
-    "apiWiFiHTTPConfig": {
-      "type": "object",
-      "properties": {
-        "macAddress": {
-          "type": "string",
-          "description": "MAC address."
-        },
-        "serverEndpoint": {
-          "type": "string",
-          "description": "Server endpoint."
-        },
-        "serverPort": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Server port."
-        },
-        "uplinkPath": {
-          "type": "string",
-          "description": "Uplink endpoint path."
-        },
-        "downlinkPath": {
-          "type": "string",
-          "description": "Downlink endpoint path."
-        },
-        "uplinkMethod": {
-          "type": "string",
-          "description": "HTTP method for uplink."
-        },
-        "authentication": {
-          "$ref": "#/definitions/apiHTTPAuth",
-          "description": "Authentication credentials."
-        },
-        "tls": {
-          "$ref": "#/definitions/apiTLSConfig",
-          "description": "TLS/SSL configuration."
-        }
-      },
-      "description": "WiFi/Ethernet HTTP device configuration."
-    },
-    "apiWiFiMQTTConfig": {
-      "type": "object",
-      "properties": {
-        "macAddress": {
-          "type": "string",
-          "description": "MAC address."
-        },
-        "brokerEndpoint": {
-          "type": "string",
-          "description": "MQTT broker endpoint."
-        },
-        "brokerPort": {
-          "type": "integer",
-          "format": "int64",
-          "description": "MQTT broker port."
-        },
-        "uplinkTopic": {
-          "type": "string",
-          "description": "Uplink topic."
-        },
-        "downlinkTopic": {
-          "type": "string",
-          "description": "Downlink topic."
-        },
-        "uplinkQos": {
-          "type": "integer",
-          "format": "int64",
-          "description": "QoS level for uplink."
-        },
-        "downlinkQos": {
-          "type": "integer",
-          "format": "int64",
-          "description": "QoS level for downlink."
-        },
-        "keepAlive": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Keep alive interval (seconds)."
-        },
-        "authentication": {
-          "$ref": "#/definitions/apiMQTTAuth",
-          "description": "Authentication credentials."
-        },
-        "tls": {
-          "$ref": "#/definitions/apiTLSConfig",
-          "description": "TLS/SSL configuration."
-        }
-      },
-      "description": "WiFi/Ethernet MQTT device configuration."
-    },
-    "apiWiFiTCPConfig": {
-      "type": "object",
-      "properties": {
-        "macAddress": {
-          "type": "string",
-          "description": "MAC address."
-        },
-        "serverEndpoint": {
-          "type": "string",
-          "description": "Server endpoint."
-        },
-        "serverPort": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Server port."
-        },
-        "keepAlive": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Keep alive interval (seconds)."
-        },
-        "connectionTimeout": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Connection timeout (seconds)."
-        },
-        "tls": {
-          "$ref": "#/definitions/apiTLSConfig",
-          "description": "TLS/SSL configuration."
-        }
-      },
-      "description": "WiFi/Ethernet TCP device configuration."
-    },
-    "apiWiFiUDPConfig": {
-      "type": "object",
-      "properties": {
-        "macAddress": {
-          "type": "string",
-          "description": "MAC address."
-        },
-        "serverEndpoint": {
-          "type": "string",
-          "description": "Server endpoint."
-        },
-        "serverPort": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Server port."
-        }
-      },
-      "description": "WiFi/Ethernet UDP device configuration."
     },
     "protobufAny": {
       "type": "object",
