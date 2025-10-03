@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "github.com/adarko-io/platform-api/go/v4/external/service";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "external/service/shared_enums.proto";
+import "external/service/lorawan_types.proto";
+
+// HelperService provides common utilities and metadata for the platform API.
+// This includes enum definitions for UI mapping and validation.
+service HelperService {
+  
+  // Simple helper endpoint to get all enum values for UI dropdowns.
+  rpc ListEnums(google.protobuf.Empty) returns (ListEnumsHelperResponse) {
+    option (google.api.http) = {
+      get: "/api/common/helper"
+    };
+  }
+}
+
+// Simple response for UI helper endpoint with concrete enum values.
+message ListEnumsHelperResponse {
+  // LoRaWAN MAC versions.
+  repeated MacVersion mac_versions = 1;
+
+  // LoRaWAN device classes.
+  repeated DeviceClass device_classes = 2;
+
+  // LoRaWAN join modes.
+  repeated JoinMode join_modes = 3;
+
+  // LoRaWAN regions.
+  repeated Region regions = 4;
+
+  // LoRaWAN regional parameters revisions.
+  repeated RegParamsRevision reg_params_revisions = 5;
+
+  // Payload codec runtimes.
+  repeated CodecRuntime codec_runtimes = 6;
+
+  // Location sources.
+  repeated LocationSource location_sources = 7;
+
+  // Device types.
+  repeated DeviceType device_types = 8;
+
+  // Inventory statuses.
+  repeated InventoryStatus inventory_status = 9;
+
+  // Downlink modes.
+  repeated DownlinkMode downlink_modes = 10;
+
+  // Cellular network types.
+  repeated CellularNetworkType cellular_network_types = 11;
+
+  // Transport protocols.
+  repeated TransportProtocol transport_protocols = 12;
+
+  // Aggregation types.
+  repeated AggregationType aggregation_types = 13;
+
+  // Time intervals.
+  repeated TimeInterval time_intervals = 14;
+}

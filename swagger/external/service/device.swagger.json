@@ -269,7 +269,7 @@
           "description": "SerialNo."
         },
         "deviceType": {
-          "type": "string",
+          "$ref": "#/definitions/apiDeviceType",
           "description": "Device Type."
         },
         "variables": {
@@ -357,6 +357,22 @@
           "description": "Device battery level as a percentage.\n-1 when the battery level is not available."
         }
       }
+    },
+    "apiDeviceType": {
+      "type": "string",
+      "enum": [
+        "DEVICE_TYPE_UNKNOWN",
+        "DEVICE_AMR_WATER_METER_INDUCTIVE",
+        "DEVICE_AMR_WATER_METER_MAGNETIC",
+        "DEVICE_AMR_WATER_METER_PULSE",
+        "DEVICE_ULTRASONIC_WATER_METER",
+        "DEVICE_ENERGY_METER",
+        "DEVICE_GAS_METER",
+        "DEVICE_GPS_TRACKER",
+        "DEVICE_BLE_LORAWAN_GATEWAY"
+      ],
+      "default": "DEVICE_TYPE_UNKNOWN",
+      "description": " - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_AMR_WATER_METER_INDUCTIVE: AMR Water meter Inductive.\n - DEVICE_AMR_WATER_METER_MAGNETIC: AMR Water meter magnetic device.\n - DEVICE_AMR_WATER_METER_PULSE: AMR Water meter pulse device.\n - DEVICE_ULTRASONIC_WATER_METER: ULTRASONIC Water Meter device.\n - DEVICE_ENERGY_METER: Energy Meter device.\n - DEVICE_GAS_METER: GAS Meter device.\n - DEVICE_GPS_TRACKER: GPS Tracker device.\n - DEVICE_BLE_LORAWAN_GATEWAY: BLE LoRaWAN Gateway device."
     },
     "apiGetDeviceResponse": {
       "type": "object",

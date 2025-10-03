@@ -7,6 +7,7 @@ option go_package = "github.com/adarko-io/platform-api/go/v4/external/service";
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
+import "external/service/shared_enums.proto";
 
 
 // DeviceService is the service providing API methods for managing devices.
@@ -70,7 +71,7 @@ message Device {
   string serial_number = 6;
 
   // Device Type.
-  string device_type = 7;
+  DeviceType device_type = 7;
 
   // Variables (user defined).
   // These variables can be used together with integrations to store tokens /

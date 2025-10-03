@@ -236,3 +236,32 @@ enum TimeInterval {
   // 1 month intervals.
   TIME_INTERVAL_MONTH = 9;
 }
+
+enum DeviceType {
+  // Unknown device type.
+  DEVICE_TYPE_UNKNOWN = 0;
+  
+  // AMR Water meter Inductive.
+  DEVICE_AMR_WATER_METER_INDUCTIVE = 1;
+  
+  // AMR Water meter magnetic device.
+  DEVICE_AMR_WATER_METER_MAGNETIC = 2;
+  
+  // AMR Water meter pulse device.
+  DEVICE_AMR_WATER_METER_PULSE = 3;
+  
+  // ULTRASONIC Water Meter device.
+  DEVICE_ULTRASONIC_WATER_METER = 4;
+  
+  // Energy Meter device.
+  DEVICE_ENERGY_METER = 5;
+  
+  // GAS Meter device.
+  DEVICE_GAS_METER = 6;
+  
+  // GPS Tracker device.
+  DEVICE_GPS_TRACKER = 7;
+
+  // BLE LoRaWAN Gateway device.
+  DEVICE_BLE_LORAWAN_GATEWAY = 8;
+}

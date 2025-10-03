@@ -1,0 +1,377 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "external/service/helper.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/common/helper": {
+      "get": {
+        "summary": "Simple helper endpoint to get all enum values for UI dropdowns.",
+        "operationId": "HelperService_ListEnums",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiListEnumsHelperResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "HelperService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "apiAggregationType": {
+      "type": "string",
+      "enum": [
+        "AGGREGATION_TYPE_NONE",
+        "AGGREGATION_TYPE_AVG",
+        "AGGREGATION_TYPE_MIN",
+        "AGGREGATION_TYPE_MAX",
+        "AGGREGATION_TYPE_SUM",
+        "AGGREGATION_TYPE_COUNT",
+        "AGGREGATION_TYPE_FIRST",
+        "AGGREGATION_TYPE_LAST"
+      ],
+      "default": "AGGREGATION_TYPE_NONE",
+      "description": "Aggregation type for time-series data.\n\n - AGGREGATION_TYPE_NONE: No aggregation (raw data).\n - AGGREGATION_TYPE_AVG: Average values.\n - AGGREGATION_TYPE_MIN: Minimum values.\n - AGGREGATION_TYPE_MAX: Maximum values.\n - AGGREGATION_TYPE_SUM: Sum of values.\n - AGGREGATION_TYPE_COUNT: Count of data points.\n - AGGREGATION_TYPE_FIRST: First value in time window.\n - AGGREGATION_TYPE_LAST: Last value in time window."
+    },
+    "apiCellularNetworkType": {
+      "type": "string",
+      "enum": [
+        "CELLULAR_NETWORK_TYPE_AUTO",
+        "CELLULAR_NETWORK_TYPE_GSM_2G",
+        "CELLULAR_NETWORK_TYPE_UMTS_3G",
+        "CELLULAR_NETWORK_TYPE_LTE_4G",
+        "CELLULAR_NETWORK_TYPE_NR_5G",
+        "CELLULAR_NETWORK_TYPE_NB_IOT",
+        "CELLULAR_NETWORK_TYPE_LTE_M"
+      ],
+      "default": "CELLULAR_NETWORK_TYPE_AUTO",
+      "description": "Cellular network type enumeration."
+    },
+    "apiCodecRuntime": {
+      "type": "string",
+      "enum": [
+        "NONE",
+        "CAYENNE_LPP",
+        "JS"
+      ],
+      "default": "NONE",
+      "description": "Payload codec runtime."
+    },
+    "apiDeviceClass": {
+      "type": "string",
+      "enum": [
+        "CLASS_A",
+        "CLASS_B",
+        "CLASS_C"
+      ],
+      "default": "CLASS_A",
+      "description": "LoRaWAN device class."
+    },
+    "apiDeviceType": {
+      "type": "string",
+      "enum": [
+        "DEVICE_TYPE_UNKNOWN",
+        "DEVICE_AMR_WATER_METER_INDUCTIVE",
+        "DEVICE_AMR_WATER_METER_MAGNETIC",
+        "DEVICE_AMR_WATER_METER_PULSE",
+        "DEVICE_ULTRASONIC_WATER_METER",
+        "DEVICE_ENERGY_METER",
+        "DEVICE_GAS_METER",
+        "DEVICE_GPS_TRACKER",
+        "DEVICE_BLE_LORAWAN_GATEWAY"
+      ],
+      "default": "DEVICE_TYPE_UNKNOWN",
+      "description": " - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_AMR_WATER_METER_INDUCTIVE: AMR Water meter Inductive.\n - DEVICE_AMR_WATER_METER_MAGNETIC: AMR Water meter magnetic device.\n - DEVICE_AMR_WATER_METER_PULSE: AMR Water meter pulse device.\n - DEVICE_ULTRASONIC_WATER_METER: ULTRASONIC Water Meter device.\n - DEVICE_ENERGY_METER: Energy Meter device.\n - DEVICE_GAS_METER: GAS Meter device.\n - DEVICE_GPS_TRACKER: GPS Tracker device.\n - DEVICE_BLE_LORAWAN_GATEWAY: BLE LoRaWAN Gateway device."
+    },
+    "apiDownlinkMode": {
+      "type": "string",
+      "enum": [
+        "DOWNLINK_MODE_IMMEDIATE",
+        "DOWNLINK_MODE_QUEUED",
+        "DOWNLINK_MODE_SCHEDULED"
+      ],
+      "default": "DOWNLINK_MODE_IMMEDIATE",
+      "description": "Downlink delivery mode enumeration.\n\n - DOWNLINK_MODE_IMMEDIATE: Immediate downlink (for always-on devices).\n - DOWNLINK_MODE_QUEUED: Queued downlink (for battery-powered devices, sent on next uplink).\n - DOWNLINK_MODE_SCHEDULED: Scheduled downlink (sent at specific time)."
+    },
+    "apiInventoryStatus": {
+      "type": "string",
+      "enum": [
+        "INVENTORY_STATUS_INVENTORY",
+        "INVENTORY_STATUS_ONBOARDED",
+        "INVENTORY_STATUS_PROVISIONED",
+        "INVENTORY_STATUS_DECOMMISSIONED",
+        "INVENTORY_STATUS_FAULTY",
+        "INVENTORY_STATUS_LOST"
+      ],
+      "default": "INVENTORY_STATUS_INVENTORY",
+      "description": "Inventory status enumeration.\n\n - INVENTORY_STATUS_INVENTORY: Device in inventory, not yet onboarded.\n - INVENTORY_STATUS_ONBOARDED: Device onboarded to platform.\n - INVENTORY_STATUS_PROVISIONED: Device provisioned and active.\n - INVENTORY_STATUS_DECOMMISSIONED: Device decommissioned.\n - INVENTORY_STATUS_FAULTY: Device reported as faulty.\n - INVENTORY_STATUS_LOST: Device lost or stolen."
+    },
+    "apiJoinMode": {
+      "type": "string",
+      "enum": [
+        "OTAA",
+        "ABP"
+      ],
+      "default": "OTAA",
+      "description": "LoRaWAN device join mode.\n\n - OTAA: Over-the-air activation.\n - ABP: Activation by personalization."
+    },
+    "apiListEnumsHelperResponse": {
+      "type": "object",
+      "properties": {
+        "macVersions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiMacVersion"
+          },
+          "description": "LoRaWAN MAC versions."
+        },
+        "deviceClasses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiDeviceClass"
+          },
+          "description": "LoRaWAN device classes."
+        },
+        "joinModes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiJoinMode"
+          },
+          "description": "LoRaWAN join modes."
+        },
+        "regions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiRegion"
+          },
+          "description": "LoRaWAN regions."
+        },
+        "regParamsRevisions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiRegParamsRevision"
+          },
+          "description": "LoRaWAN regional parameters revisions."
+        },
+        "codecRuntimes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiCodecRuntime"
+          },
+          "description": "Payload codec runtimes."
+        },
+        "locationSources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiLocationSource"
+          },
+          "description": "Location sources."
+        },
+        "deviceTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiDeviceType"
+          },
+          "description": "Device types."
+        },
+        "inventoryStatus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiInventoryStatus"
+          },
+          "description": "Inventory statuses."
+        },
+        "downlinkModes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiDownlinkMode"
+          },
+          "description": "Downlink modes."
+        },
+        "cellularNetworkTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiCellularNetworkType"
+          },
+          "description": "Cellular network types."
+        },
+        "transportProtocols": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiTransportProtocol"
+          },
+          "description": "Transport protocols."
+        },
+        "aggregationTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiAggregationType"
+          },
+          "description": "Aggregation types."
+        },
+        "timeIntervals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiTimeInterval"
+          },
+          "description": "Time intervals."
+        }
+      },
+      "description": "Simple response for UI helper endpoint with concrete enum values."
+    },
+    "apiLocationSource": {
+      "type": "string",
+      "enum": [
+        "LOCATION_SOURCE_UNKNOWN",
+        "LOCATION_SOURCE_GPS",
+        "LOCATION_SOURCE_MANUAL",
+        "LOCATION_SOURCE_TRIANGULATION",
+        "LOCATION_SOURCE_WIFI",
+        "LOCATION_SOURCE_MANUAL_OVERRIDE",
+        "LOCATION_SOURCE_CONFIG",
+        "LOCATION_SOURCE_GEO_RESOLVER_TDOA",
+        "LOCATION_SOURCE_GEO_RESOLVER_RSSI",
+        "LOCATION_SOURCE_GEO_RESOLVER_GNSS",
+        "LOCATION_SOURCE_GEO_RESOLVER_WIFI"
+      ],
+      "default": "LOCATION_SOURCE_UNKNOWN",
+      "description": "Location source enumeration - unified across all services.\n\n - LOCATION_SOURCE_UNKNOWN: Unknown location source.\n - LOCATION_SOURCE_GPS: GPS coordinates.\n - LOCATION_SOURCE_MANUAL: Manually configured.\n - LOCATION_SOURCE_TRIANGULATION: Calculated via triangulation.\n - LOCATION_SOURCE_WIFI: WiFi-based location.\n - LOCATION_SOURCE_MANUAL_OVERRIDE: Manual override.\n - LOCATION_SOURCE_CONFIG: Configuration-based.\n - LOCATION_SOURCE_GEO_RESOLVER_TDOA: GEO resolver TDOA.\n - LOCATION_SOURCE_GEO_RESOLVER_RSSI: GEO resolver RSSI.\n - LOCATION_SOURCE_GEO_RESOLVER_GNSS: GEO resolver GNSS.\n - LOCATION_SOURCE_GEO_RESOLVER_WIFI: GEO resolver WiFi."
+    },
+    "apiMacVersion": {
+      "type": "string",
+      "enum": [
+        "LORAWAN_1_0_0",
+        "LORAWAN_1_0_1",
+        "LORAWAN_1_0_2",
+        "LORAWAN_1_0_3",
+        "LORAWAN_1_0_4",
+        "LORAWAN_1_1_0"
+      ],
+      "default": "LORAWAN_1_0_0",
+      "description": "LoRaWAN MAC version."
+    },
+    "apiRegParamsRevision": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "RP002_1_0_0",
+        "RP002_1_0_1",
+        "RP002_1_0_2",
+        "RP002_1_0_3",
+        "RP002_1_0_4"
+      ],
+      "default": "A",
+      "description": "LoRaWAN regional parameters revision."
+    },
+    "apiRegion": {
+      "type": "string",
+      "enum": [
+        "EU868",
+        "US915",
+        "CN779",
+        "EU433",
+        "AU915",
+        "CN470",
+        "AS923",
+        "AS923_2",
+        "AS923_3",
+        "AS923_4",
+        "KR920",
+        "IN865",
+        "RU864",
+        "ISM2400"
+      ],
+      "default": "EU868",
+      "description": "LoRaWAN region."
+    },
+    "apiTimeInterval": {
+      "type": "string",
+      "enum": [
+        "TIME_INTERVAL_MINUTE",
+        "TIME_INTERVAL_MINUTE_5",
+        "TIME_INTERVAL_MINUTE_15",
+        "TIME_INTERVAL_MINUTE_30",
+        "TIME_INTERVAL_HOUR",
+        "TIME_INTERVAL_HOUR_6",
+        "TIME_INTERVAL_HOUR_12",
+        "TIME_INTERVAL_DAY",
+        "TIME_INTERVAL_WEEK",
+        "TIME_INTERVAL_MONTH"
+      ],
+      "default": "TIME_INTERVAL_MINUTE",
+      "description": "Time interval for aggregation.\n\n - TIME_INTERVAL_MINUTE: 1 minute intervals.\n - TIME_INTERVAL_MINUTE_5: 5 minute intervals.\n - TIME_INTERVAL_MINUTE_15: 15 minute intervals.\n - TIME_INTERVAL_MINUTE_30: 30 minute intervals.\n - TIME_INTERVAL_HOUR: 1 hour intervals.\n - TIME_INTERVAL_HOUR_6: 6 hour intervals.\n - TIME_INTERVAL_HOUR_12: 12 hour intervals.\n - TIME_INTERVAL_DAY: 1 day intervals.\n - TIME_INTERVAL_WEEK: 1 week intervals.\n - TIME_INTERVAL_MONTH: 1 month intervals."
+    },
+    "apiTransportProtocol": {
+      "type": "string",
+      "enum": [
+        "TRANSPORT_PROTOCOL_UNKNOWN",
+        "TRANSPORT_LORAWAN",
+        "TRANSPORT_CELLULAR_HTTP",
+        "TRANSPORT_CELLULAR_MQTT",
+        "TRANSPORT_CELLULAR_TCP",
+        "TRANSPORT_CELLULAR_UDP",
+        "TRANSPORT_CELLULAR_COAP",
+        "TRANSPORT_HTTP",
+        "TRANSPORT_MQTT",
+        "TRANSPORT_TCP",
+        "TRANSPORT_UDP",
+        "TRANSPORT_COAP",
+        "TRANSPORT_WEBSOCKET"
+      ],
+      "default": "TRANSPORT_PROTOCOL_UNKNOWN",
+      "description": "Transport protocol enumeration - unified for inventory and data services.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_CELLULAR_HTTP: HTTP/HTTPS over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_MQTT: MQTT over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_TCP: TCP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_UDP: UDP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_CELLULAR_COAP: CoAP over cellular (2G/3G/4G/5G/NB-IoT/LTE-M).\n - TRANSPORT_HTTP: HTTP/HTTPS over WiFi/Ethernet.\n - TRANSPORT_MQTT: MQTT over WiFi/Ethernet.\n - TRANSPORT_TCP: TCP over WiFi/Ethernet.\n - TRANSPORT_UDP: UDP over WiFi/Ethernet.\n - TRANSPORT_COAP: CoAP over WiFi/Ethernet.\n - TRANSPORT_WEBSOCKET: WebSocket."
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
