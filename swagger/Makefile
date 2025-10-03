@@ -11,13 +11,11 @@ requirements:
 	@go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
 
 platform-api:
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/internal.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/user.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/tenant.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/application.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/device.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/data.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/helper.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/inventory.proto
-	
-	
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/platform_internal.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/platform_user.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/platform_tenant.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/platform_application.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/platform_device.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/platform_data.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/platform_helper.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/platform_inventory.proto

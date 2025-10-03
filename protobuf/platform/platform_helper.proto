@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "github.com/adarko-io/platform-api/go/v4/platform";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "platform/platform_shared_enums.proto";
+
+// HelperService provides common utilities and metadata for the platform API.
+// This includes enum definitions for UI mapping and validation.
+service PlatformHelperService {
+  
+  // Simple helper endpoint to get all enum values for UI dropdowns.
+  rpc ListEnums(google.protobuf.Empty) returns (ListEnumsHelperResponse) {
+    option (google.api.http) = {
+      get: "/api/common/helper"
+    };
+  }
+}
+
+// Simple response for UI helper endpoint with concrete enum values.
+message ListEnumsHelperResponse {
+  // LoRaWAN enums.
+  string lorawan = 1;
+
+  // Location sources.
+  repeated LocationSource location_sources = 2;
+
+  // Device types.
+  repeated DeviceType device_types = 3;
+
+  // Inventory statuses.
+  repeated InventoryStatus inventory_status = 4;
+
+  // Downlink modes.
+  repeated DownlinkMode downlink_modes = 5;
+
+  // Cellular network types.
+  repeated AssetType asset_type = 6;
+
+  // Transport protocols.
+  repeated TransportProtocol transport_protocols = 7;
+
+  // Aggregation types.
+  repeated AggregationType aggregation_types = 8;
+
+  // Time intervals.
+  repeated TimeInterval time_intervals = 9;
+}

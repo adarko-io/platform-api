@@ -1,0 +1,550 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "platform/platform_internal.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/internal/apikeys": {
+      "get": {
+        "summary": "ListApiKeys lists the available API keys.",
+        "operationId": "PlatformInternalService_ListApiKeys",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serviceListApiKeysResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "description": "Max number of items to return.\nIf not set, it will be treated as 0, and the response will only return the total_count.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "description": "Offset in the result-set (for pagination).",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "isAdmin",
+            "description": "Return only admin keys.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "tenantId",
+            "description": "Filter on tenant ID.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "PlatformInternalService"
+        ]
+      },
+      "post": {
+        "summary": "CreateApiKey creates the given API key.",
+        "operationId": "PlatformInternalService_CreateApiKey",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serviceCreateApiKeyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/serviceCreateApiKeyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PlatformInternalService"
+        ]
+      }
+    },
+    "/api/internal/apikeys/{id}": {
+      "delete": {
+        "summary": "DeleteApiKey deletes the API key.",
+        "operationId": "PlatformInternalService_DeleteApiKey",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "API key ID.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "PlatformInternalService"
+        ]
+      }
+    },
+    "/api/internal/login": {
+      "post": {
+        "summary": "Log in a user",
+        "operationId": "PlatformInternalService_Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serviceLoginResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/serviceLoginRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PlatformInternalService"
+        ]
+      }
+    },
+    "/api/internal/profile": {
+      "get": {
+        "summary": "Get the current user's profile",
+        "operationId": "PlatformInternalService_Profile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serviceProfileResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "PlatformInternalService"
+        ]
+      }
+    },
+    "/api/internal/search": {
+      "post": {
+        "summary": "Perform a global search.",
+        "operationId": "PlatformInternalService_GlobalSearch",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/serviceGlobalSearchResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/serviceGlobalSearchRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PlatformInternalService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "runtimeStreamError": {
+      "type": "object",
+      "properties": {
+        "grpcCode": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "httpCode": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "httpStatus": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "serviceApiKey": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "API key ID.\nThis value will be automatically generated on create."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name."
+        },
+        "isAdmin": {
+          "type": "boolean",
+          "description": "Is global admin key."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant ID.\nIn case the API key is intended to manage resources under a single tenant."
+        }
+      }
+    },
+    "serviceCreateApiKeyRequest": {
+      "type": "object",
+      "properties": {
+        "apiKey": {
+          "$ref": "#/definitions/serviceApiKey",
+          "description": "The API key to create."
+        }
+      }
+    },
+    "serviceCreateApiKeyResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "API key ID."
+        },
+        "token": {
+          "type": "string",
+          "description": "API token for authentication API requests."
+        }
+      }
+    },
+    "serviceGlobalSearchRequest": {
+      "type": "object",
+      "properties": {
+        "search": {
+          "type": "string",
+          "description": "Search query."
+        },
+        "limit": {
+          "type": "string",
+          "format": "int64",
+          "description": "Max number of results to return.\nIf not set, it will be treated as 0, and the response will only return the total_count."
+        },
+        "offset": {
+          "type": "string",
+          "format": "int64",
+          "description": "Offset offset of the result-set (for pagination)."
+        }
+      }
+    },
+    "serviceGlobalSearchResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serviceGlobalSearchResult"
+          }
+        }
+      }
+    },
+    "serviceGlobalSearchResult": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "Record kind."
+        },
+        "score": {
+          "type": "number",
+          "format": "float",
+          "description": "Search score."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Organization id."
+        },
+        "tenantName": {
+          "type": "string",
+          "description": "Organization name."
+        },
+        "applicationId": {
+          "type": "string",
+          "description": "Application id."
+        },
+        "applicationName": {
+          "type": "string",
+          "description": "Application name."
+        },
+        "eui": {
+          "type": "string",
+          "description": "Device EUI (hex encoded)."
+        },
+        "deviceName": {
+          "type": "string",
+          "description": "Device name."
+        }
+      }
+    },
+    "serviceListApiKeysResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total number of API keys."
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serviceApiKey"
+          }
+        }
+      }
+    },
+    "serviceLogItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID."
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp."
+        },
+        "description": {
+          "type": "string",
+          "description": "Message."
+        },
+        "body": {
+          "type": "string",
+          "description": "Body."
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Properties."
+        }
+      }
+    },
+    "serviceLoginRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Email of the user."
+        },
+        "password": {
+          "type": "string",
+          "description": "Password of the user."
+        }
+      }
+    },
+    "serviceLoginResponse": {
+      "type": "object",
+      "properties": {
+        "jwt": {
+          "type": "string",
+          "description": "The JWT tag to be used to access chirpstack-application-server interfaces."
+        }
+      }
+    },
+    "serviceProfileResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/serviceUser",
+          "description": "User object."
+        },
+        "tenants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serviceUserTenantLink"
+          },
+          "description": "Tenants to which the user is associated."
+        }
+      }
+    },
+    "serviceUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "User ID (UUID).\nWill be set automatically on create."
+        },
+        "sessionTTL": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The session timeout, in minutes."
+        },
+        "isAdmin": {
+          "type": "boolean",
+          "description": "Set to true to make the user a global administrator."
+        },
+        "isEditor": {
+          "type": "boolean",
+          "description": "Set to true to make the user a global editor."
+        },
+        "isViewer": {
+          "type": "boolean",
+          "description": "Set to true to make the user a global viewer."
+        },
+        "isConsumer": {
+          "type": "boolean",
+          "description": "Set to true to make the user a consumer."
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "Set to false to disable the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "E-mail of the user."
+        },
+        "note": {
+          "type": "string",
+          "description": "Optional note to store with the user."
+        }
+      }
+    },
+    "serviceUserTenantLink": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Created at timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant ID."
+        },
+        "isAdmin": {
+          "type": "boolean",
+          "description": "User is admin within the context of this tenant.\nThere is no need to set the is_device_admin and is_gateway_admin flags."
+        },
+        "isEditor": {
+          "type": "boolean",
+          "description": "User is able to modify device related resources (applications,\ndevice-profiles, devices, multicast-groups)."
+        },
+        "isViewer": {
+          "type": "boolean",
+          "description": "User is able to viewer."
+        }
+      },
+      "description": "Defines a tenant to which the user is associated."
+    }
+  }
+}
