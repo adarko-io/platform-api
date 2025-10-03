@@ -1,0 +1,156 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "github.com/adarko-io/platform-api/go/v4/platform";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+// ApplicationService is the service providing API methods for managing
+// applications.
+service ApplicationService {
+  // Create creates the given application.
+  rpc Create(CreateApplicationRequest) returns (CreateApplicationResponse) {
+    option (google.api.http) = {
+      post: "/api/applications"
+      body: "*"
+    };
+  }
+
+  // Get the application for the given ID.
+  rpc Get(GetApplicationRequest) returns (GetApplicationResponse) {
+    option (google.api.http) = {
+      get: "/api/applications/{id}"
+    };
+  }
+
+  // Update updates the given application.
+  rpc Update(UpdateApplicationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/api/applications/{application.id}"
+      body: "*"
+    };
+  }
+
+  // Delete the application for the given ID.
+  rpc Delete(DeleteApplicationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/api/applications/{id}"
+    };
+  }
+
+  // Get the list of applications.
+  rpc List(ListApplicationsRequest) returns (ListApplicationsResponse) {
+    option (google.api.http) = {
+      get: "/api/applications"
+    };
+  }
+
+
+}
+
+
+
+message Application {
+  // Application ID (UUID).
+  // Note: on create this will be automatically generated.
+  string id = 1;
+
+  // Application name.
+  string name = 2;
+
+  // Application description.
+  string description = 3;
+
+  // Tenant ID (UUID).
+  string tenant_id = 4;
+
+  // Tags (user defined).
+  // These tags can be used to add additional information to the application.
+  // These tags are exposed in all the integration events of devices under
+  // this application.
+  map<string, string> tags = 5;
+}
+
+message ApplicationListItem {
+  // Application ID (UUID).
+  string id = 1;
+
+  // Created at timestamp.
+  google.protobuf.Timestamp created_at = 2;
+
+  // Last update timestamp.
+  google.protobuf.Timestamp updated_at = 3;
+
+  // Application name.
+  string name = 4;
+
+  // Application description.
+  string description = 5;
+
+  // Tenant ID (UUID).
+  string tenant_id = 6;
+
+}
+
+message CreateApplicationRequest {
+  // Application object to create.
+  Application application = 1;
+}
+
+message CreateApplicationResponse {
+  // Application ID (UUID).
+  string id = 1;
+}
+
+message GetApplicationRequest {
+  // Application ID (UUID).
+  string id = 1;
+}
+
+message GetApplicationResponse {
+  // Application object.
+  Application application = 1;
+
+  // Created at timestamp.
+  google.protobuf.Timestamp created_at = 2;
+
+  // Last update timestamp.
+  google.protobuf.Timestamp updated_at = 3;
+
+}
+
+message UpdateApplicationRequest {
+  // Application object.
+  Application application = 1;
+}
+
+message DeleteApplicationRequest {
+  // Application ID (UUID).
+  string id = 1;
+}
+
+message ListApplicationsRequest {
+  // Max number of applications to return in the result-set.
+  // If not set, it will be treated as 0, and the response will only return the total_count.
+  uint32 limit = 1;
+
+  // Offset in the result-set (for pagination).
+  uint32 offset = 2;
+
+  // If set, the given string will be used to search on name (optional).
+  string search = 3;
+
+  // Tenant ID to list the applications for.
+  string tenant_id = 4;
+}
+
+message ListApplicationsResponse {
+  // Total number of applications.
+  uint32 total_count = 1;
+
+  // Result-set.
+  repeated ApplicationListItem result = 2;
+}

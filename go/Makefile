@@ -13,22 +13,22 @@ requirements:
 
 platform-api:
 	# gRPC
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --go_out=plugins=grpc,paths=source_relative:. platform/service/internal.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --go_out=plugins=grpc,paths=source_relative:. platform/service/user.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --go_out=plugins=grpc,paths=source_relative:. platform/service/tenant.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --go_out=plugins=grpc,paths=source_relative:. platform/service/application.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --go_out=plugins=grpc,paths=source_relative:. platform/service/device.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --go_out=plugins=grpc,paths=source_relative:. platform/service/data.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --go_out=plugins=grpc,paths=source_relative:. platform/service/shared_enums.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --go_out=plugins=grpc,paths=source_relative:. platform/service/helper.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --go_out=plugins=grpc,paths=source_relative:. platform/service/inventory.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --go_out=plugins=grpc,paths=source_relative:. platform/internal.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --go_out=plugins=grpc,paths=source_relative:. platform/user.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --go_out=plugins=grpc,paths=source_relative:. platform/tenant.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --go_out=plugins=grpc,paths=source_relative:. platform/application.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --go_out=plugins=grpc,paths=source_relative:. platform/device.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --go_out=plugins=grpc,paths=source_relative:. platform/data.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --go_out=plugins=grpc,paths=source_relative:. platform/shared_enums.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --go_out=plugins=grpc,paths=source_relative:. platform/helper.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --go_out=plugins=grpc,paths=source_relative:. platform/inventory.proto
 	
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/service/internal.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/service/user.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/service/tenant.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/service/application.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/service/device.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/service/data.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/service/shared_enums.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/service/helper.proto
-	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform/service --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/service/inventory.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/internal.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/user.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/tenant.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/application.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/device.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/data.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/shared_enums.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/helper.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/inventory.proto
