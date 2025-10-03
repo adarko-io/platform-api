@@ -1,0 +1,270 @@
+syntax = "proto3";
+
+package platform;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "platform/shared_enums.proto";
+
+option go_package = "github.com/adarko-io/platform-api/go/v4/platform";
+
+// InventoryService manages device inventory, provisioning, and device-specific configurations.
+// Devices must exist in inventory before they can be added to the device service.
+service InventoryService {
+  // Create a new device in inventory.
+  rpc Create(CreateInventoryDeviceRequest) returns (CreateInventoryDeviceResponse) {
+    option (google.api.http) = {
+      post: "/api/inventory/devices",
+      body: "*",
+    };
+  }
+
+  // Get device from inventory by EUI.
+  rpc Get(GetInventoryDeviceRequest) returns (GetInventoryDeviceResponse) {
+    option (google.api.http) = {
+      get: "/api/inventory/devices/{eui}",
+    };
+  }
+
+  // Update device in inventory.
+  rpc Update(UpdateInventoryDeviceRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put:  "/api/inventory/devices/{device.eui}",
+      body: "*",
+    };
+  }
+
+  // Delete device from inventory.
+  rpc Delete(DeleteInventoryDeviceRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/api/inventory/devices/{eui}",
+    };
+  }
+
+  // List devices in inventory with filtering.
+  rpc List(ListInventoryDevicesRequest) returns (ListInventoryDevicesResponse) {
+    option (google.api.http) = {
+      get: "/api/inventory/devices",
+    };
+  }
+
+  // Update device status (onboarded/provisioned).
+  rpc UpdateStatus(UpdateDeviceStatusRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put:  "/api/inventory/devices/{eui}/status",
+      body: "*",
+    };
+  }
+
+  // Bulk import devices to inventory.
+  rpc BulkImport(BulkImportRequest) returns (BulkImportResponse) {
+    option (google.api.http) = {
+      post: "/api/inventory/devices/bulk-import",
+      body: "*",
+    };
+  }
+
+  // Search for device by various criteria.
+  rpc Search(SearchInventoryDeviceRequest) returns (SearchInventoryDeviceResponse) {
+    option (google.api.http) = {
+      post: "/api/inventory/devices/search",
+      body: "*",
+    };
+  }
+}
+
+// InventoryDevice represents a device in the inventory with all necessary configuration.
+message InventoryDevice {
+  // EUI (EUI64) - Primary identifier.
+  string eui = 1;
+
+  // Serial number.
+  string serial_number = 2;
+
+  // Device name/model.
+  string name = 3;
+
+  // Device description.
+  string description = 4;
+
+  // Current inventory status.
+  InventoryStatus status = 5;
+
+  // Manufacturer information.
+  string manufacturer = 6;
+
+  // Model number/SKU.
+  string model = 7;
+
+  // Hardware version.
+  string hardware_version = 8;
+
+  // Firmware version.
+  string firmware_version = 9;
+
+  // Device type specific configuration JSON.
+  string configuration = 10;
+
+ //Device Type LoRaWAN Gateway, LoRaWAN Device, Cellular Device, Wifi etc.
+  DeviceType device_type = 11;
+
+//Asset Type Water Meter, Gas Meter, Energy Meter etc.
+  AssetType asset_type = 12;
+
+  // Device tags/labels.
+  map<string, string> tags = 13;
+
+  // Additional metadata.
+  map<string, string> metadata = 14;
+
+  // Batch/lot information.
+  string batch_id = 15;
+}
+
+// NOTE: Enums moved to shared_enums.proto to avoid conflicts between services.
+
+
+// Request/Response messages.
+message CreateInventoryDeviceRequest {
+  // Device to create.
+  InventoryDevice device = 1;
+}
+
+message CreateInventoryDeviceResponse {
+  // Device EUI.
+  string eui = 1;
+}
+
+message GetInventoryDeviceRequest {
+  // Device EUI.
+  string eui = 1;
+}
+
+message GetInventoryDeviceResponse {
+  // Device information.
+  InventoryDevice device = 1;
+
+  // Created at timestamp.
+  google.protobuf.Timestamp created_at = 2;
+
+  // Last update timestamp.
+  google.protobuf.Timestamp updated_at = 3;
+}
+
+message UpdateInventoryDeviceRequest {
+  // Device to update.
+  InventoryDevice device = 1;
+}
+
+message DeleteInventoryDeviceRequest {
+  // Device EUI.
+  string eui = 1;
+}
+
+message ListInventoryDevicesRequest {
+  // Maximum number of devices to return.
+  uint32 limit = 1;
+
+  // Offset for pagination.
+  uint32 offset = 2;
+
+
+  // Filter by manufacturer.
+  string manufacturer = 3;
+
+  // Filter by model.
+  string model = 4;
+
+  // Search query (name, description, etc.).
+  string search = 5;
+
+  // Filter by tags.
+  map<string, string> tags = 6;
+}
+
+message InventoryDeviceListItem {
+  // Device EUI.
+  string eui = 1;
+
+  // Device name.
+  string name = 2;
+
+
+  // Current status.
+  InventoryStatus status = 3;
+
+  // Manufacturer.
+  string manufacturer = 4;
+
+  // Model.
+  string model = 5;
+
+  // Created at timestamp.
+  google.protobuf.Timestamp created_at = 6;
+
+  // Last update timestamp.
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message ListInventoryDevicesResponse {
+  // Total count.
+  uint32 total_count = 1;
+
+  // Device list.
+  repeated InventoryDeviceListItem devices = 2;
+}
+
+message UpdateDeviceStatusRequest {
+  // Device EUI.
+  string eui = 1;
+
+  // New status.
+  InventoryStatus status = 2;
+
+  // Status update reason/notes.
+  string notes = 3;
+}
+
+message BulkImportRequest {
+  // Devices to import.
+  repeated InventoryDevice devices = 1;
+
+  // Skip devices that already exist.
+  bool skip_existing = 2;
+}
+
+message BulkImportResponse {
+  // Number of devices successfully imported.
+  uint32 imported_count = 1;
+
+  // Number of devices skipped.
+  uint32 skipped_count = 2;
+
+  // Number of devices failed.
+  uint32 failed_count = 3;
+
+  // Import errors.
+  repeated ImportError errors = 4;
+}
+
+message ImportError {
+  // Device EUI that failed.
+  string eui = 1;
+
+  // Error message.
+  string error = 2;
+}
+
+message SearchInventoryDeviceRequest {
+  // Search criteria.
+  map<string, string> criteria = 1;
+
+  // Maximum results.
+  uint32 limit = 2;
+}
+
+message SearchInventoryDeviceResponse {
+  // Found devices.
+  repeated InventoryDeviceListItem devices = 1;
+}

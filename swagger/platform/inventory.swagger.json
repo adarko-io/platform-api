@@ -1,0 +1,667 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "platform/inventory.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/inventory/devices": {
+      "get": {
+        "summary": "List devices in inventory with filtering.",
+        "operationId": "InventoryService_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformListInventoryDevicesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "description": "Maximum number of devices to return.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "description": "Offset for pagination.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "manufacturer",
+            "description": "Filter by manufacturer.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "model",
+            "description": "Filter by model.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "description": "Search query (name, description, etc.).",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "InventoryService"
+        ]
+      },
+      "post": {
+        "summary": "Create a new device in inventory.",
+        "operationId": "InventoryService_Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformCreateInventoryDeviceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformCreateInventoryDeviceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InventoryService"
+        ]
+      }
+    },
+    "/api/inventory/devices/bulk-import": {
+      "post": {
+        "summary": "Bulk import devices to inventory.",
+        "operationId": "InventoryService_BulkImport",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformBulkImportResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformBulkImportRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InventoryService"
+        ]
+      }
+    },
+    "/api/inventory/devices/search": {
+      "post": {
+        "summary": "Search for device by various criteria.",
+        "operationId": "InventoryService_Search",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformSearchInventoryDeviceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformSearchInventoryDeviceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InventoryService"
+        ]
+      }
+    },
+    "/api/inventory/devices/{device.eui}": {
+      "put": {
+        "summary": "Update device in inventory.",
+        "operationId": "InventoryService_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "device.eui",
+            "description": "EUI (EUI64) - Primary identifier.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformUpdateInventoryDeviceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InventoryService"
+        ]
+      }
+    },
+    "/api/inventory/devices/{eui}": {
+      "get": {
+        "summary": "Get device from inventory by EUI.",
+        "operationId": "InventoryService_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetInventoryDeviceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "eui",
+            "description": "Device EUI.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "InventoryService"
+        ]
+      },
+      "delete": {
+        "summary": "Delete device from inventory.",
+        "operationId": "InventoryService_Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "eui",
+            "description": "Device EUI.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "InventoryService"
+        ]
+      }
+    },
+    "/api/inventory/devices/{eui}/status": {
+      "put": {
+        "summary": "Update device status (onboarded/provisioned).",
+        "operationId": "InventoryService_UpdateStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "eui",
+            "description": "Device EUI.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformUpdateDeviceStatusRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InventoryService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "platformAssetType": {
+      "type": "string",
+      "enum": [
+        "ASSET_TYPE_UNKNOWN",
+        "ASSET_TYPE_AMR_WATER_METER_INDUCTIVE",
+        "ASSET_TYPE_WATER_METER_MAGNETIC",
+        "ASSET_TYPE_AMR_WATER_METER_PULSE",
+        "ASSET_TYPE_ULTRASONIC_WATER_METER",
+        "ASSET_TYPE_ENERGY_METER",
+        "ASSET_TYPE_GAS_METER",
+        "ASSET_TYPE_GPS_TRACKER",
+        "ASSET_TYPE_LORAWAN_GATEWAY"
+      ],
+      "default": "ASSET_TYPE_UNKNOWN",
+      "description": " - ASSET_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_TYPE_AMR_WATER_METER_INDUCTIVE: AMR Water meter Inductive.\n - ASSET_TYPE_WATER_METER_MAGNETIC: AMR Water meter magnetic device.\n - ASSET_TYPE_AMR_WATER_METER_PULSE: AMR Water meter pulse device.\n - ASSET_TYPE_ULTRASONIC_WATER_METER: ULTRASONIC Water Meter device.\n - ASSET_TYPE_ENERGY_METER: Energy Meter device.\n - ASSET_TYPE_GAS_METER: GAS Meter device.\n - ASSET_TYPE_GPS_TRACKER: GPS Tracker device.\n - ASSET_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device."
+    },
+    "platformBulkImportRequest": {
+      "type": "object",
+      "properties": {
+        "devices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformInventoryDevice"
+          },
+          "description": "Devices to import."
+        },
+        "skipExisting": {
+          "type": "boolean",
+          "description": "Skip devices that already exist."
+        }
+      }
+    },
+    "platformBulkImportResponse": {
+      "type": "object",
+      "properties": {
+        "importedCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of devices successfully imported."
+        },
+        "skippedCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of devices skipped."
+        },
+        "failedCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of devices failed."
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformImportError"
+          },
+          "description": "Import errors."
+        }
+      }
+    },
+    "platformCreateInventoryDeviceRequest": {
+      "type": "object",
+      "properties": {
+        "device": {
+          "$ref": "#/definitions/platformInventoryDevice",
+          "description": "Device to create."
+        }
+      },
+      "description": "Request/Response messages."
+    },
+    "platformCreateInventoryDeviceResponse": {
+      "type": "object",
+      "properties": {
+        "eui": {
+          "type": "string",
+          "description": "Device EUI."
+        }
+      }
+    },
+    "platformDeviceType": {
+      "type": "string",
+      "enum": [
+        "DEVICE_TYPE_UNKNOWN",
+        "DEVICE_TYPE_LORAWAN",
+        "DEVICE_TYPE_CELLULAR_GSM",
+        "DEVICE_TYPE_CELLULAR_LTE",
+        "DEVICE_TYPE_CELLULAR_GSM_LTE",
+        "DEVICE_TYPE_GATEWAY",
+        "DEVICE_TYPE_LORAWAN_GATEWAY"
+      ],
+      "default": "DEVICE_TYPE_UNKNOWN",
+      "description": "Communication mode enumeration - unified for inventory and other services.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN: LoRaWAN device type.\n - DEVICE_TYPE_CELLULAR_GSM: Cellular MQTT device type.\n - DEVICE_TYPE_CELLULAR_LTE: Cellular TCP device type.\n - DEVICE_TYPE_CELLULAR_GSM_LTE: Cellular UDP device type.\n - DEVICE_TYPE_GATEWAY: Gateway device type.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device type."
+    },
+    "platformGetInventoryDeviceResponse": {
+      "type": "object",
+      "properties": {
+        "device": {
+          "$ref": "#/definitions/platformInventoryDevice",
+          "description": "Device information."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Created at timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp."
+        }
+      }
+    },
+    "platformImportError": {
+      "type": "object",
+      "properties": {
+        "eui": {
+          "type": "string",
+          "description": "Device EUI that failed."
+        },
+        "error": {
+          "type": "string",
+          "description": "Error message."
+        }
+      }
+    },
+    "platformInventoryDevice": {
+      "type": "object",
+      "properties": {
+        "eui": {
+          "type": "string",
+          "description": "EUI (EUI64) - Primary identifier."
+        },
+        "serialNumber": {
+          "type": "string",
+          "description": "Serial number."
+        },
+        "name": {
+          "type": "string",
+          "description": "Device name/model."
+        },
+        "description": {
+          "type": "string",
+          "description": "Device description."
+        },
+        "status": {
+          "$ref": "#/definitions/platformInventoryStatus",
+          "description": "Current inventory status."
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "Manufacturer information."
+        },
+        "model": {
+          "type": "string",
+          "description": "Model number/SKU."
+        },
+        "hardwareVersion": {
+          "type": "string",
+          "description": "Hardware version."
+        },
+        "firmwareVersion": {
+          "type": "string",
+          "description": "Firmware version."
+        },
+        "configuration": {
+          "type": "string",
+          "description": "Device type specific configuration JSON."
+        },
+        "deviceType": {
+          "$ref": "#/definitions/platformDeviceType",
+          "description": "Device Type LoRaWAN Gateway, LoRaWAN Device, Cellular Device, Wifi etc."
+        },
+        "assetType": {
+          "$ref": "#/definitions/platformAssetType",
+          "description": "Asset Type Water Meter, Gas Meter, Energy Meter etc."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Device tags/labels."
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Additional metadata."
+        },
+        "batchId": {
+          "type": "string",
+          "description": "Batch/lot information."
+        }
+      },
+      "description": "InventoryDevice represents a device in the inventory with all necessary configuration."
+    },
+    "platformInventoryDeviceListItem": {
+      "type": "object",
+      "properties": {
+        "eui": {
+          "type": "string",
+          "description": "Device EUI."
+        },
+        "name": {
+          "type": "string",
+          "description": "Device name."
+        },
+        "status": {
+          "$ref": "#/definitions/platformInventoryStatus",
+          "description": "Current status."
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "Manufacturer."
+        },
+        "model": {
+          "type": "string",
+          "description": "Model."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Created at timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp."
+        }
+      }
+    },
+    "platformInventoryStatus": {
+      "type": "string",
+      "enum": [
+        "INVENTORY_STATUS_INVENTORY",
+        "INVENTORY_STATUS_ONBOARDED",
+        "INVENTORY_STATUS_PROVISIONED",
+        "INVENTORY_STATUS_DECOMMISSIONED",
+        "INVENTORY_STATUS_FAULTY",
+        "INVENTORY_STATUS_LOST"
+      ],
+      "default": "INVENTORY_STATUS_INVENTORY",
+      "description": "Inventory status enumeration.\n\n - INVENTORY_STATUS_INVENTORY: Device in inventory, not yet onboarded.\n - INVENTORY_STATUS_ONBOARDED: Device onboarded to platform.\n - INVENTORY_STATUS_PROVISIONED: Device provisioned and active.\n - INVENTORY_STATUS_DECOMMISSIONED: Device decommissioned.\n - INVENTORY_STATUS_FAULTY: Device reported as faulty.\n - INVENTORY_STATUS_LOST: Device lost or stolen."
+    },
+    "platformListInventoryDevicesResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total count."
+        },
+        "devices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformInventoryDeviceListItem"
+          },
+          "description": "Device list."
+        }
+      }
+    },
+    "platformSearchInventoryDeviceRequest": {
+      "type": "object",
+      "properties": {
+        "criteria": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Search criteria."
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Maximum results."
+        }
+      }
+    },
+    "platformSearchInventoryDeviceResponse": {
+      "type": "object",
+      "properties": {
+        "devices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformInventoryDeviceListItem"
+          },
+          "description": "Found devices."
+        }
+      }
+    },
+    "platformUpdateDeviceStatusRequest": {
+      "type": "object",
+      "properties": {
+        "eui": {
+          "type": "string",
+          "description": "Device EUI."
+        },
+        "status": {
+          "$ref": "#/definitions/platformInventoryStatus",
+          "description": "New status."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Status update reason/notes."
+        }
+      }
+    },
+    "platformUpdateInventoryDeviceRequest": {
+      "type": "object",
+      "properties": {
+        "device": {
+          "$ref": "#/definitions/platformInventoryDevice",
+          "description": "Device to update."
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

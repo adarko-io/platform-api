@@ -1,0 +1,1436 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "platform/data.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/data": {
+      "post": {
+        "summary": "Insert device data point(s).",
+        "operationId": "DataService_Insert",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformInsertDataRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DataService"
+        ]
+      }
+    },
+    "/api/data/aggregated": {
+      "post": {
+        "summary": "Get aggregated device data (for dashboards, analytics).",
+        "operationId": "DataService_GetAggregatedData",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetAggregatedDataResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformGetAggregatedDataRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DataService"
+        ]
+      }
+    },
+    "/api/data/devices/bulk": {
+      "post": {
+        "summary": "Get data for multiple devices.",
+        "operationId": "DataService_GetMultiDeviceData",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetMultiDeviceDataResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformGetMultiDeviceDataRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DataService"
+        ]
+      }
+    },
+    "/api/data/devices/locations": {
+      "post": {
+        "summary": "Get locations for multiple devices.",
+        "operationId": "DataService_GetMultiDeviceLocation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetMultiDeviceLocationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformGetMultiDeviceLocationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DataService"
+        ]
+      }
+    },
+    "/api/data/devices/{eui}": {
+      "get": {
+        "summary": "Get device data for a specific device within a time range.",
+        "operationId": "DataService_GetDeviceData",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetDeviceDataResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "eui",
+            "description": "EUI (EUI64).",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "startTime",
+            "description": "Start time for data range.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endTime",
+            "description": "End time for data range.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "limit",
+            "description": "Maximum number of data points to return.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "description": "Offset for pagination.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "includeDecoded",
+            "description": "Include decoded data in response.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "includeSignalMetrics",
+            "description": "Include signal metrics in response.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "transportProtocols",
+            "description": "Filter by transport protocol.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_HTTP: HTTP/HTTPS over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_MQTT: MQTT over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_TCP: TCP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_UDP: UDP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_COAP: CoAP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_WEBSOCKET: WebSocket.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "TRANSPORT_PROTOCOL_UNKNOWN",
+                "TRANSPORT_LORAWAN",
+                "TRANSPORT_HTTP",
+                "TRANSPORT_MQTT",
+                "TRANSPORT_TCP",
+                "TRANSPORT_UDP",
+                "TRANSPORT_COAP",
+                "TRANSPORT_WEBSOCKET"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "fPorts",
+            "description": "Filter by frame port (LoRaWAN specific).",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "mqttTopics",
+            "description": "Filter by MQTT topics (MQTT specific).",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "httpMethods",
+            "description": "Filter by HTTP methods (HTTP specific).",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "DataService"
+        ]
+      },
+      "delete": {
+        "summary": "Delete device data (for GDPR compliance, data retention).",
+        "operationId": "DataService_DeleteDeviceData",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "eui",
+            "description": "EUI (EUI64).",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "startTime",
+            "description": "Start time for deletion range (optional).",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endTime",
+            "description": "End time for deletion range (optional).",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "tags": [
+          "DataService"
+        ]
+      }
+    },
+    "/api/data/devices/{eui}/latest": {
+      "get": {
+        "summary": "Get latest data point for a device.",
+        "operationId": "DataService_GetLatestData",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetLatestDataResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "eui",
+            "description": "EUI (EUI64).",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "includeDecoded",
+            "description": "Include decoded data in response.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "includeSignalMetrics",
+            "description": "Include signal metrics in response.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "tags": [
+          "DataService"
+        ]
+      }
+    },
+    "/api/data/devices/{eui}/location": {
+      "get": {
+        "summary": "Get device location (current/latest location).",
+        "operationId": "DataService_GetDeviceLocation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetDeviceLocationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "eui",
+            "description": "EUI (EUI64).",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "DataService"
+        ]
+      },
+      "delete": {
+        "summary": "Delete device location.",
+        "operationId": "DataService_DeleteDeviceLocation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "eui",
+            "description": "EUI (EUI64).",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "DataService"
+        ]
+      },
+      "put": {
+        "summary": "Update device location (latest location is stored separately).",
+        "operationId": "DataService_UpdateDeviceLocation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "eui",
+            "description": "EUI (EUI64).",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformUpdateDeviceLocationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DataService"
+        ]
+      }
+    },
+    "/api/data/stats": {
+      "post": {
+        "summary": "Get data statistics for a device or application.",
+        "operationId": "DataService_GetDataStats",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetDataStatsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformGetDataStatsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DataService"
+        ]
+      }
+    },
+    "/api/device-data": {
+      "post": {
+        "summary": "Insert device data from datalogger (specific endpoint for datalogger integration).",
+        "operationId": "DataService_InsertFromDatalogger",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformInsertFromDataloggerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformInsertFromDataloggerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DataService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "platformAggregatedDataPoint": {
+      "type": "object",
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp (bucket start time)."
+        },
+        "eui": {
+          "type": "string",
+          "description": "EUI (if grouped by device)."
+        },
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "format": "double"
+          },
+          "description": "Aggregated values by field name."
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Count of data points in this bucket."
+        }
+      },
+      "description": "Aggregated data point."
+    },
+    "platformAggregationType": {
+      "type": "string",
+      "enum": [
+        "AGGREGATION_TYPE_NONE",
+        "AGGREGATION_TYPE_AVG",
+        "AGGREGATION_TYPE_MIN",
+        "AGGREGATION_TYPE_MAX",
+        "AGGREGATION_TYPE_SUM",
+        "AGGREGATION_TYPE_COUNT",
+        "AGGREGATION_TYPE_FIRST",
+        "AGGREGATION_TYPE_LAST"
+      ],
+      "default": "AGGREGATION_TYPE_NONE",
+      "description": "Aggregation type for time-series data.\n\n - AGGREGATION_TYPE_NONE: No aggregation (raw data).\n - AGGREGATION_TYPE_AVG: Average values.\n - AGGREGATION_TYPE_MIN: Minimum values.\n - AGGREGATION_TYPE_MAX: Maximum values.\n - AGGREGATION_TYPE_SUM: Sum of values.\n - AGGREGATION_TYPE_COUNT: Count of data points.\n - AGGREGATION_TYPE_FIRST: First value in time window.\n - AGGREGATION_TYPE_LAST: Last value in time window."
+    },
+    "platformCellularMetadata": {
+      "type": "object",
+      "properties": {
+        "imei": {
+          "type": "string",
+          "description": "IMEI of the device."
+        },
+        "imsi": {
+          "type": "string",
+          "description": "IMSI of the SIM card."
+        },
+        "cellId": {
+          "type": "string",
+          "description": "Cell ID."
+        },
+        "mcc": {
+          "type": "string",
+          "description": "Mobile Country Code."
+        },
+        "mnc": {
+          "type": "string",
+          "description": "Mobile Network Code."
+        },
+        "lac": {
+          "type": "string",
+          "description": "Location Area Code."
+        },
+        "networkType": {
+          "type": "string",
+          "description": "Network type (2G, 3G, 4G, 5G, NB-IoT, LTE-M)."
+        }
+      },
+      "description": "Cellular specific metadata."
+    },
+    "platformCoAPMetadata": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "CoAP method (GET, POST, PUT, DELETE)."
+        },
+        "uriPath": {
+          "type": "string",
+          "description": "URI path."
+        },
+        "messageType": {
+          "type": "string",
+          "description": "Message type (CON, NON, ACK, RST)."
+        },
+        "messageId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Message ID."
+        },
+        "token": {
+          "type": "string",
+          "format": "byte",
+          "description": "Token."
+        },
+        "responseCode": {
+          "type": "string",
+          "description": "Response code."
+        },
+        "contentFormat": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Content format."
+        }
+      },
+      "description": "CoAP specific metadata."
+    },
+    "platformDataSizeStats": {
+      "type": "object",
+      "properties": {
+        "totalBytes": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Total bytes stored."
+        },
+        "avgMessageSize": {
+          "type": "number",
+          "format": "double",
+          "description": "Average message size in bytes."
+        },
+        "minMessageSize": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Minimum message size in bytes."
+        },
+        "maxMessageSize": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Maximum message size in bytes."
+        }
+      },
+      "description": "Data size statistics."
+    },
+    "platformDataStats": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Total number of data points."
+        },
+        "firstTimestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "First data timestamp."
+        },
+        "lastTimestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last data timestamp."
+        },
+        "avgDataRate": {
+          "type": "number",
+          "format": "double",
+          "description": "Average data rate (messages per hour)."
+        },
+        "uniqueDevices": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unique devices count (for application stats)."
+        },
+        "sizeStats": {
+          "$ref": "#/definitions/platformDataSizeStats",
+          "description": "Data size statistics."
+        }
+      },
+      "description": "Data statistics."
+    },
+    "platformDeviceData": {
+      "type": "object",
+      "properties": {
+        "eui": {
+          "type": "string",
+          "description": "EUI (EUI64) - Device EUI or Gateway EUI."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the data was received."
+        },
+        "transportProtocol": {
+          "$ref": "#/definitions/platformTransportProtocol",
+          "description": "Transport protocol used."
+        },
+        "data": {
+          "type": "string",
+          "description": "Raw payload data (base64 encoded)."
+        },
+        "decodedData": {
+          "type": "string",
+          "description": "Decoded data (JSON object as string)."
+        },
+        "signalMetrics": {
+          "$ref": "#/definitions/platformSignalMetrics",
+          "description": "Signal quality metrics (protocol-specific)."
+        },
+        "location": {
+          "$ref": "#/definitions/platformDeviceLocation",
+          "description": "Device location (for location history tracking)."
+        },
+        "protocolMetadata": {
+          "$ref": "#/definitions/platformProtocolMetadata",
+          "description": "Protocol-specific metadata."
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Additional metadata."
+        }
+      },
+      "description": "DeviceData represents a single data point from a device or gateway.\nSupports data from multiple protocols: LoRaWAN, Cellular, HTTP, MQTT, TCP, UDP, CoAP."
+    },
+    "platformDeviceLocation": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "format": "double",
+          "description": "Latitude in decimal degrees."
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double",
+          "description": "Longitude in decimal degrees."
+        },
+        "altitude": {
+          "type": "number",
+          "format": "double",
+          "description": "Altitude in meters."
+        },
+        "accuracy": {
+          "type": "number",
+          "format": "float",
+          "description": "Accuracy in meters."
+        },
+        "source": {
+          "$ref": "#/definitions/platformLocationSource",
+          "description": "Location source."
+        }
+      },
+      "description": "Device location information."
+    },
+    "platformGetAggregatedDataRequest": {
+      "type": "object",
+      "properties": {
+        "euis": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "EUI(s) to get data for."
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start time for data range."
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End time for data range."
+        },
+        "aggregation": {
+          "$ref": "#/definitions/platformAggregationType",
+          "description": "Aggregation type."
+        },
+        "interval": {
+          "$ref": "#/definitions/platformTimeInterval",
+          "description": "Time interval for aggregation."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Fields to aggregate (e.g., \"temperature\", \"humidity\")."
+        },
+        "groupByDevice": {
+          "type": "boolean",
+          "description": "Group by device (if false, aggregate across all devices)."
+        }
+      },
+      "description": "Request for aggregated data."
+    },
+    "platformGetAggregatedDataResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformAggregatedDataPoint"
+          },
+          "description": "Aggregated data points."
+        }
+      },
+      "description": "Response containing aggregated data."
+    },
+    "platformGetDataStatsRequest": {
+      "type": "object",
+      "properties": {
+        "eui": {
+          "type": "string",
+          "description": "EUI (optional, if not set, stats for all devices)."
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start time for stats range."
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End time for stats range."
+        }
+      },
+      "description": "Request for data statistics."
+    },
+    "platformGetDataStatsResponse": {
+      "type": "object",
+      "properties": {
+        "stats": {
+          "$ref": "#/definitions/platformDataStats",
+          "description": "Statistics."
+        }
+      },
+      "description": "Response containing data statistics."
+    },
+    "platformGetDeviceDataResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total count of data points available."
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformDeviceData"
+          },
+          "description": "Data points."
+        }
+      },
+      "description": "Response containing device data."
+    },
+    "platformGetDeviceLocationResponse": {
+      "type": "object",
+      "properties": {
+        "eui": {
+          "type": "string",
+          "description": "EUI (EUI64)."
+        },
+        "location": {
+          "$ref": "#/definitions/platformDeviceLocation",
+          "description": "Device location."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when location was last updated."
+        },
+        "sourceInfo": {
+          "type": "string",
+          "description": "Source that provided this location."
+        }
+      },
+      "description": "Response containing device location."
+    },
+    "platformGetLatestDataResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/platformDeviceData",
+          "description": "Latest data point (null if no data available)."
+        }
+      },
+      "description": "Response containing latest data."
+    },
+    "platformGetMultiDeviceDataRequest": {
+      "type": "object",
+      "properties": {
+        "euis": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "EUIs to get data for."
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start time for data range."
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End time for data range."
+        },
+        "limitPerDevice": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Maximum number of data points per device."
+        },
+        "includeDecoded": {
+          "type": "boolean",
+          "description": "Include decoded data in response."
+        }
+      },
+      "description": "Request for multi-device data."
+    },
+    "platformGetMultiDeviceDataResponse": {
+      "type": "object",
+      "properties": {
+        "deviceData": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/platformGetDeviceDataResponse"
+          },
+          "description": "Data grouped by EUI."
+        }
+      },
+      "description": "Response containing multi-device data."
+    },
+    "platformGetMultiDeviceLocationRequest": {
+      "type": "object",
+      "properties": {
+        "euis": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "EUIs to get locations for."
+        }
+      },
+      "description": "Request to get locations for multiple devices."
+    },
+    "platformGetMultiDeviceLocationResponse": {
+      "type": "object",
+      "properties": {
+        "locations": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/platformGetDeviceLocationResponse"
+          },
+          "description": "Device locations grouped by EUI."
+        }
+      },
+      "description": "Response containing multiple device locations."
+    },
+    "platformHTTPMetadata": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "HTTP method used."
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Request headers."
+        },
+        "queryParams": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Query parameters."
+        },
+        "statusCode": {
+          "type": "integer",
+          "format": "int64",
+          "description": "HTTP status code (for responses)."
+        },
+        "contentType": {
+          "type": "string",
+          "description": "Content type."
+        },
+        "userAgent": {
+          "type": "string",
+          "description": "User agent."
+        },
+        "remoteIp": {
+          "type": "string",
+          "description": "Remote IP address."
+        }
+      },
+      "description": "HTTP specific metadata."
+    },
+    "platformInsertDataRequest": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformDeviceData"
+          },
+          "description": "Single data point or batch of data points."
+        }
+      },
+      "description": "Request to insert device data."
+    },
+    "platformInsertFromDataloggerRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Local device data ID (UUID from datalogger storage)."
+        },
+        "eui": {
+          "type": "string",
+          "description": "Device EUI (EUI64 as string)."
+        },
+        "protocol": {
+          "type": "string",
+          "description": "Protocol used (e.g., \"mqtt-lorawan\", \"mqtt\", \"tcp\", \"udp\")."
+        },
+        "data": {
+          "type": "string",
+          "description": "Processed data (JSON string containing decoded sensor readings)."
+        },
+        "originalData": {
+          "type": "string",
+          "description": "Original data (raw message as received, JSON string)."
+        },
+        "receivedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when data was received by datalogger."
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Optional: Additional metadata."
+        }
+      },
+      "description": "Request to insert device data from datalogger."
+    },
+    "platformInsertFromDataloggerResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Success status."
+        },
+        "message": {
+          "type": "string",
+          "description": "Message (error message if success=false)."
+        },
+        "dataId": {
+          "type": "string",
+          "description": "Assigned data ID (if applicable)."
+        }
+      },
+      "description": "Response from inserting datalogger data."
+    },
+    "platformLoRaWANMetadata": {
+      "type": "object",
+      "properties": {
+        "fCnt": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Frame counter."
+        },
+        "fPort": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Frame port."
+        },
+        "dataRate": {
+          "type": "string",
+          "description": "Data rate."
+        },
+        "confirmed": {
+          "type": "boolean",
+          "description": "Confirmed/unconfirmed uplink."
+        },
+        "gatewayCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Gateway count that received the message."
+        }
+      },
+      "description": "LoRaWAN specific metadata."
+    },
+    "platformLocationSource": {
+      "type": "string",
+      "enum": [
+        "LOCATION_SOURCE_UNKNOWN",
+        "LOCATION_SOURCE_GPS",
+        "LOCATION_SOURCE_MANUAL",
+        "LOCATION_SOURCE_TRIANGULATION",
+        "LOCATION_SOURCE_WIFI",
+        "LOCATION_SOURCE_MANUAL_OVERRIDE",
+        "LOCATION_SOURCE_CONFIG",
+        "LOCATION_SOURCE_GEO_RESOLVER_TDOA",
+        "LOCATION_SOURCE_GEO_RESOLVER_RSSI",
+        "LOCATION_SOURCE_GEO_RESOLVER_GNSS",
+        "LOCATION_SOURCE_GEO_RESOLVER_WIFI"
+      ],
+      "default": "LOCATION_SOURCE_UNKNOWN",
+      "description": "Location source enumeration - unified across all services.\n\n - LOCATION_SOURCE_UNKNOWN: Unknown location source.\n - LOCATION_SOURCE_GPS: GPS coordinates.\n - LOCATION_SOURCE_MANUAL: Manually configured.\n - LOCATION_SOURCE_TRIANGULATION: Calculated via triangulation.\n - LOCATION_SOURCE_WIFI: WiFi-based location.\n - LOCATION_SOURCE_MANUAL_OVERRIDE: Manual override.\n - LOCATION_SOURCE_CONFIG: Configuration-based.\n - LOCATION_SOURCE_GEO_RESOLVER_TDOA: GEO resolver TDOA.\n - LOCATION_SOURCE_GEO_RESOLVER_RSSI: GEO resolver RSSI.\n - LOCATION_SOURCE_GEO_RESOLVER_GNSS: GEO resolver GNSS.\n - LOCATION_SOURCE_GEO_RESOLVER_WIFI: GEO resolver WiFi."
+    },
+    "platformMQTTMetadata": {
+      "type": "object",
+      "properties": {
+        "topic": {
+          "type": "string",
+          "description": "Topic the message was published to."
+        },
+        "qos": {
+          "type": "integer",
+          "format": "int64",
+          "description": "QoS level (0, 1, 2)."
+        },
+        "retain": {
+          "type": "boolean",
+          "description": "Retain flag."
+        },
+        "messageId": {
+          "type": "string",
+          "description": "Message ID."
+        },
+        "clientId": {
+          "type": "string",
+          "description": "Client ID."
+        },
+        "broker": {
+          "type": "string",
+          "description": "Broker hostname/IP."
+        }
+      },
+      "description": "MQTT specific metadata."
+    },
+    "platformProtocolMetadata": {
+      "type": "object",
+      "properties": {
+        "lorawan": {
+          "$ref": "#/definitions/platformLoRaWANMetadata",
+          "description": "LoRaWAN specific metadata."
+        },
+        "cellular": {
+          "$ref": "#/definitions/platformCellularMetadata",
+          "description": "Cellular network metadata (for all cellular protocols)."
+        },
+        "http": {
+          "$ref": "#/definitions/platformHTTPMetadata",
+          "description": "HTTP specific metadata (works with both cellular and WiFi/Ethernet)."
+        },
+        "mqtt": {
+          "$ref": "#/definitions/platformMQTTMetadata",
+          "description": "MQTT specific metadata (works with both cellular and WiFi/Ethernet)."
+        },
+        "tcp": {
+          "$ref": "#/definitions/platformTCPMetadata",
+          "description": "TCP specific metadata (works with both cellular and WiFi/Ethernet)."
+        },
+        "udp": {
+          "$ref": "#/definitions/platformUDPMetadata",
+          "description": "UDP specific metadata (works with both cellular and WiFi/Ethernet)."
+        },
+        "coap": {
+          "$ref": "#/definitions/platformCoAPMetadata",
+          "description": "CoAP specific metadata (works with both cellular and WiFi/Ethernet)."
+        },
+        "websocket": {
+          "$ref": "#/definitions/platformWebSocketMetadata",
+          "description": "WebSocket specific metadata."
+        }
+      },
+      "description": "Protocol-specific metadata for different transport protocols."
+    },
+    "platformSignalMetrics": {
+      "type": "object",
+      "properties": {
+        "rssi": {
+          "type": "integer",
+          "format": "int32",
+          "description": "RSSI (Received Signal Strength Indicator) in dBm (LoRaWAN, Cellular)."
+        },
+        "snr": {
+          "type": "number",
+          "format": "float",
+          "description": "SNR (Signal-to-Noise Ratio) in dB (LoRaWAN)."
+        },
+        "spreadingFactor": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Spreading factor (LoRaWAN specific)."
+        },
+        "bandwidth": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Bandwidth in Hz (LoRaWAN specific)."
+        },
+        "frequency": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Frequency in Hz (LoRaWAN specific)."
+        },
+        "signalStrengthPercent": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Signal strength percentage (0-100) for other protocols."
+        },
+        "lqi": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Link quality indicator (cellular specific)."
+        }
+      },
+      "description": "Signal quality metrics (protocol-specific)."
+    },
+    "platformTCPMetadata": {
+      "type": "object",
+      "properties": {
+        "sourceIp": {
+          "type": "string",
+          "description": "Source IP address."
+        },
+        "sourcePort": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Source port."
+        },
+        "destinationIp": {
+          "type": "string",
+          "description": "Destination IP address."
+        },
+        "destinationPort": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Destination port."
+        },
+        "connectionState": {
+          "type": "string",
+          "description": "Connection state."
+        }
+      },
+      "description": "TCP specific metadata."
+    },
+    "platformTimeInterval": {
+      "type": "string",
+      "enum": [
+        "TIME_INTERVAL_MINUTE",
+        "TIME_INTERVAL_MINUTE_5",
+        "TIME_INTERVAL_MINUTE_15",
+        "TIME_INTERVAL_MINUTE_30",
+        "TIME_INTERVAL_HOUR",
+        "TIME_INTERVAL_HOUR_6",
+        "TIME_INTERVAL_HOUR_12",
+        "TIME_INTERVAL_DAY",
+        "TIME_INTERVAL_WEEK",
+        "TIME_INTERVAL_MONTH"
+      ],
+      "default": "TIME_INTERVAL_MINUTE",
+      "description": "Time interval for aggregation.\n\n - TIME_INTERVAL_MINUTE: 1 minute intervals.\n - TIME_INTERVAL_MINUTE_5: 5 minute intervals.\n - TIME_INTERVAL_MINUTE_15: 15 minute intervals.\n - TIME_INTERVAL_MINUTE_30: 30 minute intervals.\n - TIME_INTERVAL_HOUR: 1 hour intervals.\n - TIME_INTERVAL_HOUR_6: 6 hour intervals.\n - TIME_INTERVAL_HOUR_12: 12 hour intervals.\n - TIME_INTERVAL_DAY: 1 day intervals.\n - TIME_INTERVAL_WEEK: 1 week intervals.\n - TIME_INTERVAL_MONTH: 1 month intervals."
+    },
+    "platformTransportProtocol": {
+      "type": "string",
+      "enum": [
+        "TRANSPORT_PROTOCOL_UNKNOWN",
+        "TRANSPORT_LORAWAN",
+        "TRANSPORT_HTTP",
+        "TRANSPORT_MQTT",
+        "TRANSPORT_TCP",
+        "TRANSPORT_UDP",
+        "TRANSPORT_COAP",
+        "TRANSPORT_WEBSOCKET"
+      ],
+      "default": "TRANSPORT_PROTOCOL_UNKNOWN",
+      "description": "Transport protocol enumeration - unified for inventory and data services.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_HTTP: HTTP/HTTPS over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_MQTT: MQTT over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_TCP: TCP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_UDP: UDP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_COAP: CoAP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_WEBSOCKET: WebSocket."
+    },
+    "platformUDPMetadata": {
+      "type": "object",
+      "properties": {
+        "sourceIp": {
+          "type": "string",
+          "description": "Source IP address."
+        },
+        "sourcePort": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Source port."
+        },
+        "destinationIp": {
+          "type": "string",
+          "description": "Destination IP address."
+        },
+        "destinationPort": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Destination port."
+        },
+        "packetSize": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Packet size."
+        }
+      },
+      "description": "UDP specific metadata."
+    },
+    "platformUpdateDeviceLocationRequest": {
+      "type": "object",
+      "properties": {
+        "eui": {
+          "type": "string",
+          "description": "EUI (EUI64)."
+        },
+        "location": {
+          "$ref": "#/definitions/platformDeviceLocation",
+          "description": "Device location."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when location was updated (optional, defaults to current time)."
+        },
+        "sourceInfo": {
+          "type": "string",
+          "description": "Source that provided this location update."
+        }
+      },
+      "description": "Request to update device location."
+    },
+    "platformWebSocketMetadata": {
+      "type": "object",
+      "properties": {
+        "subprotocol": {
+          "type": "string",
+          "description": "WebSocket subprotocol."
+        },
+        "messageType": {
+          "type": "string",
+          "description": "Message type (text, binary, ping, pong, close)."
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "WebSocket endpoint URL."
+        },
+        "connectionState": {
+          "type": "string",
+          "description": "Connection state."
+        },
+        "remoteIp": {
+          "type": "string",
+          "description": "Remote IP address."
+        }
+      },
+      "description": "WebSocket specific metadata."
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
