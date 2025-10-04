@@ -42,7 +42,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/platformGetRegionResponse"
+              "type": "object"
             }
           },
           "default": {
@@ -122,15 +122,6 @@
       ],
       "default": "DOWNLINK_MODE_IMMEDIATE",
       "description": "Downlink delivery mode enumeration.\n\n - DOWNLINK_MODE_IMMEDIATE: Immediate downlink (for always-on devices).\n - DOWNLINK_MODE_QUEUED: Queued downlink (for battery-powered devices, sent on next uplink).\n - DOWNLINK_MODE_SCHEDULED: Scheduled downlink (sent at specific time)."
-    },
-    "platformGetRegionResponse": {
-      "type": "object",
-      "properties": {
-        "region": {
-          "type": "object",
-          "description": "LoRaWAN region configuration."
-        }
-      }
     },
     "platformInventoryStatus": {
       "type": "string",

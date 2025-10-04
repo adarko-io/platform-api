@@ -21,7 +21,7 @@ service HelperService {
   }
 
   // GetRegion returns the region details for the given region for LoRaWAN.
-  rpc GetRegion(GetRegionRequest) returns (GetRegionResponse) {
+  rpc GetRegion(GetRegionRequest) returns (google.protobuf.Value) {
     option (google.api.http) = {
       get : "/api/helper/lorawan/regions/{id}"
     };
@@ -65,7 +65,7 @@ message GetRegionRequest {
   string id = 1;
 }
 
-message GetRegionResponse {
-   // LoRaWAN region configuration.
-  google.protobuf.Value region = 1;
-}
+// message GetRegionResponse {
+//    // LoRaWAN region configuration.
+//   google.protobuf.Value region = 1;
+// }
