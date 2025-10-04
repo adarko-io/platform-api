@@ -19,6 +19,14 @@ service HelperService {
       get: "/api/common/helper"
     };
   }
+
+  // GetRegion returns the region details for the given region for LoRaWAN.
+  rpc GetRegion(GetRegionRequest) returns (GetRegionResponse) {
+    option (google.api.http) = {
+      get : "/api/helper/lorawan/regions/{id}"
+    };
+  }
+
 }
 
 // Simple response for UI helper endpoint with concrete enum values.
@@ -49,4 +57,15 @@ message ListEnumsHelperResponse {
 
   // Time intervals.
   repeated TimeInterval time_intervals = 9;
+}
+
+
+message GetRegionRequest {
+  // Region ID.
+  string id = 1;
+}
+
+message GetRegionResponse {
+   // LoRaWAN region configuration.
+  google.protobuf.Value region = 1;
 }

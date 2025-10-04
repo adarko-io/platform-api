@@ -148,6 +148,102 @@ func (x *ListEnumsHelperResponse) GetTimeIntervals() []TimeInterval {
 	return nil
 }
 
+type GetRegionRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Region ID.
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *GetRegionRequest) Reset() {
+	*x = GetRegionRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_platform_helper_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetRegionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRegionRequest) ProtoMessage() {}
+
+func (x *GetRegionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_helper_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRegionRequest.ProtoReflect.Descriptor instead.
+func (*GetRegionRequest) Descriptor() ([]byte, []int) {
+	return file_platform_helper_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetRegionRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type GetRegionResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// LoRaWAN region configuration.
+	Region *structpb.Value `protobuf:"bytes,1,opt,name=region,proto3" json:"region,omitempty"`
+}
+
+func (x *GetRegionResponse) Reset() {
+	*x = GetRegionResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_platform_helper_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetRegionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRegionResponse) ProtoMessage() {}
+
+func (x *GetRegionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_helper_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRegionResponse.ProtoReflect.Descriptor instead.
+func (*GetRegionResponse) Descriptor() ([]byte, []int) {
+	return file_platform_helper_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetRegionResponse) GetRegion() *structpb.Value {
+	if x != nil {
+		return x.Region
+	}
+	return nil
+}
+
 var File_platform_helper_proto protoreflect.FileDescriptor
 
 var file_platform_helper_proto_rawDesc = []byte{
@@ -198,18 +294,31 @@ var file_platform_helper_proto_rawDesc = []byte{
 	0x76, 0x61, 0x6c, 0x73, 0x18, 0x09, 0x20, 0x03, 0x28, 0x0e, 0x32, 0x16, 0x2e, 0x70, 0x6c, 0x61,
 	0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x76,
 	0x61, 0x6c, 0x52, 0x0d, 0x74, 0x69, 0x6d, 0x65, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x76, 0x61, 0x6c,
-	0x73, 0x32, 0x73, 0x0a, 0x0d, 0x48, 0x65, 0x6c, 0x70, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x12, 0x62, 0x0a, 0x09, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x6e, 0x75, 0x6d, 0x73, 0x12,
-	0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
-	0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x21, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f,
-	0x72, 0x6d, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x6e, 0x75, 0x6d, 0x73, 0x48, 0x65, 0x6c, 0x70,
-	0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1a, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x14, 0x12, 0x12, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2f,
-	0x68, 0x65, 0x6c, 0x70, 0x65, 0x72, 0x42, 0x32, 0x5a, 0x30, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
-	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x61, 0x64, 0x61, 0x72, 0x6b, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x70,
-	0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x6f, 0x2f, 0x76,
-	0x34, 0x2f, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x73, 0x22, 0x22, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x52, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x43, 0x0a, 0x11, 0x47, 0x65, 0x74, 0x52, 0x65, 0x67, 0x69,
+	0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2e, 0x0a, 0x06, 0x72, 0x65,
+	0x67, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x67, 0x6f, 0x6f,
+	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x56, 0x61, 0x6c,
+	0x75, 0x65, 0x52, 0x06, 0x72, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x32, 0xe3, 0x01, 0x0a, 0x0d, 0x48,
+	0x65, 0x6c, 0x70, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x62, 0x0a, 0x09,
+	0x4c, 0x69, 0x73, 0x74, 0x45, 0x6e, 0x75, 0x6d, 0x73, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
+	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74,
+	0x79, 0x1a, 0x21, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x4c, 0x69, 0x73,
+	0x74, 0x45, 0x6e, 0x75, 0x6d, 0x73, 0x48, 0x65, 0x6c, 0x70, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1a, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x14, 0x12, 0x12, 0x2f, 0x61,
+	0x70, 0x69, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2f, 0x68, 0x65, 0x6c, 0x70, 0x65, 0x72,
+	0x12, 0x6e, 0x0a, 0x09, 0x47, 0x65, 0x74, 0x52, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x12, 0x1a, 0x2e,
+	0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x47, 0x65, 0x74, 0x52, 0x65, 0x67, 0x69,
+	0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x70, 0x6c, 0x61, 0x74,
+	0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x47, 0x65, 0x74, 0x52, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x28, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x22, 0x12, 0x20,
+	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x68, 0x65, 0x6c, 0x70, 0x65, 0x72, 0x2f, 0x6c, 0x6f, 0x72, 0x61,
+	0x77, 0x61, 0x6e, 0x2f, 0x72, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d,
+	0x42, 0x32, 0x5a, 0x30, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x61,
+	0x64, 0x61, 0x72, 0x6b, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72,
+	0x6d, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x6f, 0x2f, 0x76, 0x34, 0x2f, 0x70, 0x6c, 0x61, 0x74,
+	0x66, 0x6f, 0x72, 0x6d, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -224,37 +333,42 @@ func file_platform_helper_proto_rawDescGZIP() []byte {
 	return file_platform_helper_proto_rawDescData
 }
 
-var file_platform_helper_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_platform_helper_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_platform_helper_proto_goTypes = []any{
 	(*ListEnumsHelperResponse)(nil), // 0: platform.ListEnumsHelperResponse
-	(*structpb.Value)(nil),          // 1: google.protobuf.Value
-	(LocationSource)(0),             // 2: platform.LocationSource
-	(DeviceType)(0),                 // 3: platform.DeviceType
-	(InventoryStatus)(0),            // 4: platform.InventoryStatus
-	(DownlinkMode)(0),               // 5: platform.DownlinkMode
-	(AssetType)(0),                  // 6: platform.AssetType
-	(TransportProtocol)(0),          // 7: platform.TransportProtocol
-	(AggregationType)(0),            // 8: platform.AggregationType
-	(TimeInterval)(0),               // 9: platform.TimeInterval
-	(*emptypb.Empty)(nil),           // 10: google.protobuf.Empty
+	(*GetRegionRequest)(nil),        // 1: platform.GetRegionRequest
+	(*GetRegionResponse)(nil),       // 2: platform.GetRegionResponse
+	(*structpb.Value)(nil),          // 3: google.protobuf.Value
+	(LocationSource)(0),             // 4: platform.LocationSource
+	(DeviceType)(0),                 // 5: platform.DeviceType
+	(InventoryStatus)(0),            // 6: platform.InventoryStatus
+	(DownlinkMode)(0),               // 7: platform.DownlinkMode
+	(AssetType)(0),                  // 8: platform.AssetType
+	(TransportProtocol)(0),          // 9: platform.TransportProtocol
+	(AggregationType)(0),            // 10: platform.AggregationType
+	(TimeInterval)(0),               // 11: platform.TimeInterval
+	(*emptypb.Empty)(nil),           // 12: google.protobuf.Empty
 }
 var file_platform_helper_proto_depIdxs = []int32{
-	1,  // 0: platform.ListEnumsHelperResponse.lorawan:type_name -> google.protobuf.Value
-	2,  // 1: platform.ListEnumsHelperResponse.location_sources:type_name -> platform.LocationSource
-	3,  // 2: platform.ListEnumsHelperResponse.device_types:type_name -> platform.DeviceType
-	4,  // 3: platform.ListEnumsHelperResponse.inventory_status:type_name -> platform.InventoryStatus
-	5,  // 4: platform.ListEnumsHelperResponse.downlink_modes:type_name -> platform.DownlinkMode
-	6,  // 5: platform.ListEnumsHelperResponse.asset_type:type_name -> platform.AssetType
-	7,  // 6: platform.ListEnumsHelperResponse.transport_protocols:type_name -> platform.TransportProtocol
-	8,  // 7: platform.ListEnumsHelperResponse.aggregation_types:type_name -> platform.AggregationType
-	9,  // 8: platform.ListEnumsHelperResponse.time_intervals:type_name -> platform.TimeInterval
-	10, // 9: platform.HelperService.ListEnums:input_type -> google.protobuf.Empty
-	0,  // 10: platform.HelperService.ListEnums:output_type -> platform.ListEnumsHelperResponse
-	10, // [10:11] is the sub-list for method output_type
-	9,  // [9:10] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	3,  // 0: platform.ListEnumsHelperResponse.lorawan:type_name -> google.protobuf.Value
+	4,  // 1: platform.ListEnumsHelperResponse.location_sources:type_name -> platform.LocationSource
+	5,  // 2: platform.ListEnumsHelperResponse.device_types:type_name -> platform.DeviceType
+	6,  // 3: platform.ListEnumsHelperResponse.inventory_status:type_name -> platform.InventoryStatus
+	7,  // 4: platform.ListEnumsHelperResponse.downlink_modes:type_name -> platform.DownlinkMode
+	8,  // 5: platform.ListEnumsHelperResponse.asset_type:type_name -> platform.AssetType
+	9,  // 6: platform.ListEnumsHelperResponse.transport_protocols:type_name -> platform.TransportProtocol
+	10, // 7: platform.ListEnumsHelperResponse.aggregation_types:type_name -> platform.AggregationType
+	11, // 8: platform.ListEnumsHelperResponse.time_intervals:type_name -> platform.TimeInterval
+	3,  // 9: platform.GetRegionResponse.region:type_name -> google.protobuf.Value
+	12, // 10: platform.HelperService.ListEnums:input_type -> google.protobuf.Empty
+	1,  // 11: platform.HelperService.GetRegion:input_type -> platform.GetRegionRequest
+	0,  // 12: platform.HelperService.ListEnums:output_type -> platform.ListEnumsHelperResponse
+	2,  // 13: platform.HelperService.GetRegion:output_type -> platform.GetRegionResponse
+	12, // [12:14] is the sub-list for method output_type
+	10, // [10:12] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_platform_helper_proto_init() }
@@ -276,6 +390,30 @@ func file_platform_helper_proto_init() {
 				return nil
 			}
 		}
+		file_platform_helper_proto_msgTypes[1].Exporter = func(v any, i int) any {
+			switch v := v.(*GetRegionRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_platform_helper_proto_msgTypes[2].Exporter = func(v any, i int) any {
+			switch v := v.(*GetRegionResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -283,7 +421,7 @@ func file_platform_helper_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_platform_helper_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -311,6 +449,8 @@ const _ = grpc.SupportPackageIsVersion6
 type HelperServiceClient interface {
 	// Simple helper endpoint to get all enum values for UI dropdowns.
 	ListEnums(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListEnumsHelperResponse, error)
+	// GetRegion returns the region details for the given region for LoRaWAN.
+	GetRegion(ctx context.Context, in *GetRegionRequest, opts ...grpc.CallOption) (*GetRegionResponse, error)
 }
 
 type helperServiceClient struct {
@@ -330,10 +470,21 @@ func (c *helperServiceClient) ListEnums(ctx context.Context, in *emptypb.Empty, 
 	return out, nil
 }
 
+func (c *helperServiceClient) GetRegion(ctx context.Context, in *GetRegionRequest, opts ...grpc.CallOption) (*GetRegionResponse, error) {
+	out := new(GetRegionResponse)
+	err := c.cc.Invoke(ctx, "/platform.HelperService/GetRegion", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HelperServiceServer is the server API for HelperService service.
 type HelperServiceServer interface {
 	// Simple helper endpoint to get all enum values for UI dropdowns.
 	ListEnums(context.Context, *emptypb.Empty) (*ListEnumsHelperResponse, error)
+	// GetRegion returns the region details for the given region for LoRaWAN.
+	GetRegion(context.Context, *GetRegionRequest) (*GetRegionResponse, error)
 }
 
 // UnimplementedHelperServiceServer can be embedded to have forward compatible implementations.
@@ -342,6 +493,9 @@ type UnimplementedHelperServiceServer struct {
 
 func (*UnimplementedHelperServiceServer) ListEnums(context.Context, *emptypb.Empty) (*ListEnumsHelperResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListEnums not implemented")
+}
+func (*UnimplementedHelperServiceServer) GetRegion(context.Context, *GetRegionRequest) (*GetRegionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRegion not implemented")
 }
 
 func RegisterHelperServiceServer(s *grpc.Server, srv HelperServiceServer) {
@@ -366,6 +520,24 @@ func _HelperService_ListEnums_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HelperService_GetRegion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRegionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HelperServiceServer).GetRegion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/platform.HelperService/GetRegion",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HelperServiceServer).GetRegion(ctx, req.(*GetRegionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _HelperService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "platform.HelperService",
 	HandlerType: (*HelperServiceServer)(nil),
@@ -373,6 +545,10 @@ var _HelperService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListEnums",
 			Handler:    _HelperService_ListEnums_Handler,
+		},
+		{
+			MethodName: "GetRegion",
+			Handler:    _HelperService_GetRegion_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
