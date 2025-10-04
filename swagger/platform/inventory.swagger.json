@@ -314,21 +314,35 @@
     }
   },
   "definitions": {
+    "platformAssetSubType": {
+      "type": "string",
+      "enum": [
+        "ASSET_SUB_TYPE_UNKNOWN",
+        "ASSET_SUB_TYPE_WATER_METER_INDUCTIVE",
+        "ASSET_SUB_TYPE_WATER_METER_MAGNETIC",
+        "ASSET_SUB_TYPE_WATER_METER_ULTRASONIC",
+        "ASSET_SUB_TYPE_WATER_METER_PULSE",
+        "ASSET_SUB_TYPE_ENERGY_METER_SINGLE_PHASE",
+        "ASSET_SUB_TYPE_ENERGY_METER_THREE_PHASE",
+        "ASSET_SUB_TYPE_GAS_METER",
+        "ASSET_SUB_TYPE_GPS_TRACKER",
+        "ASSET_SUB_TYPE_LORAWAN_GATEWAY"
+      ],
+      "default": "ASSET_SUB_TYPE_UNKNOWN",
+      "description": " - ASSET_SUB_TYPE_UNKNOWN: Unknown asset type."
+    },
     "platformAssetType": {
       "type": "string",
       "enum": [
         "ASSET_TYPE_UNKNOWN",
-        "ASSET_TYPE_AMR_WATER_METER_INDUCTIVE",
-        "ASSET_TYPE_WATER_METER_MAGNETIC",
-        "ASSET_TYPE_AMR_WATER_METER_PULSE",
-        "ASSET_TYPE_ULTRASONIC_WATER_METER",
+        "ASSET_TYPE_WATER_METER",
         "ASSET_TYPE_ENERGY_METER",
         "ASSET_TYPE_GAS_METER",
         "ASSET_TYPE_GPS_TRACKER",
-        "ASSET_TYPE_LORAWAN_GATEWAY"
+        "ASSET_TYPE_GATEWAY"
       ],
       "default": "ASSET_TYPE_UNKNOWN",
-      "description": " - ASSET_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_TYPE_AMR_WATER_METER_INDUCTIVE: AMR Water meter Inductive.\n - ASSET_TYPE_WATER_METER_MAGNETIC: AMR Water meter magnetic device.\n - ASSET_TYPE_AMR_WATER_METER_PULSE: AMR Water meter pulse device.\n - ASSET_TYPE_ULTRASONIC_WATER_METER: ULTRASONIC Water Meter device.\n - ASSET_TYPE_ENERGY_METER: Energy Meter device.\n - ASSET_TYPE_GAS_METER: GAS Meter device.\n - ASSET_TYPE_GPS_TRACKER: GPS Tracker device.\n - ASSET_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device."
+      "description": " - ASSET_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_TYPE_WATER_METER: AMR Water meter Inductive.\n - ASSET_TYPE_ENERGY_METER: Energy Meter device.\n - ASSET_TYPE_GAS_METER: GAS Meter device.\n - ASSET_TYPE_GPS_TRACKER: GPS Tracker device.\n - ASSET_TYPE_GATEWAY: Gateway device."
     },
     "platformBulkImportRequest": {
       "type": "object",
@@ -478,7 +492,7 @@
           "description": "Firmware version."
         },
         "configuration": {
-          "type": "string",
+          "type": "object",
           "description": "Device type specific configuration JSON."
         },
         "deviceType": {
@@ -488,6 +502,9 @@
         "assetType": {
           "$ref": "#/definitions/platformAssetType",
           "description": "Asset Type Water Meter, Gas Meter, Energy Meter etc."
+        },
+        "assetSubType": {
+          "$ref": "#/definitions/platformAssetSubType"
         },
         "tags": {
           "type": "object",
@@ -641,6 +658,14 @@
           "format": "byte"
         }
       }
+    },
+    "protobufNullValue": {
+      "type": "string",
+      "enum": [
+        "NULL_VALUE"
+      ],
+      "default": "NULL_VALUE",
+      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\nThe JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
     },
     "runtimeError": {
       "type": "object",

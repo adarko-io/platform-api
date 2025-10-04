@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "platform/shared_enums.proto";
+import "google/protobuf/struct.proto";
 
 option go_package = "github.com/adarko-io/platform-api/go/v4/platform";
 
@@ -104,7 +105,7 @@ message InventoryDevice {
   string firmware_version = 9;
 
   // Device type specific configuration JSON.
-  string configuration = 10;
+  google.protobuf.Value configuration = 10;
 
  //Device Type LoRaWAN Gateway, LoRaWAN Device, Cellular Device, Wifi etc.
   DeviceType device_type = 11;
@@ -112,14 +113,16 @@ message InventoryDevice {
 //Asset Type Water Meter, Gas Meter, Energy Meter etc.
   AssetType asset_type = 12;
 
+  AssetSubType asset_sub_type = 13;
+
   // Device tags/labels.
-  map<string, string> tags = 13;
+  map<string, string> tags = 14;
 
   // Additional metadata.
-  map<string, string> metadata = 14;
+  map<string, string> metadata = 15;
 
   // Batch/lot information.
-  string batch_id = 15;
+  string batch_id = 16;
 }
 
 // NOTE: Enums moved to shared_enums.proto to avoid conflicts between services.

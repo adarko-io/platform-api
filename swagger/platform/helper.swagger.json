@@ -87,17 +87,14 @@
       "type": "string",
       "enum": [
         "ASSET_TYPE_UNKNOWN",
-        "ASSET_TYPE_AMR_WATER_METER_INDUCTIVE",
-        "ASSET_TYPE_WATER_METER_MAGNETIC",
-        "ASSET_TYPE_AMR_WATER_METER_PULSE",
-        "ASSET_TYPE_ULTRASONIC_WATER_METER",
+        "ASSET_TYPE_WATER_METER",
         "ASSET_TYPE_ENERGY_METER",
         "ASSET_TYPE_GAS_METER",
         "ASSET_TYPE_GPS_TRACKER",
-        "ASSET_TYPE_LORAWAN_GATEWAY"
+        "ASSET_TYPE_GATEWAY"
       ],
       "default": "ASSET_TYPE_UNKNOWN",
-      "description": " - ASSET_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_TYPE_AMR_WATER_METER_INDUCTIVE: AMR Water meter Inductive.\n - ASSET_TYPE_WATER_METER_MAGNETIC: AMR Water meter magnetic device.\n - ASSET_TYPE_AMR_WATER_METER_PULSE: AMR Water meter pulse device.\n - ASSET_TYPE_ULTRASONIC_WATER_METER: ULTRASONIC Water Meter device.\n - ASSET_TYPE_ENERGY_METER: Energy Meter device.\n - ASSET_TYPE_GAS_METER: GAS Meter device.\n - ASSET_TYPE_GPS_TRACKER: GPS Tracker device.\n - ASSET_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device."
+      "description": " - ASSET_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_TYPE_WATER_METER: AMR Water meter Inductive.\n - ASSET_TYPE_ENERGY_METER: Energy Meter device.\n - ASSET_TYPE_GAS_METER: GAS Meter device.\n - ASSET_TYPE_GPS_TRACKER: GPS Tracker device.\n - ASSET_TYPE_GATEWAY: Gateway device."
     },
     "platformDeviceType": {
       "type": "string",

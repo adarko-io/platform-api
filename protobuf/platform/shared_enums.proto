@@ -193,16 +193,7 @@ enum AssetType {
   ASSET_TYPE_UNKNOWN = 0;
   
   // AMR Water meter Inductive.
-  ASSET_TYPE_AMR_WATER_METER_INDUCTIVE = 1;
-  
-  // AMR Water meter magnetic device.
-  ASSET_TYPE_WATER_METER_MAGNETIC = 2;
-  
-  // AMR Water meter pulse device.
-  ASSET_TYPE_AMR_WATER_METER_PULSE = 3;
-  
-  // ULTRASONIC Water Meter device.
-  ASSET_TYPE_ULTRASONIC_WATER_METER = 4;
+  ASSET_TYPE_WATER_METER=1;
   
   // Energy Meter device.
   ASSET_TYPE_ENERGY_METER = 5;
@@ -213,6 +204,30 @@ enum AssetType {
   // GPS Tracker device.
   ASSET_TYPE_GPS_TRACKER = 7;
 
-  // LoRaWAN Gateway device.
-  ASSET_TYPE_LORAWAN_GATEWAY = 8;
+  // Gateway device.
+  ASSET_TYPE_GATEWAY = 8;
 }
+
+enum AssetSubType {
+  // Unknown asset type.
+  ASSET_SUB_TYPE_UNKNOWN = 0;
+
+  ASSET_SUB_TYPE_WATER_METER_INDUCTIVE    = 1;
+
+  ASSET_SUB_TYPE_WATER_METER_MAGNETIC      = 2;
+
+  ASSET_SUB_TYPE_WATER_METER_ULTRASONIC    = 3;
+
+  ASSET_SUB_TYPE_WATER_METER_PULSE     = 4;
+
+  ASSET_SUB_TYPE_ENERGY_METER_SINGLE_PHASE = 5;
+
+  ASSET_SUB_TYPE_ENERGY_METER_THREE_PHASE  = 6;
+
+  ASSET_SUB_TYPE_GAS_METER                 = 7;
+
+  ASSET_SUB_TYPE_GPS_TRACKER               = 8;
+
+  ASSET_SUB_TYPE_LORAWAN_GATEWAY           = 9;
+
+ }
