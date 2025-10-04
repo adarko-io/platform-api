@@ -66,13 +66,6 @@ service InventoryService {
     };
   }
 
-  // Search for device by various criteria.
-  rpc Search(SearchInventoryDeviceRequest) returns (SearchInventoryDeviceResponse) {
-    option (google.api.http) = {
-      post: "/api/inventory/devices/search",
-      body: "*",
-    };
-  }
 }
 
 // InventoryDevice represents a device in the inventory with all necessary configuration.
@@ -259,17 +252,4 @@ message ImportError {
 
   // Error message.
   string error = 2;
-}
-
-message SearchInventoryDeviceRequest {
-  // Search criteria.
-  map<string, string> criteria = 1;
-
-  // Maximum results.
-  uint32 limit = 2;
-}
-
-message SearchInventoryDeviceResponse {
-  // Found devices.
-  repeated InventoryDeviceListItem devices = 1;
 }

@@ -137,39 +137,6 @@
         ]
       }
     },
-    "/api/inventory/devices/search": {
-      "post": {
-        "summary": "Search for device by various criteria.",
-        "operationId": "InventoryService_Search",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/platformSearchInventoryDeviceResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/platformSearchInventoryDeviceRequest"
-            }
-          }
-        ],
-        "tags": [
-          "InventoryService"
-        ]
-      }
-    },
     "/api/inventory/devices/{device.eui}": {
       "put": {
         "summary": "Update device in inventory.",
@@ -592,35 +559,6 @@
             "$ref": "#/definitions/platformInventoryDeviceListItem"
           },
           "description": "Device list."
-        }
-      }
-    },
-    "platformSearchInventoryDeviceRequest": {
-      "type": "object",
-      "properties": {
-        "criteria": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Search criteria."
-        },
-        "limit": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Maximum results."
-        }
-      }
-    },
-    "platformSearchInventoryDeviceResponse": {
-      "type": "object",
-      "properties": {
-        "devices": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/platformInventoryDeviceListItem"
-          },
-          "description": "Found devices."
         }
       }
     },
