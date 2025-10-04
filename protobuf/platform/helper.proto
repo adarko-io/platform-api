@@ -6,6 +6,7 @@ option go_package = "github.com/adarko-io/platform-api/go/v4/platform";
 
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/struct.proto";
 import "platform/shared_enums.proto";
 
 // HelperService provides common utilities and metadata for the platform API.
@@ -23,7 +24,7 @@ service HelperService {
 // Simple response for UI helper endpoint with concrete enum values.
 message ListEnumsHelperResponse {
   // LoRaWAN enums.
-  string lorawan = 1;
+  google.protobuf.Value lorawan = 1;
 
   // Location sources.
   repeated LocationSource location_sources = 2;
