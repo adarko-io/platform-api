@@ -115,14 +115,16 @@ message InventoryDevice {
 
   AssetSubType asset_sub_type = 13;
 
+  TransportProtocol transport_protocol = 14;
+
   // Device tags/labels.
-  map<string, string> tags = 14;
+  map<string, string> tags = 15;
 
   // Additional metadata.
-  map<string, string> metadata = 15;
+  map<string, string> metadata = 16;
 
   // Batch/lot information.
-  string batch_id = 16;
+  string batch_id = 17;
 }
 
 // NOTE: Enums moved to shared_enums.proto to avoid conflicts between services.
