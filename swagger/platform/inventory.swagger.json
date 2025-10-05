@@ -377,7 +377,7 @@
       "type": "string",
       "enum": [
         "DEVICE_TYPE_UNKNOWN",
-        "DEVICE_TYPE_LORAWAN",
+        "DEVICE_TYPE_LORAWAN_DEVICE",
         "DEVICE_TYPE_CELLULAR_GSM",
         "DEVICE_TYPE_CELLULAR_LTE",
         "DEVICE_TYPE_CELLULAR_GSM_LTE",
@@ -385,7 +385,7 @@
         "DEVICE_TYPE_LORAWAN_GATEWAY"
       ],
       "default": "DEVICE_TYPE_UNKNOWN",
-      "description": "Communication mode enumeration - unified for inventory and other services.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN: LoRaWAN device type.\n - DEVICE_TYPE_CELLULAR_GSM: Cellular MQTT device type.\n - DEVICE_TYPE_CELLULAR_LTE: Cellular TCP device type.\n - DEVICE_TYPE_CELLULAR_GSM_LTE: Cellular UDP device type.\n - DEVICE_TYPE_GATEWAY: Gateway device type.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device type."
+      "description": "Communication mode enumeration - unified for inventory and other services.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN_DEVICE: LoRaWAN device type.\n - DEVICE_TYPE_CELLULAR_GSM: Cellular MQTT device type.\n - DEVICE_TYPE_CELLULAR_LTE: Cellular TCP device type.\n - DEVICE_TYPE_CELLULAR_GSM_LTE: Cellular UDP device type.\n - DEVICE_TYPE_GATEWAY: Gateway device type.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device type."
     },
     "platformGetInventoryDeviceResponse": {
       "type": "object",

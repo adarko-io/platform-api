@@ -40,7 +40,7 @@ enum DeviceType {
   DEVICE_TYPE_UNKNOWN = 0;
 
   // LoRaWAN device type.
-  DEVICE_TYPE_LORAWAN = 1;
+  DEVICE_TYPE_LORAWAN_DEVICE = 1;
 
   // Cellular MQTT device type.
   DEVICE_TYPE_CELLULAR_GSM = 2;
