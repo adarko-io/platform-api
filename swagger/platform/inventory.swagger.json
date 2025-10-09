@@ -508,17 +508,28 @@
           "type": "string",
           "description": "Device name."
         },
+        "serialNumber": {
+          "type": "string",
+          "description": "Serial number."
+        },
         "status": {
           "$ref": "#/definitions/platformInventoryStatus",
           "description": "Current status."
         },
-        "manufacturer": {
-          "type": "string",
-          "description": "Manufacturer."
-        },
         "model": {
           "type": "string",
           "description": "Model."
+        },
+        "deviceType": {
+          "$ref": "#/definitions/platformDeviceType",
+          "description": "Device Type LoRaWAN Gateway, LoRaWAN Device, Cellular Device, Wifi etc."
+        },
+        "assetType": {
+          "$ref": "#/definitions/platformAssetType",
+          "description": "Asset Type Water Meter, Gas Meter, Energy Meter etc."
+        },
+        "assetSubType": {
+          "$ref": "#/definitions/platformAssetSubType"
         },
         "createdAt": {
           "type": "string",
