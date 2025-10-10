@@ -5,6 +5,7 @@ package platform;
 option go_package = "github.com/adarko-io/platform-api/go/v4/platform";
 
 import "google/api/annotations.proto";
+import "platform/shared_enums.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
@@ -67,11 +68,14 @@ message Application {
   // Tenant ID (UUID).
   string tenant_id = 4;
 
+  //Asset Type Water Meter, Gas Meter, Energy Meter etc.
+  AssetType asset_type = 5;
+
   // Tags (user defined).
   // These tags can be used to add additional information to the application.
   // These tags are exposed in all the integration events of devices under
   // this application.
-  map<string, string> tags = 5;
+  map<string, string> tags = 6;
 }
 
 message ApplicationListItem {
