@@ -82,20 +82,24 @@ message ApplicationListItem {
   // Application ID (UUID).
   string id = 1;
 
-  // Created at timestamp.
-  google.protobuf.Timestamp created_at = 2;
-
-  // Last update timestamp.
-  google.protobuf.Timestamp updated_at = 3;
+  //Asset Type Water Meter, Gas Meter, Energy Meter etc.
+  AssetType asset_type = 2;
 
   // Application name.
-  string name = 4;
+  string name = 3;
 
   // Application description.
-  string description = 5;
+  string description = 4;
 
   // Tenant ID (UUID).
-  string tenant_id = 6;
+  string tenant_id = 5;
+
+  // Created at timestamp.
+  google.protobuf.Timestamp created_at = 6;
+
+  // Last update timestamp.
+  google.protobuf.Timestamp updated_at = 7;
+
 
 }
 

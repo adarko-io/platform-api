@@ -240,15 +240,9 @@
           "type": "string",
           "description": "Application ID (UUID)."
         },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Created at timestamp."
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Last update timestamp."
+        "assetType": {
+          "$ref": "#/definitions/platformAssetType",
+          "description": "Asset Type Water Meter, Gas Meter, Energy Meter etc."
         },
         "name": {
           "type": "string",
@@ -261,6 +255,16 @@
         "tenantId": {
           "type": "string",
           "description": "Tenant ID (UUID)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Created at timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp."
         }
       }
     },
