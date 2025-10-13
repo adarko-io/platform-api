@@ -305,11 +305,6 @@
           "format": "date-time",
           "description": "Last update timestamp."
         },
-        "lastSeenAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Last seen at timestamp."
-        },
         "name": {
           "type": "string",
           "description": "Name."
@@ -342,19 +337,14 @@
     "platformDeviceStatus": {
       "type": "object",
       "properties": {
-        "margin": {
-          "type": "integer",
-          "format": "int32",
-          "title": "The device margin status\n-32..32: The demodulation SNR ration in dB"
+        "data": {
+          "type": "object",
+          "description": "Processed data (JSON string containing decoded sensor readings)."
         },
-        "externalPowerSource": {
-          "type": "boolean",
-          "description": "Device is connected to an external power source."
-        },
-        "batteryLevel": {
-          "type": "number",
-          "format": "float",
-          "description": "Device battery level as a percentage.\n-1 when the battery level is not available."
+        "lastSeenAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last seen at timestamp."
         }
       }
     },
@@ -388,11 +378,6 @@
           "type": "string",
           "format": "date-time",
           "description": "Last update timestamp."
-        },
-        "lastSeenAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Last seen at timestamp."
         },
         "deviceStatus": {
           "$ref": "#/definitions/platformDeviceStatus",
@@ -437,6 +422,14 @@
           "format": "byte"
         }
       }
+    },
+    "protobufNullValue": {
+      "type": "string",
+      "enum": [
+        "NULL_VALUE"
+      ],
+      "default": "NULL_VALUE",
+      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\nThe JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
     },
     "runtimeError": {
       "type": "object",

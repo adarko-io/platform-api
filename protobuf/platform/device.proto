@@ -8,6 +8,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 import "platform/shared_enums.proto";
+import "google/protobuf/struct.proto";
 
 
 // DeviceService is the service providing API methods for managing devices.
@@ -87,16 +88,10 @@ message Device {
 }
 
 message DeviceStatus {
-  // The device margin status
-  // -32..32: The demodulation SNR ration in dB
-  int32 margin = 1;
-
-  // Device is connected to an external power source.
-  bool external_power_source = 2;
-
-  // Device battery level as a percentage.
-  // -1 when the battery level is not available.
-  float battery_level = 3;
+  // Processed data (JSON string containing decoded sensor readings).
+  google.protobuf.Value data = 1;
+  // Last seen at timestamp.
+  google.protobuf.Timestamp last_seen_at = 2;
 }
 
 message DeviceListItem {
@@ -109,26 +104,23 @@ message DeviceListItem {
   // Last update timestamp.
   google.protobuf.Timestamp updated_at = 3;
 
-  // Last seen at timestamp.
-  google.protobuf.Timestamp last_seen_at = 4;
-
   // Name.
-  string name = 5;
+  string name = 4;
 
   // Description.
-  string description = 6;
+  string description = 5;
 
   // Device-profile ID (UUID).
-  string device_profile_id = 7;
+  string device_profile_id = 6;
 
   // Device-profile name.
-  string device_profile_name = 8;
+  string device_profile_name = 7;
 
   // Device status.
-  DeviceStatus device_status = 9;
+  DeviceStatus device_status = 8;
 
   // Device tags.
-  map<string, string> tags = 10;
+  map<string, string> tags = 9;
 }
 
 message CreateDeviceRequest {
@@ -151,11 +143,8 @@ message GetDeviceResponse {
   // Last update timestamp.
   google.protobuf.Timestamp updated_at = 3;
 
-  // Last seen at timestamp.
-  google.protobuf.Timestamp last_seen_at = 4;
-
   // Device status.
-  DeviceStatus device_status = 5;
+  DeviceStatus device_status = 4;
 
 }
 
