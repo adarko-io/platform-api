@@ -1068,7 +1068,7 @@
           "description": "Processed data (JSON string containing decoded sensor readings)."
         },
         "originalData": {
-          "type": "string",
+          "type": "object",
           "description": "Original data (raw message as received, JSON string)."
         },
         "receivedAt": {

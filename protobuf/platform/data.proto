@@ -389,7 +389,7 @@ message InsertFromDataloggerRequest {
   google.protobuf.Value data = 4;
 
   // Original data (raw message as received, JSON string).
-  string original_data = 5;
+  google.protobuf.Value original_data = 5;
 
   // Timestamp when data was received by datalogger.
   google.protobuf.Timestamp received_at = 6;
