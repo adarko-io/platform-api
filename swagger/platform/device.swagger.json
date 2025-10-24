@@ -232,6 +232,36 @@
       ],
       "default": "NAME"
     },
+    "platformAssetSubType": {
+      "type": "string",
+      "enum": [
+        "ASSET_SUB_TYPE_UNKNOWN",
+        "ASSET_SUB_TYPE_WATER_METER_INDUCTIVE",
+        "ASSET_SUB_TYPE_WATER_METER_MAGNETIC",
+        "ASSET_SUB_TYPE_WATER_METER_ULTRASONIC",
+        "ASSET_SUB_TYPE_WATER_METER_PULSE",
+        "ASSET_SUB_TYPE_ENERGY_METER_SINGLE_PHASE",
+        "ASSET_SUB_TYPE_ENERGY_METER_THREE_PHASE",
+        "ASSET_SUB_TYPE_GAS_METER",
+        "ASSET_SUB_TYPE_GPS_TRACKER",
+        "ASSET_SUB_TYPE_LORAWAN_GATEWAY"
+      ],
+      "default": "ASSET_SUB_TYPE_UNKNOWN",
+      "description": " - ASSET_SUB_TYPE_UNKNOWN: Unknown asset type."
+    },
+    "platformAssetType": {
+      "type": "string",
+      "enum": [
+        "ASSET_TYPE_UNKNOWN",
+        "ASSET_TYPE_WATER_METER",
+        "ASSET_TYPE_ENERGY_METER",
+        "ASSET_TYPE_GAS_METER",
+        "ASSET_TYPE_GPS_TRACKER",
+        "ASSET_TYPE_GATEWAY"
+      ],
+      "default": "ASSET_TYPE_UNKNOWN",
+      "description": " - ASSET_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_TYPE_WATER_METER: AMR Water meter Inductive.\n - ASSET_TYPE_ENERGY_METER: Energy Meter device.\n - ASSET_TYPE_GAS_METER: GAS Meter device.\n - ASSET_TYPE_GPS_TRACKER: GPS Tracker device.\n - ASSET_TYPE_GATEWAY: Gateway device."
+    },
     "platformCreateDeviceRequest": {
       "type": "object",
       "properties": {
@@ -271,6 +301,14 @@
         "deviceType": {
           "$ref": "#/definitions/platformDeviceType",
           "description": "Device Type."
+        },
+        "assetType": {
+          "$ref": "#/definitions/platformAssetType",
+          "description": "Asset Type Water Meter, Gas Meter, Energy Meter etc."
+        },
+        "assetSubType": {
+          "$ref": "#/definitions/platformAssetSubType",
+          "title": "Asset Sub Type"
         },
         "variables": {
           "type": "object",

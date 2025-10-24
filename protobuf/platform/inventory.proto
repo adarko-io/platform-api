@@ -103,7 +103,7 @@ message InventoryDevice {
  //Device Type LoRaWAN Gateway, LoRaWAN Device, Cellular Device, Wifi etc.
   DeviceType device_type = 11;
 
-//Asset Type Water Meter, Gas Meter, Energy Meter etc.
+ //Asset Type Water Meter, Gas Meter, Energy Meter etc.
   AssetType asset_type = 12;
 
   AssetSubType asset_sub_type = 13;

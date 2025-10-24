@@ -74,16 +74,22 @@ message Device {
   // Device Type.
   DeviceType device_type = 7;
 
+  //Asset Type Water Meter, Gas Meter, Energy Meter etc.
+  AssetType asset_type = 8;
+
+  //Asset Sub Type
+  AssetSubType asset_sub_type = 9;
+
   // Variables (user defined).
   // These variables can be used together with integrations to store tokens /
   // secrets that must be configured per device. These variables are not
   // exposed in the event payloads.
-  map<string, string> variables = 8;
+  map<string, string> variables = 10;
 
   // Tags (user defined).
   // These tags can be used to add additional information to the device.
   // These tags are exposed in all the integration events.
-  map<string, string> tags = 9;
+  map<string, string> tags = 11;
 
 }
 
