@@ -200,75 +200,6 @@
             "required": false,
             "type": "integer",
             "format": "int64"
-          },
-          {
-            "name": "includeDecoded",
-            "description": "Include decoded data in response.",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "includeSignalMetrics",
-            "description": "Include signal metrics in response.",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "transportProtocols",
-            "description": "Filter by transport protocol.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_HTTP: HTTP/HTTPS over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_MQTT: MQTT over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_TCP: TCP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_UDP: UDP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_COAP: CoAP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_WEBSOCKET: WebSocket.",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "TRANSPORT_PROTOCOL_UNKNOWN",
-                "TRANSPORT_LORAWAN",
-                "TRANSPORT_HTTP",
-                "TRANSPORT_MQTT",
-                "TRANSPORT_TCP",
-                "TRANSPORT_UDP",
-                "TRANSPORT_COAP",
-                "TRANSPORT_WEBSOCKET"
-              ]
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "fPorts",
-            "description": "Filter by frame port (LoRaWAN specific).",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int64"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "mqttTopics",
-            "description": "Filter by MQTT topics (MQTT specific).",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "httpMethods",
-            "description": "Filter by HTTP methods (HTTP specific).",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
           }
         ],
         "tags": [
@@ -579,77 +510,6 @@
       "default": "AGGREGATION_TYPE_NONE",
       "description": "Aggregation type for time-series data.\n\n - AGGREGATION_TYPE_NONE: No aggregation (raw data).\n - AGGREGATION_TYPE_AVG: Average values.\n - AGGREGATION_TYPE_MIN: Minimum values.\n - AGGREGATION_TYPE_MAX: Maximum values.\n - AGGREGATION_TYPE_SUM: Sum of values.\n - AGGREGATION_TYPE_COUNT: Count of data points.\n - AGGREGATION_TYPE_FIRST: First value in time window.\n - AGGREGATION_TYPE_LAST: Last value in time window."
     },
-    "platformCellularMetadata": {
-      "type": "object",
-      "properties": {
-        "imei": {
-          "type": "string",
-          "description": "IMEI of the device."
-        },
-        "imsi": {
-          "type": "string",
-          "description": "IMSI of the SIM card."
-        },
-        "cellId": {
-          "type": "string",
-          "description": "Cell ID."
-        },
-        "mcc": {
-          "type": "string",
-          "description": "Mobile Country Code."
-        },
-        "mnc": {
-          "type": "string",
-          "description": "Mobile Network Code."
-        },
-        "lac": {
-          "type": "string",
-          "description": "Location Area Code."
-        },
-        "networkType": {
-          "type": "string",
-          "description": "Network type (2G, 3G, 4G, 5G, NB-IoT, LTE-M)."
-        }
-      },
-      "description": "Cellular specific metadata."
-    },
-    "platformCoAPMetadata": {
-      "type": "object",
-      "properties": {
-        "method": {
-          "type": "string",
-          "description": "CoAP method (GET, POST, PUT, DELETE)."
-        },
-        "uriPath": {
-          "type": "string",
-          "description": "URI path."
-        },
-        "messageType": {
-          "type": "string",
-          "description": "Message type (CON, NON, ACK, RST)."
-        },
-        "messageId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Message ID."
-        },
-        "token": {
-          "type": "string",
-          "format": "byte",
-          "description": "Token."
-        },
-        "responseCode": {
-          "type": "string",
-          "description": "Response code."
-        },
-        "contentFormat": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Content format."
-        }
-      },
-      "description": "CoAP specific metadata."
-    },
     "platformDataSizeStats": {
       "type": "object",
       "properties": {
@@ -723,36 +583,9 @@
           "format": "date-time",
           "description": "Timestamp when the data was received."
         },
-        "transportProtocol": {
-          "$ref": "#/definitions/platformTransportProtocol",
-          "description": "Transport protocol used."
-        },
         "data": {
           "type": "object",
           "description": "Raw payload data (base64 encoded)."
-        },
-        "decodedData": {
-          "type": "string",
-          "description": "Decoded data (JSON object as string)."
-        },
-        "signalMetrics": {
-          "$ref": "#/definitions/platformSignalMetrics",
-          "description": "Signal quality metrics (protocol-specific)."
-        },
-        "location": {
-          "$ref": "#/definitions/platformDeviceLocation",
-          "description": "Device location (for location history tracking)."
-        },
-        "protocolMetadata": {
-          "$ref": "#/definitions/platformProtocolMetadata",
-          "description": "Protocol-specific metadata."
-        },
-        "metadata": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Additional metadata."
         }
       },
       "description": "DeviceData represents a single data point from a device or gateway.\nSupports data from multiple protocols: LoRaWAN, Cellular, HTTP, MQTT, TCP, UDP, CoAP."
@@ -994,47 +827,6 @@
       },
       "description": "Response containing multiple device locations."
     },
-    "platformHTTPMetadata": {
-      "type": "object",
-      "properties": {
-        "method": {
-          "type": "string",
-          "description": "HTTP method used."
-        },
-        "headers": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Request headers."
-        },
-        "queryParams": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Query parameters."
-        },
-        "statusCode": {
-          "type": "integer",
-          "format": "int64",
-          "description": "HTTP status code (for responses)."
-        },
-        "contentType": {
-          "type": "string",
-          "description": "Content type."
-        },
-        "userAgent": {
-          "type": "string",
-          "description": "User agent."
-        },
-        "remoteIp": {
-          "type": "string",
-          "description": "Remote IP address."
-        }
-      },
-      "description": "HTTP specific metadata."
-    },
     "platformInsertDataRequest": {
       "type": "object",
       "properties": {
@@ -1104,35 +896,6 @@
       },
       "description": "Response from inserting datalogger data."
     },
-    "platformLoRaWANMetadata": {
-      "type": "object",
-      "properties": {
-        "fCnt": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Frame counter."
-        },
-        "fPort": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Frame port."
-        },
-        "dataRate": {
-          "type": "string",
-          "description": "Data rate."
-        },
-        "confirmed": {
-          "type": "boolean",
-          "description": "Confirmed/unconfirmed uplink."
-        },
-        "gatewayCount": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Gateway count that received the message."
-        }
-      },
-      "description": "LoRaWAN specific metadata."
-    },
     "platformLocationSource": {
       "type": "string",
       "enum": [
@@ -1151,144 +914,6 @@
       "default": "LOCATION_SOURCE_UNKNOWN",
       "description": "Location source enumeration - unified across all services.\n\n - LOCATION_SOURCE_UNKNOWN: Unknown location source.\n - LOCATION_SOURCE_GPS: GPS coordinates.\n - LOCATION_SOURCE_MANUAL: Manually configured.\n - LOCATION_SOURCE_TRIANGULATION: Calculated via triangulation.\n - LOCATION_SOURCE_WIFI: WiFi-based location.\n - LOCATION_SOURCE_MANUAL_OVERRIDE: Manual override.\n - LOCATION_SOURCE_CONFIG: Configuration-based.\n - LOCATION_SOURCE_GEO_RESOLVER_TDOA: GEO resolver TDOA.\n - LOCATION_SOURCE_GEO_RESOLVER_RSSI: GEO resolver RSSI.\n - LOCATION_SOURCE_GEO_RESOLVER_GNSS: GEO resolver GNSS.\n - LOCATION_SOURCE_GEO_RESOLVER_WIFI: GEO resolver WiFi."
     },
-    "platformMQTTMetadata": {
-      "type": "object",
-      "properties": {
-        "topic": {
-          "type": "string",
-          "description": "Topic the message was published to."
-        },
-        "qos": {
-          "type": "integer",
-          "format": "int64",
-          "description": "QoS level (0, 1, 2)."
-        },
-        "retain": {
-          "type": "boolean",
-          "description": "Retain flag."
-        },
-        "messageId": {
-          "type": "string",
-          "description": "Message ID."
-        },
-        "clientId": {
-          "type": "string",
-          "description": "Client ID."
-        },
-        "broker": {
-          "type": "string",
-          "description": "Broker hostname/IP."
-        }
-      },
-      "description": "MQTT specific metadata."
-    },
-    "platformProtocolMetadata": {
-      "type": "object",
-      "properties": {
-        "lorawan": {
-          "$ref": "#/definitions/platformLoRaWANMetadata",
-          "description": "LoRaWAN specific metadata."
-        },
-        "cellular": {
-          "$ref": "#/definitions/platformCellularMetadata",
-          "description": "Cellular network metadata (for all cellular protocols)."
-        },
-        "http": {
-          "$ref": "#/definitions/platformHTTPMetadata",
-          "description": "HTTP specific metadata (works with both cellular and WiFi/Ethernet)."
-        },
-        "mqtt": {
-          "$ref": "#/definitions/platformMQTTMetadata",
-          "description": "MQTT specific metadata (works with both cellular and WiFi/Ethernet)."
-        },
-        "tcp": {
-          "$ref": "#/definitions/platformTCPMetadata",
-          "description": "TCP specific metadata (works with both cellular and WiFi/Ethernet)."
-        },
-        "udp": {
-          "$ref": "#/definitions/platformUDPMetadata",
-          "description": "UDP specific metadata (works with both cellular and WiFi/Ethernet)."
-        },
-        "coap": {
-          "$ref": "#/definitions/platformCoAPMetadata",
-          "description": "CoAP specific metadata (works with both cellular and WiFi/Ethernet)."
-        },
-        "websocket": {
-          "$ref": "#/definitions/platformWebSocketMetadata",
-          "description": "WebSocket specific metadata."
-        }
-      },
-      "description": "Protocol-specific metadata for different transport protocols."
-    },
-    "platformSignalMetrics": {
-      "type": "object",
-      "properties": {
-        "rssi": {
-          "type": "integer",
-          "format": "int32",
-          "description": "RSSI (Received Signal Strength Indicator) in dBm (LoRaWAN, Cellular)."
-        },
-        "snr": {
-          "type": "number",
-          "format": "float",
-          "description": "SNR (Signal-to-Noise Ratio) in dB (LoRaWAN)."
-        },
-        "spreadingFactor": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Spreading factor (LoRaWAN specific)."
-        },
-        "bandwidth": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Bandwidth in Hz (LoRaWAN specific)."
-        },
-        "frequency": {
-          "type": "string",
-          "format": "uint64",
-          "description": "Frequency in Hz (LoRaWAN specific)."
-        },
-        "signalStrengthPercent": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Signal strength percentage (0-100) for other protocols."
-        },
-        "lqi": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Link quality indicator (cellular specific)."
-        }
-      },
-      "description": "Signal quality metrics (protocol-specific)."
-    },
-    "platformTCPMetadata": {
-      "type": "object",
-      "properties": {
-        "sourceIp": {
-          "type": "string",
-          "description": "Source IP address."
-        },
-        "sourcePort": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Source port."
-        },
-        "destinationIp": {
-          "type": "string",
-          "description": "Destination IP address."
-        },
-        "destinationPort": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Destination port."
-        },
-        "connectionState": {
-          "type": "string",
-          "description": "Connection state."
-        }
-      },
-      "description": "TCP specific metadata."
-    },
     "platformTimeInterval": {
       "type": "string",
       "enum": [
@@ -1305,50 +930,6 @@
       ],
       "default": "TIME_INTERVAL_MINUTE",
       "description": "Time interval for aggregation.\n\n - TIME_INTERVAL_MINUTE: 1 minute intervals.\n - TIME_INTERVAL_MINUTE_5: 5 minute intervals.\n - TIME_INTERVAL_MINUTE_15: 15 minute intervals.\n - TIME_INTERVAL_MINUTE_30: 30 minute intervals.\n - TIME_INTERVAL_HOUR: 1 hour intervals.\n - TIME_INTERVAL_HOUR_6: 6 hour intervals.\n - TIME_INTERVAL_HOUR_12: 12 hour intervals.\n - TIME_INTERVAL_DAY: 1 day intervals.\n - TIME_INTERVAL_WEEK: 1 week intervals.\n - TIME_INTERVAL_MONTH: 1 month intervals."
-    },
-    "platformTransportProtocol": {
-      "type": "string",
-      "enum": [
-        "TRANSPORT_PROTOCOL_UNKNOWN",
-        "TRANSPORT_LORAWAN",
-        "TRANSPORT_HTTP",
-        "TRANSPORT_MQTT",
-        "TRANSPORT_TCP",
-        "TRANSPORT_UDP",
-        "TRANSPORT_COAP",
-        "TRANSPORT_WEBSOCKET"
-      ],
-      "default": "TRANSPORT_PROTOCOL_UNKNOWN",
-      "description": "Transport protocol enumeration - unified for inventory and data services.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_HTTP: HTTP/HTTPS over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_MQTT: MQTT over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_TCP: TCP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_UDP: UDP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_COAP: CoAP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_WEBSOCKET: WebSocket."
-    },
-    "platformUDPMetadata": {
-      "type": "object",
-      "properties": {
-        "sourceIp": {
-          "type": "string",
-          "description": "Source IP address."
-        },
-        "sourcePort": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Source port."
-        },
-        "destinationIp": {
-          "type": "string",
-          "description": "Destination IP address."
-        },
-        "destinationPort": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Destination port."
-        },
-        "packetSize": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Packet size."
-        }
-      },
-      "description": "UDP specific metadata."
     },
     "platformUpdateDeviceLocationRequest": {
       "type": "object",
@@ -1372,32 +953,6 @@
         }
       },
       "description": "Request to update device location."
-    },
-    "platformWebSocketMetadata": {
-      "type": "object",
-      "properties": {
-        "subprotocol": {
-          "type": "string",
-          "description": "WebSocket subprotocol."
-        },
-        "messageType": {
-          "type": "string",
-          "description": "Message type (text, binary, ping, pong, close)."
-        },
-        "endpoint": {
-          "type": "string",
-          "description": "WebSocket endpoint URL."
-        },
-        "connectionState": {
-          "type": "string",
-          "description": "Connection state."
-        },
-        "remoteIp": {
-          "type": "string",
-          "description": "Remote IP address."
-        }
-      },
-      "description": "WebSocket specific metadata."
     },
     "protobufAny": {
       "type": "object",

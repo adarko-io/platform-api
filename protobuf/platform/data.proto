@@ -114,26 +114,9 @@ message DeviceData {
   // Timestamp when the data was received.
   google.protobuf.Timestamp timestamp = 2;
 
-  // Transport protocol used.
-  TransportProtocol transport_protocol = 3;
-
   // Raw payload data (base64 encoded).
   google.protobuf.Value data = 4;
 
-  // Decoded data (JSON object as string).
-  string decoded_data = 5;
-
-  // Signal quality metrics (protocol-specific).
-  SignalMetrics signal_metrics = 6;
-
-  // Device location (for location history tracking).
-  DeviceLocation location = 7;
-
-  // Protocol-specific metadata.
-  ProtocolMetadata protocol_metadata = 8;
-
-  // Additional metadata.
-  map<string, string> metadata = 9;
 }
 
 // Signal quality metrics (protocol-specific).
@@ -433,23 +416,6 @@ message GetDeviceDataRequest {
   // Offset for pagination.
   uint32 offset = 5;
 
-  // Include decoded data in response.
-  bool include_decoded = 6;
-
-  // Include signal metrics in response.
-  bool include_signal_metrics = 7;
-
-  // Filter by transport protocol.
-  repeated TransportProtocol transport_protocols = 8;
-
-  // Filter by frame port (LoRaWAN specific).
-  repeated uint32 f_ports = 9;
-
-  // Filter by MQTT topics (MQTT specific).
-  repeated string mqtt_topics = 10;
-
-  // Filter by HTTP methods (HTTP specific).
-  repeated string http_methods = 11;
 }
 
 // Response containing device data.
