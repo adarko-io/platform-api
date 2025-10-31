@@ -534,6 +534,10 @@
           "type": "integer",
           "format": "int64",
           "description": "Max. device count for tenant.\nWhen set to 0, the tenant can have unlimited devices."
+        },
+        "isMain": {
+          "type": "boolean",
+          "description": "Set to true to make this the main tenant."
         }
       }
     },

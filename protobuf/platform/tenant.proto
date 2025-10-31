@@ -106,6 +106,9 @@ message Tenant {
   // When set to 0, the tenant can have unlimited devices.
   uint32 max_device_count = 5;
 
+  // Set to true to make this the main tenant.
+	bool is_main = 6;
+
 }
 
 message TenantListItem {
