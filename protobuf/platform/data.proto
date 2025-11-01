@@ -449,6 +449,12 @@ message GetAggregatedDataRequest {
 
   // Group by device (if false, aggregate across all devices).
   bool group_by_device = 7;
+
+  // Maximum number of data points to return.
+  uint32 limit = 8;
+
+  // Offset for pagination.
+  uint32 offset = 9;
 }
 
 // Aggregated data point.

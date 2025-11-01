@@ -658,6 +658,16 @@
         "groupByDevice": {
           "type": "boolean",
           "description": "Group by device (if false, aggregate across all devices)."
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Maximum number of data points to return."
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Offset for pagination."
         }
       },
       "description": "Request for aggregated data."
