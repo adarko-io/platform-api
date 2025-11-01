@@ -474,8 +474,12 @@ message AggregatedDataPoint {
 
 // Response containing aggregated data.
 message GetAggregatedDataResponse {
-  // Aggregated data points.
-  repeated AggregatedDataPoint data = 1;
+  
+  // Total count of data points available.
+  uint32 total_count = 1;
+  
+// Aggregated data points.
+  repeated AggregatedDataPoint data = 2;
 }
 
 // Request to get latest data.

@@ -675,6 +675,11 @@
     "platformGetAggregatedDataResponse": {
       "type": "object",
       "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total count of data points available."
+        },
         "data": {
           "type": "array",
           "items": {
