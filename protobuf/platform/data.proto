@@ -444,8 +444,10 @@ message GetAggregatedDataRequest {
   // Time interval for aggregation.
   TimeInterval interval = 5;
 
-  // Fields to aggregate (e.g., "temperature", "humidity").
-  repeated string fields = 6;
+  // Fields to aggregate with their types (field name -> field type).
+  // e.g., {"accumulated_volume_m3": "FIELD_TYPE_CUMULATIVE", "battery_raw": "FIELD_TYPE_VARIABLE"}
+  // If not specified, defaults will be used based on field names.
+  map<string, FieldType> fields = 6;
 
   // Group by device (if false, aggregate across all devices).
   bool group_by_device = 7;
@@ -477,7 +479,7 @@ message GetAggregatedDataResponse {
   
   // Total count of data points available.
   uint32 total_count = 1;
-  
+
 // Aggregated data points.
   repeated AggregatedDataPoint data = 2;
 }

@@ -620,6 +620,16 @@
       },
       "description": "Device location information."
     },
+    "platformFieldType": {
+      "type": "string",
+      "enum": [
+        "FIELD_TYPE_UNKNOWN",
+        "FIELD_TYPE_CUMULATIVE",
+        "FIELD_TYPE_VARIABLE"
+      ],
+      "default": "FIELD_TYPE_UNKNOWN",
+      "description": "Field type enumeration for data aggregation.\nDetermines how aggregation functions should be applied to different field types.\n\n - FIELD_TYPE_UNKNOWN: Unknown field type - defaults to VARIABLE behavior.\n - FIELD_TYPE_CUMULATIVE: Cumulative/monotonic fields (e.g., accumulated_volume_m3, total_energy_kwh).\nFor these fields:\n- MIN/MAX/AVG/SUM calculate differences between readings (consumption)\n- NONE returns raw accumulated values with gap filling\n - FIELD_TYPE_VARIABLE: Variable/instantaneous fields (e.g., battery_voltage, temperature, pressure).\nFor these fields:\n- MIN returns minimum value in time period\n- MAX returns maximum value in time period  \n- AVG returns average value in time period\n- SUM returns sum of values (rarely useful)\n- NONE returns raw values with gap filling"
+    },
     "platformGetAggregatedDataRequest": {
       "type": "object",
       "properties": {
@@ -649,11 +659,11 @@
           "description": "Time interval for aggregation."
         },
         "fields": {
-          "type": "array",
-          "items": {
-            "type": "string"
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/platformFieldType"
           },
-          "description": "Fields to aggregate (e.g., \"temperature\", \"humidity\")."
+          "description": "Fields to aggregate with their types (field name -\u003e field type).\ne.g., {\"accumulated_volume_m3\": \"FIELD_TYPE_CUMULATIVE\", \"battery_raw\": \"FIELD_TYPE_VARIABLE\"}\nIf not specified, defaults will be used based on field names."
         },
         "groupByDevice": {
           "type": "boolean",

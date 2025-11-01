@@ -231,3 +231,25 @@ enum AssetSubType {
   ASSET_SUB_TYPE_LORAWAN_GATEWAY           = 9;
 
  }
+
+// Field type enumeration for data aggregation.
+// Determines how aggregation functions should be applied to different field types.
+enum FieldType {
+  // Unknown field type - defaults to VARIABLE behavior.
+  FIELD_TYPE_UNKNOWN = 0;
+  
+  // Cumulative/monotonic fields (e.g., accumulated_volume_m3, total_energy_kwh).
+  // For these fields:
+  // - MIN/MAX/AVG/SUM calculate differences between readings (consumption)
+  // - NONE returns raw accumulated values with gap filling
+  FIELD_TYPE_CUMULATIVE = 1;
+  
+  // Variable/instantaneous fields (e.g., battery_voltage, temperature, pressure).
+  // For these fields:
+  // - MIN returns minimum value in time period
+  // - MAX returns maximum value in time period  
+  // - AVG returns average value in time period
+  // - SUM returns sum of values (rarely useful)
+  // - NONE returns raw values with gap filling
+  FIELD_TYPE_VARIABLE = 2;
+}

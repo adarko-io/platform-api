@@ -1579,8 +1579,10 @@ type GetAggregatedDataRequest struct {
 	Aggregation AggregationType `protobuf:"varint,4,opt,name=aggregation,proto3,enum=platform.AggregationType" json:"aggregation,omitempty"`
 	// Time interval for aggregation.
 	Interval TimeInterval `protobuf:"varint,5,opt,name=interval,proto3,enum=platform.TimeInterval" json:"interval,omitempty"`
-	// Fields to aggregate (e.g., "temperature", "humidity").
-	Fields []string `protobuf:"bytes,6,rep,name=fields,proto3" json:"fields,omitempty"`
+	// Fields to aggregate with their types (field name -> field type).
+	// e.g., {"accumulated_volume_m3": "FIELD_TYPE_CUMULATIVE", "battery_raw": "FIELD_TYPE_VARIABLE"}
+	// If not specified, defaults will be used based on field names.
+	Fields map[string]FieldType `protobuf:"bytes,6,rep,name=fields,proto3" json:"fields,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3,enum=platform.FieldType"`
 	// Group by device (if false, aggregate across all devices).
 	GroupByDevice bool `protobuf:"varint,7,opt,name=group_by_device,json=groupByDevice,proto3" json:"group_by_device,omitempty"`
 	// Maximum number of data points to return.
@@ -1656,7 +1658,7 @@ func (x *GetAggregatedDataRequest) GetInterval() TimeInterval {
 	return TimeInterval_TIME_INTERVAL_MINUTE
 }
 
-func (x *GetAggregatedDataRequest) GetFields() []string {
+func (x *GetAggregatedDataRequest) GetFields() map[string]FieldType {
 	if x != nil {
 		return x.Fields
 	}
@@ -3009,7 +3011,7 @@ var file_platform_data_proto_rawDesc = []byte{
 	0x0a, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x28, 0x0a, 0x04, 0x64,
 	0x61, 0x74, 0x61, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x70, 0x6c, 0x61, 0x74,
 	0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x44, 0x61, 0x74, 0x61, 0x52,
-	0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0xff, 0x02, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x41, 0x67, 0x67,
+	0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0xff, 0x03, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x41, 0x67, 0x67,
 	0x72, 0x65, 0x67, 0x61, 0x74, 0x65, 0x64, 0x44, 0x61, 0x74, 0x61, 0x52, 0x65, 0x71, 0x75, 0x65,
 	0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x65, 0x75, 0x69, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09,
 	0x52, 0x04, 0x65, 0x75, 0x69, 0x73, 0x12, 0x39, 0x0a, 0x0a, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f,
@@ -3026,14 +3028,22 @@ var file_platform_data_proto_rawDesc = []byte{
 	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x32, 0x0a, 0x08, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x76, 0x61,
 	0x6c, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x16, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f,
 	0x72, 0x6d, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x76, 0x61, 0x6c, 0x52,
-	0x08, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x76, 0x61, 0x6c, 0x12, 0x16, 0x0a, 0x06, 0x66, 0x69, 0x65,
-	0x6c, 0x64, 0x73, 0x18, 0x06, 0x20, 0x03, 0x28, 0x09, 0x52, 0x06, 0x66, 0x69, 0x65, 0x6c, 0x64,
+	0x08, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x76, 0x61, 0x6c, 0x12, 0x46, 0x0a, 0x06, 0x66, 0x69, 0x65,
+	0x6c, 0x64, 0x73, 0x18, 0x06, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2e, 0x2e, 0x70, 0x6c, 0x61, 0x74,
+	0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x67, 0x67, 0x72, 0x65, 0x67, 0x61, 0x74,
+	0x65, 0x64, 0x44, 0x61, 0x74, 0x61, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x46, 0x69,
+	0x65, 0x6c, 0x64, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x06, 0x66, 0x69, 0x65, 0x6c, 0x64,
 	0x73, 0x12, 0x26, 0x0a, 0x0f, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x5f, 0x62, 0x79, 0x5f, 0x64, 0x65,
 	0x76, 0x69, 0x63, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0d, 0x67, 0x72, 0x6f, 0x75,
 	0x70, 0x42, 0x79, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x6c, 0x69, 0x6d,
 	0x69, 0x74, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x12,
 	0x16, 0x0a, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0d, 0x52,
-	0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x22, 0xf5, 0x01, 0x0a, 0x13, 0x41, 0x67, 0x67, 0x72,
+	0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x1a, 0x4e, 0x0a, 0x0b, 0x46, 0x69, 0x65, 0x6c, 0x64,
+	0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x29, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x13, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f,
+	0x72, 0x6d, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x54, 0x79, 0x70, 0x65, 0x52, 0x05, 0x76, 0x61,
+	0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0xf5, 0x01, 0x0a, 0x13, 0x41, 0x67, 0x67, 0x72,
 	0x65, 0x67, 0x61, 0x74, 0x65, 0x64, 0x44, 0x61, 0x74, 0x61, 0x50, 0x6f, 0x69, 0x6e, 0x74, 0x12,
 	0x38, 0x0a, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x18, 0x01, 0x20, 0x01,
 	0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
@@ -3312,7 +3322,7 @@ func file_platform_data_proto_rawDescGZIP() []byte {
 	return file_platform_data_proto_rawDescData
 }
 
-var file_platform_data_proto_msgTypes = make([]protoimpl.MessageInfo, 41)
+var file_platform_data_proto_msgTypes = make([]protoimpl.MessageInfo, 42)
 var file_platform_data_proto_goTypes = []any{
 	(*DeviceData)(nil),                     // 0: platform.DeviceData
 	(*SignalMetrics)(nil),                  // 1: platform.SignalMetrics
@@ -3352,19 +3362,21 @@ var file_platform_data_proto_goTypes = []any{
 	nil,                                    // 35: platform.HTTPMetadata.HeadersEntry
 	nil,                                    // 36: platform.HTTPMetadata.QueryParamsEntry
 	nil,                                    // 37: platform.InsertFromDataloggerRequest.MetadataEntry
-	nil,                                    // 38: platform.AggregatedDataPoint.ValuesEntry
-	nil,                                    // 39: platform.GetMultiDeviceDataResponse.DeviceDataEntry
-	nil,                                    // 40: platform.GetMultiDeviceLocationResponse.LocationsEntry
-	(*timestamppb.Timestamp)(nil),          // 41: google.protobuf.Timestamp
-	(*structpb.Value)(nil),                 // 42: google.protobuf.Value
-	(LocationSource)(0),                    // 43: platform.LocationSource
-	(AggregationType)(0),                   // 44: platform.AggregationType
-	(TimeInterval)(0),                      // 45: platform.TimeInterval
-	(*emptypb.Empty)(nil),                  // 46: google.protobuf.Empty
+	nil,                                    // 38: platform.GetAggregatedDataRequest.FieldsEntry
+	nil,                                    // 39: platform.AggregatedDataPoint.ValuesEntry
+	nil,                                    // 40: platform.GetMultiDeviceDataResponse.DeviceDataEntry
+	nil,                                    // 41: platform.GetMultiDeviceLocationResponse.LocationsEntry
+	(*timestamppb.Timestamp)(nil),          // 42: google.protobuf.Timestamp
+	(*structpb.Value)(nil),                 // 43: google.protobuf.Value
+	(LocationSource)(0),                    // 44: platform.LocationSource
+	(AggregationType)(0),                   // 45: platform.AggregationType
+	(TimeInterval)(0),                      // 46: platform.TimeInterval
+	(FieldType)(0),                         // 47: platform.FieldType
+	(*emptypb.Empty)(nil),                  // 48: google.protobuf.Empty
 }
 var file_platform_data_proto_depIdxs = []int32{
-	41, // 0: platform.DeviceData.timestamp:type_name -> google.protobuf.Timestamp
-	42, // 1: platform.DeviceData.data:type_name -> google.protobuf.Value
+	42, // 0: platform.DeviceData.timestamp:type_name -> google.protobuf.Timestamp
+	43, // 1: platform.DeviceData.data:type_name -> google.protobuf.Value
 	3,  // 2: platform.ProtocolMetadata.lorawan:type_name -> platform.LoRaWANMetadata
 	4,  // 3: platform.ProtocolMetadata.cellular:type_name -> platform.CellularMetadata
 	5,  // 4: platform.ProtocolMetadata.http:type_name -> platform.HTTPMetadata
@@ -3375,70 +3387,72 @@ var file_platform_data_proto_depIdxs = []int32{
 	10, // 9: platform.ProtocolMetadata.websocket:type_name -> platform.WebSocketMetadata
 	35, // 10: platform.HTTPMetadata.headers:type_name -> platform.HTTPMetadata.HeadersEntry
 	36, // 11: platform.HTTPMetadata.query_params:type_name -> platform.HTTPMetadata.QueryParamsEntry
-	43, // 12: platform.DeviceLocation.source:type_name -> platform.LocationSource
-	42, // 13: platform.InsertFromDataloggerRequest.data:type_name -> google.protobuf.Value
-	42, // 14: platform.InsertFromDataloggerRequest.original_data:type_name -> google.protobuf.Value
-	41, // 15: platform.InsertFromDataloggerRequest.received_at:type_name -> google.protobuf.Timestamp
+	44, // 12: platform.DeviceLocation.source:type_name -> platform.LocationSource
+	43, // 13: platform.InsertFromDataloggerRequest.data:type_name -> google.protobuf.Value
+	43, // 14: platform.InsertFromDataloggerRequest.original_data:type_name -> google.protobuf.Value
+	42, // 15: platform.InsertFromDataloggerRequest.received_at:type_name -> google.protobuf.Timestamp
 	37, // 16: platform.InsertFromDataloggerRequest.metadata:type_name -> platform.InsertFromDataloggerRequest.MetadataEntry
 	0,  // 17: platform.InsertDataRequest.data:type_name -> platform.DeviceData
-	41, // 18: platform.GetDeviceDataRequest.start_time:type_name -> google.protobuf.Timestamp
-	41, // 19: platform.GetDeviceDataRequest.end_time:type_name -> google.protobuf.Timestamp
+	42, // 18: platform.GetDeviceDataRequest.start_time:type_name -> google.protobuf.Timestamp
+	42, // 19: platform.GetDeviceDataRequest.end_time:type_name -> google.protobuf.Timestamp
 	0,  // 20: platform.GetDeviceDataResponse.data:type_name -> platform.DeviceData
-	41, // 21: platform.GetAggregatedDataRequest.start_time:type_name -> google.protobuf.Timestamp
-	41, // 22: platform.GetAggregatedDataRequest.end_time:type_name -> google.protobuf.Timestamp
-	44, // 23: platform.GetAggregatedDataRequest.aggregation:type_name -> platform.AggregationType
-	45, // 24: platform.GetAggregatedDataRequest.interval:type_name -> platform.TimeInterval
-	41, // 25: platform.AggregatedDataPoint.timestamp:type_name -> google.protobuf.Timestamp
-	38, // 26: platform.AggregatedDataPoint.values:type_name -> platform.AggregatedDataPoint.ValuesEntry
-	18, // 27: platform.GetAggregatedDataResponse.data:type_name -> platform.AggregatedDataPoint
-	0,  // 28: platform.GetLatestDataResponse.data:type_name -> platform.DeviceData
-	41, // 29: platform.GetMultiDeviceDataRequest.start_time:type_name -> google.protobuf.Timestamp
-	41, // 30: platform.GetMultiDeviceDataRequest.end_time:type_name -> google.protobuf.Timestamp
-	39, // 31: platform.GetMultiDeviceDataResponse.device_data:type_name -> platform.GetMultiDeviceDataResponse.DeviceDataEntry
-	41, // 32: platform.DeleteDeviceDataRequest.start_time:type_name -> google.protobuf.Timestamp
-	41, // 33: platform.DeleteDeviceDataRequest.end_time:type_name -> google.protobuf.Timestamp
-	41, // 34: platform.GetDataStatsRequest.start_time:type_name -> google.protobuf.Timestamp
-	41, // 35: platform.GetDataStatsRequest.end_time:type_name -> google.protobuf.Timestamp
-	41, // 36: platform.DataStats.first_timestamp:type_name -> google.protobuf.Timestamp
-	41, // 37: platform.DataStats.last_timestamp:type_name -> google.protobuf.Timestamp
-	27, // 38: platform.DataStats.size_stats:type_name -> platform.DataSizeStats
-	26, // 39: platform.GetDataStatsResponse.stats:type_name -> platform.DataStats
-	11, // 40: platform.UpdateDeviceLocationRequest.location:type_name -> platform.DeviceLocation
-	41, // 41: platform.UpdateDeviceLocationRequest.timestamp:type_name -> google.protobuf.Timestamp
-	11, // 42: platform.GetDeviceLocationResponse.location:type_name -> platform.DeviceLocation
-	41, // 43: platform.GetDeviceLocationResponse.updated_at:type_name -> google.protobuf.Timestamp
-	40, // 44: platform.GetMultiDeviceLocationResponse.locations:type_name -> platform.GetMultiDeviceLocationResponse.LocationsEntry
-	16, // 45: platform.GetMultiDeviceDataResponse.DeviceDataEntry.value:type_name -> platform.GetDeviceDataResponse
-	31, // 46: platform.GetMultiDeviceLocationResponse.LocationsEntry.value:type_name -> platform.GetDeviceLocationResponse
-	14, // 47: platform.DataService.Insert:input_type -> platform.InsertDataRequest
-	12, // 48: platform.DataService.InsertFromDatalogger:input_type -> platform.InsertFromDataloggerRequest
-	15, // 49: platform.DataService.GetDeviceData:input_type -> platform.GetDeviceDataRequest
-	17, // 50: platform.DataService.GetAggregatedData:input_type -> platform.GetAggregatedDataRequest
-	20, // 51: platform.DataService.GetLatestData:input_type -> platform.GetLatestDataRequest
-	22, // 52: platform.DataService.GetMultiDeviceData:input_type -> platform.GetMultiDeviceDataRequest
-	24, // 53: platform.DataService.DeleteDeviceData:input_type -> platform.DeleteDeviceDataRequest
-	25, // 54: platform.DataService.GetDataStats:input_type -> platform.GetDataStatsRequest
-	29, // 55: platform.DataService.UpdateDeviceLocation:input_type -> platform.UpdateDeviceLocationRequest
-	30, // 56: platform.DataService.GetDeviceLocation:input_type -> platform.GetDeviceLocationRequest
-	32, // 57: platform.DataService.GetMultiDeviceLocation:input_type -> platform.GetMultiDeviceLocationRequest
-	34, // 58: platform.DataService.DeleteDeviceLocation:input_type -> platform.DeleteDeviceLocationRequest
-	46, // 59: platform.DataService.Insert:output_type -> google.protobuf.Empty
-	13, // 60: platform.DataService.InsertFromDatalogger:output_type -> platform.InsertFromDataloggerResponse
-	16, // 61: platform.DataService.GetDeviceData:output_type -> platform.GetDeviceDataResponse
-	19, // 62: platform.DataService.GetAggregatedData:output_type -> platform.GetAggregatedDataResponse
-	21, // 63: platform.DataService.GetLatestData:output_type -> platform.GetLatestDataResponse
-	23, // 64: platform.DataService.GetMultiDeviceData:output_type -> platform.GetMultiDeviceDataResponse
-	46, // 65: platform.DataService.DeleteDeviceData:output_type -> google.protobuf.Empty
-	28, // 66: platform.DataService.GetDataStats:output_type -> platform.GetDataStatsResponse
-	46, // 67: platform.DataService.UpdateDeviceLocation:output_type -> google.protobuf.Empty
-	31, // 68: platform.DataService.GetDeviceLocation:output_type -> platform.GetDeviceLocationResponse
-	33, // 69: platform.DataService.GetMultiDeviceLocation:output_type -> platform.GetMultiDeviceLocationResponse
-	46, // 70: platform.DataService.DeleteDeviceLocation:output_type -> google.protobuf.Empty
-	59, // [59:71] is the sub-list for method output_type
-	47, // [47:59] is the sub-list for method input_type
-	47, // [47:47] is the sub-list for extension type_name
-	47, // [47:47] is the sub-list for extension extendee
-	0,  // [0:47] is the sub-list for field type_name
+	42, // 21: platform.GetAggregatedDataRequest.start_time:type_name -> google.protobuf.Timestamp
+	42, // 22: platform.GetAggregatedDataRequest.end_time:type_name -> google.protobuf.Timestamp
+	45, // 23: platform.GetAggregatedDataRequest.aggregation:type_name -> platform.AggregationType
+	46, // 24: platform.GetAggregatedDataRequest.interval:type_name -> platform.TimeInterval
+	38, // 25: platform.GetAggregatedDataRequest.fields:type_name -> platform.GetAggregatedDataRequest.FieldsEntry
+	42, // 26: platform.AggregatedDataPoint.timestamp:type_name -> google.protobuf.Timestamp
+	39, // 27: platform.AggregatedDataPoint.values:type_name -> platform.AggregatedDataPoint.ValuesEntry
+	18, // 28: platform.GetAggregatedDataResponse.data:type_name -> platform.AggregatedDataPoint
+	0,  // 29: platform.GetLatestDataResponse.data:type_name -> platform.DeviceData
+	42, // 30: platform.GetMultiDeviceDataRequest.start_time:type_name -> google.protobuf.Timestamp
+	42, // 31: platform.GetMultiDeviceDataRequest.end_time:type_name -> google.protobuf.Timestamp
+	40, // 32: platform.GetMultiDeviceDataResponse.device_data:type_name -> platform.GetMultiDeviceDataResponse.DeviceDataEntry
+	42, // 33: platform.DeleteDeviceDataRequest.start_time:type_name -> google.protobuf.Timestamp
+	42, // 34: platform.DeleteDeviceDataRequest.end_time:type_name -> google.protobuf.Timestamp
+	42, // 35: platform.GetDataStatsRequest.start_time:type_name -> google.protobuf.Timestamp
+	42, // 36: platform.GetDataStatsRequest.end_time:type_name -> google.protobuf.Timestamp
+	42, // 37: platform.DataStats.first_timestamp:type_name -> google.protobuf.Timestamp
+	42, // 38: platform.DataStats.last_timestamp:type_name -> google.protobuf.Timestamp
+	27, // 39: platform.DataStats.size_stats:type_name -> platform.DataSizeStats
+	26, // 40: platform.GetDataStatsResponse.stats:type_name -> platform.DataStats
+	11, // 41: platform.UpdateDeviceLocationRequest.location:type_name -> platform.DeviceLocation
+	42, // 42: platform.UpdateDeviceLocationRequest.timestamp:type_name -> google.protobuf.Timestamp
+	11, // 43: platform.GetDeviceLocationResponse.location:type_name -> platform.DeviceLocation
+	42, // 44: platform.GetDeviceLocationResponse.updated_at:type_name -> google.protobuf.Timestamp
+	41, // 45: platform.GetMultiDeviceLocationResponse.locations:type_name -> platform.GetMultiDeviceLocationResponse.LocationsEntry
+	47, // 46: platform.GetAggregatedDataRequest.FieldsEntry.value:type_name -> platform.FieldType
+	16, // 47: platform.GetMultiDeviceDataResponse.DeviceDataEntry.value:type_name -> platform.GetDeviceDataResponse
+	31, // 48: platform.GetMultiDeviceLocationResponse.LocationsEntry.value:type_name -> platform.GetDeviceLocationResponse
+	14, // 49: platform.DataService.Insert:input_type -> platform.InsertDataRequest
+	12, // 50: platform.DataService.InsertFromDatalogger:input_type -> platform.InsertFromDataloggerRequest
+	15, // 51: platform.DataService.GetDeviceData:input_type -> platform.GetDeviceDataRequest
+	17, // 52: platform.DataService.GetAggregatedData:input_type -> platform.GetAggregatedDataRequest
+	20, // 53: platform.DataService.GetLatestData:input_type -> platform.GetLatestDataRequest
+	22, // 54: platform.DataService.GetMultiDeviceData:input_type -> platform.GetMultiDeviceDataRequest
+	24, // 55: platform.DataService.DeleteDeviceData:input_type -> platform.DeleteDeviceDataRequest
+	25, // 56: platform.DataService.GetDataStats:input_type -> platform.GetDataStatsRequest
+	29, // 57: platform.DataService.UpdateDeviceLocation:input_type -> platform.UpdateDeviceLocationRequest
+	30, // 58: platform.DataService.GetDeviceLocation:input_type -> platform.GetDeviceLocationRequest
+	32, // 59: platform.DataService.GetMultiDeviceLocation:input_type -> platform.GetMultiDeviceLocationRequest
+	34, // 60: platform.DataService.DeleteDeviceLocation:input_type -> platform.DeleteDeviceLocationRequest
+	48, // 61: platform.DataService.Insert:output_type -> google.protobuf.Empty
+	13, // 62: platform.DataService.InsertFromDatalogger:output_type -> platform.InsertFromDataloggerResponse
+	16, // 63: platform.DataService.GetDeviceData:output_type -> platform.GetDeviceDataResponse
+	19, // 64: platform.DataService.GetAggregatedData:output_type -> platform.GetAggregatedDataResponse
+	21, // 65: platform.DataService.GetLatestData:output_type -> platform.GetLatestDataResponse
+	23, // 66: platform.DataService.GetMultiDeviceData:output_type -> platform.GetMultiDeviceDataResponse
+	48, // 67: platform.DataService.DeleteDeviceData:output_type -> google.protobuf.Empty
+	28, // 68: platform.DataService.GetDataStats:output_type -> platform.GetDataStatsResponse
+	48, // 69: platform.DataService.UpdateDeviceLocation:output_type -> google.protobuf.Empty
+	31, // 70: platform.DataService.GetDeviceLocation:output_type -> platform.GetDeviceLocationResponse
+	33, // 71: platform.DataService.GetMultiDeviceLocation:output_type -> platform.GetMultiDeviceLocationResponse
+	48, // 72: platform.DataService.DeleteDeviceLocation:output_type -> google.protobuf.Empty
+	61, // [61:73] is the sub-list for method output_type
+	49, // [49:61] is the sub-list for method input_type
+	49, // [49:49] is the sub-list for extension type_name
+	49, // [49:49] is the sub-list for extension extendee
+	0,  // [0:49] is the sub-list for field type_name
 }
 
 func init() { file_platform_data_proto_init() }
@@ -3885,7 +3899,7 @@ func file_platform_data_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_platform_data_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   41,
+			NumMessages:   42,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
