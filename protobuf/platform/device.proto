@@ -98,6 +98,8 @@ message DeviceStatus {
   google.protobuf.Value data = 1;
   // Last seen at timestamp.
   google.protobuf.Timestamp last_seen_at = 2;
+   //is online 
+  bool is_online = 3;
 }
 
 message DeviceListItem {

@@ -381,6 +381,10 @@
           "type": "string",
           "format": "date-time",
           "description": "Last seen at timestamp."
+        },
+        "isOnline": {
+          "type": "boolean",
+          "title": "is online"
         }
       }
     },
