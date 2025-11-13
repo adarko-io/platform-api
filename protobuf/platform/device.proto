@@ -50,7 +50,50 @@ service DeviceService {
     };
   }
 
+  // GetDevicesSummary returns an aggregated summary of the devices (online,offline,never seen based DeviceType, TransportProtocol, AssetType, AssetSubType , tenantid, applicationid).
+    rpc GetDevicesSummary(GetDevicesSummaryRequest) returns (GetDevicesSummaryResponse) {
+        option(google.api.http) = {
+            get: "/api/devices/summary"
+        };
+    }
+
+
 }
+
+message GetDevicesSummaryRequest {
+    // Application ID (UUID) to filter devices on.
+    string application_id = 1;
+
+    // Tenant ID (UUID) to filter devices on.
+    string tenant_id = 2;
+
+    // Device Type.
+    DeviceType device_type = 3;
+
+    //Asset Type Water Meter, Gas Meter, Energy Meter etc.
+    AssetType asset_type = 4;
+
+    //Asset Sub Type
+    AssetSubType asset_sub_type = 5;
+
+    // Device Transport Protocol
+    TransportProtocol transport_protocol = 6;
+
+}
+
+message GetDevicesSummaryResponse {
+    // Total number of devices.
+    uint32 total_count = 1;
+
+    // Number of online devices.
+    uint32 online_count = 2;
+
+    // Number of offline devices.
+    uint32 offline_count = 3;
+
+    // Number of never seen devices.
+    uint32 never_seen_count = 4;
+  }
 
 message Device {
   // EUI (EUI64).
@@ -80,16 +123,19 @@ message Device {
   //Asset Sub Type
   AssetSubType asset_sub_type = 9;
 
+// Device Transport Protocol
+  TransportProtocol transport_protocol = 10;
+
   // Variables (user defined).
   // These variables can be used together with integrations to store tokens /
   // secrets that must be configured per device. These variables are not
   // exposed in the event payloads.
-  map<string, string> variables = 10;
+  map<string, string> variables = 11;
 
   // Tags (user defined).
   // These tags can be used to add additional information to the device.
   // These tags are exposed in all the integration events.
-  map<string, string> tags = 11;
+  map<string, string> tags = 12;
 
 }
 
