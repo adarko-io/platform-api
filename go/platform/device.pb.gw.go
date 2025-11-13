@@ -636,7 +636,7 @@ var (
 
 	pattern_DeviceService_List_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"api", "devices"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_DeviceService_GetDevicesSummary_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "devices", "summary"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_DeviceService_GetDevicesSummary_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"api", "devices-summary"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (

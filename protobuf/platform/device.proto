@@ -53,7 +53,7 @@ service DeviceService {
   // GetDevicesSummary returns an aggregated summary of the devices (online,offline,never seen based DeviceType, TransportProtocol, AssetType, AssetSubType , tenantid, applicationid).
     rpc GetDevicesSummary(GetDevicesSummaryRequest) returns (GetDevicesSummaryResponse) {
         option(google.api.http) = {
-            get: "/api/devices/summary"
+            get: "/api/devices-summary"
         };
     }
 
@@ -137,14 +137,6 @@ message Device {
   // These tags are exposed in all the integration events.
   map<string, string> tags = 12;
 
-  // Latitude 
-  double latitude = 13;
-
-  // Longitude
-  double longitude = 14;
-
-  // Altitude
-  double altitude = 15;
 }
 
 message DeviceStatus {

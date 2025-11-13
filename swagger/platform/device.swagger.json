@@ -118,7 +118,7 @@
         ]
       }
     },
-    "/api/devices/summary": {
+    "/api/devices-summary": {
       "get": {
         "summary": "GetDevicesSummary returns an aggregated summary of the devices (online,offline,never seen based DeviceType, TransportProtocol, AssetType, AssetSubType , tenantid, applicationid).",
         "operationId": "DeviceService_GetDevicesSummary",
