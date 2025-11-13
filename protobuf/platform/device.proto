@@ -137,6 +137,9 @@ message Device {
   // These tags are exposed in all the integration events.
   map<string, string> tags = 12;
 
+  // Location information.
+  Location location = 13;
+
 }
 
 message DeviceStatus {

@@ -271,3 +271,20 @@ enum FieldType {
   // - NONE returns raw values with gap filling
   FIELD_TYPE_VARIABLE = 2;
 }
+
+message Location {
+  // Latitude.
+  double latitude = 1;
+
+  // Longitude.
+  double longitude = 2;
+
+  // Altitude.
+  double altitude = 3;
+
+  // Location source.
+  LocationSource source = 4;
+
+  // Accuracy.
+  float accuracy = 5;
+}

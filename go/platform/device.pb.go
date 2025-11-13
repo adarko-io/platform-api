@@ -282,6 +282,8 @@ type Device struct {
 	// These tags can be used to add additional information to the device.
 	// These tags are exposed in all the integration events.
 	Tags map[string]string `protobuf:"bytes,12,rep,name=tags,proto3" json:"tags,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	// Location information.
+	Location *Location `protobuf:"bytes,13,opt,name=location,proto3" json:"location,omitempty"`
 }
 
 func (x *Device) Reset() {
@@ -396,6 +398,13 @@ func (x *Device) GetVariables() map[string]string {
 func (x *Device) GetTags() map[string]string {
 	if x != nil {
 		return x.Tags
+	}
+	return nil
+}
+
+func (x *Device) GetLocation() *Location {
+	if x != nil {
+		return x.Location
 	}
 	return nil
 }
@@ -1060,7 +1069,7 @@ var file_platform_device_proto_rawDesc = []byte{
 	0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x28, 0x0a, 0x10, 0x6e, 0x65, 0x76, 0x65, 0x72, 0x5f, 0x73,
 	0x65, 0x65, 0x6e, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0d, 0x52,
 	0x0e, 0x6e, 0x65, 0x76, 0x65, 0x72, 0x53, 0x65, 0x65, 0x6e, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x22,
-	0x98, 0x05, 0x0a, 0x06, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x65, 0x75,
+	0xc8, 0x05, 0x0a, 0x06, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x65, 0x75,
 	0x69, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x65, 0x75, 0x69, 0x12, 0x12, 0x0a, 0x04,
 	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65,
 	0x12, 0x20, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18,
@@ -1094,7 +1103,10 @@ var file_platform_device_proto_rawDesc = []byte{
 	0x6c, 0x65, 0x73, 0x12, 0x2e, 0x0a, 0x04, 0x74, 0x61, 0x67, 0x73, 0x18, 0x0c, 0x20, 0x03, 0x28,
 	0x0b, 0x32, 0x1a, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x44, 0x65, 0x76,
 	0x69, 0x63, 0x65, 0x2e, 0x54, 0x61, 0x67, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x04, 0x74,
-	0x61, 0x67, 0x73, 0x1a, 0x3c, 0x0a, 0x0e, 0x56, 0x61, 0x72, 0x69, 0x61, 0x62, 0x6c, 0x65, 0x73,
+	0x61, 0x67, 0x73, 0x12, 0x2e, 0x0a, 0x08, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18,
+	0x0d, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d,
+	0x2e, 0x4c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x08, 0x6c, 0x6f, 0x63, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x1a, 0x3c, 0x0a, 0x0e, 0x56, 0x61, 0x72, 0x69, 0x61, 0x62, 0x6c, 0x65, 0x73,
 	0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38,
@@ -1283,9 +1295,10 @@ var file_platform_device_proto_goTypes = []any{
 	(AssetType)(0),                    // 18: platform.AssetType
 	(AssetSubType)(0),                 // 19: platform.AssetSubType
 	(TransportProtocol)(0),            // 20: platform.TransportProtocol
-	(*structpb.Value)(nil),            // 21: google.protobuf.Value
-	(*timestamppb.Timestamp)(nil),     // 22: google.protobuf.Timestamp
-	(*emptypb.Empty)(nil),             // 23: google.protobuf.Empty
+	(*Location)(nil),                  // 21: platform.Location
+	(*structpb.Value)(nil),            // 22: google.protobuf.Value
+	(*timestamppb.Timestamp)(nil),     // 23: google.protobuf.Timestamp
+	(*emptypb.Empty)(nil),             // 24: google.protobuf.Empty
 }
 var file_platform_device_proto_depIdxs = []int32{
 	17, // 0: platform.GetDevicesSummaryRequest.device_type:type_name -> platform.DeviceType
@@ -1298,38 +1311,39 @@ var file_platform_device_proto_depIdxs = []int32{
 	20, // 7: platform.Device.transport_protocol:type_name -> platform.TransportProtocol
 	13, // 8: platform.Device.variables:type_name -> platform.Device.VariablesEntry
 	14, // 9: platform.Device.tags:type_name -> platform.Device.TagsEntry
-	21, // 10: platform.DeviceStatus.data:type_name -> google.protobuf.Value
-	22, // 11: platform.DeviceStatus.last_seen_at:type_name -> google.protobuf.Timestamp
-	22, // 12: platform.DeviceListItem.created_at:type_name -> google.protobuf.Timestamp
-	22, // 13: platform.DeviceListItem.updated_at:type_name -> google.protobuf.Timestamp
-	4,  // 14: platform.DeviceListItem.device_status:type_name -> platform.DeviceStatus
-	15, // 15: platform.DeviceListItem.tags:type_name -> platform.DeviceListItem.TagsEntry
-	3,  // 16: platform.CreateDeviceRequest.device:type_name -> platform.Device
-	3,  // 17: platform.GetDeviceResponse.device:type_name -> platform.Device
-	22, // 18: platform.GetDeviceResponse.created_at:type_name -> google.protobuf.Timestamp
-	22, // 19: platform.GetDeviceResponse.updated_at:type_name -> google.protobuf.Timestamp
-	4,  // 20: platform.GetDeviceResponse.device_status:type_name -> platform.DeviceStatus
-	3,  // 21: platform.UpdateDeviceRequest.device:type_name -> platform.Device
-	0,  // 22: platform.ListDevicesRequest.order_by:type_name -> platform.ListDevicesRequest.OrderBy
-	16, // 23: platform.ListDevicesRequest.tags:type_name -> platform.ListDevicesRequest.TagsEntry
-	5,  // 24: platform.ListDevicesResponse.result:type_name -> platform.DeviceListItem
-	6,  // 25: platform.DeviceService.Create:input_type -> platform.CreateDeviceRequest
-	7,  // 26: platform.DeviceService.Get:input_type -> platform.GetDeviceRequest
-	9,  // 27: platform.DeviceService.Update:input_type -> platform.UpdateDeviceRequest
-	10, // 28: platform.DeviceService.Delete:input_type -> platform.DeleteDeviceRequest
-	11, // 29: platform.DeviceService.List:input_type -> platform.ListDevicesRequest
-	1,  // 30: platform.DeviceService.GetDevicesSummary:input_type -> platform.GetDevicesSummaryRequest
-	23, // 31: platform.DeviceService.Create:output_type -> google.protobuf.Empty
-	8,  // 32: platform.DeviceService.Get:output_type -> platform.GetDeviceResponse
-	23, // 33: platform.DeviceService.Update:output_type -> google.protobuf.Empty
-	23, // 34: platform.DeviceService.Delete:output_type -> google.protobuf.Empty
-	12, // 35: platform.DeviceService.List:output_type -> platform.ListDevicesResponse
-	2,  // 36: platform.DeviceService.GetDevicesSummary:output_type -> platform.GetDevicesSummaryResponse
-	31, // [31:37] is the sub-list for method output_type
-	25, // [25:31] is the sub-list for method input_type
-	25, // [25:25] is the sub-list for extension type_name
-	25, // [25:25] is the sub-list for extension extendee
-	0,  // [0:25] is the sub-list for field type_name
+	21, // 10: platform.Device.location:type_name -> platform.Location
+	22, // 11: platform.DeviceStatus.data:type_name -> google.protobuf.Value
+	23, // 12: platform.DeviceStatus.last_seen_at:type_name -> google.protobuf.Timestamp
+	23, // 13: platform.DeviceListItem.created_at:type_name -> google.protobuf.Timestamp
+	23, // 14: platform.DeviceListItem.updated_at:type_name -> google.protobuf.Timestamp
+	4,  // 15: platform.DeviceListItem.device_status:type_name -> platform.DeviceStatus
+	15, // 16: platform.DeviceListItem.tags:type_name -> platform.DeviceListItem.TagsEntry
+	3,  // 17: platform.CreateDeviceRequest.device:type_name -> platform.Device
+	3,  // 18: platform.GetDeviceResponse.device:type_name -> platform.Device
+	23, // 19: platform.GetDeviceResponse.created_at:type_name -> google.protobuf.Timestamp
+	23, // 20: platform.GetDeviceResponse.updated_at:type_name -> google.protobuf.Timestamp
+	4,  // 21: platform.GetDeviceResponse.device_status:type_name -> platform.DeviceStatus
+	3,  // 22: platform.UpdateDeviceRequest.device:type_name -> platform.Device
+	0,  // 23: platform.ListDevicesRequest.order_by:type_name -> platform.ListDevicesRequest.OrderBy
+	16, // 24: platform.ListDevicesRequest.tags:type_name -> platform.ListDevicesRequest.TagsEntry
+	5,  // 25: platform.ListDevicesResponse.result:type_name -> platform.DeviceListItem
+	6,  // 26: platform.DeviceService.Create:input_type -> platform.CreateDeviceRequest
+	7,  // 27: platform.DeviceService.Get:input_type -> platform.GetDeviceRequest
+	9,  // 28: platform.DeviceService.Update:input_type -> platform.UpdateDeviceRequest
+	10, // 29: platform.DeviceService.Delete:input_type -> platform.DeleteDeviceRequest
+	11, // 30: platform.DeviceService.List:input_type -> platform.ListDevicesRequest
+	1,  // 31: platform.DeviceService.GetDevicesSummary:input_type -> platform.GetDevicesSummaryRequest
+	24, // 32: platform.DeviceService.Create:output_type -> google.protobuf.Empty
+	8,  // 33: platform.DeviceService.Get:output_type -> platform.GetDeviceResponse
+	24, // 34: platform.DeviceService.Update:output_type -> google.protobuf.Empty
+	24, // 35: platform.DeviceService.Delete:output_type -> google.protobuf.Empty
+	12, // 36: platform.DeviceService.List:output_type -> platform.ListDevicesResponse
+	2,  // 37: platform.DeviceService.GetDevicesSummary:output_type -> platform.GetDevicesSummaryResponse
+	32, // [32:38] is the sub-list for method output_type
+	26, // [26:32] is the sub-list for method input_type
+	26, // [26:26] is the sub-list for extension type_name
+	26, // [26:26] is the sub-list for extension extendee
+	0,  // [0:26] is the sub-list for field type_name
 }
 
 func init() { file_platform_device_proto_init() }

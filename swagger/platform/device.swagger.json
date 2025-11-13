@@ -432,6 +432,10 @@
             "type": "string"
           },
           "description": "Tags (user defined).\nThese tags can be used to add additional information to the device.\nThese tags are exposed in all the integration events."
+        },
+        "location": {
+          "$ref": "#/definitions/platformLocation",
+          "description": "Location information."
         }
       }
     },
@@ -577,6 +581,53 @@
           "description": "Result-set."
         }
       }
+    },
+    "platformLocation": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "format": "double",
+          "description": "Latitude."
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double",
+          "description": "Longitude."
+        },
+        "altitude": {
+          "type": "number",
+          "format": "double",
+          "description": "Altitude."
+        },
+        "source": {
+          "$ref": "#/definitions/platformLocationSource",
+          "description": "Location source."
+        },
+        "accuracy": {
+          "type": "number",
+          "format": "float",
+          "description": "Accuracy."
+        }
+      }
+    },
+    "platformLocationSource": {
+      "type": "string",
+      "enum": [
+        "LOCATION_SOURCE_UNKNOWN",
+        "LOCATION_SOURCE_GPS",
+        "LOCATION_SOURCE_MANUAL",
+        "LOCATION_SOURCE_TRIANGULATION",
+        "LOCATION_SOURCE_WIFI",
+        "LOCATION_SOURCE_MANUAL_OVERRIDE",
+        "LOCATION_SOURCE_CONFIG",
+        "LOCATION_SOURCE_GEO_RESOLVER_TDOA",
+        "LOCATION_SOURCE_GEO_RESOLVER_RSSI",
+        "LOCATION_SOURCE_GEO_RESOLVER_GNSS",
+        "LOCATION_SOURCE_GEO_RESOLVER_WIFI"
+      ],
+      "default": "LOCATION_SOURCE_UNKNOWN",
+      "description": "Location source enumeration - unified across all services.\n\n - LOCATION_SOURCE_UNKNOWN: Unknown location source.\n - LOCATION_SOURCE_GPS: GPS coordinates.\n - LOCATION_SOURCE_MANUAL: Manually configured.\n - LOCATION_SOURCE_TRIANGULATION: Calculated via triangulation.\n - LOCATION_SOURCE_WIFI: WiFi-based location.\n - LOCATION_SOURCE_MANUAL_OVERRIDE: Manual override.\n - LOCATION_SOURCE_CONFIG: Configuration-based.\n - LOCATION_SOURCE_GEO_RESOLVER_TDOA: GEO resolver TDOA.\n - LOCATION_SOURCE_GEO_RESOLVER_RSSI: GEO resolver RSSI.\n - LOCATION_SOURCE_GEO_RESOLVER_GNSS: GEO resolver GNSS.\n - LOCATION_SOURCE_GEO_RESOLVER_WIFI: GEO resolver WiFi."
     },
     "platformTransportProtocol": {
       "type": "string",
