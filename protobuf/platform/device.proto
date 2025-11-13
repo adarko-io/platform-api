@@ -127,7 +127,7 @@ message Device {
   TransportProtocol transport_protocol = 10;
 
   // Expected update interval in seconds.(int8)
-  uint32 expected_update_interval_in_seconds = 11;
+  uint32 expected_update_interval_in_sec = 11;
 
   // Variables (user defined).
   // These variables can be used together with integrations to store tokens /

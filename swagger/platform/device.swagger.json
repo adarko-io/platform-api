@@ -419,10 +419,10 @@
           "$ref": "#/definitions/platformTransportProtocol",
           "title": "Device Transport Protocol"
         },
-        "expectedUpdateIntervalInSeconds": {
+        "expectedUpdateIntervalInSec": {
           "type": "integer",
           "format": "int64",
-          "title": "expected_update_interval_in_seconds (int8)"
+          "title": "Expected update interval in seconds.(int8)"
         },
         "variables": {
           "type": "object",
