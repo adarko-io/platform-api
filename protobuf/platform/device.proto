@@ -123,22 +123,25 @@ message Device {
   //Asset Sub Type
   AssetSubType asset_sub_type = 9;
 
-// Device Transport Protocol
+  // Device Transport Protocol
   TransportProtocol transport_protocol = 10;
+
+  // Expected update interval in seconds.(int8)
+  uint32 expected_update_interval_in_seconds = 11;
 
   // Variables (user defined).
   // These variables can be used together with integrations to store tokens /
   // secrets that must be configured per device. These variables are not
   // exposed in the event payloads.
-  map<string, string> variables = 11;
+  map<string, string> variables = 12;
 
   // Tags (user defined).
   // These tags can be used to add additional information to the device.
   // These tags are exposed in all the integration events.
-  map<string, string> tags = 12;
+  map<string, string> tags = 13;
 
   // Location information.
-  Location location = 13;
+  Location location = 14;
 
 }
 
