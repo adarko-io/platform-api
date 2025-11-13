@@ -137,6 +137,14 @@ message Device {
   // These tags are exposed in all the integration events.
   map<string, string> tags = 12;
 
+  // Latitude 
+  double latitude = 13;
+
+  // Longitude
+  double longitude = 14;
+
+  // Altitude
+  double altitude = 15;
 }
 
 message DeviceStatus {
