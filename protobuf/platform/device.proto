@@ -179,8 +179,11 @@ message DeviceListItem {
   // Device status.
   DeviceStatus device_status = 8;
 
+  // Asset Type
+  AssetType asset_type = 9;
+
   // Device tags.
-  map<string, string> tags = 9;
+  map<string, string> tags = 10;
 }
 
 message CreateDeviceRequest {

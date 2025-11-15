@@ -481,6 +481,10 @@
           "$ref": "#/definitions/platformDeviceStatus",
           "description": "Device status."
         },
+        "assetType": {
+          "$ref": "#/definitions/platformAssetType",
+          "title": "Asset Type"
+        },
         "tags": {
           "type": "object",
           "additionalProperties": {
