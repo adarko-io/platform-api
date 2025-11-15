@@ -235,6 +235,12 @@ message ListDevicesRequest {
   // Application ID (UUID) to filter devices on.
   string application_id = 4;
 
+  // Asset Type to filter devices on.
+  AssetType asset_type = 5;
+
+  // Asset Sub Type to filter devices on.
+  AssetSubType asset_sub_type = 6;
+
   enum OrderBy {
     NAME = 0;
     EUI = 1;
@@ -243,14 +249,13 @@ message ListDevicesRequest {
   }
 
   // If set, the given value will be used to sort by (optional).
-  OrderBy order_by = 5;
+  OrderBy order_by = 7;
 
   // If set, the sorting direction will be decending (default = ascending) (optional).
-  bool order_by_desc = 6;
+  bool order_by_desc = 8;
 
   // Tags to filter devices on.
-  map<string, string> tags = 7;
-
+  map<string, string> tags = 9;
 
 }
 
