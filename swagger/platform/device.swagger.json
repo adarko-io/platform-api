@@ -54,6 +54,13 @@
             "type": "string"
           },
           {
+            "name": "tenantId",
+            "description": "Tenant ID (UUID) to filter devices on.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "applicationId",
             "description": "Application ID (UUID) to filter devices on.",
             "in": "query",
