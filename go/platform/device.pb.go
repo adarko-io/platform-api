@@ -273,7 +273,7 @@ type Device struct {
 	AssetSubType AssetSubType `protobuf:"varint,9,opt,name=asset_sub_type,json=assetSubType,proto3,enum=platform.AssetSubType" json:"asset_sub_type,omitempty"`
 	// Device Transport Protocol
 	TransportProtocol TransportProtocol `protobuf:"varint,10,opt,name=transport_protocol,json=transportProtocol,proto3,enum=platform.TransportProtocol" json:"transport_protocol,omitempty"`
-	// Expected update interval in seconds.(int8)
+	// Expected update interval in seconds.
 	ExpectedUpdateIntervalInSec uint32 `protobuf:"varint,11,opt,name=expected_update_interval_in_sec,json=expectedUpdateIntervalInSec,proto3" json:"expected_update_interval_in_sec,omitempty"`
 	// Variables (user defined).
 	// These variables can be used together with integrations to store tokens /

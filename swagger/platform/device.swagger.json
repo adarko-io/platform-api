@@ -422,7 +422,7 @@
         "expectedUpdateIntervalInSec": {
           "type": "integer",
           "format": "int64",
-          "title": "Expected update interval in seconds.(int8)"
+          "description": "Expected update interval in seconds."
         },
         "variables": {
           "type": "object",

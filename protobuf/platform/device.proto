@@ -126,7 +126,7 @@ message Device {
   // Device Transport Protocol
   TransportProtocol transport_protocol = 10;
 
-  // Expected update interval in seconds.(int8)
+  // Expected update interval in seconds.
   uint32 expected_update_interval_in_sec = 11;
 
   // Variables (user defined).
