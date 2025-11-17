@@ -108,40 +108,43 @@ message Device {
   // Application ID (UUID).
   string application_id = 4;
 
+  // Tenant ID (UUID).
+  string tenant_id = 5;
+
   // Device is disabled.
-  bool is_disabled = 5;
+  bool is_disabled = 6;
 
   // SerialNo.
-  string serial_number = 6;
+  string serial_number = 7;
 
   // Device Type.
-  DeviceType device_type = 7;
+  DeviceType device_type = 8;
 
   //Asset Type Water Meter, Gas Meter, Energy Meter etc.
-  AssetType asset_type = 8;
+  AssetType asset_type = 9;
 
   //Asset Sub Type
-  AssetSubType asset_sub_type = 9;
+  AssetSubType asset_sub_type = 10;
 
   // Device Transport Protocol
-  TransportProtocol transport_protocol = 10;
+  TransportProtocol transport_protocol = 11;
 
   // Expected update interval in seconds.
-  uint32 expected_update_interval_in_sec = 11;
+  uint32 expected_update_interval_in_sec = 12;
 
   // Variables (user defined).
   // These variables can be used together with integrations to store tokens /
   // secrets that must be configured per device. These variables are not
   // exposed in the event payloads.
-  map<string, string> variables = 12;
+  map<string, string> variables = 13;
 
   // Tags (user defined).
   // These tags can be used to add additional information to the device.
   // These tags are exposed in all the integration events.
-  map<string, string> tags = 13;
+  map<string, string> tags = 14;
 
   // Location information.
-  Location location = 14;
+  Location location = 15;
 
 }
 
