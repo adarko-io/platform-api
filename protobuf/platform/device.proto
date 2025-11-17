@@ -185,8 +185,11 @@ message DeviceListItem {
   // Asset Type
   AssetType asset_type = 9;
 
+  // Asset Sub Type
+  AssetSubType asset_sub_type = 10;
+
   // Device tags.
-  map<string, string> tags = 10;
+  map<string, string> tags = 11;
 }
 
 message CreateDeviceRequest {
