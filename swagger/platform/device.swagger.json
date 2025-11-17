@@ -525,6 +525,10 @@
           "$ref": "#/definitions/platformDeviceStatus",
           "description": "Device status."
         },
+        "deviceType": {
+          "$ref": "#/definitions/platformDeviceType",
+          "title": "device type"
+        },
         "assetType": {
           "$ref": "#/definitions/platformAssetType",
           "title": "Asset Type"

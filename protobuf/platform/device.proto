@@ -182,14 +182,17 @@ message DeviceListItem {
   // Device status.
   DeviceStatus device_status = 8;
 
+  // device type
+  DeviceType device_type =  9;
+
   // Asset Type
-  AssetType asset_type = 9;
+  AssetType asset_type = 10;
 
   // Asset Sub Type
-  AssetSubType asset_sub_type = 10;
+  AssetSubType asset_sub_type = 11;
 
   // Device tags.
-  map<string, string> tags = 11;
+  map<string, string> tags = 12;
 }
 
 message CreateDeviceRequest {
