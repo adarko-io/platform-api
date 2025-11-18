@@ -566,6 +566,10 @@
           "type": "integer",
           "format": "int64",
           "description": "Max device count.\n0 = unlimited."
+        },
+        "isMain": {
+          "type": "boolean",
+          "description": "Is main tenant."
         }
       }
     },

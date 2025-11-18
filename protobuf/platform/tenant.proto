@@ -127,6 +127,9 @@ message TenantListItem {
   // Max device count.
   // 0 = unlimited.
   uint32 max_device_count = 5;
+
+  // Is main tenant.
+  bool is_main = 6;
 }
 
 message CreateTenantRequest {
