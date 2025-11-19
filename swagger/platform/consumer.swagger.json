@@ -1,0 +1,353 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "platform/consumer.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/consumers": {
+      "get": {
+        "operationId": "ConsumerService_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformListConsumersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "description": "Pagination limit.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "offset",
+            "description": "Pagination offset.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "ConsumerService"
+        ]
+      },
+      "post": {
+        "summary": "GetDevicesByAssetType returns the list of devices filtered by AssetType and AssetSubType.",
+        "operationId": "ConsumerService_Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformCreateConsumerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformCreateConsumerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConsumerService"
+        ]
+      }
+    },
+    "/api/consumers/{consumer.id}": {
+      "put": {
+        "operationId": "ConsumerService_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "consumer.id",
+            "description": "Consumer   ID (UUID).",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformUpdateConsumerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConsumerService"
+        ]
+      }
+    },
+    "/api/consumers/{id}": {
+      "get": {
+        "operationId": "ConsumerService_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetConsumerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Consumer   ID (UUID).",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ConsumerService"
+        ]
+      },
+      "delete": {
+        "operationId": "ConsumerService_Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Consumer   ID (UUID).",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ConsumerService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "platformConsumer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Consumer   ID (UUID)."
+        },
+        "name": {
+          "type": "string",
+          "title": "Consumer  Name"
+        },
+        "mobileNumber": {
+          "type": "integer",
+          "format": "int32",
+          "title": "Consumer  Mobile Number"
+        },
+        "mobileCountryCode": {
+          "type": "string",
+          "title": "Consumer  Mobile Country Code"
+        },
+        "email": {
+          "type": "string",
+          "title": "Consumer  Email"
+        },
+        "address": {
+          "type": "string",
+          "title": "Consumer  Address"
+        },
+        "city": {
+          "type": "string",
+          "title": "Consumer  City"
+        },
+        "state": {
+          "type": "string",
+          "title": "Consumer  State"
+        },
+        "country": {
+          "type": "string",
+          "title": "Consumer  Country"
+        },
+        "postalCode": {
+          "type": "string",
+          "title": "Consumer  Postal Code"
+        },
+        "status": {
+          "$ref": "#/definitions/platformConsumerStatus",
+          "title": "Consumer  Status"
+        },
+        "note": {
+          "type": "string"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "updatedBy": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Last update timestamp"
+        },
+        "consumerNumber": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "platformConsumerStatus": {
+      "type": "string",
+      "enum": [
+        "CONSUMER_STATUS_UNKNOWN",
+        "CONSUMER_STATUS_ACTIVE",
+        "CONSUMER_STATUS_INACTIVE",
+        "CONSUMER_STATUS_TERMINATED"
+      ],
+      "default": "CONSUMER_STATUS_UNKNOWN"
+    },
+    "platformCreateConsumerRequest": {
+      "type": "object",
+      "properties": {
+        "consumer": {
+          "$ref": "#/definitions/platformConsumer"
+        }
+      }
+    },
+    "platformCreateConsumerResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Consumer   ID (UUID)."
+        }
+      }
+    },
+    "platformGetConsumerResponse": {
+      "type": "object",
+      "properties": {
+        "consumer": {
+          "$ref": "#/definitions/platformConsumer"
+        }
+      }
+    },
+    "platformListConsumersResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "string",
+          "format": "int64",
+          "description": "Total number of Consumers."
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformConsumer"
+          },
+          "description": "Result-set."
+        }
+      }
+    },
+    "platformUpdateConsumerRequest": {
+      "type": "object",
+      "properties": {
+        "consumer": {
+          "$ref": "#/definitions/platformConsumer"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

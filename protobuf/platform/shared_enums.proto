@@ -288,3 +288,38 @@ message Location {
   // Accuracy.
   float accuracy = 5;
 }
+
+
+
+enum ConnectionStatus {
+    CONNECTION_STATUS_UNKNOWN = 0;
+    CONNECTION_STATUS_ACTIVE = 1;
+    CONNECTION_STATUS_DISCONNECTED = 2;
+    CONNECTION_STATUS_DISABLED = 3;
+}
+enum ConnectionType {
+    CONNECTION_TYPE_UNKNOWN = 0;
+    CONNECTION_TYPE_WATER = 1;
+    CONNECTION_TYPE_GAS = 2;
+    CONNECTION_TYPE_ELECTRICITY = 3;
+}
+enum ConnectionCategory {
+    CONNECTION_CATEGORY_UNKNOWN = 0;
+    CONNECTION_CATEGORY_DOMESTIC = 1;
+    CONNECTION_CATEGORY_COMMERCIAL = 2;
+    CONNECTION_CATEGORY_INDUSTRIAL = 3;
+}
+
+enum MeterStatus {
+    // Unknown meter status.
+    METER_STATUS_UNKNOWN = 0;
+
+    // Active meter.
+    METER_STATUS_ACTIVE = 1;
+
+    // Inactive meter.
+    METER_STATUS_INACTIVE = 2;
+
+    // Removed meter.
+    METER_STATUS_REMOVED = 3;
+}

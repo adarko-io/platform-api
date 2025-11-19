@@ -1,0 +1,710 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "platform/connection.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/connections": {
+      "get": {
+        "summary": "List all connections",
+        "operationId": "ConnectionService_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformListConnectionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "tenantId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "consumerId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "CONNECTION_STATUS_UNKNOWN",
+              "CONNECTION_STATUS_ACTIVE",
+              "CONNECTION_STATUS_DISCONNECTED",
+              "CONNECTION_STATUS_DISABLED"
+            ],
+            "default": "CONNECTION_STATUS_UNKNOWN"
+          },
+          {
+            "name": "connectionType",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "CONNECTION_TYPE_UNKNOWN",
+              "CONNECTION_TYPE_WATER",
+              "CONNECTION_TYPE_GAS",
+              "CONNECTION_TYPE_ELECTRICITY"
+            ],
+            "default": "CONNECTION_TYPE_UNKNOWN"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "CONNECTION_CATEGORY_UNKNOWN",
+              "CONNECTION_CATEGORY_DOMESTIC",
+              "CONNECTION_CATEGORY_COMMERCIAL",
+              "CONNECTION_CATEGORY_INDUSTRIAL"
+            ],
+            "default": "CONNECTION_CATEGORY_UNKNOWN"
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      },
+      "post": {
+        "summary": "Create a new connection for a consumer.",
+        "operationId": "ConnectionService_Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformCreateConnectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformCreateConnectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/api/connections/{connection.id}": {
+      "put": {
+        "summary": "Update an existing connection for a consumer.",
+        "operationId": "ConnectionService_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "connection.id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformUpdateConnectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/api/connections/{connectionId}": {
+      "delete": {
+        "summary": "Delete a connection for a consumer.",
+        "operationId": "ConnectionService_Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "connectionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/api/connections/{connectionId}/meters": {
+      "get": {
+        "summary": "List all meter connections.",
+        "operationId": "ConnectionService_ListMeterConnections",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformListMeterConnectionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "connectionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "meterStatus",
+            "description": " - METER_STATUS_UNKNOWN: Unknown meter status.\n - METER_STATUS_ACTIVE: Active meter.\n - METER_STATUS_INACTIVE: Inactive meter.\n - METER_STATUS_REMOVED: Removed meter.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "METER_STATUS_UNKNOWN",
+              "METER_STATUS_ACTIVE",
+              "METER_STATUS_INACTIVE",
+              "METER_STATUS_REMOVED"
+            ],
+            "default": "METER_STATUS_UNKNOWN"
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/api/connections/{connectionId}/meters/{meterConnectionId}": {
+      "get": {
+        "summary": "Get a meter connection by ID.",
+        "operationId": "ConnectionService_GetMeterConnection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetMeterConnectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "connectionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "meterConnectionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      },
+      "delete": {
+        "summary": "Remove a meter from a connection.",
+        "operationId": "ConnectionService_RemoveMeterFromConnection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "connectionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "meterConnectionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/api/connections/{id}": {
+      "get": {
+        "summary": "Get the connection details for a given Connection ID.",
+        "operationId": "ConnectionService_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetConnectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/api/connections/{meterConnection.connectionId}/meters": {
+      "post": {
+        "summary": "Add a meter to a connection.",
+        "operationId": "ConnectionService_AddMeterToConnection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformAddMeterToConnectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "meterConnection.connectionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformAddMeterToConnectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/api/connections/{meterConnection.connectionId}/meters/{meterConnection.id}": {
+      "put": {
+        "summary": "Update a meter connection.",
+        "operationId": "ConnectionService_UpdateMeterConnection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "meterConnection.connectionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "meterConnection.id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformUpdateMeterConnectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "platformAddMeterToConnectionRequest": {
+      "type": "object",
+      "properties": {
+        "meterConnection": {
+          "$ref": "#/definitions/platformMeterConnection"
+        }
+      },
+      "title": "Add Meter to Connection"
+    },
+    "platformAddMeterToConnectionResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "description": "Response message for adding a meter to a connection."
+    },
+    "platformConnection": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "consumerId": {
+          "type": "string"
+        },
+        "connectionType": {
+          "$ref": "#/definitions/platformConnectionType"
+        },
+        "connectionNumber": {
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/definitions/platformConnectionCategory"
+        },
+        "status": {
+          "$ref": "#/definitions/platformConnectionStatus"
+        },
+        "tenantId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "title": "Connection represents a connection configuration for a consumer.\nID\n\tConsumerID (FK → Consumer)\n\tConnectionType (water/gas/electricity)\n\tConnectionNumber / ServiceNumber\n\tCategory (domestic/commercial/industrial)\n\tStatus (active/disconnected/disabled)\n\tCreatedAt"
+    },
+    "platformConnectionCategory": {
+      "type": "string",
+      "enum": [
+        "CONNECTION_CATEGORY_UNKNOWN",
+        "CONNECTION_CATEGORY_DOMESTIC",
+        "CONNECTION_CATEGORY_COMMERCIAL",
+        "CONNECTION_CATEGORY_INDUSTRIAL"
+      ],
+      "default": "CONNECTION_CATEGORY_UNKNOWN"
+    },
+    "platformConnectionStatus": {
+      "type": "string",
+      "enum": [
+        "CONNECTION_STATUS_UNKNOWN",
+        "CONNECTION_STATUS_ACTIVE",
+        "CONNECTION_STATUS_DISCONNECTED",
+        "CONNECTION_STATUS_DISABLED"
+      ],
+      "default": "CONNECTION_STATUS_UNKNOWN"
+    },
+    "platformConnectionType": {
+      "type": "string",
+      "enum": [
+        "CONNECTION_TYPE_UNKNOWN",
+        "CONNECTION_TYPE_WATER",
+        "CONNECTION_TYPE_GAS",
+        "CONNECTION_TYPE_ELECTRICITY"
+      ],
+      "default": "CONNECTION_TYPE_UNKNOWN"
+    },
+    "platformCreateConnectionRequest": {
+      "type": "object",
+      "properties": {
+        "connection": {
+          "$ref": "#/definitions/platformConnection"
+        }
+      },
+      "description": "Request message for creating a connection."
+    },
+    "platformCreateConnectionResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "platformGetConnectionResponse": {
+      "type": "object",
+      "properties": {
+        "connection": {
+          "$ref": "#/definitions/platformConnection"
+        }
+      },
+      "description": "Response message for getting a connection."
+    },
+    "platformGetMeterConnectionResponse": {
+      "type": "object",
+      "properties": {
+        "meterConnection": {
+          "$ref": "#/definitions/platformMeterConnection"
+        }
+      },
+      "description": "Response message for getting a MeterConnection."
+    },
+    "platformListConnectionsResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "connections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformConnection"
+          }
+        }
+      },
+      "description": "Response message for listing connections."
+    },
+    "platformListMeterConnectionsResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "meterConnections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformMeterConnection"
+          }
+        }
+      },
+      "description": "Response message for listing MeterConnections."
+    },
+    "platformMeterConnection": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "installedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "removedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "connectionId": {
+          "type": "string"
+        },
+        "meterEui": {
+          "type": "string"
+        },
+        "meterSerialNumber": {
+          "type": "string"
+        },
+        "meterStatus": {
+          "$ref": "#/definitions/platformMeterStatus"
+        },
+        "lastKnownReading": {
+          "type": "number",
+          "format": "double"
+        },
+        "firstBillableReading": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "platformMeterStatus": {
+      "type": "string",
+      "enum": [
+        "METER_STATUS_UNKNOWN",
+        "METER_STATUS_ACTIVE",
+        "METER_STATUS_INACTIVE",
+        "METER_STATUS_REMOVED"
+      ],
+      "default": "METER_STATUS_UNKNOWN",
+      "description": " - METER_STATUS_UNKNOWN: Unknown meter status.\n - METER_STATUS_ACTIVE: Active meter.\n - METER_STATUS_INACTIVE: Inactive meter.\n - METER_STATUS_REMOVED: Removed meter."
+    },
+    "platformUpdateConnectionRequest": {
+      "type": "object",
+      "properties": {
+        "connection": {
+          "$ref": "#/definitions/platformConnection"
+        }
+      },
+      "description": "Request message for updating a connection."
+    },
+    "platformUpdateMeterConnectionRequest": {
+      "type": "object",
+      "properties": {
+        "meterConnection": {
+          "$ref": "#/definitions/platformMeterConnection"
+        }
+      },
+      "title": "Update MeterConnection"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
