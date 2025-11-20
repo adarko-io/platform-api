@@ -7,6 +7,8 @@ option go_package = "github.com/adarko-io/platform-api/go/v4/platform";
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
+import "platform/shared_enums.proto";
+
 
 
 // TenantService is the service providing API methods for managing tenants.
@@ -108,6 +110,9 @@ message Tenant {
 
   // Set to true to make this the main tenant.
 	bool is_main = 6;
+
+  // timezone of the tenant
+  TimeZone timezone = 7;
 
 }
 

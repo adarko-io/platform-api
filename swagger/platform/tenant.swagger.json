@@ -538,6 +538,10 @@
         "isMain": {
           "type": "boolean",
           "description": "Set to true to make this the main tenant."
+        },
+        "timezone": {
+          "$ref": "#/definitions/platformTimeZone",
+          "title": "timezone of the tenant"
         }
       }
     },
@@ -640,6 +644,51 @@
           "description": "User is able to viewer."
         }
       }
+    },
+    "platformTimeZone": {
+      "type": "string",
+      "enum": [
+        "TZ_PLUS_00_00_LONDON",
+        "TZ_MINUS_12_00",
+        "TZ_MINUS_11_00",
+        "TZ_MINUS_10_00",
+        "TZ_MINUS_09_00",
+        "TZ_MINUS_08_00",
+        "TZ_MINUS_07_00",
+        "TZ_MINUS_06_00",
+        "TZ_MINUS_05_00",
+        "TZ_MINUS_04_00",
+        "TZ_MINUS_03_30",
+        "TZ_MINUS_03_00",
+        "TZ_MINUS_02_00",
+        "TZ_MINUS_01_00",
+        "TZ_PLUS_01_00",
+        "TZ_PLUS_02_00",
+        "TZ_PLUS_03_00",
+        "TZ_PLUS_03_30",
+        "TZ_PLUS_04_00",
+        "TZ_PLUS_04_30",
+        "TZ_PLUS_05_00",
+        "TZ_PLUS_05_30",
+        "TZ_PLUS_05_45",
+        "TZ_PLUS_06_00",
+        "TZ_PLUS_06_30",
+        "TZ_PLUS_07_00",
+        "TZ_PLUS_08_00",
+        "TZ_PLUS_08_45",
+        "TZ_PLUS_09_00",
+        "TZ_PLUS_09_30",
+        "TZ_PLUS_10_00",
+        "TZ_PLUS_10_30",
+        "TZ_PLUS_11_00",
+        "TZ_PLUS_12_00",
+        "TZ_PLUS_12_45",
+        "TZ_PLUS_13_00",
+        "TZ_PLUS_14_00"
+      ],
+      "default": "TZ_PLUS_00_00_LONDON",
+      "description": "- TZ_PLUS_00_00_LONDON: UTC±0\n - TZ_MINUS_12_00: UTC-12 to UTC-1\n - TZ_PLUS_01_00: UTC+1 to UTC+14",
+      "title": "Timezone definitions covering UTC-12 to UTC+14"
     },
     "platformUpdateTenantRequest": {
       "type": "object",
