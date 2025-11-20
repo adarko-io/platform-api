@@ -88,6 +88,7 @@ message Consumer {
 	google.protobuf.Timestamp updated_at = 16; 
 
     uint64 consumer_number = 17;
+     string tenant_id = 18; // Tenant ID (UUID) to which the connection belongs.
 }
 
 message CreateConsumerRequest {

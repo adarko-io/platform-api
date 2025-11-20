@@ -253,6 +253,9 @@
         "consumerNumber": {
           "type": "string",
           "format": "uint64"
+        },
+        "tenantId": {
+          "type": "string"
         }
       }
     },
