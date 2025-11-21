@@ -128,7 +128,7 @@ func (x *Tenant) GetTimezone() TimeZone {
 	if x != nil {
 		return x.Timezone
 	}
-	return TimeZone_TZ_PLUS_00_00_LONDON
+	return TimeZone_TZ_PLUS_00_00
 }
 
 type TenantListItem struct {
