@@ -326,8 +326,11 @@ enum MeterStatus {
 
 // Timezone definitions covering UTC-12 to UTC+14 
 enum TimeZone {
-    // UTC±0
+  // UTC±0
   TZ_PLUS_00_00 = 0;
+
+  // Unknown timezone
+  TZ_UNKNOWN = -9999;
 
   // UTC-12 to UTC-1
   TZ_MINUS_12_00 = -1200;

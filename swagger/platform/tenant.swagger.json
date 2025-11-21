@@ -649,6 +649,7 @@
       "type": "string",
       "enum": [
         "TZ_PLUS_00_00",
+        "TZ_UNKNOWN",
         "TZ_MINUS_12_00",
         "TZ_MINUS_11_00",
         "TZ_MINUS_10_00",
@@ -687,7 +688,7 @@
         "TZ_PLUS_14_00"
       ],
       "default": "TZ_PLUS_00_00",
-      "description": "- TZ_PLUS_00_00: UTC±0\n - TZ_MINUS_12_00: UTC-12 to UTC-1\n - TZ_PLUS_01_00: UTC+1 to UTC+14",
+      "description": "- TZ_PLUS_00_00: UTC±0\n - TZ_UNKNOWN: Unknown timezone\n - TZ_MINUS_12_00: UTC-12 to UTC-1\n - TZ_PLUS_01_00: UTC+1 to UTC+14",
       "title": "Timezone definitions covering UTC-12 to UTC+14"
     },
     "platformUpdateTenantRequest": {
