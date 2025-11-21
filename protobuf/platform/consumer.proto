@@ -123,6 +123,9 @@ message ListConsumersRequest {
 
     // Pagination offset.
     int32 offset = 2;
+
+    // Tenant ID (UUID) to filter consumers.
+    string tenant_id = 3;
 }
 
 message ListConsumersResponse {
