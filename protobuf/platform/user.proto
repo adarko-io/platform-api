@@ -74,8 +74,8 @@ message User {
 	// Set to true to make the user a global viewer.
 	bool is_viewer = 6;
 
-	// Set to true to make the user a consumer.
-	bool is_consumer = 7;
+	// Set to true to make the user a subscriber.
+	bool is_subscriber = 7;
 
 	// Set to false to disable the user.
 	bool is_active = 8;
@@ -107,8 +107,8 @@ message UserListItem {
 	// Set to true to make the user a global viewer.
 	bool is_viewer = 6;
 
-	// Set to true to make the user a consumer.
-	bool is_consumer = 7;
+	// Set to true to make the user a subscriber.
+	bool is_subscriber = 7;
 
 	// Set to false to disable the user.
 	bool is_active = 8;

@@ -338,9 +338,9 @@
           "type": "boolean",
           "description": "Set to true to make the user a global viewer."
         },
-        "isConsumer": {
+        "isSubscriber": {
           "type": "boolean",
-          "description": "Set to true to make the user a consumer."
+          "description": "Set to true to make the user a subscriber."
         },
         "isActive": {
           "type": "boolean",
@@ -384,9 +384,9 @@
           "type": "boolean",
           "description": "Set to true to make the user a global viewer."
         },
-        "isConsumer": {
+        "isSubscriber": {
           "type": "boolean",
-          "description": "Set to true to make the user a consumer."
+          "description": "Set to true to make the user a subscriber."
         },
         "isActive": {
           "type": "boolean",
