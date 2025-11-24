@@ -47,20 +47,6 @@
             "format": "int64"
           },
           {
-            "name": "manufacturer",
-            "description": "Filter by manufacturer.",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "model",
-            "description": "Filter by model.",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
             "name": "search",
             "description": "Search query (name, description, etc.).",
             "in": "query",

@@ -199,18 +199,11 @@ message ListInventoryDevicesRequest {
   // Offset for pagination.
   uint32 offset = 2;
 
-
-  // Filter by manufacturer.
-  string manufacturer = 3;
-
-  // Filter by model.
-  string model = 4;
-
   // Search query (name, description, etc.).
-  string search = 5;
+  string search = 3;
 
   // Filter by tags.
-  map<string, string> tags = 6;
+  map<string, string> tags = 4;
 }
 
 message InventoryDeviceListItem {
