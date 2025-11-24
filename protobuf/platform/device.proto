@@ -117,34 +117,40 @@ message Device {
   // SerialNo.
   string serial_number = 7;
 
+  //Manufacturer ID
+  string manufacturer_id = 8;
+
+  //Inventory ID
+  string inventory_id =  17;
+
   // Device Type.
-  DeviceType device_type = 8;
+  DeviceType device_type = 9;
 
   //Asset Type Water Meter, Gas Meter, Energy Meter etc.
-  AssetType asset_type = 9;
+  AssetType asset_type = 10;
 
   //Asset Sub Type
-  AssetSubType asset_sub_type = 10;
+  AssetSubType asset_sub_type = 11;
 
   // Device Transport Protocol
-  TransportProtocol transport_protocol = 11;
+  TransportProtocol transport_protocol = 12;
 
   // Expected update interval in seconds.
-  uint32 expected_update_interval_in_sec = 12;
+  uint32 expected_update_interval_in_sec = 13;
 
   // Variables (user defined).
   // These variables can be used together with integrations to store tokens /
   // secrets that must be configured per device. These variables are not
   // exposed in the event payloads.
-  map<string, string> variables = 13;
+  map<string, string> variables = 14;
 
   // Tags (user defined).
   // These tags can be used to add additional information to the device.
   // These tags are exposed in all the integration events.
-  map<string, string> tags = 14;
+  map<string, string> tags = 15;
 
   // Location information.
-  Location location = 15;
+  Location location = 16;
 
 }
 

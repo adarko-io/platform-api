@@ -137,47 +137,7 @@
         ]
       }
     },
-    "/api/inventory/devices/{device.eui}": {
-      "put": {
-        "summary": "Update device in inventory.",
-        "operationId": "InventoryService_Update",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "properties": {}
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "device.eui",
-            "description": "EUI (EUI64) - Primary identifier.",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/platformUpdateInventoryDeviceRequest"
-            }
-          }
-        ],
-        "tags": [
-          "InventoryService"
-        ]
-      }
-    },
-    "/api/inventory/devices/{eui}": {
+    "/api/inventory/devices/{id}": {
       "get": {
         "summary": "Get device from inventory by EUI.",
         "operationId": "InventoryService_Get",
@@ -197,8 +157,8 @@
         },
         "parameters": [
           {
-            "name": "eui",
-            "description": "Device EUI.",
+            "name": "id",
+            "description": "Inventory ID.",
             "in": "path",
             "required": true,
             "type": "string"
@@ -227,8 +187,8 @@
         },
         "parameters": [
           {
-            "name": "eui",
-            "description": "Device EUI.",
+            "name": "id",
+            "description": "Inventory ID.",
             "in": "path",
             "required": true,
             "type": "string"
@@ -239,7 +199,7 @@
         ]
       }
     },
-    "/api/inventory/devices/{eui}/status": {
+    "/api/inventory/devices/{id}/status": {
       "put": {
         "summary": "Update device status (onboarded/provisioned).",
         "operationId": "InventoryService_UpdateStatus",
@@ -259,8 +219,8 @@
         },
         "parameters": [
           {
-            "name": "eui",
-            "description": "Device EUI.",
+            "name": "id",
+            "description": "Inventory ID.",
             "in": "path",
             "required": true,
             "type": "string"
@@ -271,6 +231,227 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/platformUpdateDeviceStatusRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InventoryService"
+        ]
+      }
+    },
+    "/api/inventory/devices/{inventory.id}": {
+      "put": {
+        "summary": "Update device in inventory.",
+        "operationId": "InventoryService_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "inventory.id",
+            "description": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformUpdateInventoryDeviceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InventoryService"
+        ]
+      }
+    },
+    "/api/inventory/manufacturers": {
+      "get": {
+        "summary": "List Manufacturers",
+        "operationId": "InventoryService_ListManufacturers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformListManufacturersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "description": "Maximum number of manufacturers to return.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "description": "Offset for pagination.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "search",
+            "description": "Search query (name, model, etc.).",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "InventoryService"
+        ]
+      },
+      "post": {
+        "summary": "Create New Manufacturer",
+        "operationId": "InventoryService_CreateManufacturer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformCreateManufacturerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformCreateManufacturerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InventoryService"
+        ]
+      }
+    },
+    "/api/inventory/manufacturers/{id}": {
+      "get": {
+        "summary": "Get Manufacturer",
+        "operationId": "InventoryService_GetManufacturer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetManufacturerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Manufacturer ID.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "InventoryService"
+        ]
+      },
+      "delete": {
+        "summary": "Delete Manufacturer",
+        "operationId": "InventoryService_DeleteManufacturer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Manufacturer ID.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "InventoryService"
+        ]
+      }
+    },
+    "/api/inventory/manufacturers/{manufacturer.id}": {
+      "put": {
+        "summary": "Update Manufacturer",
+        "operationId": "InventoryService_UpdateManufacturer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "manufacturer.id",
+            "description": "Manufacturer ID.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformUpdateManufacturerRequest"
             }
           }
         ],
@@ -355,7 +536,7 @@
     "platformCreateInventoryDeviceRequest": {
       "type": "object",
       "properties": {
-        "device": {
+        "inventory": {
           "$ref": "#/definitions/platformInventoryDevice",
           "description": "Device to create."
         }
@@ -365,9 +546,27 @@
     "platformCreateInventoryDeviceResponse": {
       "type": "object",
       "properties": {
-        "eui": {
+        "id": {
           "type": "string",
-          "description": "Device EUI."
+          "description": "Inventory ID."
+        }
+      }
+    },
+    "platformCreateManufacturerRequest": {
+      "type": "object",
+      "properties": {
+        "manufacturer": {
+          "$ref": "#/definitions/platformManufacturer",
+          "description": "Manufacturer to create."
+        }
+      }
+    },
+    "platformCreateManufacturerResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Manufacturer ID."
         }
       }
     },
@@ -388,7 +587,7 @@
     "platformGetInventoryDeviceResponse": {
       "type": "object",
       "properties": {
-        "device": {
+        "inventory": {
           "$ref": "#/definitions/platformInventoryDevice",
           "description": "Device information."
         },
@@ -404,12 +603,21 @@
         }
       }
     },
+    "platformGetManufacturerResponse": {
+      "type": "object",
+      "properties": {
+        "manufacturer": {
+          "$ref": "#/definitions/platformManufacturer",
+          "description": "Manufacturer information."
+        }
+      }
+    },
     "platformImportError": {
       "type": "object",
       "properties": {
-        "eui": {
+        "id": {
           "type": "string",
-          "description": "Device EUI that failed."
+          "description": "Inventory ID that failed."
         },
         "error": {
           "type": "string",
@@ -420,6 +628,10 @@
     "platformInventoryDevice": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "string",
+          "title": "id"
+        },
         "eui": {
           "type": "string",
           "description": "EUI (EUI64) - Primary identifier."
@@ -443,18 +655,6 @@
         "manufacturer": {
           "type": "string",
           "description": "Manufacturer information."
-        },
-        "model": {
-          "type": "string",
-          "description": "Model number/SKU."
-        },
-        "hardwareVersion": {
-          "type": "string",
-          "description": "Hardware version."
-        },
-        "firmwareVersion": {
-          "type": "string",
-          "description": "Firmware version."
         },
         "configuration": {
           "type": "object",
@@ -498,6 +698,10 @@
     "platformInventoryDeviceListItem": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "string",
+          "title": "Inventory ID"
+        },
         "eui": {
           "type": "string",
           "description": "Device EUI."
@@ -528,6 +732,10 @@
         },
         "assetSubType": {
           "$ref": "#/definitions/platformAssetSubType"
+        },
+        "manufacturerId": {
+          "type": "string",
+          "title": "Manufacturer ID"
         },
         "createdAt": {
           "type": "string",
@@ -571,6 +779,58 @@
         }
       }
     },
+    "platformListManufacturersResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total count."
+        },
+        "manufacturers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformManufacturer"
+          },
+          "description": "Manufacturer list."
+        }
+      }
+    },
+    "platformManufacturer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Manufacturer ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "Manufacturer name."
+        },
+        "model": {
+          "type": "string",
+          "description": "Model number/SKU."
+        },
+        "hardwareVersion": {
+          "type": "string",
+          "description": "Hardware version."
+        },
+        "firmwareVersion": {
+          "type": "string",
+          "description": "Firmware version."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Created at timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp."
+        }
+      }
+    },
     "platformTransportProtocol": {
       "type": "string",
       "enum": [
@@ -589,9 +849,9 @@
     "platformUpdateDeviceStatusRequest": {
       "type": "object",
       "properties": {
-        "eui": {
+        "id": {
           "type": "string",
-          "description": "Device EUI."
+          "description": "Inventory ID."
         },
         "status": {
           "$ref": "#/definitions/platformInventoryStatus",
@@ -606,9 +866,18 @@
     "platformUpdateInventoryDeviceRequest": {
       "type": "object",
       "properties": {
-        "device": {
+        "inventory": {
           "$ref": "#/definitions/platformInventoryDevice",
           "description": "Device to update."
+        }
+      }
+    },
+    "platformUpdateManufacturerRequest": {
+      "type": "object",
+      "properties": {
+        "manufacturer": {
+          "$ref": "#/definitions/platformManufacturer",
+          "description": "Manufacturer to update."
         }
       }
     },

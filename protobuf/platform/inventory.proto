@@ -24,14 +24,14 @@ service InventoryService {
   // Get device from inventory by EUI.
   rpc Get(GetInventoryDeviceRequest) returns (GetInventoryDeviceResponse) {
     option (google.api.http) = {
-      get: "/api/inventory/devices/{eui}",
+      get: "/api/inventory/devices/{id}",
     };
   }
 
   // Update device in inventory.
   rpc Update(UpdateInventoryDeviceRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put:  "/api/inventory/devices/{device.eui}",
+      put:  "/api/inventory/devices/{inventory.id}",
       body: "*",
     };
   }
@@ -39,7 +39,7 @@ service InventoryService {
   // Delete device from inventory.
   rpc Delete(DeleteInventoryDeviceRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete: "/api/inventory/devices/{eui}",
+      delete: "/api/inventory/devices/{id}",
     };
   }
 
@@ -53,7 +53,7 @@ service InventoryService {
   // Update device status (onboarded/provisioned).
   rpc UpdateStatus(UpdateDeviceStatusRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put:  "/api/inventory/devices/{eui}/status",
+      put:  "/api/inventory/devices/{id}/status",
       body: "*",
     };
   }
@@ -66,10 +66,51 @@ service InventoryService {
     };
   }
 
+  //Create New Manufacturer
+  rpc CreateManufacturer(CreateManufacturerRequest) returns (CreateManufacturerResponse) {
+    option (google.api.http) = {
+      post: "/api/inventory/manufacturers",
+      body: "*",
+    };
+  }
+
+  //List Manufacturers
+  rpc ListManufacturers(ListManufacturersRequest) returns (ListManufacturersResponse) {
+    option (google.api.http) = {
+      get: "/api/inventory/manufacturers",
+    };
+  }
+
+  //Delete Manufacturer
+  rpc DeleteManufacturer(DeleteManufacturerRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/api/inventory/manufacturers/{id}",
+    };
+  }
+
+  //Update Manufacturer
+  rpc UpdateManufacturer(UpdateManufacturerRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/api/inventory/manufacturers/{manufacturer.id}",
+      body: "*",
+    };
+  } 
+
+  //Get Manufacturer
+  rpc GetManufacturer(GetManufacturerRequest) returns (GetManufacturerResponse) {
+    option (google.api.http) = {
+      get: "/api/inventory/manufacturers/{id}",
+    };
+  }
+
 }
 
 // InventoryDevice represents a device in the inventory with all necessary configuration.
 message InventoryDevice {
+
+  //id
+  string id = 16;
+
   // EUI (EUI64) - Primary identifier.
   string eui = 1;
 
@@ -88,36 +129,29 @@ message InventoryDevice {
   // Manufacturer information.
   string manufacturer = 6;
 
-  // Model number/SKU.
-  string model = 7;
-
-  // Hardware version.
-  string hardware_version = 8;
-
-  // Firmware version.
-  string firmware_version = 9;
+  
 
   // Device type specific configuration JSON.
-  google.protobuf.Value configuration = 10;
+  google.protobuf.Value configuration = 7;
 
  //Device Type LoRaWAN Gateway, LoRaWAN Device, Cellular Device, Wifi etc.
-  DeviceType device_type = 11;
+  DeviceType device_type = 8;
 
  //Asset Type Water Meter, Gas Meter, Energy Meter etc.
-  AssetType asset_type = 12;
+  AssetType asset_type = 9;
 
-  AssetSubType asset_sub_type = 13;
+  AssetSubType asset_sub_type = 10;
 
-  TransportProtocol transport_protocol = 14;
+  TransportProtocol transport_protocol = 11;
 
   // Device tags/labels.
-  map<string, string> tags = 15;
+  map<string, string> tags = 12;
 
   // Additional metadata.
-  map<string, string> metadata = 16;
+  map<string, string> metadata = 13;
 
   // Batch/lot information.
-  string batch_id = 17;
+  string batch_id = 14;
 }
 
 // NOTE: Enums moved to shared_enums.proto to avoid conflicts between services.
@@ -126,22 +160,22 @@ message InventoryDevice {
 // Request/Response messages.
 message CreateInventoryDeviceRequest {
   // Device to create.
-  InventoryDevice device = 1;
+  InventoryDevice inventory = 1;
 }
 
 message CreateInventoryDeviceResponse {
-  // Device EUI.
-  string eui = 1;
+  // Inventory ID.
+  string id = 1;
 }
 
 message GetInventoryDeviceRequest {
-  // Device EUI.
-  string eui = 1;
+  // Inventory ID.
+  string id = 1;
 }
 
 message GetInventoryDeviceResponse {
   // Device information.
-  InventoryDevice device = 1;
+  InventoryDevice inventory = 1;
 
   // Created at timestamp.
   google.protobuf.Timestamp created_at = 2;
@@ -152,12 +186,12 @@ message GetInventoryDeviceResponse {
 
 message UpdateInventoryDeviceRequest {
   // Device to update.
-  InventoryDevice device = 1;
+  InventoryDevice inventory = 1;
 }
 
 message DeleteInventoryDeviceRequest {
-  // Device EUI.
-  string eui = 1;
+  // Inventory ID.
+  string id = 1;
 }
 
 message ListInventoryDevicesRequest {
@@ -182,34 +216,41 @@ message ListInventoryDevicesRequest {
 }
 
 message InventoryDeviceListItem {
+
+  //Inventory ID
+  string id = 1;
+
   // Device EUI.
-  string eui = 1;
+  string eui = 2;
 
   // Device name.
-  string name = 2;
+  string name = 3;
 
   // Serial number.
-  string serial_number = 3;
+  string serial_number = 4;
 
   // Current status.
-  InventoryStatus status = 4;
+  InventoryStatus status = 5;
 
   // Model.
-  string model = 5;
+  string model = 6;
 
  //Device Type LoRaWAN Gateway, LoRaWAN Device, Cellular Device, Wifi etc.
-  DeviceType device_type = 6;
+  DeviceType device_type = 7;
 
  //Asset Type Water Meter, Gas Meter, Energy Meter etc.
-  AssetType asset_type = 7;
+  AssetType asset_type = 8;
 
-  AssetSubType asset_sub_type = 8;
+  AssetSubType asset_sub_type = 9;
+
+  //Manufacturer ID
+  string manufacturer_id = 10;
 
   // Created at timestamp.
-  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp created_at = 11;
 
   // Last update timestamp.
-  google.protobuf.Timestamp updated_at = 10;
+  google.protobuf.Timestamp updated_at = 12;
 }
 
 message ListInventoryDevicesResponse {
@@ -221,8 +262,8 @@ message ListInventoryDevicesResponse {
 }
 
 message UpdateDeviceStatusRequest {
-  // Device EUI.
-  string eui = 1;
+  //  Inventory ID.
+  string id = 1;
 
   // New status.
   InventoryStatus status = 2;
@@ -254,9 +295,79 @@ message BulkImportResponse {
 }
 
 message ImportError {
-  // Device EUI that failed.
-  string eui = 1;
+  //  Inventory ID that failed.
+  string id = 1;
 
   // Error message.
   string error = 2;
+}
+
+message Manufacturer {
+  // Manufacturer ID.
+  string id = 1;
+
+  // Manufacturer name.
+  string name = 2;
+
+ // Model number/SKU.
+  string model = 3;
+
+  // Hardware version.
+  string hardware_version = 4;
+
+  // Firmware version.
+  string firmware_version = 5;
+
+  // Created at timestamp.
+  google.protobuf.Timestamp created_at = 6;
+
+  // Last update timestamp.
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message CreateManufacturerRequest {
+  // Manufacturer to create.
+  Manufacturer manufacturer = 1;
+}
+message CreateManufacturerResponse {
+  // Manufacturer ID.
+  string id = 1;
+}
+
+message ListManufacturersRequest {
+  // Maximum number of manufacturers to return.
+  uint32 limit = 1;
+
+  // Offset for pagination.
+  uint32 offset = 2;
+
+  // Search query (name, model, etc.).
+  string search = 3;
+}
+
+message ListManufacturersResponse {
+  // Total count.
+  uint32 total_count = 1;
+
+  // Manufacturer list.
+  repeated Manufacturer manufacturers = 2;
+}
+
+message DeleteManufacturerRequest {
+  // Manufacturer ID.
+  string id = 1;
+}
+
+message UpdateManufacturerRequest {
+  // Manufacturer to update.
+  Manufacturer manufacturer = 1;
+}
+
+message GetManufacturerRequest {
+  // Manufacturer ID.
+  string id = 1;
+}
+message GetManufacturerResponse {
+  // Manufacturer information.
+  Manufacturer manufacturer = 1;
 }

@@ -447,6 +447,14 @@
           "type": "string",
           "description": "SerialNo."
         },
+        "manufacturerId": {
+          "type": "string",
+          "title": "Manufacturer ID"
+        },
+        "inventoryId": {
+          "type": "string",
+          "title": "Inventory ID"
+        },
         "deviceType": {
           "$ref": "#/definitions/platformDeviceType",
           "description": "Device Type."
