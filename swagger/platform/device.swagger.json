@@ -133,7 +133,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "properties": {}
+              "$ref": "#/definitions/platformCreateDeviceResponse"
             }
           },
           "default": {
@@ -258,6 +258,13 @@
               "TRANSPORT_WEBSOCKET"
             ],
             "default": "TRANSPORT_PROTOCOL_UNKNOWN"
+          },
+          {
+            "name": "manufacturerId",
+            "description": "Manufacturer ID.",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -265,7 +272,7 @@
         ]
       }
     },
-    "/api/devices/{device.eui}": {
+    "/api/devices/{device.id}": {
       "put": {
         "summary": "Update the given device.",
         "operationId": "DeviceService_Update",
@@ -285,8 +292,8 @@
         },
         "parameters": [
           {
-            "name": "device.eui",
-            "description": "EUI (EUI64).",
+            "name": "device.id",
+            "description": "ID",
             "in": "path",
             "required": true,
             "type": "string"
@@ -305,7 +312,7 @@
         ]
       }
     },
-    "/api/devices/{eui}": {
+    "/api/devices/{id}": {
       "get": {
         "summary": "Get returns the device for the given EUI.",
         "operationId": "DeviceService_Get",
@@ -325,8 +332,8 @@
         },
         "parameters": [
           {
-            "name": "eui",
-            "description": "EUI (EUI64).",
+            "name": "id",
+            "description": "ID.",
             "in": "path",
             "required": true,
             "type": "string"
@@ -355,7 +362,7 @@
         },
         "parameters": [
           {
-            "name": "eui",
+            "name": "id",
             "description": "EUI (EUI64).",
             "in": "path",
             "required": true,
@@ -416,9 +423,22 @@
         }
       }
     },
+    "platformCreateDeviceResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID."
+        }
+      }
+    },
     "platformDevice": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "string",
+          "title": "ID"
+        },
         "eui": {
           "type": "string",
           "description": "EUI (EUI64)."
@@ -499,6 +519,10 @@
     "platformDeviceListItem": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "string",
+          "title": "ID"
+        },
         "eui": {
           "type": "string",
           "description": "EUI (EUI64)."
