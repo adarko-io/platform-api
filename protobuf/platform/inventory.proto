@@ -127,9 +127,7 @@ message InventoryDevice {
   InventoryStatus status = 5;
 
   // Manufacturer information.
-  string manufacturer = 6;
-
-  
+  string manufacturer_id = 6;
 
   // Device type specific configuration JSON.
   google.protobuf.Value configuration = 7;

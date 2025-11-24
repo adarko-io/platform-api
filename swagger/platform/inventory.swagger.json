@@ -652,7 +652,7 @@
           "$ref": "#/definitions/platformInventoryStatus",
           "description": "Current inventory status."
         },
-        "manufacturer": {
+        "manufacturerId": {
           "type": "string",
           "description": "Manufacturer information."
         },
