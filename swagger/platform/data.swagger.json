@@ -872,6 +872,12 @@
           "type": "string",
           "description": "device  ID (UUID from device )."
         },
+        "applicationId": {
+          "type": "string"
+        },
+        "tenantId": {
+          "type": "string"
+        },
         "dataId": {
           "type": "string",
           "description": "Local device data ID (UUID from datalogger storage)."
