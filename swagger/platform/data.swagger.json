@@ -143,7 +143,7 @@
         ]
       }
     },
-    "/api/data/devices/{eui}": {
+    "/api/data/devices/{id}": {
       "get": {
         "summary": "Get device data for a specific device within a time range.",
         "operationId": "DataService_GetDeviceData",
@@ -163,8 +163,8 @@
         },
         "parameters": [
           {
-            "name": "eui",
-            "description": "EUI (EUI64).",
+            "name": "id",
+            "description": "device  ID (UUID from device ).",
             "in": "path",
             "required": true,
             "type": "string"
@@ -225,8 +225,8 @@
         },
         "parameters": [
           {
-            "name": "eui",
-            "description": "EUI (EUI64).",
+            "name": "id",
+            "description": "device  ID (UUID from device ).",
             "in": "path",
             "required": true,
             "type": "string"
@@ -253,7 +253,7 @@
         ]
       }
     },
-    "/api/data/devices/{eui}/latest": {
+    "/api/data/devices/{id}/latest": {
       "get": {
         "summary": "Get latest data point for a device.",
         "operationId": "DataService_GetLatestData",
@@ -273,8 +273,8 @@
         },
         "parameters": [
           {
-            "name": "eui",
-            "description": "EUI (EUI64).",
+            "name": "id",
+            "description": "device  ID (UUID from device ).",
             "in": "path",
             "required": true,
             "type": "string"
@@ -299,7 +299,7 @@
         ]
       }
     },
-    "/api/data/devices/{eui}/location": {
+    "/api/data/devices/{id}/location": {
       "get": {
         "summary": "Get device location (current/latest location).",
         "operationId": "DataService_GetDeviceLocation",
@@ -319,8 +319,8 @@
         },
         "parameters": [
           {
-            "name": "eui",
-            "description": "EUI (EUI64).",
+            "name": "id",
+            "description": "device  ID (UUID from device ).",
             "in": "path",
             "required": true,
             "type": "string"
@@ -349,8 +349,8 @@
         },
         "parameters": [
           {
-            "name": "eui",
-            "description": "EUI (EUI64).",
+            "name": "id",
+            "description": "device  ID (UUID from device ).",
             "in": "path",
             "required": true,
             "type": "string"
@@ -379,8 +379,8 @@
         },
         "parameters": [
           {
-            "name": "eui",
-            "description": "EUI (EUI64).",
+            "name": "id",
+            "description": "device  ID (UUID from device ).",
             "in": "path",
             "required": true,
             "type": "string"
@@ -475,9 +475,9 @@
           "format": "date-time",
           "description": "Timestamp (bucket start time)."
         },
-        "eui": {
+        "id": {
           "type": "string",
-          "description": "EUI (if grouped by device)."
+          "description": "device  ID (UUID from device )."
         },
         "values": {
           "type": "object",
@@ -574,9 +574,9 @@
     "platformDeviceData": {
       "type": "object",
       "properties": {
-        "eui": {
+        "id": {
           "type": "string",
-          "description": "EUI (EUI64) - Device EUI or Gateway EUI."
+          "description": "device ID (UUID from device)."
         },
         "timestamp": {
           "type": "string",
@@ -633,12 +633,12 @@
     "platformGetAggregatedDataRequest": {
       "type": "object",
       "properties": {
-        "euis": {
+        "ids": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "description": "EUI(s) to get data for."
+          "description": "ID(s) to get data for."
         },
         "startTime": {
           "type": "string",
@@ -703,9 +703,9 @@
     "platformGetDataStatsRequest": {
       "type": "object",
       "properties": {
-        "eui": {
+        "id": {
           "type": "string",
-          "description": "EUI (optional, if not set, stats for all devices)."
+          "description": "device ID (optional, if not set, stats for all devices)."
         },
         "startTime": {
           "type": "string",
@@ -751,9 +751,9 @@
     "platformGetDeviceLocationResponse": {
       "type": "object",
       "properties": {
-        "eui": {
+        "id": {
           "type": "string",
-          "description": "EUI (EUI64)."
+          "description": "device  ID (UUID from device )."
         },
         "location": {
           "$ref": "#/definitions/platformDeviceLocation",
@@ -784,12 +784,12 @@
     "platformGetMultiDeviceDataRequest": {
       "type": "object",
       "properties": {
-        "euis": {
+        "ids": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "description": "EUIs to get data for."
+          "description": "IDs to get data for."
         },
         "startTime": {
           "type": "string",
@@ -829,12 +829,12 @@
     "platformGetMultiDeviceLocationRequest": {
       "type": "object",
       "properties": {
-        "euis": {
+        "ids": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "description": "EUIs to get locations for."
+          "description": "IDs to get locations for."
         }
       },
       "description": "Request to get locations for multiple devices."
@@ -847,7 +847,7 @@
           "additionalProperties": {
             "$ref": "#/definitions/platformGetDeviceLocationResponse"
           },
-          "description": "Device locations grouped by EUI."
+          "description": "Device locations grouped by ID."
         }
       },
       "description": "Response containing multiple device locations."
@@ -869,6 +869,10 @@
       "type": "object",
       "properties": {
         "id": {
+          "type": "string",
+          "description": "device  ID (UUID from device )."
+        },
+        "dataId": {
           "type": "string",
           "description": "Local device data ID (UUID from datalogger storage)."
         },
@@ -959,9 +963,9 @@
     "platformUpdateDeviceLocationRequest": {
       "type": "object",
       "properties": {
-        "eui": {
+        "id": {
           "type": "string",
-          "description": "EUI (EUI64)."
+          "description": "device  ID (UUID from device )."
         },
         "location": {
           "$ref": "#/definitions/platformDeviceLocation",

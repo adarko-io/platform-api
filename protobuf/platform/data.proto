@@ -32,7 +32,7 @@ service DataService {
   // Get device data for a specific device within a time range.
   rpc GetDeviceData(GetDeviceDataRequest) returns (GetDeviceDataResponse) {
     option (google.api.http) = {
-      get: "/api/data/devices/{eui}"
+      get: "/api/data/devices/{id}"
     };
   }
 
@@ -47,7 +47,7 @@ service DataService {
   // Get latest data point for a device.
   rpc GetLatestData(GetLatestDataRequest) returns (GetLatestDataResponse) {
     option (google.api.http) = {
-      get: "/api/data/devices/{eui}/latest"
+      get: "/api/data/devices/{id}/latest"
     };
   }
 
@@ -62,7 +62,7 @@ service DataService {
   // Delete device data (for GDPR compliance, data retention).
   rpc DeleteDeviceData(DeleteDeviceDataRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete: "/api/data/devices/{eui}"
+      delete: "/api/data/devices/{id}"
     };
   }
 
@@ -77,7 +77,7 @@ service DataService {
   // Update device location (latest location is stored separately).
   rpc UpdateDeviceLocation(UpdateDeviceLocationRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/api/data/devices/{eui}/location"
+      put: "/api/data/devices/{id}/location"
       body: "*"
     };
   }
@@ -85,7 +85,7 @@ service DataService {
   // Get device location (current/latest location).
   rpc GetDeviceLocation(GetDeviceLocationRequest) returns (GetDeviceLocationResponse) {
     option (google.api.http) = {
-      get: "/api/data/devices/{eui}/location"
+      get: "/api/data/devices/{id}/location"
     };
   }
 
@@ -100,7 +100,7 @@ service DataService {
   // Delete device location.
   rpc DeleteDeviceLocation(DeleteDeviceLocationRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete: "/api/data/devices/{eui}/location"
+      delete: "/api/data/devices/{id}/location"
     };
   }
 }
@@ -108,8 +108,8 @@ service DataService {
 // DeviceData represents a single data point from a device or gateway.
 // Supports data from multiple protocols: LoRaWAN, Cellular, HTTP, MQTT, TCP, UDP, CoAP.
 message DeviceData {
-  // EUI (EUI64) - Device EUI or Gateway EUI.
-  string eui = 1;
+  // device ID (UUID from device).
+  string id = 1;
 
   // Timestamp when the data was received.
   google.protobuf.Timestamp timestamp = 2;
@@ -359,26 +359,29 @@ message DeviceLocation {
 
 // Request to insert device data from datalogger.
 message InsertFromDataloggerRequest {
-  // Local device data ID (UUID from datalogger storage).
+  // device  ID (UUID from device ).
   string id = 1;
+  
+  // Local device data ID (UUID from datalogger storage).
+  string data_id = 2;
 
   // Device EUI (EUI64 as string).
-  string eui = 2;
+  string eui = 3;
 
   // Protocol used (e.g., "mqtt-lorawan", "mqtt", "tcp", "udp").
-  string protocol = 3;
+  string protocol = 4;
 
   // Processed data (JSON string containing decoded sensor readings).
-  google.protobuf.Value data = 4;
+  google.protobuf.Value data = 5;
 
   // Original data (raw message as received, JSON string).
-  google.protobuf.Value original_data = 5;
+  google.protobuf.Value original_data = 6;
 
   // Timestamp when data was received by datalogger.
-  google.protobuf.Timestamp received_at = 6;
+  google.protobuf.Timestamp received_at = 7;
 
   // Optional: Additional metadata.
-  map<string, string> metadata = 7;
+  map<string, string> metadata = 8;
 }
 
 // Response from inserting datalogger data.
@@ -401,8 +404,8 @@ message InsertDataRequest {
 
 // Request to get device data.
 message GetDeviceDataRequest {
-  // EUI (EUI64).
-  string eui = 1;
+  // device  ID (UUID from device ).
+  string id = 1;
 
   // Start time for data range.
   google.protobuf.Timestamp start_time = 2;
@@ -429,8 +432,8 @@ message GetDeviceDataResponse {
 
 // Request for aggregated data.
 message GetAggregatedDataRequest {
-  // EUI(s) to get data for.
-  repeated string euis = 1;
+  // ID(s) to get data for.
+  repeated string ids = 1;
 
   // Start time for data range.
   google.protobuf.Timestamp start_time = 2;
@@ -464,8 +467,8 @@ message AggregatedDataPoint {
   // Timestamp (bucket start time).
   google.protobuf.Timestamp timestamp = 1;
 
-  // EUI (if grouped by device).
-  string eui = 2;
+   // device  ID (UUID from device ).
+  string id = 2;
 
   // Aggregated values by field name.
   map<string, double> values = 3;
@@ -486,8 +489,8 @@ message GetAggregatedDataResponse {
 
 // Request to get latest data.
 message GetLatestDataRequest {
-  // EUI (EUI64).
-  string eui = 1;
+   // device  ID (UUID from device ).
+  string id = 1;
 
   // Include decoded data in response.
   bool include_decoded = 2;
@@ -504,8 +507,8 @@ message GetLatestDataResponse {
 
 // Request for multi-device data.
 message GetMultiDeviceDataRequest {
-  // EUIs to get data for.
-  repeated string euis = 1;
+  // IDs to get data for.
+  repeated string ids = 1;
 
   // Start time for data range.
   google.protobuf.Timestamp start_time = 2;
@@ -528,8 +531,8 @@ message GetMultiDeviceDataResponse {
 
 // Request to delete device data.
 message DeleteDeviceDataRequest {
-  // EUI (EUI64).
-  string eui = 1;
+  // device  ID (UUID from device ).
+  string id = 1;
 
   // Start time for deletion range (optional).
   google.protobuf.Timestamp start_time = 2;
@@ -540,8 +543,8 @@ message DeleteDeviceDataRequest {
 
 // Request for data statistics.
 message GetDataStatsRequest {
-  // EUI (optional, if not set, stats for all devices).
-  string eui = 1;
+  // device ID (optional, if not set, stats for all devices).
+  string id = 1;
 
   // Start time for stats range.
   google.protobuf.Timestamp start_time = 2;
@@ -594,8 +597,8 @@ message GetDataStatsResponse {
 
 // Request to update device location.
 message UpdateDeviceLocationRequest {
-  // EUI (EUI64).
-  string eui = 1;
+  // device  ID (UUID from device ).
+  string id = 1;
 
   // Device location.
   DeviceLocation location = 2;
@@ -609,14 +612,14 @@ message UpdateDeviceLocationRequest {
 
 // Request to get device location.
 message GetDeviceLocationRequest {
-  // EUI (EUI64).
-  string eui = 1;
+  // device  ID (UUID from device ).
+  string id = 1;
 }
 
 // Response containing device location.
 message GetDeviceLocationResponse {
-  // EUI (EUI64).
-  string eui = 1;
+  // device  ID (UUID from device ).
+  string id = 1;
 
   // Device location.
   DeviceLocation location = 2;
@@ -630,18 +633,18 @@ message GetDeviceLocationResponse {
 
 // Request to get locations for multiple devices.
 message GetMultiDeviceLocationRequest {
-  // EUIs to get locations for.
-  repeated string euis = 1;
+  // IDs to get locations for.
+  repeated string ids = 1;
 }
 
 // Response containing multiple device locations.
 message GetMultiDeviceLocationResponse {
-  // Device locations grouped by EUI.
+  // Device locations grouped by ID.
   map<string, GetDeviceLocationResponse> locations = 1;
 }
 
 // Request to delete device location.
 message DeleteDeviceLocationRequest {
-  // EUI (EUI64).
-  string eui = 1;
+  // device  ID (UUID from device ).
+  string id = 1;
 }
