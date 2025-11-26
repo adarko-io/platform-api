@@ -272,6 +272,9 @@ message ListDevicesRequest {
   // Asset Sub Type to filter devices on.
   AssetSubType asset_sub_type = 7;
 
+  // Device type to filter devices on.
+  DeviceType device_type = 8;
+
   enum OrderBy {
     NAME = 0;
     EUI = 1;
@@ -280,13 +283,13 @@ message ListDevicesRequest {
   }
 
   // If set, the given value will be used to sort by (optional).
-  OrderBy order_by = 8;
+  OrderBy order_by = 9;
 
   // If set, the sorting direction will be decending (default = ascending) (optional).
-  bool order_by_desc = 9;
+  bool order_by_desc = 10;
 
   // Tags to filter devices on.
-  map<string, string> tags = 10;
+  map<string, string> tags = 11;
 
 }
 
