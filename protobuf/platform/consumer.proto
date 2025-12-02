@@ -57,7 +57,7 @@ message Consumer {
   // Consumer  Name
   string name = 2;
   // Consumer  Mobile Number  
-  int32 mobile_number = 3;
+  string mobile_number = 3;
   // Consumer  Mobile Country Code
   string mobile_country_code = 4;
   // Consumer  Email
