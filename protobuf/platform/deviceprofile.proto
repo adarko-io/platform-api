@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package platform;
+
+option go_package = "github.com/adarko-io/platform-api/go/v4/platform";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "platform/shared_enums.proto";
+import "google/protobuf/struct.proto";
+
+service DeviceProfileService {
+ 
+  // Get returns the device profile for the given ID.
+  rpc Get(GetDeviceProfileRequest) returns (GetDeviceProfileResponse) {
+    option (google.api.http) = {
+      get: "/api/device-profiles/{id}"
+    };
+  }
+
+
+  // Get the list of device profiles.
+  rpc List(ListDeviceProfilesRequest) returns (ListDeviceProfilesResponse) {
+    option (google.api.http) = {
+      get: "/api/device-profiles"
+    };
+  }
+}
+
+message DeviceProfile{
+    string id = 1;
+    string name = 2;
+  // Device Type.
+    DeviceType device_type = 3;
+
+    //Asset Type Water Meter, Gas Meter, Energy Meter etc.
+    AssetType asset_type = 4;
+
+    //Asset Sub Type
+    AssetSubType asset_sub_type = 5;
+
+    // Device Transport Protocol
+    TransportProtocol transport_protocol = 6;
+
+    string description = 7;
+    // Manufacturer details
+    string manufacturer_name = 8;
+    string model = 9;
+    string firmware_version = 10;
+    string hardware_version = 11;
+}
+
+message GetDeviceProfileRequest {
+    // Device Profile ID (UUID).
+    string id = 1;
+}
+message GetDeviceProfileResponse {
+    DeviceProfile device_profile = 1;
+}
+message ListDeviceProfilesRequest {
+    // Pagination: Page number (starting from 1).
+    int32 limit = 1;
+
+    // Pagination: Number of items per page.
+    int32 offset = 2;
+}
+
+message ListDeviceProfilesResponse {
+    // List of device profiles.
+    repeated DeviceProfile device_profiles = 1;
+
+    // Total number of device profiles.
+    int32 total_count = 2;
+}

@@ -1,0 +1,248 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "platform/deviceprofile.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/device-profiles": {
+      "get": {
+        "summary": "Get the list of device profiles.",
+        "operationId": "DeviceProfileService_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformListDeviceProfilesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "description": "Pagination: Page number (starting from 1).",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "offset",
+            "description": "Pagination: Number of items per page.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "DeviceProfileService"
+        ]
+      }
+    },
+    "/api/device-profiles/{id}": {
+      "get": {
+        "summary": "Get returns the device profile for the given ID.",
+        "operationId": "DeviceProfileService_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetDeviceProfileResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Device Profile ID (UUID).",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "DeviceProfileService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "platformAssetSubType": {
+      "type": "string",
+      "enum": [
+        "ASSET_SUB_TYPE_UNKNOWN",
+        "ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_ODU",
+        "ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_IDU",
+        "ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_AIL_V1",
+        "ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_CPI_V1",
+        "ASSET_SUB_TYPE_WATER_METER_AMR_PULSE_AIL_V1",
+        "ASSET_SUB_TYPE_WATER_METER_AMR_MAGNETIC_AIL_V1"
+      ],
+      "default": "ASSET_SUB_TYPE_UNKNOWN",
+      "description": "- ASSET_SUB_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_ODU: Outdoor LoRaWAN Gateway - CPI ODU\n - ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_IDU: Indoor LoRaWAN Gateway - CPI IDU\n - ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_AIL_V1: ADARKO Inductive Water Meter AMR - V1\n - ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_CPI_V1: CPI Inductive Water Meter AMR - V1\n - ASSET_SUB_TYPE_WATER_METER_AMR_PULSE_AIL_V1: ADARKO Pulse Water Meter AMR - V1\n - ASSET_SUB_TYPE_WATER_METER_AMR_MAGNETIC_AIL_V1: ADARKO Magnetic Water Meter AMR - V1",
+      "title": "Asset sub-type enumeration.\nAssetSubType defines specific sub-types for various asset categories. which will help for UI representation, filtering, data decode etc.\nit will be manufacturer and model specific.\nEx : ASSET_SUB_TYPE_WATER_METER_INDUCTIVE_mfr_model = ASSET_SUB_TYPE_WATER_METER_INDUCTIVE_AIL_V1\nDO NOT CHANGE THE EXISTING VALUES, APPEND NEW VALUES AT THE END TO AVOID CONFLICTS"
+    },
+    "platformAssetType": {
+      "type": "string",
+      "enum": [
+        "ASSET_TYPE_UNKNOWN",
+        "ASSET_TYPE_WATER_METER",
+        "ASSET_TYPE_ENERGY_METER",
+        "ASSET_TYPE_GAS_METER",
+        "ASSET_TYPE_GPS_TRACKER",
+        "ASSET_TYPE_GATEWAY"
+      ],
+      "default": "ASSET_TYPE_UNKNOWN",
+      "description": " - ASSET_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_TYPE_WATER_METER: AMR Water meter Inductive.\n - ASSET_TYPE_ENERGY_METER: Energy Meter device.\n - ASSET_TYPE_GAS_METER: GAS Meter device.\n - ASSET_TYPE_GPS_TRACKER: GPS Tracker device.\n - ASSET_TYPE_GATEWAY: Gateway device."
+    },
+    "platformDeviceProfile": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "deviceType": {
+          "$ref": "#/definitions/platformDeviceType",
+          "description": "Device Type."
+        },
+        "assetType": {
+          "$ref": "#/definitions/platformAssetType",
+          "description": "Asset Type Water Meter, Gas Meter, Energy Meter etc."
+        },
+        "assetSubType": {
+          "$ref": "#/definitions/platformAssetSubType",
+          "title": "Asset Sub Type"
+        },
+        "transportProtocol": {
+          "$ref": "#/definitions/platformTransportProtocol",
+          "title": "Device Transport Protocol"
+        },
+        "description": {
+          "type": "string"
+        },
+        "manufacturerName": {
+          "type": "string",
+          "title": "Manufacturer details"
+        },
+        "model": {
+          "type": "string"
+        },
+        "firmwareVersion": {
+          "type": "string"
+        },
+        "hardwareVersion": {
+          "type": "string"
+        }
+      }
+    },
+    "platformDeviceType": {
+      "type": "string",
+      "enum": [
+        "DEVICE_TYPE_UNKNOWN",
+        "DEVICE_TYPE_LORAWAN_DEVICE",
+        "DEVICE_TYPE_CELLULAR_GSM",
+        "DEVICE_TYPE_CELLULAR_LTE",
+        "DEVICE_TYPE_CELLULAR_GSM_LTE",
+        "DEVICE_TYPE_GATEWAY",
+        "DEVICE_TYPE_LORAWAN_GATEWAY"
+      ],
+      "default": "DEVICE_TYPE_UNKNOWN",
+      "description": "Communication mode enumeration - unified for inventory and other services.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN_DEVICE: LoRaWAN device type.\n - DEVICE_TYPE_CELLULAR_GSM: Cellular MQTT device type.\n - DEVICE_TYPE_CELLULAR_LTE: Cellular TCP device type.\n - DEVICE_TYPE_CELLULAR_GSM_LTE: Cellular UDP device type.\n - DEVICE_TYPE_GATEWAY: Gateway device type.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device type."
+    },
+    "platformGetDeviceProfileResponse": {
+      "type": "object",
+      "properties": {
+        "deviceProfile": {
+          "$ref": "#/definitions/platformDeviceProfile"
+        }
+      }
+    },
+    "platformListDeviceProfilesResponse": {
+      "type": "object",
+      "properties": {
+        "deviceProfiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformDeviceProfile"
+          },
+          "description": "List of device profiles."
+        },
+        "totalCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total number of device profiles."
+        }
+      }
+    },
+    "platformTransportProtocol": {
+      "type": "string",
+      "enum": [
+        "TRANSPORT_PROTOCOL_UNKNOWN",
+        "TRANSPORT_LORAWAN",
+        "TRANSPORT_HTTP",
+        "TRANSPORT_MQTT",
+        "TRANSPORT_TCP",
+        "TRANSPORT_UDP",
+        "TRANSPORT_COAP",
+        "TRANSPORT_WEBSOCKET"
+      ],
+      "default": "TRANSPORT_PROTOCOL_UNKNOWN",
+      "description": "Transport protocol enumeration - unified for inventory and data services.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_HTTP: HTTP/HTTPS over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_MQTT: MQTT over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_TCP: TCP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_UDP: UDP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_COAP: CoAP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_WEBSOCKET: WebSocket."
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

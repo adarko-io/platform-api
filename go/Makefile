@@ -24,6 +24,7 @@ platform-api:
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --go_out=plugins=grpc,paths=source_relative:. platform/inventory.proto
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --go_out=plugins=grpc,paths=source_relative:. platform/consumer.proto
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --go_out=plugins=grpc,paths=source_relative:. platform/connection.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --go_out=plugins=grpc,paths=source_relative:. platform/deviceprofile.proto
 	
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/internal.proto
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/user.proto
@@ -36,3 +37,4 @@ platform-api:
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/inventory.proto
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/consumer.proto
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/connection.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --grpc-gateway_out=paths=source_relative,logtostderr=true:. platform/deviceprofile.proto
