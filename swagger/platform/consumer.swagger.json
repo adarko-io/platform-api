@@ -273,7 +273,8 @@
         "CONSUMER_STATUS_INACTIVE",
         "CONSUMER_STATUS_TERMINATED"
       ],
-      "default": "CONSUMER_STATUS_UNKNOWN"
+      "default": "CONSUMER_STATUS_UNKNOWN",
+      "description": " - CONSUMER_STATUS_UNKNOWN: Unknown consumer status.\n - CONSUMER_STATUS_ACTIVE: Active consumer.\n - CONSUMER_STATUS_INACTIVE: Inactive consumer.\n - CONSUMER_STATUS_TERMINATED: Terminated consumer."
     },
     "platformCreateConsumerRequest": {
       "type": "object",

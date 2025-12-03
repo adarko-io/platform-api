@@ -722,10 +722,14 @@ func (FieldType) EnumDescriptor() ([]byte, []int) {
 type ConnectionStatus int32
 
 const (
-	ConnectionStatus_CONNECTION_STATUS_UNKNOWN      ConnectionStatus = 0
-	ConnectionStatus_CONNECTION_STATUS_ACTIVE       ConnectionStatus = 1
+	// Unknown connection status.
+	ConnectionStatus_CONNECTION_STATUS_UNKNOWN ConnectionStatus = 0
+	// Active connection.
+	ConnectionStatus_CONNECTION_STATUS_ACTIVE ConnectionStatus = 1
+	// Disconnected connection.
 	ConnectionStatus_CONNECTION_STATUS_DISCONNECTED ConnectionStatus = 2
-	ConnectionStatus_CONNECTION_STATUS_DISABLED     ConnectionStatus = 3
+	// Disabled connection.
+	ConnectionStatus_CONNECTION_STATUS_DISABLED ConnectionStatus = 3
 )
 
 // Enum value maps for ConnectionStatus.
@@ -774,9 +778,13 @@ func (ConnectionStatus) EnumDescriptor() ([]byte, []int) {
 type ConnectionType int32
 
 const (
-	ConnectionType_CONNECTION_TYPE_UNKNOWN     ConnectionType = 0
-	ConnectionType_CONNECTION_TYPE_WATER       ConnectionType = 1
-	ConnectionType_CONNECTION_TYPE_GAS         ConnectionType = 2
+	// Unknown connection type.
+	ConnectionType_CONNECTION_TYPE_UNKNOWN ConnectionType = 0
+	// Water connection.
+	ConnectionType_CONNECTION_TYPE_WATER ConnectionType = 1
+	// Gas connection.
+	ConnectionType_CONNECTION_TYPE_GAS ConnectionType = 2
+	// Electricity connection.
 	ConnectionType_CONNECTION_TYPE_ELECTRICITY ConnectionType = 3
 )
 
@@ -826,9 +834,13 @@ func (ConnectionType) EnumDescriptor() ([]byte, []int) {
 type ConnectionCategory int32
 
 const (
-	ConnectionCategory_CONNECTION_CATEGORY_UNKNOWN    ConnectionCategory = 0
-	ConnectionCategory_CONNECTION_CATEGORY_DOMESTIC   ConnectionCategory = 1
+	// Unknown connection category.
+	ConnectionCategory_CONNECTION_CATEGORY_UNKNOWN ConnectionCategory = 0
+	// Domestic connection category.
+	ConnectionCategory_CONNECTION_CATEGORY_DOMESTIC ConnectionCategory = 1
+	// Commercial connection category.
 	ConnectionCategory_CONNECTION_CATEGORY_COMMERCIAL ConnectionCategory = 2
+	// Industrial connection category.
 	ConnectionCategory_CONNECTION_CATEGORY_INDUSTRIAL ConnectionCategory = 3
 )
 
@@ -1088,6 +1100,62 @@ func (x TimeZone) Number() protoreflect.EnumNumber {
 // Deprecated: Use TimeZone.Descriptor instead.
 func (TimeZone) EnumDescriptor() ([]byte, []int) {
 	return file_platform_shared_enums_proto_rawDescGZIP(), []int{14}
+}
+
+type ConsumerStatus int32
+
+const (
+	// Unknown consumer status.
+	ConsumerStatus_CONSUMER_STATUS_UNKNOWN ConsumerStatus = 0
+	// Active consumer.
+	ConsumerStatus_CONSUMER_STATUS_ACTIVE ConsumerStatus = 1
+	// Inactive consumer.
+	ConsumerStatus_CONSUMER_STATUS_INACTIVE ConsumerStatus = 2
+	// Terminated consumer.
+	ConsumerStatus_CONSUMER_STATUS_TERMINATED ConsumerStatus = 3
+)
+
+// Enum value maps for ConsumerStatus.
+var (
+	ConsumerStatus_name = map[int32]string{
+		0: "CONSUMER_STATUS_UNKNOWN",
+		1: "CONSUMER_STATUS_ACTIVE",
+		2: "CONSUMER_STATUS_INACTIVE",
+		3: "CONSUMER_STATUS_TERMINATED",
+	}
+	ConsumerStatus_value = map[string]int32{
+		"CONSUMER_STATUS_UNKNOWN":    0,
+		"CONSUMER_STATUS_ACTIVE":     1,
+		"CONSUMER_STATUS_INACTIVE":   2,
+		"CONSUMER_STATUS_TERMINATED": 3,
+	}
+)
+
+func (x ConsumerStatus) Enum() *ConsumerStatus {
+	p := new(ConsumerStatus)
+	*p = x
+	return p
+}
+
+func (x ConsumerStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ConsumerStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_platform_shared_enums_proto_enumTypes[15].Descriptor()
+}
+
+func (ConsumerStatus) Type() protoreflect.EnumType {
+	return &file_platform_shared_enums_proto_enumTypes[15]
+}
+
+func (x ConsumerStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ConsumerStatus.Descriptor instead.
+func (ConsumerStatus) EnumDescriptor() ([]byte, []int) {
+	return file_platform_shared_enums_proto_rawDescGZIP(), []int{15}
 }
 
 type Location struct {
@@ -1421,11 +1489,19 @@ var file_platform_shared_enums_proto_rawDesc = []byte{
 	0x5a, 0x5f, 0x50, 0x4c, 0x55, 0x53, 0x5f, 0x31, 0x32, 0x5f, 0x34, 0x35, 0x10, 0xdd, 0x09, 0x12,
 	0x12, 0x0a, 0x0d, 0x54, 0x5a, 0x5f, 0x50, 0x4c, 0x55, 0x53, 0x5f, 0x31, 0x33, 0x5f, 0x30, 0x30,
 	0x10, 0x94, 0x0a, 0x12, 0x12, 0x0a, 0x0d, 0x54, 0x5a, 0x5f, 0x50, 0x4c, 0x55, 0x53, 0x5f, 0x31,
-	0x34, 0x5f, 0x30, 0x30, 0x10, 0xf8, 0x0a, 0x42, 0x32, 0x5a, 0x30, 0x67, 0x69, 0x74, 0x68, 0x75,
-	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x61, 0x64, 0x61, 0x72, 0x6b, 0x6f, 0x2d, 0x69, 0x6f, 0x2f,
-	0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x6f, 0x2f,
-	0x76, 0x34, 0x2f, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x34, 0x5f, 0x30, 0x30, 0x10, 0xf8, 0x0a, 0x2a, 0x87, 0x01, 0x0a, 0x0e, 0x43, 0x6f, 0x6e, 0x73,
+	0x75, 0x6d, 0x65, 0x72, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x1b, 0x0a, 0x17, 0x43, 0x4f,
+	0x4e, 0x53, 0x55, 0x4d, 0x45, 0x52, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x55, 0x4e,
+	0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x10, 0x00, 0x12, 0x1a, 0x0a, 0x16, 0x43, 0x4f, 0x4e, 0x53, 0x55,
+	0x4d, 0x45, 0x52, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x41, 0x43, 0x54, 0x49, 0x56,
+	0x45, 0x10, 0x01, 0x12, 0x1c, 0x0a, 0x18, 0x43, 0x4f, 0x4e, 0x53, 0x55, 0x4d, 0x45, 0x52, 0x5f,
+	0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x49, 0x4e, 0x41, 0x43, 0x54, 0x49, 0x56, 0x45, 0x10,
+	0x02, 0x12, 0x1e, 0x0a, 0x1a, 0x43, 0x4f, 0x4e, 0x53, 0x55, 0x4d, 0x45, 0x52, 0x5f, 0x53, 0x54,
+	0x41, 0x54, 0x55, 0x53, 0x5f, 0x54, 0x45, 0x52, 0x4d, 0x49, 0x4e, 0x41, 0x54, 0x45, 0x44, 0x10,
+	0x03, 0x42, 0x32, 0x5a, 0x30, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
+	0x61, 0x64, 0x61, 0x72, 0x6b, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f,
+	0x72, 0x6d, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x6f, 0x2f, 0x76, 0x34, 0x2f, 0x70, 0x6c, 0x61,
+	0x74, 0x66, 0x6f, 0x72, 0x6d, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1440,7 +1516,7 @@ func file_platform_shared_enums_proto_rawDescGZIP() []byte {
 	return file_platform_shared_enums_proto_rawDescData
 }
 
-var file_platform_shared_enums_proto_enumTypes = make([]protoimpl.EnumInfo, 15)
+var file_platform_shared_enums_proto_enumTypes = make([]protoimpl.EnumInfo, 16)
 var file_platform_shared_enums_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_platform_shared_enums_proto_goTypes = []any{
 	(TransportProtocol)(0),  // 0: platform.TransportProtocol
@@ -1458,7 +1534,8 @@ var file_platform_shared_enums_proto_goTypes = []any{
 	(ConnectionCategory)(0), // 12: platform.ConnectionCategory
 	(MeterStatus)(0),        // 13: platform.MeterStatus
 	(TimeZone)(0),           // 14: platform.TimeZone
-	(*Location)(nil),        // 15: platform.Location
+	(ConsumerStatus)(0),     // 15: platform.ConsumerStatus
+	(*Location)(nil),        // 16: platform.Location
 }
 var file_platform_shared_enums_proto_depIdxs = []int32{
 	2, // 0: platform.Location.source:type_name -> platform.LocationSource
@@ -1493,7 +1570,7 @@ func file_platform_shared_enums_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_platform_shared_enums_proto_rawDesc,
-			NumEnums:      15,
+			NumEnums:      16,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,

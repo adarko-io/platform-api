@@ -58,6 +58,7 @@
           },
           {
             "name": "status",
+            "description": " - CONNECTION_STATUS_UNKNOWN: Unknown connection status.\n - CONNECTION_STATUS_ACTIVE: Active connection.\n - CONNECTION_STATUS_DISCONNECTED: Disconnected connection.\n - CONNECTION_STATUS_DISABLED: Disabled connection.",
             "in": "query",
             "required": false,
             "type": "string",
@@ -71,6 +72,7 @@
           },
           {
             "name": "connectionType",
+            "description": " - CONNECTION_TYPE_UNKNOWN: Unknown connection type.\n - CONNECTION_TYPE_WATER: Water connection.\n - CONNECTION_TYPE_GAS: Gas connection.\n - CONNECTION_TYPE_ELECTRICITY: Electricity connection.",
             "in": "query",
             "required": false,
             "type": "string",
@@ -84,6 +86,7 @@
           },
           {
             "name": "category",
+            "description": " - CONNECTION_CATEGORY_UNKNOWN: Unknown connection category.\n - CONNECTION_CATEGORY_DOMESTIC: Domestic connection category.\n - CONNECTION_CATEGORY_COMMERCIAL: Commercial connection category.\n - CONNECTION_CATEGORY_INDUSTRIAL: Industrial connection category.",
             "in": "query",
             "required": false,
             "type": "string",
@@ -511,7 +514,8 @@
         "CONNECTION_CATEGORY_COMMERCIAL",
         "CONNECTION_CATEGORY_INDUSTRIAL"
       ],
-      "default": "CONNECTION_CATEGORY_UNKNOWN"
+      "default": "CONNECTION_CATEGORY_UNKNOWN",
+      "description": " - CONNECTION_CATEGORY_UNKNOWN: Unknown connection category.\n - CONNECTION_CATEGORY_DOMESTIC: Domestic connection category.\n - CONNECTION_CATEGORY_COMMERCIAL: Commercial connection category.\n - CONNECTION_CATEGORY_INDUSTRIAL: Industrial connection category."
     },
     "platformConnectionStatus": {
       "type": "string",
@@ -521,7 +525,8 @@
         "CONNECTION_STATUS_DISCONNECTED",
         "CONNECTION_STATUS_DISABLED"
       ],
-      "default": "CONNECTION_STATUS_UNKNOWN"
+      "default": "CONNECTION_STATUS_UNKNOWN",
+      "description": " - CONNECTION_STATUS_UNKNOWN: Unknown connection status.\n - CONNECTION_STATUS_ACTIVE: Active connection.\n - CONNECTION_STATUS_DISCONNECTED: Disconnected connection.\n - CONNECTION_STATUS_DISABLED: Disabled connection."
     },
     "platformConnectionType": {
       "type": "string",
@@ -531,7 +536,8 @@
         "CONNECTION_TYPE_GAS",
         "CONNECTION_TYPE_ELECTRICITY"
       ],
-      "default": "CONNECTION_TYPE_UNKNOWN"
+      "default": "CONNECTION_TYPE_UNKNOWN",
+      "description": " - CONNECTION_TYPE_UNKNOWN: Unknown connection type.\n - CONNECTION_TYPE_WATER: Water connection.\n - CONNECTION_TYPE_GAS: Gas connection.\n - CONNECTION_TYPE_ELECTRICITY: Electricity connection."
     },
     "platformCreateConnectionRequest": {
       "type": "object",

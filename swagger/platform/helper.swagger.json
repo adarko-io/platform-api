@@ -96,6 +96,17 @@
       "default": "ASSET_TYPE_UNKNOWN",
       "description": " - ASSET_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_TYPE_WATER_METER: AMR Water meter Inductive.\n - ASSET_TYPE_ENERGY_METER: Energy Meter device.\n - ASSET_TYPE_GAS_METER: GAS Meter device.\n - ASSET_TYPE_GPS_TRACKER: GPS Tracker device.\n - ASSET_TYPE_GATEWAY: Gateway device."
     },
+    "platformConsumerStatus": {
+      "type": "string",
+      "enum": [
+        "CONSUMER_STATUS_UNKNOWN",
+        "CONSUMER_STATUS_ACTIVE",
+        "CONSUMER_STATUS_INACTIVE",
+        "CONSUMER_STATUS_TERMINATED"
+      ],
+      "default": "CONSUMER_STATUS_UNKNOWN",
+      "description": " - CONSUMER_STATUS_UNKNOWN: Unknown consumer status.\n - CONSUMER_STATUS_ACTIVE: Active consumer.\n - CONSUMER_STATUS_INACTIVE: Inactive consumer.\n - CONSUMER_STATUS_TERMINATED: Terminated consumer."
+    },
     "platformDeviceType": {
       "type": "string",
       "enum": [
@@ -195,6 +206,13 @@
             "$ref": "#/definitions/platformTimeInterval"
           },
           "description": "Time intervals."
+        },
+        "consumerStatuses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformConsumerStatus"
+          },
+          "description": "consumer statuses."
         }
       },
       "description": "Simple response for UI helper endpoint with concrete enum values."

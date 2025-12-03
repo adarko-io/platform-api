@@ -289,25 +289,46 @@ message Location {
   float accuracy = 5;
 }
 
-
-
 enum ConnectionStatus {
-    CONNECTION_STATUS_UNKNOWN = 0;
-    CONNECTION_STATUS_ACTIVE = 1;
-    CONNECTION_STATUS_DISCONNECTED = 2;
-    CONNECTION_STATUS_DISABLED = 3;
+  // Unknown connection status.
+  CONNECTION_STATUS_UNKNOWN = 0;
+  
+  // Active connection.
+  CONNECTION_STATUS_ACTIVE = 1;
+    
+  // Disconnected connection.
+  CONNECTION_STATUS_DISCONNECTED = 2;
+    
+  // Disabled connection.
+  CONNECTION_STATUS_DISABLED = 3;
 }
+
 enum ConnectionType {
-    CONNECTION_TYPE_UNKNOWN = 0;
-    CONNECTION_TYPE_WATER = 1;
-    CONNECTION_TYPE_GAS = 2;
-    CONNECTION_TYPE_ELECTRICITY = 3;
+  // Unknown connection type.
+  CONNECTION_TYPE_UNKNOWN = 0;
+  
+  // Water connection.
+  CONNECTION_TYPE_WATER = 1;
+    
+  // Gas connection.
+  CONNECTION_TYPE_GAS = 2;
+    
+  // Electricity connection.
+  CONNECTION_TYPE_ELECTRICITY = 3;
 }
+
 enum ConnectionCategory {
-    CONNECTION_CATEGORY_UNKNOWN = 0;
-    CONNECTION_CATEGORY_DOMESTIC = 1;
-    CONNECTION_CATEGORY_COMMERCIAL = 2;
-    CONNECTION_CATEGORY_INDUSTRIAL = 3;
+  // Unknown connection category.
+  CONNECTION_CATEGORY_UNKNOWN = 0;
+  
+  // Domestic connection category.
+  CONNECTION_CATEGORY_DOMESTIC = 1;
+  
+  // Commercial connection category.
+  CONNECTION_CATEGORY_COMMERCIAL = 2;
+  
+  // Industrial connection category.
+  CONNECTION_CATEGORY_INDUSTRIAL = 3;
 }
 
 enum MeterStatus {
@@ -371,4 +392,19 @@ enum TimeZone {
   TZ_PLUS_12_45 = 1245;
   TZ_PLUS_13_00 = 1300;
   TZ_PLUS_14_00 = 1400;
+}
+
+enum ConsumerStatus {
+  
+  // Unknown consumer status.
+  CONSUMER_STATUS_UNKNOWN = 0;
+
+  // Active consumer.
+  CONSUMER_STATUS_ACTIVE = 1;
+
+  // Inactive consumer.
+  CONSUMER_STATUS_INACTIVE = 2;
+
+  // Terminated consumer.
+  CONSUMER_STATUS_TERMINATED = 3;
 }

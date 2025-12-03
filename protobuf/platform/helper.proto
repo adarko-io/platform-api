@@ -57,6 +57,9 @@ message ListEnumsHelperResponse {
 
   // Time intervals.
   repeated TimeInterval time_intervals = 9;
+
+  // consumer statuses.
+  repeated ConsumerStatus consumer_statuses = 10;
 }
 
 

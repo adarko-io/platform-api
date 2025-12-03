@@ -44,13 +44,6 @@ service ConsumerService {
 
 }
 
-enum ConsumerStatus {
-    CONSUMER_STATUS_UNKNOWN = 0;
-    CONSUMER_STATUS_ACTIVE = 1;
-    CONSUMER_STATUS_INACTIVE = 2;
-    CONSUMER_STATUS_TERMINATED = 3;
-}
-
 message Consumer {
     // Consumer   ID (UUID).
   string id = 1;
