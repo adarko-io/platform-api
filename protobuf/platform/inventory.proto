@@ -175,23 +175,15 @@ message InventoryDeviceListItem {
   // Current status.
   InventoryStatus status = 5;
 
-  // Model.
-  string model = 6;
-
- //Device Type LoRaWAN Gateway, LoRaWAN Device, Cellular Device, Wifi etc.
-  DeviceType device_type = 7;
-
- //Asset Type Water Meter, Gas Meter, Energy Meter etc.
-  AssetType asset_type = 8;
-
-  AssetSubType asset_sub_type = 9;
+  // Device profile ID.
+  string device_profile_id = 6;
 
 
   // Created at timestamp.
-  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp created_at = 7;
 
   // Last update timestamp.
-  google.protobuf.Timestamp updated_at = 11;
+  google.protobuf.Timestamp updated_at = 8;
 }
 
 message ListInventoryDevicesResponse {
