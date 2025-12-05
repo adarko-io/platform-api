@@ -118,6 +118,24 @@
             "default": "DEVICE_TYPE_UNKNOWN"
           },
           {
+            "name": "transportProtocol",
+            "description": " - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_HTTP: HTTP/HTTPS over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_MQTT: MQTT over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_TCP: TCP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_UDP: UDP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_COAP: CoAP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_WEBSOCKET: WebSocket.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "TRANSPORT_PROTOCOL_UNKNOWN",
+              "TRANSPORT_LORAWAN",
+              "TRANSPORT_HTTP",
+              "TRANSPORT_MQTT",
+              "TRANSPORT_TCP",
+              "TRANSPORT_UDP",
+              "TRANSPORT_COAP",
+              "TRANSPORT_WEBSOCKET"
+            ],
+            "default": "TRANSPORT_PROTOCOL_UNKNOWN"
+          },
+          {
             "name": "orderBy",
             "description": "If set, the given value will be used to sort by (optional).",
             "in": "query",

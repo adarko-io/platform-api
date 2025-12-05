@@ -250,6 +250,8 @@ message ListDevicesRequest {
   // Device type to filter devices on.
   DeviceType device_type = 8;
 
+  TransportProtocol transport_protocol = 9;
+
   enum OrderBy {
     NAME = 0;
     EUI = 1;
@@ -258,13 +260,13 @@ message ListDevicesRequest {
   }
 
   // If set, the given value will be used to sort by (optional).
-  OrderBy order_by = 9;
+  OrderBy order_by = 10;
 
   // If set, the sorting direction will be decending (default = ascending) (optional).
-  bool order_by_desc = 10;
+  bool order_by_desc = 11;
 
   // Tags to filter devices on.
-  map<string, string> tags = 11;
+  map<string, string> tags = 12;
 
 }
 
