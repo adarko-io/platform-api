@@ -178,8 +178,10 @@ message DeviceListItem {
   // Device-profile ID (UUID).
   string device_profile_id = 7;
 
+  DeviceStatus device_status = 8;
+
   // Device tags.
-  map<string, string> tags = 8;
+  map<string, string> tags = 9;
 }
 
 message CreateDeviceRequest {

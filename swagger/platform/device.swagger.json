@@ -550,6 +550,9 @@
           "type": "string",
           "description": "Device-profile ID (UUID)."
         },
+        "deviceStatus": {
+          "$ref": "#/definitions/platformDeviceStatus"
+        },
         "tags": {
           "type": "object",
           "additionalProperties": {
