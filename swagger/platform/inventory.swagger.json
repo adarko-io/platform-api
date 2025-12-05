@@ -264,187 +264,6 @@
           "InventoryService"
         ]
       }
-    },
-    "/api/inventory/manufacturers": {
-      "get": {
-        "summary": "List Manufacturers",
-        "operationId": "InventoryService_ListManufacturers",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/platformListManufacturersResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "limit",
-            "description": "Maximum number of manufacturers to return.",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "offset",
-            "description": "Offset for pagination.",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "search",
-            "description": "Search query (name, model, etc.).",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "InventoryService"
-        ]
-      },
-      "post": {
-        "summary": "Create New Manufacturer",
-        "operationId": "InventoryService_CreateManufacturer",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/platformCreateManufacturerResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/platformCreateManufacturerRequest"
-            }
-          }
-        ],
-        "tags": [
-          "InventoryService"
-        ]
-      }
-    },
-    "/api/inventory/manufacturers/{id}": {
-      "get": {
-        "summary": "Get Manufacturer",
-        "operationId": "InventoryService_GetManufacturer",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/platformGetManufacturerResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "description": "Manufacturer ID.",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "InventoryService"
-        ]
-      },
-      "delete": {
-        "summary": "Delete Manufacturer",
-        "operationId": "InventoryService_DeleteManufacturer",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "properties": {}
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "description": "Manufacturer ID.",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "InventoryService"
-        ]
-      }
-    },
-    "/api/inventory/manufacturers/{manufacturer.id}": {
-      "put": {
-        "summary": "Update Manufacturer",
-        "operationId": "InventoryService_UpdateManufacturer",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "properties": {}
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "manufacturer.id",
-            "description": "Manufacturer ID.",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/platformUpdateManufacturerRequest"
-            }
-          }
-        ],
-        "tags": [
-          "InventoryService"
-        ]
-      }
     }
   },
   "definitions": {
@@ -538,24 +357,6 @@
         }
       }
     },
-    "platformCreateManufacturerRequest": {
-      "type": "object",
-      "properties": {
-        "manufacturer": {
-          "$ref": "#/definitions/platformManufacturer",
-          "description": "Manufacturer to create."
-        }
-      }
-    },
-    "platformCreateManufacturerResponse": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Manufacturer ID."
-        }
-      }
-    },
     "platformDeviceType": {
       "type": "string",
       "enum": [
@@ -586,15 +387,6 @@
           "type": "string",
           "format": "date-time",
           "description": "Last update timestamp."
-        }
-      }
-    },
-    "platformGetManufacturerResponse": {
-      "type": "object",
-      "properties": {
-        "manufacturer": {
-          "$ref": "#/definitions/platformManufacturer",
-          "description": "Manufacturer information."
         }
       }
     },
@@ -638,27 +430,13 @@
           "$ref": "#/definitions/platformInventoryStatus",
           "description": "Current inventory status."
         },
-        "manufacturerId": {
+        "deviceProfileId": {
           "type": "string",
-          "description": "Manufacturer information."
+          "description": "DeviceProfile ID."
         },
         "configuration": {
           "type": "object",
           "description": "Device type specific configuration JSON."
-        },
-        "deviceType": {
-          "$ref": "#/definitions/platformDeviceType",
-          "description": "Device Type LoRaWAN Gateway, LoRaWAN Device, Cellular Device, Wifi etc."
-        },
-        "assetType": {
-          "$ref": "#/definitions/platformAssetType",
-          "description": "Asset Type Water Meter, Gas Meter, Energy Meter etc."
-        },
-        "assetSubType": {
-          "$ref": "#/definitions/platformAssetSubType"
-        },
-        "transportProtocol": {
-          "$ref": "#/definitions/platformTransportProtocol"
         },
         "tags": {
           "type": "object",
@@ -719,10 +497,6 @@
         "assetSubType": {
           "$ref": "#/definitions/platformAssetSubType"
         },
-        "manufacturerId": {
-          "type": "string",
-          "title": "Manufacturer ID"
-        },
         "createdAt": {
           "type": "string",
           "format": "date-time",
@@ -765,73 +539,6 @@
         }
       }
     },
-    "platformListManufacturersResponse": {
-      "type": "object",
-      "properties": {
-        "totalCount": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Total count."
-        },
-        "manufacturers": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/platformManufacturer"
-          },
-          "description": "Manufacturer list."
-        }
-      }
-    },
-    "platformManufacturer": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Manufacturer ID."
-        },
-        "name": {
-          "type": "string",
-          "description": "Manufacturer name."
-        },
-        "model": {
-          "type": "string",
-          "description": "Model number/SKU."
-        },
-        "hardwareVersion": {
-          "type": "string",
-          "description": "Hardware version."
-        },
-        "firmwareVersion": {
-          "type": "string",
-          "description": "Firmware version."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Created at timestamp."
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Last update timestamp."
-        }
-      }
-    },
-    "platformTransportProtocol": {
-      "type": "string",
-      "enum": [
-        "TRANSPORT_PROTOCOL_UNKNOWN",
-        "TRANSPORT_LORAWAN",
-        "TRANSPORT_HTTP",
-        "TRANSPORT_MQTT",
-        "TRANSPORT_TCP",
-        "TRANSPORT_UDP",
-        "TRANSPORT_COAP",
-        "TRANSPORT_WEBSOCKET"
-      ],
-      "default": "TRANSPORT_PROTOCOL_UNKNOWN",
-      "description": "Transport protocol enumeration - unified for inventory and data services.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_HTTP: HTTP/HTTPS over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_MQTT: MQTT over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_TCP: TCP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_UDP: UDP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_COAP: CoAP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_WEBSOCKET: WebSocket."
-    },
     "platformUpdateDeviceStatusRequest": {
       "type": "object",
       "properties": {
@@ -855,15 +562,6 @@
         "inventory": {
           "$ref": "#/definitions/platformInventoryDevice",
           "description": "Device to update."
-        }
-      }
-    },
-    "platformUpdateManufacturerRequest": {
-      "type": "object",
-      "properties": {
-        "manufacturer": {
-          "$ref": "#/definitions/platformManufacturer",
-          "description": "Manufacturer to update."
         }
       }
     },

@@ -65,91 +65,43 @@ service InventoryService {
       body: "*",
     };
   }
-
-  //Create New Manufacturer
-  rpc CreateManufacturer(CreateManufacturerRequest) returns (CreateManufacturerResponse) {
-    option (google.api.http) = {
-      post: "/api/inventory/manufacturers",
-      body: "*",
-    };
-  }
-
-  //List Manufacturers
-  rpc ListManufacturers(ListManufacturersRequest) returns (ListManufacturersResponse) {
-    option (google.api.http) = {
-      get: "/api/inventory/manufacturers",
-    };
-  }
-
-  //Delete Manufacturer
-  rpc DeleteManufacturer(DeleteManufacturerRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete: "/api/inventory/manufacturers/{id}",
-    };
-  }
-
-  //Update Manufacturer
-  rpc UpdateManufacturer(UpdateManufacturerRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      put: "/api/inventory/manufacturers/{manufacturer.id}",
-      body: "*",
-    };
-  } 
-
-  //Get Manufacturer
-  rpc GetManufacturer(GetManufacturerRequest) returns (GetManufacturerResponse) {
-    option (google.api.http) = {
-      get: "/api/inventory/manufacturers/{id}",
-    };
-  }
-
 }
 
 // InventoryDevice represents a device in the inventory with all necessary configuration.
 message InventoryDevice {
 
   //id
-  string id = 16;
+  string id = 1;
 
   // EUI (EUI64) - Primary identifier.
-  string eui = 1;
+  string eui = 2;
 
   // Serial number.
-  string serial_number = 2;
+  string serial_number = 3;
 
   // Device name/model.
-  string name = 3;
+  string name = 4;
 
   // Device description.
-  string description = 4;
+  string description = 5;
 
   // Current inventory status.
-  InventoryStatus status = 5;
+  InventoryStatus status = 6;
 
-  // Manufacturer information.
-  string manufacturer_id = 6;
+  // DeviceProfile ID.
+  string device_profile_id = 7;
 
   // Device type specific configuration JSON.
-  google.protobuf.Value configuration = 7;
-
- //Device Type LoRaWAN Gateway, LoRaWAN Device, Cellular Device, Wifi etc.
-  DeviceType device_type = 8;
-
- //Asset Type Water Meter, Gas Meter, Energy Meter etc.
-  AssetType asset_type = 9;
-
-  AssetSubType asset_sub_type = 10;
-
-  TransportProtocol transport_protocol = 11;
+  google.protobuf.Value configuration = 8;
 
   // Device tags/labels.
-  map<string, string> tags = 12;
+  map<string, string> tags = 9;
 
   // Additional metadata.
-  map<string, string> metadata = 13;
+  map<string, string> metadata = 10;
 
   // Batch/lot information.
-  string batch_id = 14;
+  string batch_id = 11;
 }
 
 // NOTE: Enums moved to shared_enums.proto to avoid conflicts between services.
@@ -234,14 +186,12 @@ message InventoryDeviceListItem {
 
   AssetSubType asset_sub_type = 9;
 
-  //Manufacturer ID
-  string manufacturer_id = 10;
 
   // Created at timestamp.
-  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp created_at = 10;
 
   // Last update timestamp.
-  google.protobuf.Timestamp updated_at = 12;
+  google.protobuf.Timestamp updated_at = 11;
 }
 
 message ListInventoryDevicesResponse {
@@ -291,74 +241,4 @@ message ImportError {
 
   // Error message.
   string error = 2;
-}
-
-message Manufacturer {
-  // Manufacturer ID.
-  string id = 1;
-
-  // Manufacturer name.
-  string name = 2;
-
- // Model number/SKU.
-  string model = 3;
-
-  // Hardware version.
-  string hardware_version = 4;
-
-  // Firmware version.
-  string firmware_version = 5;
-
-  // Created at timestamp.
-  google.protobuf.Timestamp created_at = 6;
-
-  // Last update timestamp.
-  google.protobuf.Timestamp updated_at = 7;
-}
-
-message CreateManufacturerRequest {
-  // Manufacturer to create.
-  Manufacturer manufacturer = 1;
-}
-message CreateManufacturerResponse {
-  // Manufacturer ID.
-  string id = 1;
-}
-
-message ListManufacturersRequest {
-  // Maximum number of manufacturers to return.
-  uint32 limit = 1;
-
-  // Offset for pagination.
-  uint32 offset = 2;
-
-  // Search query (name, model, etc.).
-  string search = 3;
-}
-
-message ListManufacturersResponse {
-  // Total count.
-  uint32 total_count = 1;
-
-  // Manufacturer list.
-  repeated Manufacturer manufacturers = 2;
-}
-
-message DeleteManufacturerRequest {
-  // Manufacturer ID.
-  string id = 1;
-}
-
-message UpdateManufacturerRequest {
-  // Manufacturer to update.
-  Manufacturer manufacturer = 1;
-}
-
-message GetManufacturerRequest {
-  // Manufacturer ID.
-  string id = 1;
-}
-message GetManufacturerResponse {
-  // Manufacturer information.
-  Manufacturer manufacturer = 1;
 }

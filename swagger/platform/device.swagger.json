@@ -277,8 +277,8 @@
             "default": "TRANSPORT_PROTOCOL_UNKNOWN"
           },
           {
-            "name": "manufacturerId",
-            "description": "Manufacturer ID.",
+            "name": "deviceProfileId",
+            "description": "Device Profile ID.",
             "in": "query",
             "required": false,
             "type": "string"
@@ -484,29 +484,13 @@
           "type": "string",
           "description": "SerialNo."
         },
-        "manufacturerId": {
+        "deviceProfileId": {
           "type": "string",
-          "title": "Manufacturer ID"
+          "title": "Device Profile ID"
         },
         "inventoryId": {
           "type": "string",
           "title": "Inventory ID"
-        },
-        "deviceType": {
-          "$ref": "#/definitions/platformDeviceType",
-          "description": "Device Type."
-        },
-        "assetType": {
-          "$ref": "#/definitions/platformAssetType",
-          "description": "Asset Type Water Meter, Gas Meter, Energy Meter etc."
-        },
-        "assetSubType": {
-          "$ref": "#/definitions/platformAssetSubType",
-          "title": "Asset Sub Type"
-        },
-        "transportProtocol": {
-          "$ref": "#/definitions/platformTransportProtocol",
-          "title": "Device Transport Protocol"
         },
         "expectedUpdateIntervalInSec": {
           "type": "integer",
@@ -565,26 +549,6 @@
         "deviceProfileId": {
           "type": "string",
           "description": "Device-profile ID (UUID)."
-        },
-        "deviceProfileName": {
-          "type": "string",
-          "description": "Device-profile name."
-        },
-        "deviceStatus": {
-          "$ref": "#/definitions/platformDeviceStatus",
-          "description": "Device status."
-        },
-        "deviceType": {
-          "$ref": "#/definitions/platformDeviceType",
-          "title": "device type"
-        },
-        "assetType": {
-          "$ref": "#/definitions/platformAssetType",
-          "title": "Asset Type"
-        },
-        "assetSubType": {
-          "$ref": "#/definitions/platformAssetSubType",
-          "title": "Asset Sub Type"
         },
         "tags": {
           "type": "object",

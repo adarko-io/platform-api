@@ -79,8 +79,8 @@ message GetDevicesSummaryRequest {
     // Device Transport Protocol
     TransportProtocol transport_protocol = 6;
 
-    //Manufacturer ID
-    string manufacturer_id = 7;
+    //Device Profile ID
+    string device_profile_id = 7;
 
 }
 
@@ -123,23 +123,11 @@ message Device {
   // SerialNo.
   string serial_number = 8;
 
-  //Manufacturer ID
-  string manufacturer_id = 9;
+  //Device Profile ID
+  string device_profile_id = 9;
 
   //Inventory ID
   string inventory_id =  10;
-
-  // Device Type.
-  DeviceType device_type = 11;
-
-  //Asset Type Water Meter, Gas Meter, Energy Meter etc.
-  AssetType asset_type = 12;
-
-  //Asset Sub Type
-  AssetSubType asset_sub_type = 13;
-
-  // Device Transport Protocol
-  TransportProtocol transport_protocol = 14;
 
   // Expected update interval in seconds.
   uint32 expected_update_interval_in_sec = 15;
@@ -190,23 +178,8 @@ message DeviceListItem {
   // Device-profile ID (UUID).
   string device_profile_id = 7;
 
-  // Device-profile name.
-  string device_profile_name = 8;
-
-  // Device status.
-  DeviceStatus device_status = 9;
-
-  // device type
-  DeviceType device_type =  10;
-
-  // Asset Type
-  AssetType asset_type = 11;
-
-  // Asset Sub Type
-  AssetSubType asset_sub_type = 12;
-
   // Device tags.
-  map<string, string> tags = 13;
+  map<string, string> tags = 8;
 }
 
 message CreateDeviceRequest {
