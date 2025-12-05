@@ -532,6 +532,14 @@
         "location": {
           "$ref": "#/definitions/platformLocation",
           "description": "Location information."
+        },
+        "isParentDevice": {
+          "type": "boolean",
+          "title": "is Parent Device"
+        },
+        "parentDeviceId": {
+          "type": "string",
+          "title": "Parent Device ID in case of isParentDevice=false;"
         }
       }
     },

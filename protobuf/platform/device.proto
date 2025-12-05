@@ -146,6 +146,12 @@ message Device {
   // Location information.
   Location location = 18;
 
+  //is Parent Device
+  bool is_parent_device=19;
+
+  //Parent Device ID in case of isParentDevice=false;
+  string parent_device_id = 20;
+
 }
 
 message DeviceStatus {
