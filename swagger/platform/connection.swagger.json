@@ -480,6 +480,9 @@
         "consumerId": {
           "type": "string"
         },
+        "associatedIs": {
+          "type": "string"
+        },
         "connectionType": {
           "$ref": "#/definitions/platformConnectionType"
         },
@@ -504,7 +507,7 @@
           "format": "date-time"
         }
       },
-      "title": "Connection represents a connection configuration for a consumer.\nID\n\tConsumerID (FK → Consumer)\n\tConnectionType (water/gas/electricity)\n\tConnectionNumber / ServiceNumber\n\tCategory (domestic/commercial/industrial)\n\tStatus (active/disconnected/disabled)\n\tCreatedAt"
+      "title": "Connection represents a connection configuration for a consumer.\nID\n\tConsumerID (FK → Consumer)\n\tConnectionType (water/gas/electricity)\n\tConnectionNumber / ServiceNumber\n\tCategory (domestic/commercial/industrial)\n\tStatus (active/disconnected/disabled)\n\tCreatedAt\n Associated"
     },
     "platformConnectionCategory": {
       "type": "string",
