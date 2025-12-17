@@ -34,6 +34,7 @@ service ConnectionService {
       body: "*"
     };
   }
+
   // Delete a connection for a consumer.
   rpc Delete(DeleteConnectionRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
@@ -41,7 +42,7 @@ service ConnectionService {
     };
   }
 
-  // List all connections 
+  // List all connections
   rpc List(ListConnectionsRequest) returns (ListConnectionsResponse) {
     option (google.api.http) = {
       get: "/api/connections"
@@ -55,18 +56,21 @@ service ConnectionService {
       body: "*"
     };
   }
+
   // Get a meter connection by ID.
   rpc GetMeterConnection(GetMeterConnectionRequest) returns (GetMeterConnectionResponse) {
     option (google.api.http) = {
       get: "/api/connections/{connection_id}/meters/{meter_connection_id}"
     };
   }
+
   // Remove a meter from a connection.
   rpc RemoveMeterFromConnection(RemoveMeterFromConnectionRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/api/connections/{connection_id}/meters/{meter_connection_id}"
     };
   }
+
   // Update a meter connection.
   rpc UpdateMeterConnection(UpdateMeterConnectionRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
@@ -74,6 +78,7 @@ service ConnectionService {
       body: "*"
     };
   }
+
   // List all meter connections.
   rpc ListMeterConnections(ListMeterConnectionsRequest) returns (ListMeterConnectionsResponse) {
     option (google.api.http) = {
@@ -82,27 +87,36 @@ service ConnectionService {
   }
 }
 
-
-
 // Connection represents a connection configuration for a consumer.
-// ID
-// 	ConsumerID (FK → Consumer)
-// 	ConnectionType (water/gas/electricity)
-// 	ConnectionNumber / ServiceNumber
-// 	Category (domestic/commercial/industrial)
-// 	Status (active/disconnected/disabled)
-// 	CreatedAt
-//  Associated
 message Connection {
-  string id = 1;// Unique identifier for the connection.
-  string consumer_id = 2;// ID of the consumer this connection belongs to.
-  string associated_is = 3;// Associated Installation Site ID (FK → InstallationSite).
-  ConnectionType connection_type = 4;// Type of connection (e.g., water, gas, electricity).
-  string connection_number = 5;// Connection or service number.
-  ConnectionCategory category = 6;// Category of the connection (e.g., domestic, commercial, industrial).
-  ConnectionStatus status = 7;// Status of the connection (e.g., active, disconnected, disabled).
-  string tenant_id = 8;// Tenant ID (UUID) to which the connection belongs.
-  google.protobuf.Timestamp created_at = 9;// Timestamp when the connection was created.
+  // Unique identifier for the connection.
+  string id = 1;
+
+  // ID of the consumer this connection belongs to.
+  string consumer_id = 2;
+
+  // Flag indicating if the connection is associated with an installation site.
+  bool is_associated = 3;
+
+  // Type of connection (e.g., water, gas, electricity).
+  ConnectionType connection_type = 4;
+
+  // Connection or service number.
+  string connection_number = 5;
+
+  // Category of the connection (e.g., domestic, commercial, industrial).
+  ConnectionCategory category = 6;
+
+  // Status of the connection (e.g., active, disconnected, disabled).
+  ConnectionStatus status = 7;
+
+  // Tenant ID (UUID) to which the connection belongs.
+  string tenant_id = 8;
+
+  // Timestamp when the connection was created.
+  google.protobuf.Timestamp created_at = 9;
+
+  // Timestamp when the connection was last updated.
   google.protobuf.Timestamp updated_at = 10;
 }
 
@@ -111,7 +125,7 @@ message CreateConnectionRequest {
   Connection connection = 1;
 }
 
-//
+// Response message for creating a connection.
 message CreateConnectionResponse {
   string id = 1;
 }
@@ -135,50 +149,77 @@ message UpdateConnectionRequest {
 message DeleteConnectionRequest {
   string connection_id = 1;
 }
+
 // Request message for listing connections.
 message ListConnectionsRequest {
-  string tenant_id = 1;// Optional tenant ID to filter connections.
-  string consumer_id = 2;// Optional consumer ID to filter connections.
-  uint32 limit = 3;// Maximum number of connections to return.
-  uint32 offset = 4;// Offset for pagination.
-  ConnectionStatus status = 5;// Optional status to filter connections.
-  ConnectionType connection_type = 6;// Optional connection type to filter connections.
-  ConnectionCategory category = 7;// Optional category to filter connections.
+  // Optional tenant ID to filter connections.
+  string tenant_id = 1;
+
+  // Optional consumer ID to filter connections.
+  string consumer_id = 2;
+
+  // Maximum number of connections to return.
+  uint32 limit = 3;
+
+  // Offset for pagination.
+  uint32 offset = 4;
+
+  // Optional status to filter connections.
+  ConnectionStatus status = 5;
+
+  // Optional connection type to filter connections.
+  ConnectionType connection_type = 6;
+
+  // Optional category to filter connections.
+  ConnectionCategory category = 7;
 }
 
 // Response message for listing connections.
 message ListConnectionsResponse {
-  uint32 total_count = 1;// Total number of connections matching the criteria.
-  repeated Connection connections = 2;// List of connections.
+  // Total number of connections matching the criteria.
+  uint32 total_count = 1;
 
+  // List of connections.
+  repeated Connection connections = 2;
 }
 
-// Fields
-// 	•	ID
-// 	•	ConnectionID (FK → Connection)
-// 	•	MeterSerial / MeterEUI (link to IoT device)
-// 	•	MeterType (pulse/lorawan/wmbus/smart)
-// 	•	InstalledAt
-// 	•	RemovedAt (nullable)
-// 	•	Multiplier / PulseConstant
-// 	•	LastKnownReading
-
+// MeterConnection represents a meter associated with a connection.
 message MeterConnection {
-  string id = 1;// Unique identifier for the MeterConnection.
-  google.protobuf.Timestamp installed_at = 2;// Timestamp when the meter was installed.
-  google.protobuf.Timestamp removed_at = 3;// Timestamp when the meter was removed (nullable).
-  google.protobuf.Timestamp created_at = 4;// Timestamp when the meter was created.
-  google.protobuf.Timestamp updated_at = 5;// Timestamp when the meter was updated.
-  string connection_id = 6;// ID of the connection this meter is associated with.
-  string meter_eui = 7;// Meter serial number or EUI.
-  string meter_serial_number = 8;// Meter serial number or EUI.
-  MeterStatus meter_status = 9;// Status of the meter (e.g., active, inactive).
-  double last_known_reading = 10;// Last known reading from the meter.
-  double first_billable_reading = 11;// First billable reading from the meter.
+  // Unique identifier for the MeterConnection.
+  string id = 1;
 
+  // Timestamp when the meter was installed.
+  google.protobuf.Timestamp installed_at = 2;
+
+  // Timestamp when the meter was removed (nullable).
+  google.protobuf.Timestamp removed_at = 3;
+
+  // Timestamp when the meter was created.
+  google.protobuf.Timestamp created_at = 4;
+
+  // Timestamp when the meter was updated.
+  google.protobuf.Timestamp updated_at = 5;
+
+  // ID of the connection this meter is associated with.
+  string connection_id = 6;
+
+  // Meter EUI (Extended Unique Identifier).
+  string meter_eui = 7;
+
+  // Meter serial number.
+  string meter_serial_number = 8;
+
+  // Status of the meter (e.g., active, inactive).
+  MeterStatus meter_status = 9;
+
+  // Last known reading from the meter.
+  double last_known_reading = 10;
+
+  // First billable reading from the meter.
+  double first_billable_reading = 11;
 }
 
-// Add Meter to Connection
+// Request message for adding a meter to a connection.
 message AddMeterToConnectionRequest {
   MeterConnection meter_connection = 1;
 }
@@ -188,37 +229,48 @@ message AddMeterToConnectionResponse {
   string id = 1;
 }
 
-// Get MeterConnection by ID
+// Request message for getting a MeterConnection by ID.
 message GetMeterConnectionRequest {
   string connection_id = 1;
   string meter_connection_id = 2;
 }
+
 // Response message for getting a MeterConnection.
 message GetMeterConnectionResponse {
   MeterConnection meter_connection = 1;
 }
 
-// Remove Meter from Connection
+// Request message for removing a meter from a connection.
 message RemoveMeterFromConnectionRequest {
   string connection_id = 1;
   string meter_connection_id = 2;
 }
 
-// Update MeterConnection
+// Request message for updating a MeterConnection.
 message UpdateMeterConnectionRequest {
   MeterConnection meter_connection = 1;
 }
 
-// List MeterConnections
+// Request message for listing MeterConnections.
 message ListMeterConnectionsRequest {
-  string connection_id = 1;// Optional connection ID to filter meter connections.
-  uint32 limit = 2;// Maximum number of meter connections to return.
-  uint32 offset = 3;// Offset for pagination.
-  MeterStatus meter_status = 4;// Optional status to filter meter connections.
+  // Connection ID to filter meter connections.
+  string connection_id = 1;
+
+  // Maximum number of meter connections to return.
+  uint32 limit = 2;
+
+  // Offset for pagination.
+  uint32 offset = 3;
+
+  // Optional status to filter meter connections.
+  MeterStatus meter_status = 4;
 }
 
 // Response message for listing MeterConnections.
 message ListMeterConnectionsResponse {
-  uint32 total_count = 1;// Total number of meter connections matching the criteria.
-  repeated MeterConnection meter_connections = 2;// List of meter connections.
+  // Total number of meter connections matching the criteria.
+  uint32 total_count = 1;
+
+  // List of meter connections.
+  repeated MeterConnection meter_connections = 2;
 }

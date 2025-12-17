@@ -29,30 +29,31 @@ const (
 )
 
 // Connection represents a connection configuration for a consumer.
-// ID
-//
-//		ConsumerID (FK → Consumer)
-//		ConnectionType (water/gas/electricity)
-//		ConnectionNumber / ServiceNumber
-//		Category (domestic/commercial/industrial)
-//		Status (active/disconnected/disabled)
-//		CreatedAt
-//	 Associated
 type Connection struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id               string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                                                             // Unique identifier for the connection.
-	ConsumerId       string                 `protobuf:"bytes,2,opt,name=consumer_id,json=consumerId,proto3" json:"consumer_id,omitempty"`                                           // ID of the consumer this connection belongs to.
-	AssociatedIs     string                 `protobuf:"bytes,3,opt,name=associated_is,json=associatedIs,proto3" json:"associated_is,omitempty"`                                     // Associated Installation Site ID (FK → InstallationSite).
-	ConnectionType   ConnectionType         `protobuf:"varint,4,opt,name=connection_type,json=connectionType,proto3,enum=platform.ConnectionType" json:"connection_type,omitempty"` // Type of connection (e.g., water, gas, electricity).
-	ConnectionNumber string                 `protobuf:"bytes,5,opt,name=connection_number,json=connectionNumber,proto3" json:"connection_number,omitempty"`                         // Connection or service number.
-	Category         ConnectionCategory     `protobuf:"varint,6,opt,name=category,proto3,enum=platform.ConnectionCategory" json:"category,omitempty"`                               // Category of the connection (e.g., domestic, commercial, industrial).
-	Status           ConnectionStatus       `protobuf:"varint,7,opt,name=status,proto3,enum=platform.ConnectionStatus" json:"status,omitempty"`                                     // Status of the connection (e.g., active, disconnected, disabled).
-	TenantId         string                 `protobuf:"bytes,8,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`                                                 // Tenant ID (UUID) to which the connection belongs.
-	CreatedAt        *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`                                              // Timestamp when the connection was created.
-	UpdatedAt        *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	// Unique identifier for the connection.
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// ID of the consumer this connection belongs to.
+	ConsumerId string `protobuf:"bytes,2,opt,name=consumer_id,json=consumerId,proto3" json:"consumer_id,omitempty"`
+	// Flag indicating if the connection is associated with an installation site.
+	IsAssociated bool `protobuf:"varint,3,opt,name=is_associated,json=isAssociated,proto3" json:"is_associated,omitempty"`
+	// Type of connection (e.g., water, gas, electricity).
+	ConnectionType ConnectionType `protobuf:"varint,4,opt,name=connection_type,json=connectionType,proto3,enum=platform.ConnectionType" json:"connection_type,omitempty"`
+	// Connection or service number.
+	ConnectionNumber string `protobuf:"bytes,5,opt,name=connection_number,json=connectionNumber,proto3" json:"connection_number,omitempty"`
+	// Category of the connection (e.g., domestic, commercial, industrial).
+	Category ConnectionCategory `protobuf:"varint,6,opt,name=category,proto3,enum=platform.ConnectionCategory" json:"category,omitempty"`
+	// Status of the connection (e.g., active, disconnected, disabled).
+	Status ConnectionStatus `protobuf:"varint,7,opt,name=status,proto3,enum=platform.ConnectionStatus" json:"status,omitempty"`
+	// Tenant ID (UUID) to which the connection belongs.
+	TenantId string `protobuf:"bytes,8,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	// Timestamp when the connection was created.
+	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// Timestamp when the connection was last updated.
+	UpdatedAt *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 }
 
 func (x *Connection) Reset() {
@@ -101,11 +102,11 @@ func (x *Connection) GetConsumerId() string {
 	return ""
 }
 
-func (x *Connection) GetAssociatedIs() string {
+func (x *Connection) GetIsAssociated() bool {
 	if x != nil {
-		return x.AssociatedIs
+		return x.IsAssociated
 	}
-	return ""
+	return false
 }
 
 func (x *Connection) GetConnectionType() ConnectionType {
@@ -205,6 +206,7 @@ func (x *CreateConnectionRequest) GetConnection() *Connection {
 	return nil
 }
 
+// Response message for creating a connection.
 type CreateConnectionResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -450,13 +452,20 @@ type ListConnectionsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TenantId       string             `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`                                                 // Optional tenant ID to filter connections.
-	ConsumerId     string             `protobuf:"bytes,2,opt,name=consumer_id,json=consumerId,proto3" json:"consumer_id,omitempty"`                                           // Optional consumer ID to filter connections.
-	Limit          uint32             `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`                                                                      // Maximum number of connections to return.
-	Offset         uint32             `protobuf:"varint,4,opt,name=offset,proto3" json:"offset,omitempty"`                                                                    // Offset for pagination.
-	Status         ConnectionStatus   `protobuf:"varint,5,opt,name=status,proto3,enum=platform.ConnectionStatus" json:"status,omitempty"`                                     // Optional status to filter connections.
-	ConnectionType ConnectionType     `protobuf:"varint,6,opt,name=connection_type,json=connectionType,proto3,enum=platform.ConnectionType" json:"connection_type,omitempty"` // Optional connection type to filter connections.
-	Category       ConnectionCategory `protobuf:"varint,7,opt,name=category,proto3,enum=platform.ConnectionCategory" json:"category,omitempty"`                               // Optional category to filter connections.
+	// Optional tenant ID to filter connections.
+	TenantId string `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	// Optional consumer ID to filter connections.
+	ConsumerId string `protobuf:"bytes,2,opt,name=consumer_id,json=consumerId,proto3" json:"consumer_id,omitempty"`
+	// Maximum number of connections to return.
+	Limit uint32 `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`
+	// Offset for pagination.
+	Offset uint32 `protobuf:"varint,4,opt,name=offset,proto3" json:"offset,omitempty"`
+	// Optional status to filter connections.
+	Status ConnectionStatus `protobuf:"varint,5,opt,name=status,proto3,enum=platform.ConnectionStatus" json:"status,omitempty"`
+	// Optional connection type to filter connections.
+	ConnectionType ConnectionType `protobuf:"varint,6,opt,name=connection_type,json=connectionType,proto3,enum=platform.ConnectionType" json:"connection_type,omitempty"`
+	// Optional category to filter connections.
+	Category ConnectionCategory `protobuf:"varint,7,opt,name=category,proto3,enum=platform.ConnectionCategory" json:"category,omitempty"`
 }
 
 func (x *ListConnectionsRequest) Reset() {
@@ -546,8 +555,10 @@ type ListConnectionsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TotalCount  uint32        `protobuf:"varint,1,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"` // Total number of connections matching the criteria.
-	Connections []*Connection `protobuf:"bytes,2,rep,name=connections,proto3" json:"connections,omitempty"`                  // List of connections.
+	// Total number of connections matching the criteria.
+	TotalCount uint32 `protobuf:"varint,1,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	// List of connections.
+	Connections []*Connection `protobuf:"bytes,2,rep,name=connections,proto3" json:"connections,omitempty"`
 }
 
 func (x *ListConnectionsResponse) Reset() {
@@ -596,22 +607,34 @@ func (x *ListConnectionsResponse) GetConnections() []*Connection {
 	return nil
 }
 
+// MeterConnection represents a meter associated with a connection.
 type MeterConnection struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id                   string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                                                      // Unique identifier for the MeterConnection.
-	InstalledAt          *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=installed_at,json=installedAt,proto3" json:"installed_at,omitempty"`                                 // Timestamp when the meter was installed.
-	RemovedAt            *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=removed_at,json=removedAt,proto3" json:"removed_at,omitempty"`                                       // Timestamp when the meter was removed (nullable).
-	CreatedAt            *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`                                       // Timestamp when the meter was created.
-	UpdatedAt            *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`                                       // Timestamp when the meter was updated.
-	ConnectionId         string                 `protobuf:"bytes,6,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`                              // ID of the connection this meter is associated with.
-	MeterEui             string                 `protobuf:"bytes,7,opt,name=meter_eui,json=meterEui,proto3" json:"meter_eui,omitempty"`                                          // Meter serial number or EUI.
-	MeterSerialNumber    string                 `protobuf:"bytes,8,opt,name=meter_serial_number,json=meterSerialNumber,proto3" json:"meter_serial_number,omitempty"`             // Meter serial number or EUI.
-	MeterStatus          MeterStatus            `protobuf:"varint,9,opt,name=meter_status,json=meterStatus,proto3,enum=platform.MeterStatus" json:"meter_status,omitempty"`      // Status of the meter (e.g., active, inactive).
-	LastKnownReading     float64                `protobuf:"fixed64,10,opt,name=last_known_reading,json=lastKnownReading,proto3" json:"last_known_reading,omitempty"`             // Last known reading from the meter.
-	FirstBillableReading float64                `protobuf:"fixed64,11,opt,name=first_billable_reading,json=firstBillableReading,proto3" json:"first_billable_reading,omitempty"` // First billable reading from the meter.
+	// Unique identifier for the MeterConnection.
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// Timestamp when the meter was installed.
+	InstalledAt *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=installed_at,json=installedAt,proto3" json:"installed_at,omitempty"`
+	// Timestamp when the meter was removed (nullable).
+	RemovedAt *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=removed_at,json=removedAt,proto3" json:"removed_at,omitempty"`
+	// Timestamp when the meter was created.
+	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// Timestamp when the meter was updated.
+	UpdatedAt *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	// ID of the connection this meter is associated with.
+	ConnectionId string `protobuf:"bytes,6,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	// Meter EUI (Extended Unique Identifier).
+	MeterEui string `protobuf:"bytes,7,opt,name=meter_eui,json=meterEui,proto3" json:"meter_eui,omitempty"`
+	// Meter serial number.
+	MeterSerialNumber string `protobuf:"bytes,8,opt,name=meter_serial_number,json=meterSerialNumber,proto3" json:"meter_serial_number,omitempty"`
+	// Status of the meter (e.g., active, inactive).
+	MeterStatus MeterStatus `protobuf:"varint,9,opt,name=meter_status,json=meterStatus,proto3,enum=platform.MeterStatus" json:"meter_status,omitempty"`
+	// Last known reading from the meter.
+	LastKnownReading float64 `protobuf:"fixed64,10,opt,name=last_known_reading,json=lastKnownReading,proto3" json:"last_known_reading,omitempty"`
+	// First billable reading from the meter.
+	FirstBillableReading float64 `protobuf:"fixed64,11,opt,name=first_billable_reading,json=firstBillableReading,proto3" json:"first_billable_reading,omitempty"`
 }
 
 func (x *MeterConnection) Reset() {
@@ -723,7 +746,7 @@ func (x *MeterConnection) GetFirstBillableReading() float64 {
 	return 0
 }
 
-// Add Meter to Connection
+// Request message for adding a meter to a connection.
 type AddMeterToConnectionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -819,7 +842,7 @@ func (x *AddMeterToConnectionResponse) GetId() string {
 	return ""
 }
 
-// Get MeterConnection by ID
+// Request message for getting a MeterConnection by ID.
 type GetMeterConnectionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -923,7 +946,7 @@ func (x *GetMeterConnectionResponse) GetMeterConnection() *MeterConnection {
 	return nil
 }
 
-// Remove Meter from Connection
+// Request message for removing a meter from a connection.
 type RemoveMeterFromConnectionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -979,7 +1002,7 @@ func (x *RemoveMeterFromConnectionRequest) GetMeterConnectionId() string {
 	return ""
 }
 
-// Update MeterConnection
+// Request message for updating a MeterConnection.
 type UpdateMeterConnectionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1027,16 +1050,20 @@ func (x *UpdateMeterConnectionRequest) GetMeterConnection() *MeterConnection {
 	return nil
 }
 
-// List MeterConnections
+// Request message for listing MeterConnections.
 type ListMeterConnectionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConnectionId string      `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`                         // Optional connection ID to filter meter connections.
-	Limit        uint32      `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`                                                          // Maximum number of meter connections to return.
-	Offset       uint32      `protobuf:"varint,3,opt,name=offset,proto3" json:"offset,omitempty"`                                                        // Offset for pagination.
-	MeterStatus  MeterStatus `protobuf:"varint,4,opt,name=meter_status,json=meterStatus,proto3,enum=platform.MeterStatus" json:"meter_status,omitempty"` // Optional status to filter meter connections.
+	// Connection ID to filter meter connections.
+	ConnectionId string `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	// Maximum number of meter connections to return.
+	Limit uint32 `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
+	// Offset for pagination.
+	Offset uint32 `protobuf:"varint,3,opt,name=offset,proto3" json:"offset,omitempty"`
+	// Optional status to filter meter connections.
+	MeterStatus MeterStatus `protobuf:"varint,4,opt,name=meter_status,json=meterStatus,proto3,enum=platform.MeterStatus" json:"meter_status,omitempty"`
 }
 
 func (x *ListMeterConnectionsRequest) Reset() {
@@ -1105,8 +1132,10 @@ type ListMeterConnectionsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TotalCount       uint32             `protobuf:"varint,1,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`                  // Total number of meter connections matching the criteria.
-	MeterConnections []*MeterConnection `protobuf:"bytes,2,rep,name=meter_connections,json=meterConnections,proto3" json:"meter_connections,omitempty"` // List of meter connections.
+	// Total number of meter connections matching the criteria.
+	TotalCount uint32 `protobuf:"varint,1,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	// List of meter connections.
+	MeterConnections []*MeterConnection `protobuf:"bytes,2,rep,name=meter_connections,json=meterConnections,proto3" json:"meter_connections,omitempty"`
 }
 
 func (x *ListMeterConnectionsResponse) Reset() {
@@ -1174,9 +1203,9 @@ var file_platform_connection_proto_rawDesc = []byte{
 	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x1f, 0x0a, 0x0b, 0x63,
 	0x6f, 0x6e, 0x73, 0x75, 0x6d, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
 	0x52, 0x0a, 0x63, 0x6f, 0x6e, 0x73, 0x75, 0x6d, 0x65, 0x72, 0x49, 0x64, 0x12, 0x23, 0x0a, 0x0d,
-	0x61, 0x73, 0x73, 0x6f, 0x63, 0x69, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x69, 0x73, 0x18, 0x03, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x0c, 0x61, 0x73, 0x73, 0x6f, 0x63, 0x69, 0x61, 0x74, 0x65, 0x64, 0x49,
-	0x73, 0x12, 0x41, 0x0a, 0x0f, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
+	0x69, 0x73, 0x5f, 0x61, 0x73, 0x73, 0x6f, 0x63, 0x69, 0x61, 0x74, 0x65, 0x64, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x08, 0x52, 0x0c, 0x69, 0x73, 0x41, 0x73, 0x73, 0x6f, 0x63, 0x69, 0x61, 0x74, 0x65,
+	0x64, 0x12, 0x41, 0x0a, 0x0f, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
 	0x74, 0x79, 0x70, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x18, 0x2e, 0x70, 0x6c, 0x61,
 	0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e,
 	0x54, 0x79, 0x70, 0x65, 0x52, 0x0e, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e,

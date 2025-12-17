@@ -32,18 +32,21 @@
         "parameters": [
           {
             "name": "tenantId",
+            "description": "Optional tenant ID to filter connections.",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
             "name": "consumerId",
+            "description": "Optional consumer ID to filter connections.",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
             "name": "limit",
+            "description": "Maximum number of connections to return.",
             "in": "query",
             "required": false,
             "type": "integer",
@@ -51,6 +54,7 @@
           },
           {
             "name": "offset",
+            "description": "Offset for pagination.",
             "in": "query",
             "required": false,
             "type": "integer",
@@ -58,7 +62,7 @@
           },
           {
             "name": "status",
-            "description": " - CONNECTION_STATUS_UNKNOWN: Unknown connection status.\n - CONNECTION_STATUS_ACTIVE: Active connection.\n - CONNECTION_STATUS_DISCONNECTED: Disconnected connection.\n - CONNECTION_STATUS_DISABLED: Disabled connection.",
+            "description": "Optional status to filter connections.\n\n - CONNECTION_STATUS_UNKNOWN: Unknown connection status.\n - CONNECTION_STATUS_ACTIVE: Active connection.\n - CONNECTION_STATUS_DISCONNECTED: Disconnected connection.\n - CONNECTION_STATUS_DISABLED: Disabled connection.",
             "in": "query",
             "required": false,
             "type": "string",
@@ -72,7 +76,7 @@
           },
           {
             "name": "connectionType",
-            "description": " - CONNECTION_TYPE_UNKNOWN: Unknown connection type.\n - CONNECTION_TYPE_WATER: Water connection.\n - CONNECTION_TYPE_GAS: Gas connection.\n - CONNECTION_TYPE_ELECTRICITY: Electricity connection.",
+            "description": "Optional connection type to filter connections.\n\n - CONNECTION_TYPE_UNKNOWN: Unknown connection type.\n - CONNECTION_TYPE_WATER: Water connection.\n - CONNECTION_TYPE_GAS: Gas connection.\n - CONNECTION_TYPE_ELECTRICITY: Electricity connection.",
             "in": "query",
             "required": false,
             "type": "string",
@@ -86,7 +90,7 @@
           },
           {
             "name": "category",
-            "description": " - CONNECTION_CATEGORY_UNKNOWN: Unknown connection category.\n - CONNECTION_CATEGORY_DOMESTIC: Domestic connection category.\n - CONNECTION_CATEGORY_COMMERCIAL: Commercial connection category.\n - CONNECTION_CATEGORY_INDUSTRIAL: Industrial connection category.",
+            "description": "Optional category to filter connections.\n\n - CONNECTION_CATEGORY_UNKNOWN: Unknown connection category.\n - CONNECTION_CATEGORY_DOMESTIC: Domestic connection category.\n - CONNECTION_CATEGORY_COMMERCIAL: Commercial connection category.\n - CONNECTION_CATEGORY_INDUSTRIAL: Industrial connection category.",
             "in": "query",
             "required": false,
             "type": "string",
@@ -156,6 +160,7 @@
         "parameters": [
           {
             "name": "connection.id",
+            "description": "Unique identifier for the connection.",
             "in": "path",
             "required": true,
             "type": "string"
@@ -226,12 +231,14 @@
         "parameters": [
           {
             "name": "connectionId",
+            "description": "Connection ID to filter meter connections.",
             "in": "path",
             "required": true,
             "type": "string"
           },
           {
             "name": "limit",
+            "description": "Maximum number of meter connections to return.",
             "in": "query",
             "required": false,
             "type": "integer",
@@ -239,6 +246,7 @@
           },
           {
             "name": "offset",
+            "description": "Offset for pagination.",
             "in": "query",
             "required": false,
             "type": "integer",
@@ -246,7 +254,7 @@
           },
           {
             "name": "meterStatus",
-            "description": " - METER_STATUS_UNKNOWN: Unknown meter status.\n - METER_STATUS_ACTIVE: Active meter.\n - METER_STATUS_INACTIVE: Inactive meter.\n - METER_STATUS_REMOVED: Removed meter.",
+            "description": "Optional status to filter meter connections.\n\n - METER_STATUS_UNKNOWN: Unknown meter status.\n - METER_STATUS_ACTIVE: Active meter.\n - METER_STATUS_INACTIVE: Inactive meter.\n - METER_STATUS_REMOVED: Removed meter.",
             "in": "query",
             "required": false,
             "type": "string",
@@ -388,6 +396,7 @@
         "parameters": [
           {
             "name": "meterConnection.connectionId",
+            "description": "ID of the connection this meter is associated with.",
             "in": "path",
             "required": true,
             "type": "string"
@@ -427,12 +436,14 @@
         "parameters": [
           {
             "name": "meterConnection.connectionId",
+            "description": "ID of the connection this meter is associated with.",
             "in": "path",
             "required": true,
             "type": "string"
           },
           {
             "name": "meterConnection.id",
+            "description": "Unique identifier for the MeterConnection.",
             "in": "path",
             "required": true,
             "type": "string"
@@ -460,7 +471,7 @@
           "$ref": "#/definitions/platformMeterConnection"
         }
       },
-      "title": "Add Meter to Connection"
+      "description": "Request message for adding a meter to a connection."
     },
     "platformAddMeterToConnectionResponse": {
       "type": "object",
@@ -475,39 +486,49 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "description": "Unique identifier for the connection."
         },
         "consumerId": {
-          "type": "string"
+          "type": "string",
+          "description": "ID of the consumer this connection belongs to."
         },
-        "associatedIs": {
-          "type": "string"
+        "isAssociated": {
+          "type": "boolean",
+          "description": "Flag indicating if the connection is associated with an installation site."
         },
         "connectionType": {
-          "$ref": "#/definitions/platformConnectionType"
+          "$ref": "#/definitions/platformConnectionType",
+          "description": "Type of connection (e.g., water, gas, electricity)."
         },
         "connectionNumber": {
-          "type": "string"
+          "type": "string",
+          "description": "Connection or service number."
         },
         "category": {
-          "$ref": "#/definitions/platformConnectionCategory"
+          "$ref": "#/definitions/platformConnectionCategory",
+          "description": "Category of the connection (e.g., domestic, commercial, industrial)."
         },
         "status": {
-          "$ref": "#/definitions/platformConnectionStatus"
+          "$ref": "#/definitions/platformConnectionStatus",
+          "description": "Status of the connection (e.g., active, disconnected, disabled)."
         },
         "tenantId": {
-          "type": "string"
+          "type": "string",
+          "description": "Tenant ID (UUID) to which the connection belongs."
         },
         "createdAt": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "Timestamp when the connection was created."
         },
         "updatedAt": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "Timestamp when the connection was last updated."
         }
       },
-      "title": "Connection represents a connection configuration for a consumer.\nID\n\tConsumerID (FK → Consumer)\n\tConnectionType (water/gas/electricity)\n\tConnectionNumber / ServiceNumber\n\tCategory (domestic/commercial/industrial)\n\tStatus (active/disconnected/disabled)\n\tCreatedAt\n Associated"
+      "description": "Connection represents a connection configuration for a consumer."
     },
     "platformConnectionCategory": {
       "type": "string",
@@ -557,7 +578,8 @@
         "id": {
           "type": "string"
         }
-      }
+      },
+      "description": "Response message for creating a connection."
     },
     "platformGetConnectionResponse": {
       "type": "object",
@@ -582,13 +604,15 @@
       "properties": {
         "totalCount": {
           "type": "integer",
-          "format": "int64"
+          "format": "int64",
+          "description": "Total number of connections matching the criteria."
         },
         "connections": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/platformConnection"
-          }
+          },
+          "description": "List of connections."
         }
       },
       "description": "Response message for listing connections."
@@ -598,13 +622,15 @@
       "properties": {
         "totalCount": {
           "type": "integer",
-          "format": "int64"
+          "format": "int64",
+          "description": "Total number of meter connections matching the criteria."
         },
         "meterConnections": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/platformMeterConnection"
-          }
+          },
+          "description": "List of meter connections."
         }
       },
       "description": "Response message for listing MeterConnections."
@@ -613,45 +639,57 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "description": "Unique identifier for the MeterConnection."
         },
         "installedAt": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "Timestamp when the meter was installed."
         },
         "removedAt": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "Timestamp when the meter was removed (nullable)."
         },
         "createdAt": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "Timestamp when the meter was created."
         },
         "updatedAt": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "Timestamp when the meter was updated."
         },
         "connectionId": {
-          "type": "string"
+          "type": "string",
+          "description": "ID of the connection this meter is associated with."
         },
         "meterEui": {
-          "type": "string"
+          "type": "string",
+          "description": "Meter EUI (Extended Unique Identifier)."
         },
         "meterSerialNumber": {
-          "type": "string"
+          "type": "string",
+          "description": "Meter serial number."
         },
         "meterStatus": {
-          "$ref": "#/definitions/platformMeterStatus"
+          "$ref": "#/definitions/platformMeterStatus",
+          "description": "Status of the meter (e.g., active, inactive)."
         },
         "lastKnownReading": {
           "type": "number",
-          "format": "double"
+          "format": "double",
+          "description": "Last known reading from the meter."
         },
         "firstBillableReading": {
           "type": "number",
-          "format": "double"
+          "format": "double",
+          "description": "First billable reading from the meter."
         }
-      }
+      },
+      "description": "MeterConnection represents a meter associated with a connection."
     },
     "platformMeterStatus": {
       "type": "string",
@@ -680,7 +718,7 @@
           "$ref": "#/definitions/platformMeterConnection"
         }
       },
-      "title": "Update MeterConnection"
+      "description": "Request message for updating a MeterConnection."
     },
     "protobufAny": {
       "type": "object",
