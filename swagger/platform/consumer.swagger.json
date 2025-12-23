@@ -13,6 +13,7 @@
   "paths": {
     "/api/consumers": {
       "get": {
+        "summary": "List consumers with optional filtering and search.",
         "operationId": "ConsumerService_List",
         "responses": {
           "200": {
@@ -51,6 +52,13 @@
             "in": "query",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "search",
+            "description": "Searches across name, email, mobile number, and consumer number.",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -58,7 +66,7 @@
         ]
       },
       "post": {
-        "summary": "GetDevicesByAssetType returns the list of devices filtered by AssetType and AssetSubType.",
+        "summary": "Create a new consumer.",
         "operationId": "ConsumerService_Create",
         "responses": {
           "200": {
@@ -91,6 +99,7 @@
     },
     "/api/consumers/{consumer.id}": {
       "put": {
+        "summary": "Update an existing consumer.",
         "operationId": "ConsumerService_Update",
         "responses": {
           "200": {
@@ -109,7 +118,7 @@
         "parameters": [
           {
             "name": "consumer.id",
-            "description": "Consumer   ID (UUID).",
+            "description": "Consumer ID (UUID).",
             "in": "path",
             "required": true,
             "type": "string"
@@ -130,6 +139,7 @@
     },
     "/api/consumers/{id}": {
       "get": {
+        "summary": "Get consumer details by ID.",
         "operationId": "ConsumerService_Get",
         "responses": {
           "200": {
@@ -148,7 +158,7 @@
         "parameters": [
           {
             "name": "id",
-            "description": "Consumer   ID (UUID).",
+            "description": "Consumer ID (UUID).",
             "in": "path",
             "required": true,
             "type": "string"
@@ -159,6 +169,7 @@
         ]
       },
       "delete": {
+        "summary": "Delete a consumer by ID.",
         "operationId": "ConsumerService_Delete",
         "responses": {
           "200": {
@@ -177,7 +188,7 @@
         "parameters": [
           {
             "name": "id",
-            "description": "Consumer   ID (UUID).",
+            "description": "Consumer ID (UUID).",
             "in": "path",
             "required": true,
             "type": "string"
@@ -195,56 +206,59 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Consumer   ID (UUID)."
+          "description": "Consumer ID (UUID)."
         },
         "name": {
           "type": "string",
-          "title": "Consumer  Name"
+          "title": "Consumer Name"
         },
         "mobileNumber": {
           "type": "string",
-          "title": "Consumer  Mobile Number"
+          "title": "Consumer Mobile Number"
         },
         "mobileCountryCode": {
           "type": "string",
-          "title": "Consumer  Mobile Country Code"
+          "title": "Consumer Mobile Country Code"
         },
         "email": {
           "type": "string",
-          "title": "Consumer  Email"
+          "title": "Consumer Email"
         },
         "address": {
           "type": "string",
-          "title": "Consumer  Address"
+          "title": "Consumer Address"
         },
         "city": {
           "type": "string",
-          "title": "Consumer  City"
+          "title": "Consumer City"
         },
         "state": {
           "type": "string",
-          "title": "Consumer  State"
+          "title": "Consumer State"
         },
         "country": {
           "type": "string",
-          "title": "Consumer  Country"
+          "title": "Consumer Country"
         },
         "postalCode": {
           "type": "string",
-          "title": "Consumer  Postal Code"
+          "title": "Consumer Postal Code"
         },
         "status": {
           "$ref": "#/definitions/platformConsumerStatus",
-          "title": "Consumer  Status"
+          "title": "Consumer Status"
         },
         "note": {
-          "type": "string"
+          "type": "string",
+          "title": "Additional notes about the consumer"
         },
         "createdBy": {
-          "type": "string"
+          "type": "string",
+          "title": "User who created the consumer"
         },
         "updatedBy": {
-          "type": "string"
+          "type": "string",
+          "title": "User who last updated the consumer"
         },
         "createdAt": {
           "type": "string",
@@ -258,10 +272,12 @@
         },
         "consumerNumber": {
           "type": "string",
-          "format": "uint64"
+          "format": "uint64",
+          "title": "Consumer number (unique identifier)"
         },
         "tenantId": {
-          "type": "string"
+          "type": "string",
+          "description": "Tenant ID (UUID) to which the consumer belongs."
         }
       }
     },
@@ -289,7 +305,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Consumer   ID (UUID)."
+          "description": "Consumer ID (UUID)."
         }
       }
     },
@@ -307,7 +323,7 @@
         "totalCount": {
           "type": "string",
           "format": "int64",
-          "description": "Total number of Consumers."
+          "description": "Total number of Consumers matching the filters."
         },
         "result": {
           "type": "array",

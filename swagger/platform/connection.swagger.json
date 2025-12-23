@@ -61,6 +61,13 @@
             "format": "int64"
           },
           {
+            "name": "search",
+            "description": "Optional search string to filter connections by connection number or ID.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "status",
             "description": "Optional status to filter connections.\n\n - CONNECTION_STATUS_UNKNOWN: Unknown connection status.\n - CONNECTION_STATUS_ACTIVE: Active connection.\n - CONNECTION_STATUS_DISCONNECTED: Disconnected connection.\n - CONNECTION_STATUS_DISABLED: Disabled connection.",
             "in": "query",

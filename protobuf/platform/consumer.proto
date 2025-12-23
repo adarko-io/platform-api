@@ -11,7 +11,7 @@ import "platform/shared_enums.proto";
 import "google/protobuf/struct.proto";
 
 service ConsumerService {
-  // GetDevicesByAssetType returns the list of devices filtered by AssetType and AssetSubType.
+  // Create a new consumer.
   rpc Create(CreateConsumerRequest) returns (CreateConsumerResponse) {
     option (google.api.http) = {
       post: "/api/consumers"
@@ -19,69 +19,90 @@ service ConsumerService {
     };
   }
 
+  // Get consumer details by ID.
   rpc Get(GetConsumerRequest) returns (GetConsumerResponse) {
     option (google.api.http) = {
       get: "/api/consumers/{id}"
     };
   }
 
-    rpc Update(UpdateConsumerRequest) returns (google.protobuf.Empty) {
-        option (google.api.http) = {
-        put: "/api/consumers/{consumer.id}"
-        body: "*"
-        };
-    }
-    rpc Delete(DeleteConsumerRequest) returns (google.protobuf.Empty) {
-        option (google.api.http) = {
-        delete: "/api/consumers/{id}"
-        };
-    }
-    rpc List(ListConsumersRequest) returns (ListConsumersResponse) {
-        option (google.api.http) = {
-        get: "/api/consumers"
-        };
-    }
+  // Update an existing consumer.
+  rpc Update(UpdateConsumerRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/api/consumers/{consumer.id}"
+      body: "*"
+    };
+  }
 
+  // Delete a consumer by ID.
+  rpc Delete(DeleteConsumerRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/api/consumers/{id}"
+    };
+  }
+
+  // List consumers with optional filtering and search.
+  rpc List(ListConsumersRequest) returns (ListConsumersResponse) {
+    option (google.api.http) = {
+      get: "/api/consumers"
+    };
+  }
 }
 
 message Consumer {
-    // Consumer   ID (UUID).
+  // Consumer ID (UUID).
   string id = 1;
-  // Consumer  Name
+
+  // Consumer Name
   string name = 2;
-  // Consumer  Mobile Number  
+
+  // Consumer Mobile Number
   string mobile_number = 3;
-  // Consumer  Mobile Country Code
+
+  // Consumer Mobile Country Code
   string mobile_country_code = 4;
-  // Consumer  Email
+
+  // Consumer Email
   string email = 5;
-  // Consumer  Address
+
+  // Consumer Address
   string address = 6;
-  // Consumer  City
-    string city = 7;
-    // Consumer  State
-    string state = 8;
-    // Consumer  Country
-    string country = 9;
-    // Consumer  Postal Code
-    string postal_code = 10;
-    // Consumer  Status
-    ConsumerStatus status = 11;//ACTIVE/INACTIVE/TERMINATED
 
-    string note = 12;
+  // Consumer City
+  string city = 7;
 
-    string created_by = 13;
+  // Consumer State
+  string state = 8;
 
-    string updated_by = 14;
-    
-    // Creation timestamp
-    google.protobuf.Timestamp created_at = 15;
+  // Consumer Country
+  string country = 9;
 
-	// Last update timestamp
-	google.protobuf.Timestamp updated_at = 16; 
+  // Consumer Postal Code
+  string postal_code = 10;
 
-    uint64 consumer_number = 17;
-     string tenant_id = 18; // Tenant ID (UUID) to which the connection belongs.
+  // Consumer Status
+  ConsumerStatus status = 11; // ACTIVE/INACTIVE/TERMINATED
+
+  // Additional notes about the consumer
+  string note = 12;
+
+  // User who created the consumer
+  string created_by = 13;
+
+  // User who last updated the consumer
+  string updated_by = 14;
+
+  // Creation timestamp
+  google.protobuf.Timestamp created_at = 15;
+
+  // Last update timestamp
+  google.protobuf.Timestamp updated_at = 16;
+
+  // Consumer number (unique identifier)
+  uint64 consumer_number = 17;
+
+  // Tenant ID (UUID) to which the consumer belongs.
+  string tenant_id = 18;
 }
 
 message CreateConsumerRequest {
@@ -89,13 +110,13 @@ message CreateConsumerRequest {
 }
 
 message CreateConsumerResponse {
- // Consumer   ID (UUID).
-	string id = 1;
+  // Consumer ID (UUID).
+  string id = 1;
 }
 
 message GetConsumerRequest {
- // Consumer   ID (UUID).
-    string id = 1;
+  // Consumer ID (UUID).
+  string id = 1;
 }
 
 message GetConsumerResponse {
@@ -107,25 +128,28 @@ message UpdateConsumerRequest {
 }
 
 message DeleteConsumerRequest {
- // Consumer   ID (UUID).
-    string id = 1;
+  // Consumer ID (UUID).
+  string id = 1;
 }
+
 message ListConsumersRequest {
- // Pagination limit.
-    int32 limit = 1;
+  // Pagination limit.
+  int32 limit = 1;
 
-    // Pagination offset.
-    int32 offset = 2;
+  // Pagination offset.
+  int32 offset = 2;
 
-    // Tenant ID (UUID) to filter consumers.
-    string tenant_id = 3;
+  // Tenant ID (UUID) to filter consumers.
+  string tenant_id = 3;
+
+  // Searches across name, email, mobile number, and consumer number.
+  string search = 4;
 }
 
 message ListConsumersResponse {
-  // Total number of Consumers.
-	int64 total_count = 1;
+  // Total number of Consumers matching the filters.
+  int64 total_count = 1;
 
-	// Result-set.
-	repeated Consumer result = 2;
+  // Result-set.
+  repeated Consumer result = 2;
 }
-
