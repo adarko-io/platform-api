@@ -164,14 +164,17 @@ message ListConnectionsRequest {
   // Offset for pagination.
   uint32 offset = 4;
 
+  // Optional search string to filter connections by connection number or ID.
+  string search = 5;
+
   // Optional status to filter connections.
-  ConnectionStatus status = 5;
+  ConnectionStatus status = 6;
 
   // Optional connection type to filter connections.
-  ConnectionType connection_type = 6;
+  ConnectionType connection_type = 7;
 
   // Optional category to filter connections.
-  ConnectionCategory category = 7;
+  ConnectionCategory category = 8;
 }
 
 // Response message for listing connections.
