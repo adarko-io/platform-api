@@ -109,10 +109,13 @@ message Tenant {
   uint32 max_device_count = 5;
 
   // Set to true to make this the main tenant.
-	bool is_main = 6;
+  bool is_main = 6;
 
   // timezone of the tenant
   TimeZone timezone = 7;
+
+  // Validity period (expiration date)
+  google.protobuf.Timestamp validity_period = 8;
 
 }
 
