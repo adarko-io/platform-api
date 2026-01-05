@@ -113,10 +113,6 @@ message Tenant {
 
   // timezone of the tenant
   TimeZone timezone = 7;
-
-  // Validity period (expiration date)
-  google.protobuf.Timestamp validity_period = 8;
-
 }
 
 message TenantListItem {

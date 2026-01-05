@@ -542,11 +542,6 @@
         "timezone": {
           "$ref": "#/definitions/platformTimeZone",
           "title": "timezone of the tenant"
-        },
-        "validityPeriod": {
-          "type": "string",
-          "format": "date-time",
-          "title": "Validity period (expiration date)"
         }
       }
     },
