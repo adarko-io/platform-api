@@ -1011,6 +1011,13 @@
           "format": "date-time",
           "title": "Upload timestamp"
         },
+        "createdConnectionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "List of successfully created connection IDs"
+        },
         "failedConnections": {
           "type": "array",
           "items": {

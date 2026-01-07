@@ -352,8 +352,11 @@ message UploadResponse {
   // Upload timestamp
   google.protobuf.Timestamp uploaded_at = 7;
 
+  // List of successfully created connection IDs
+  repeated string created_connection_ids = 8;
+
   // List of failed connection numbers with error messages
-  repeated FailedConnection failed_connections = 8;
+  repeated FailedConnection failed_connections = 9;
 }
 
 // Upload status
