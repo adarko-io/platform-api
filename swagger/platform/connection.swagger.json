@@ -146,6 +146,131 @@
         ]
       }
     },
+    "/api/connections/bulk-upload/report/{filename}": {
+      "get": {
+        "summary": "Download a report file",
+        "operationId": "ConnectionService_DownloadReport",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/platformDownloadReportResponse"
+                },
+                "error": {
+                  "$ref": "#/definitions/runtimeStreamError"
+                }
+              },
+              "title": "Stream result of platformDownloadReportResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "filename",
+            "description": "Report filename to download",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/api/connections/bulkupload": {
+      "post": {
+        "summary": "Upload CSV/Excel file using a client streaming RPC",
+        "operationId": "ConnectionService_BulkUpload",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformUploadResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/api/connections/bulkupload/reports": {
+      "get": {
+        "summary": "List report files from bulk uploads",
+        "operationId": "ConnectionService_ListReportFiles",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformListReportFilesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "description": "Max number of reports to return.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "description": "Offset for pagination.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "search",
+            "description": "Search by filename.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "format",
+            "description": "Filter by file format.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "FILE_FORMAT_UNSPECIFIED",
+              "FILE_FORMAT_CSV",
+              "FILE_FORMAT_EXCEL"
+            ],
+            "default": "FILE_FORMAT_UNSPECIFIED"
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
     "/api/connections/{connection.id}": {
       "put": {
         "summary": "Update an existing connection for a consumer.",
@@ -588,6 +713,65 @@
       },
       "description": "Response message for creating a connection."
     },
+    "platformDownloadReportResponse": {
+      "type": "object",
+      "properties": {
+        "chunk": {
+          "type": "string",
+          "format": "byte",
+          "title": "File content chunk"
+        }
+      },
+      "title": "Response for downloading report files"
+    },
+    "platformFailedConnection": {
+      "type": "object",
+      "properties": {
+        "rowNumber": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Row number in the file"
+        },
+        "connectionNumber": {
+          "type": "string",
+          "title": "Connection number from file"
+        },
+        "errorMessage": {
+          "type": "string",
+          "title": "Error message"
+        }
+      },
+      "title": "Failed connection details"
+    },
+    "platformFileFormat": {
+      "type": "string",
+      "enum": [
+        "FILE_FORMAT_UNSPECIFIED",
+        "FILE_FORMAT_CSV",
+        "FILE_FORMAT_EXCEL"
+      ],
+      "default": "FILE_FORMAT_UNSPECIFIED",
+      "title": "File format types for bulk upload"
+    },
+    "platformFileMetadata": {
+      "type": "object",
+      "properties": {
+        "filename": {
+          "type": "string",
+          "title": "Original file name"
+        },
+        "format": {
+          "$ref": "#/definitions/platformFileFormat",
+          "title": "File format"
+        },
+        "size": {
+          "type": "string",
+          "format": "uint64",
+          "title": "File size in bytes"
+        }
+      },
+      "title": "File metadata"
+    },
     "platformGetConnectionResponse": {
       "type": "object",
       "properties": {
@@ -641,6 +825,24 @@
         }
       },
       "description": "Response message for listing MeterConnections."
+    },
+    "platformListReportFilesResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Total number of reports"
+        },
+        "reports": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformReportFile"
+          },
+          "title": "List of report files"
+        }
+      },
+      "title": "Response with list of report files"
     },
     "platformMeterConnection": {
       "type": "object",
@@ -709,6 +911,53 @@
       "default": "METER_STATUS_UNKNOWN",
       "description": " - METER_STATUS_UNKNOWN: Unknown meter status.\n - METER_STATUS_ACTIVE: Active meter.\n - METER_STATUS_INACTIVE: Inactive meter.\n - METER_STATUS_REMOVED: Removed meter."
     },
+    "platformReportFile": {
+      "type": "object",
+      "properties": {
+        "filename": {
+          "type": "string",
+          "title": "Report filename"
+        },
+        "format": {
+          "$ref": "#/definitions/platformFileFormat",
+          "title": "File format"
+        },
+        "uploadedAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Upload timestamp"
+        },
+        "connectionsCreated": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Number of connections successfully created"
+        },
+        "connectionsFailed": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Number of connections failed"
+        },
+        "totalProcessed": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Total records processed"
+        },
+        "fileSize": {
+          "type": "string",
+          "format": "uint64",
+          "title": "File size in bytes"
+        },
+        "status": {
+          "$ref": "#/definitions/platformUploadStatus",
+          "title": "Upload status"
+        },
+        "downloadUrl": {
+          "type": "string",
+          "title": "Download URL for the report"
+        }
+      },
+      "title": "Report file information"
+    },
     "platformUpdateConnectionRequest": {
       "type": "object",
       "properties": {
@@ -726,6 +975,61 @@
         }
       },
       "description": "Request message for updating a MeterConnection."
+    },
+    "platformUploadResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/platformUploadStatus",
+          "title": "Upload status"
+        },
+        "message": {
+          "type": "string",
+          "title": "Status message"
+        },
+        "connectionsCreated": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Number of connections successfully created"
+        },
+        "connectionsFailed": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Number of connections failed"
+        },
+        "totalProcessed": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Total records processed"
+        },
+        "reportFilename": {
+          "type": "string",
+          "title": "Report file name (for download)"
+        },
+        "uploadedAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Upload timestamp"
+        },
+        "failedConnections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformFailedConnection"
+          },
+          "title": "List of failed connection numbers with error messages"
+        }
+      },
+      "title": "Upload response"
+    },
+    "platformUploadStatus": {
+      "type": "string",
+      "enum": [
+        "UPLOAD_STATUS_UNSPECIFIED",
+        "UPLOAD_STATUS_SUCCESS",
+        "UPLOAD_STATUS_FAILED"
+      ],
+      "default": "UPLOAD_STATUS_UNSPECIFIED",
+      "title": "Upload status"
     },
     "protobufAny": {
       "type": "object",
@@ -750,6 +1054,31 @@
           "format": "int32"
         },
         "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "runtimeStreamError": {
+      "type": "object",
+      "properties": {
+        "grpcCode": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "httpCode": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "httpStatus": {
           "type": "string"
         },
         "details": {

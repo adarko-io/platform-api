@@ -85,6 +85,27 @@ service ConnectionService {
       get: "/api/connections/{connection_id}/meters"
     };
   }
+
+    // Upload CSV/Excel file using a client streaming RPC
+  rpc BulkUpload(stream UploadRequest) returns (UploadResponse) {
+    option (google.api.http) = {
+      post: "/api/connections/bulkupload"
+    };
+  }
+
+  // List report files from bulk uploads
+  rpc ListReportFiles(ListReportFilesRequest) returns (ListReportFilesResponse) {
+    option (google.api.http) = {
+      get: "/api/connections/bulkupload/reports"
+    };
+  }
+
+  // Download a report file
+  rpc DownloadReport(DownloadReportRequest) returns (stream DownloadReportResponse) {
+    option (google.api.http) = {
+      get: "/api/connections/bulk-upload/report/{filename}"
+    };
+  }
 }
 
 // Connection represents a connection configuration for a consumer.
@@ -276,4 +297,146 @@ message ListMeterConnectionsResponse {
 
   // List of meter connections.
   repeated MeterConnection meter_connections = 2;
+}
+
+// File format types for bulk upload
+enum FileFormat {
+  FILE_FORMAT_UNSPECIFIED = 0;
+  FILE_FORMAT_CSV         = 1;
+  FILE_FORMAT_EXCEL       = 2;
+}
+
+// Upload request message
+message UploadRequest {
+  oneof data {
+    // File metadata (should be first message)
+    FileMetadata metadata = 1;
+
+    // File content chunk
+    bytes chunk = 2;
+  }
+}
+
+// File metadata
+message FileMetadata {
+  // Original file name
+  string filename = 1;
+
+  // File format
+  FileFormat format = 2;
+
+  // File size in bytes
+  uint64 size = 3;
+}
+
+// Upload response
+message UploadResponse {
+  // Upload status
+  UploadStatus status = 1;
+
+  // Status message
+  string message = 2;
+
+  // Number of connections successfully created
+  uint32 connections_created = 3;
+
+  // Number of connections failed
+  uint32 connections_failed = 4;
+
+  // Total records processed
+  uint32 total_processed = 5;
+
+  // Report file name (for download)
+  string report_filename = 6;
+
+  // Upload timestamp
+  google.protobuf.Timestamp uploaded_at = 7;
+
+  // List of failed connection numbers with error messages
+  repeated FailedConnection failed_connections = 8;
+}
+
+// Upload status
+enum UploadStatus {
+  UPLOAD_STATUS_UNSPECIFIED = 0;
+  UPLOAD_STATUS_SUCCESS     = 1;
+  UPLOAD_STATUS_FAILED      = 2;
+}
+
+// Failed connection details
+message FailedConnection {
+  // Row number in the file
+  uint32 row_number = 1;
+
+  // Connection number from file
+  string connection_number = 2;
+
+  // Error message
+  string error_message = 3;
+}
+
+// Request to list report files
+message ListReportFilesRequest {
+  // Max number of reports to return
+  uint32 limit = 1;
+
+  // Offset for pagination
+  uint32 offset = 2;
+
+  // Search by filename
+  string search = 3;
+
+  // Filter by file format
+  FileFormat format = 6;
+}
+
+// Response with list of report files
+message ListReportFilesResponse {
+  // Total number of reports
+  uint32 total_count = 1;
+
+  // List of report files
+  repeated ReportFile reports = 2;
+}
+
+// Report file information
+message ReportFile {
+  // Report filename
+  string filename = 1;
+
+  // File format
+  FileFormat format = 2;
+
+  // Upload timestamp
+  google.protobuf.Timestamp uploaded_at = 3;
+
+  // Number of connections successfully created
+  uint32 connections_created = 4;
+
+  // Number of connections failed
+  uint32 connections_failed = 5;
+
+  // Total records processed
+  uint32 total_processed = 6;
+
+  // File size in bytes
+  uint64 file_size = 7;
+
+  // Upload status
+  UploadStatus status = 8;
+
+  // Download URL for the report
+  string download_url = 9;
+}
+
+// Request to download a report file
+message DownloadReportRequest {
+  // Report filename to download
+  string filename = 1;
+}
+
+// Response for downloading report files
+message DownloadReportResponse {
+  // File content chunk
+  bytes chunk = 1;
 }
