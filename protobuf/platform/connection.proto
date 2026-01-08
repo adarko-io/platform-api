@@ -86,7 +86,7 @@ service ConnectionService {
     };
   }
 
-    // Upload CSV/Excel file using a client streaming RPC
+  // Upload CSV/Excel file using a client streaming RPC
   rpc BulkUpload(stream UploadRequest) returns (UploadResponse) {
     option (google.api.http) = {
       post: "/api/connections/bulkupload"
@@ -303,72 +303,21 @@ message ListMeterConnectionsResponse {
 enum FileFormat {
   FILE_FORMAT_UNSPECIFIED = 0;
   FILE_FORMAT_CSV         = 1;
-  FILE_FORMAT_EXCEL       = 2;
+  FILE_FORMAT_XLSX        = 2;
+  FILE_FORMAT_XLS         = 3;
 }
 
-// Upload request message
-message UploadRequest {
-  oneof data {
-    // File metadata (should be first message)
-    FileMetadata metadata = 1;
-
-    // File content chunk
-    bytes chunk = 2;
-  }
-}
-
-// File metadata
-message FileMetadata {
-  // Original file name
-  string filename = 1;
-
-  // File format
-  FileFormat format = 2;
-
-  // File size in bytes
-  uint64 size = 3;
-}
-
-// Upload response
-message UploadResponse {
-  // Upload status
-  UploadStatus status = 1;
-
-  // Status message
-  string message = 2;
-
-  // Number of connections successfully created
-  uint32 connections_created = 3;
-
-  // Number of connections failed
-  uint32 connections_failed = 4;
-
-  // Total records processed
-  uint32 total_processed = 5;
-
-  // Report file name (for download)
-  string report_filename = 6;
-
-  // Upload timestamp
-  google.protobuf.Timestamp uploaded_at = 7;
-
-  // List of successfully created connection IDs
-  repeated string created_connection_ids = 8;
-
-  // List of failed connection numbers with error messages
-  repeated FailedConnection failed_connections = 9;
-}
-
-// Upload status
+// Upload status enumeration
 enum UploadStatus {
   UPLOAD_STATUS_UNSPECIFIED = 0;
   UPLOAD_STATUS_SUCCESS     = 1;
   UPLOAD_STATUS_FAILED      = 2;
+  UPLOAD_STATUS_PARTIAL     = 3;
 }
 
 // Failed connection details
 message FailedConnection {
-  // Row number in the file
+  // Row number in the file (1-indexed, starting from data rows)
   uint32 row_number = 1;
 
   // Connection number from file
@@ -376,6 +325,101 @@ message FailedConnection {
 
   // Error message
   string error_message = 3;
+}
+
+// File metadata
+message FileMetadata {
+  // Original file name
+  string filename = 1;
+  
+  // File size in bytes
+  uint64 size = 2;
+}
+
+// Upload request message
+message UploadRequest {
+  oneof data {
+    // File metadata (should be first message in stream)
+    FileMetadata metadata = 1;
+
+    // File content chunk
+    bytes chunk = 2;
+
+    // Tenant ID for which connections are being created
+    string tenant_id = 3;
+  }
+}
+
+// Upload response
+message UploadResponse {
+  // Upload status
+  UploadStatus status = 1;
+  
+  // Status message
+  string message = 2;
+  
+  // Number of connections successfully created
+  uint32 connections_created = 3;
+  
+  // Number of connections failed
+  uint32 connections_failed = 4;
+  
+  // Total records processed
+  uint32 total_processed = 5;
+  
+  // Report file name (for download)
+  string report_filename = 6;
+  
+  // Upload timestamp
+  google.protobuf.Timestamp uploaded_at = 7;
+  
+  // Tenant ID for which upload was done
+  string tenant_id = 8;
+  
+  // Original uploaded filename
+  string original_filename = 9;
+  
+  // List of failed connections with details
+  repeated FailedConnection failed_connections = 10;
+  
+  // List of successfully created connection IDs (optional)
+  repeated string created_connection_ids = 11;
+}
+
+// Report file information
+message ReportFile {
+  // Report filename (stored on server)
+  string filename = 1;
+  
+  // Original uploaded filename
+  string original_filename = 2;
+  
+  // File format
+  FileFormat format = 3;
+  
+  // Upload timestamp
+  google.protobuf.Timestamp uploaded_at = 4;
+  
+  // Number of connections successfully created
+  uint32 connections_created = 5;
+  
+  // Number of connections failed
+  uint32 connections_failed = 6;
+  
+  // Total records processed
+  uint32 total_processed = 7;
+  
+  // File size in bytes
+  uint64 file_size = 8;
+  
+  // Upload status
+  UploadStatus status = 9;
+  
+  // Tenant ID
+  string tenant_id = 10;
+  
+  // Download URL for the report (can be constructed on client side)
+  string download_url = 11;
 }
 
 // Request to list report files
@@ -386,11 +430,23 @@ message ListReportFilesRequest {
   // Offset for pagination
   uint32 offset = 2;
 
-  // Search by filename
+  // Search by filename (supports partial matching)
   string search = 3;
 
   // Filter by file format
-  FileFormat format = 6;
+  FileFormat format = 4;
+  
+  // Filter by tenant ID
+  string tenant_id = 5;
+  
+  // Filter by status
+  UploadStatus status = 6;
+  
+  // Filter by date range - start date
+  google.protobuf.Timestamp start_date = 7;
+  
+  // Filter by date range - end date
+  google.protobuf.Timestamp end_date = 8;
 }
 
 // Response with list of report files
@@ -402,44 +458,22 @@ message ListReportFilesResponse {
   repeated ReportFile reports = 2;
 }
 
-// Report file information
-message ReportFile {
-  // Report filename
-  string filename = 1;
-
-  // File format
-  FileFormat format = 2;
-
-  // Upload timestamp
-  google.protobuf.Timestamp uploaded_at = 3;
-
-  // Number of connections successfully created
-  uint32 connections_created = 4;
-
-  // Number of connections failed
-  uint32 connections_failed = 5;
-
-  // Total records processed
-  uint32 total_processed = 6;
-
-  // File size in bytes
-  uint64 file_size = 7;
-
-  // Upload status
-  UploadStatus status = 8;
-
-  // Download URL for the report
-  string download_url = 9;
-}
-
 // Request to download a report file
 message DownloadReportRequest {
   // Report filename to download
   string filename = 1;
+  
+  // Optional: Include file metadata as first response
+  bool include_metadata = 2;
 }
 
 // Response for downloading report files
 message DownloadReportResponse {
-  // File content chunk
-  bytes chunk = 1;
+  oneof content {
+    // File metadata (first message in stream if include_metadata is true)
+    FileMetadata metadata = 1;
+    
+    // File content chunk
+    bytes chunk = 2;
+  }
 }
