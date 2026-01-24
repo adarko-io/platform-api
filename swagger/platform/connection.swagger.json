@@ -146,6 +146,29 @@
         ]
       }
     },
+    "/api/connections/bulk-upload": {
+      "post": {
+        "summary": "Upload CSV/XLS/XLSX file using a client streaming RPC",
+        "operationId": "ConnectionService_BulkUpload",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformBulkUploadResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
     "/api/connections/bulk-upload/report/{filename}": {
       "get": {
         "summary": "Download a report file",
@@ -176,7 +199,7 @@
         "parameters": [
           {
             "name": "filename",
-            "description": "Report filename to download",
+            "description": "File name",
             "in": "path",
             "required": true,
             "type": "string"
@@ -187,30 +210,7 @@
         ]
       }
     },
-    "/api/connections/bulkupload": {
-      "post": {
-        "summary": "Upload CSV/Excel file using a client streaming RPC",
-        "operationId": "ConnectionService_BulkUpload",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/platformUploadResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "tags": [
-          "ConnectionService"
-        ]
-      }
-    },
-    "/api/connections/bulkupload/reports": {
+    "/api/connections/bulk-upload/reports": {
       "get": {
         "summary": "List report files from bulk uploads",
         "operationId": "ConnectionService_ListReportFiles",
@@ -247,23 +247,47 @@
           },
           {
             "name": "search",
-            "description": "Search by filename.",
+            "description": "Search term.",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "format",
-            "description": "Filter by file format.",
+            "name": "startDate",
+            "description": "Start date filter.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "description": "End date filter.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "fileType",
+            "description": "File type filter.\n\n - FILE_TYPE_UNSPECIFIED: Unspecified file type\n - FILE_TYPE_CSV: CSV file type\n - FILE_TYPE_XLS: XLS file type\n - FILE_TYPE_XLSX: XLSX file type",
             "in": "query",
             "required": false,
             "type": "string",
             "enum": [
-              "FILE_FORMAT_UNSPECIFIED",
-              "FILE_FORMAT_CSV",
-              "FILE_FORMAT_EXCEL"
+              "FILE_TYPE_UNSPECIFIED",
+              "FILE_TYPE_CSV",
+              "FILE_TYPE_XLS",
+              "FILE_TYPE_XLSX"
             ],
-            "default": "FILE_FORMAT_UNSPECIFIED"
+            "default": "FILE_TYPE_UNSPECIFIED"
+          },
+          {
+            "name": "tenantId",
+            "description": "Tenant ID filter.",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -614,6 +638,118 @@
       },
       "description": "Response message for adding a meter to a connection."
     },
+    "platformBulkUploadReportItem": {
+      "type": "object",
+      "properties": {
+        "recordIndex": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Record index (1-based)"
+        },
+        "connectionNumber": {
+          "type": "string",
+          "title": "Connection number (if available)"
+        },
+        "consumerName": {
+          "type": "string",
+          "title": "Consumer name (if available)"
+        },
+        "status": {
+          "type": "string",
+          "title": "Status (Success/Failed)"
+        },
+        "errorMessage": {
+          "type": "string",
+          "title": "Error message if failed"
+        },
+        "connectionId": {
+          "type": "string",
+          "title": "Created connection ID (if successful)"
+        },
+        "consumerId": {
+          "type": "string",
+          "title": "Created consumer ID (if consumer was created)"
+        },
+        "rowNumber": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Row number in original file"
+        },
+        "sheetName": {
+          "type": "string",
+          "title": "Sheet name (for Excel files)"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Warning messages (non-fatal issues)"
+        }
+      },
+      "title": "Individual record upload result"
+    },
+    "platformBulkUploadResponse": {
+      "type": "object",
+      "properties": {
+        "filename": {
+          "type": "string",
+          "title": "Uploaded file path"
+        },
+        "message": {
+          "type": "string",
+          "title": "Status message"
+        },
+        "connectionsCreated": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Number of connections created"
+        },
+        "connectionsFailed": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Number of connections failed"
+        },
+        "consumersCreated": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Number of consumers created (if applicable)"
+        },
+        "totalProcessed": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Total records processed"
+        },
+        "report": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformBulkUploadReportItem"
+          },
+          "title": "Detailed report of each connection upload attempt"
+        },
+        "reportFilename": {
+          "type": "string",
+          "title": "Report file path"
+        },
+        "status": {
+          "$ref": "#/definitions/platformUploadStatus",
+          "title": "Upload status"
+        },
+        "connectionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "List of created connection IDs"
+        },
+        "processingTimeMs": {
+          "type": "string",
+          "format": "uint64",
+          "title": "Processing time in milliseconds"
+        }
+      },
+      "title": "Bulk upload response"
+    },
     "platformConnection": {
       "type": "object",
       "properties": {
@@ -716,61 +852,38 @@
     "platformDownloadReportResponse": {
       "type": "object",
       "properties": {
-        "chunk": {
+        "content": {
           "type": "string",
           "format": "byte",
           "title": "File content chunk"
-        }
-      },
-      "title": "Response for downloading report files"
-    },
-    "platformFailedConnection": {
-      "type": "object",
-      "properties": {
-        "rowNumber": {
-          "type": "integer",
-          "format": "int64",
-          "title": "Row number in the file"
         },
-        "connectionNumber": {
-          "type": "string",
-          "title": "Connection number from file"
-        },
-        "errorMessage": {
-          "type": "string",
-          "title": "Error message"
-        }
-      },
-      "title": "Failed connection details"
-    },
-    "platformFileFormat": {
-      "type": "string",
-      "enum": [
-        "FILE_FORMAT_UNSPECIFIED",
-        "FILE_FORMAT_CSV",
-        "FILE_FORMAT_EXCEL"
-      ],
-      "default": "FILE_FORMAT_UNSPECIFIED",
-      "title": "File format types for bulk upload"
-    },
-    "platformFileMetadata": {
-      "type": "object",
-      "properties": {
         "filename": {
           "type": "string",
-          "title": "Original file name"
+          "title": "File name"
         },
-        "format": {
-          "$ref": "#/definitions/platformFileFormat",
-          "title": "File format"
-        },
-        "size": {
+        "contentType": {
           "type": "string",
-          "format": "uint64",
-          "title": "File size in bytes"
+          "title": "Content type"
+        },
+        "totalSize": {
+          "type": "string",
+          "format": "int64",
+          "title": "Total file size"
         }
       },
-      "title": "File metadata"
+      "title": "Response for downloading report files (streaming)"
+    },
+    "platformFileType": {
+      "type": "string",
+      "enum": [
+        "FILE_TYPE_UNSPECIFIED",
+        "FILE_TYPE_CSV",
+        "FILE_TYPE_XLS",
+        "FILE_TYPE_XLSX"
+      ],
+      "default": "FILE_TYPE_UNSPECIFIED",
+      "description": "- FILE_TYPE_UNSPECIFIED: Unspecified file type\n - FILE_TYPE_CSV: CSV file type\n - FILE_TYPE_XLS: XLS file type\n - FILE_TYPE_XLSX: XLSX file type",
+      "title": "Supported file types for bulk upload"
     },
     "platformGetConnectionResponse": {
       "type": "object",
@@ -916,44 +1029,66 @@
       "properties": {
         "filename": {
           "type": "string",
-          "title": "Report filename"
+          "title": "File name"
         },
-        "format": {
-          "$ref": "#/definitions/platformFileFormat",
-          "title": "File format"
+        "path": {
+          "type": "string",
+          "title": "File path"
         },
-        "uploadedAt": {
+        "createdAt": {
           "type": "string",
           "format": "date-time",
-          "title": "Upload timestamp"
+          "title": "Created at timestamp"
+        },
+        "successCount": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Success count"
+        },
+        "failureCount": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Failure count"
         },
         "connectionsCreated": {
           "type": "integer",
           "format": "int64",
-          "title": "Number of connections successfully created"
+          "title": "Connections created"
         },
-        "connectionsFailed": {
+        "consumersCreated": {
           "type": "integer",
           "format": "int64",
-          "title": "Number of connections failed"
-        },
-        "totalProcessed": {
-          "type": "integer",
-          "format": "int64",
-          "title": "Total records processed"
-        },
-        "fileSize": {
-          "type": "string",
-          "format": "uint64",
-          "title": "File size in bytes"
+          "title": "Consumers created"
         },
         "status": {
           "$ref": "#/definitions/platformUploadStatus",
           "title": "Upload status"
         },
-        "downloadUrl": {
+        "originalFilename": {
           "type": "string",
-          "title": "Download URL for the report"
+          "title": "Original filename"
+        },
+        "totalRecords": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Total records"
+        },
+        "fileType": {
+          "$ref": "#/definitions/platformFileType",
+          "title": "File type"
+        },
+        "tenantId": {
+          "type": "string",
+          "title": "Tenant ID"
+        },
+        "uploadedBy": {
+          "type": "string",
+          "title": "Uploaded by user"
+        },
+        "processingTimeMs": {
+          "type": "string",
+          "format": "uint64",
+          "title": "Processing time in milliseconds"
         }
       },
       "title": "Report file information"
@@ -976,67 +1111,18 @@
       },
       "description": "Request message for updating a MeterConnection."
     },
-    "platformUploadResponse": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "$ref": "#/definitions/platformUploadStatus",
-          "title": "Upload status"
-        },
-        "message": {
-          "type": "string",
-          "title": "Status message"
-        },
-        "connectionsCreated": {
-          "type": "integer",
-          "format": "int64",
-          "title": "Number of connections successfully created"
-        },
-        "connectionsFailed": {
-          "type": "integer",
-          "format": "int64",
-          "title": "Number of connections failed"
-        },
-        "totalProcessed": {
-          "type": "integer",
-          "format": "int64",
-          "title": "Total records processed"
-        },
-        "reportFilename": {
-          "type": "string",
-          "title": "Report file name (for download)"
-        },
-        "uploadedAt": {
-          "type": "string",
-          "format": "date-time",
-          "title": "Upload timestamp"
-        },
-        "createdConnectionIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "title": "List of successfully created connection IDs"
-        },
-        "failedConnections": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/platformFailedConnection"
-          },
-          "title": "List of failed connection numbers with error messages"
-        }
-      },
-      "title": "Upload response"
-    },
     "platformUploadStatus": {
       "type": "string",
       "enum": [
         "UPLOAD_STATUS_UNSPECIFIED",
         "UPLOAD_STATUS_SUCCESS",
-        "UPLOAD_STATUS_FAILED"
+        "UPLOAD_STATUS_PARTIAL",
+        "UPLOAD_STATUS_FAILED",
+        "UPLOAD_STATUS_VALIDATED"
       ],
       "default": "UPLOAD_STATUS_UNSPECIFIED",
-      "title": "Upload status"
+      "description": "- UPLOAD_STATUS_UNSPECIFIED: Unspecified status\n - UPLOAD_STATUS_SUCCESS: Complete success\n - UPLOAD_STATUS_PARTIAL: Partial success with some failures\n - UPLOAD_STATUS_FAILED: Complete failure\n - UPLOAD_STATUS_VALIDATED: For dry-run only validation",
+      "title": "Upload status enumeration"
     },
     "protobufAny": {
       "type": "object",

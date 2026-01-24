@@ -676,7 +676,7 @@ func request_ConnectionService_BulkUpload_0(ctx context.Context, marshaler runti
 	}
 	dec := marshaler.NewDecoder(req.Body)
 	for {
-		var protoReq UploadRequest
+		var protoReq BulkUploadRequest
 		err = dec.Decode(&protoReq)
 		if err == io.EOF {
 			break
@@ -1380,9 +1380,9 @@ var (
 
 	pattern_ConnectionService_ListMeterConnections_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"api", "connections", "connection_id", "meters"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_ConnectionService_BulkUpload_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "connections", "bulkupload"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_ConnectionService_BulkUpload_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "connections", "bulk-upload"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_ConnectionService_ListReportFiles_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "connections", "bulkupload", "reports"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_ConnectionService_ListReportFiles_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "connections", "bulk-upload", "reports"}, "", runtime.AssumeColonVerbOpt(true)))
 
 	pattern_ConnectionService_DownloadReport_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "connections", "bulk-upload", "report", "filename"}, "", runtime.AssumeColonVerbOpt(true)))
 )
