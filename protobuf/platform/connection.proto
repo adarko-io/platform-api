@@ -86,17 +86,17 @@ service ConnectionService {
     };
   }
 
-  // Upload CSV/Excel file using a client streaming RPC
-  rpc BulkUpload(stream UploadRequest) returns (UploadResponse) {
+  // Upload CSV/XLS/XLSX file using a client streaming RPC
+  rpc BulkUpload(stream BulkUploadRequest) returns (BulkUploadResponse) {
     option (google.api.http) = {
-      post: "/api/connections/bulkupload"
+      post: "/api/connections/bulk-upload"
     };
   }
 
   // List report files from bulk uploads
   rpc ListReportFiles(ListReportFilesRequest) returns (ListReportFilesResponse) {
     option (google.api.http) = {
-      get: "/api/connections/bulkupload/reports"
+      get: "/api/connections/bulk-upload/reports"
     };
   }
 
@@ -299,181 +299,198 @@ message ListMeterConnectionsResponse {
   repeated MeterConnection meter_connections = 2;
 }
 
-// File format types for bulk upload
-enum FileFormat {
-  FILE_FORMAT_UNSPECIFIED = 0;
-  FILE_FORMAT_CSV         = 1;
-  FILE_FORMAT_XLSX        = 2;
-  FILE_FORMAT_XLS         = 3;
-}
-
-// Upload status enumeration
-enum UploadStatus {
-  UPLOAD_STATUS_UNSPECIFIED = 0;
-  UPLOAD_STATUS_SUCCESS     = 1;
-  UPLOAD_STATUS_FAILED      = 2;
-  UPLOAD_STATUS_PARTIAL     = 3;
-}
-
-// Failed connection details
-message FailedConnection {
-  // Row number in the file (1-indexed, starting from data rows)
-  uint32 row_number = 1;
-
-  // Connection number from file
-  string connection_number = 2;
-
-  // Error message
-  string error_message = 3;
-}
-
-// File metadata
-message FileMetadata {
-  // Original file name
+// Bulk upload request (streaming like device)
+message BulkUploadRequest {
+  // CSV/XLS/XLSX file name
   string filename = 1;
   
-  // File size in bytes
-  uint64 size = 2;
+  // File content chunk (for CSV) or entire file bytes (for XLS/XLSX)
+  bytes content = 2;
+  
+  // File type: CSV, XLS, or XLSX
+  FileType file_type = 4;
+  
+  // Is this the first chunk? (for chunked uploads)
+  bool is_first_chunk = 5;
+  
+  // Is this the last chunk? (for chunked uploads)
+  bool is_last_chunk = 6;
+  
+  // Total file size in bytes
+  int64 total_size = 7;
+  
+  // Current chunk index
+  int32 chunk_index = 8;
+  
+  // Total chunks
+  int32 total_chunks = 9;
 }
 
-// Upload request message
-message UploadRequest {
-  oneof data {
-    // File metadata (should be first message in stream)
-    FileMetadata metadata = 1;
-
-    // File content chunk
-    bytes chunk = 2;
-
-    // Tenant ID for which connections are being created
-    string tenant_id = 3;
-  }
-}
-
-// Upload response
-message UploadResponse {
-  // Upload status
-  UploadStatus status = 1;
+// Bulk upload response
+message BulkUploadResponse {
+  // Uploaded file path
+  string filename = 1;
   
   // Status message
   string message = 2;
   
-  // Number of connections successfully created
+  // Number of connections created
   uint32 connections_created = 3;
   
   // Number of connections failed
   uint32 connections_failed = 4;
   
-  // Total records processed
-  uint32 total_processed = 5;
-  
-  // Report file name (for download)
-  string report_filename = 6;
-  
-  // Upload timestamp
-  google.protobuf.Timestamp uploaded_at = 7;
-  
-  // Tenant ID for which upload was done
-  string tenant_id = 8;
-  
-  // Original uploaded filename
-  string original_filename = 9;
-  
-  // List of failed connections with details
-  repeated FailedConnection failed_connections = 10;
-  
-  // List of successfully created connection IDs (optional)
-  repeated string created_connection_ids = 11;
-}
-
-// Report file information
-message ReportFile {
-  // Report filename (stored on server)
-  string filename = 1;
-  
-  // Original uploaded filename
-  string original_filename = 2;
-  
-  // File format
-  FileFormat format = 3;
-  
-  // Upload timestamp
-  google.protobuf.Timestamp uploaded_at = 4;
-  
-  // Number of connections successfully created
-  uint32 connections_created = 5;
-  
-  // Number of connections failed
-  uint32 connections_failed = 6;
+  // Number of consumers created (if applicable)
+  uint32 consumers_created = 5;
   
   // Total records processed
-  uint32 total_processed = 7;
+  uint32 total_processed = 6;
   
-  // File size in bytes
-  uint64 file_size = 8;
+  // Detailed report of each connection upload attempt
+  repeated BulkUploadReportItem report = 7;
+  
+  // Report file path
+  string report_filename = 8;
   
   // Upload status
   UploadStatus status = 9;
   
-  // Tenant ID
-  string tenant_id = 10;
+  // List of created connection IDs
+  repeated string connection_ids = 10;
   
-  // Download URL for the report (can be constructed on client side)
-  string download_url = 11;
+  // Processing time in milliseconds
+  uint64 processing_time_ms = 11;
+}
+
+// Individual record upload result
+message BulkUploadReportItem {
+  // Record index (1-based)
+  uint32 record_index = 1;
+  
+  // Connection number (if available)
+  string connection_number = 2;
+  
+  // Consumer name (if available)
+  string consumer_name = 3;
+  
+  // Status (Success/Failed)
+  string status = 4;
+  
+  // Error message if failed
+  string error_message = 5;
+  
+  // Created connection ID (if successful)
+  string connection_id = 6;
+  
+  // Created consumer ID (if consumer was created)
+  string consumer_id = 7;
+  
+  // Row number in original file
+  uint32 row_number = 8;
+  
+  // Sheet name (for Excel files)
+  string sheet_name = 9;
+  
+  // Warning messages (non-fatal issues)
+  repeated string warnings = 10;
 }
 
 // Request to list report files
 message ListReportFilesRequest {
   // Max number of reports to return
   uint32 limit = 1;
-
+  
   // Offset for pagination
   uint32 offset = 2;
-
-  // Search by filename (supports partial matching)
+  
+  // Search term
   string search = 3;
-
-  // Filter by file format
-  FileFormat format = 4;
   
-  // Filter by tenant ID
-  string tenant_id = 5;
+  // Start date filter
+  google.protobuf.Timestamp start_date = 4;
   
-  // Filter by status
-  UploadStatus status = 6;
+  // End date filter
+  google.protobuf.Timestamp end_date = 5;
   
-  // Filter by date range - start date
-  google.protobuf.Timestamp start_date = 7;
+  // File type filter
+  FileType file_type = 6;
   
-  // Filter by date range - end date
-  google.protobuf.Timestamp end_date = 8;
+  // Tenant ID filter
+  string tenant_id = 7;
 }
 
 // Response with list of report files
 message ListReportFilesResponse {
   // Total number of reports
   uint32 total_count = 1;
-
+  
   // List of report files
   repeated ReportFile reports = 2;
 }
 
-// Request to download a report file
-message DownloadReportRequest {
-  // Report filename to download
+// Report file information
+message ReportFile {
+  // File name
   string filename = 1;
   
-  // Optional: Include file metadata as first response
-  bool include_metadata = 2;
+  // File path
+  string path = 2;
+  
+  // Created at timestamp
+  google.protobuf.Timestamp created_at = 3;
+  
+  // Success count
+  uint32 success_count = 4;
+  
+  // Failure count
+  uint32 failure_count = 5;
+  
+  // Connections created
+  uint32 connections_created = 6;
+  
+  // Consumers created
+  uint32 consumers_created = 7;
+  
+  // Upload status
+  UploadStatus status = 8;
+  
+  // Original filename
+  string original_filename = 9;
+  
+  // Total records
+  uint32 total_records = 10;
+  
+  // File type
+  FileType file_type = 11;
+  
+  // Tenant ID
+  string tenant_id = 12;
+  
+  // Uploaded by user
+  string uploaded_by = 13;
+  
+  // Processing time in milliseconds
+  uint64 processing_time_ms = 14;
 }
 
-// Response for downloading report files
+// Request to download a report file
+message DownloadReportRequest {
+  // File name
+  string filename = 1;
+  
+}
+
+// Response for downloading report files (streaming)
 message DownloadReportResponse {
-  oneof content {
-    // File metadata (first message in stream if include_metadata is true)
-    FileMetadata metadata = 1;
-    
-    // File content chunk
-    bytes chunk = 2;
-  }
+  // File content chunk
+  bytes content = 1;
+  
+  // File name
+  string filename = 2;
+  
+  // Content type
+  string content_type = 3;
+  
+  // Total file size
+  int64 total_size = 4;
 }

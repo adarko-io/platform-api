@@ -408,3 +408,38 @@ enum ConsumerStatus {
   // Terminated consumer.
   CONSUMER_STATUS_TERMINATED = 3;
 }
+
+
+// Upload status enumeration
+enum UploadStatus {
+  // Unspecified status
+  UPLOAD_STATUS_UNSPECIFIED = 0;
+
+  // Complete success
+  UPLOAD_STATUS_SUCCESS = 1;
+
+  // Partial success with some failures
+  UPLOAD_STATUS_PARTIAL = 2;
+
+  // Complete failure
+  UPLOAD_STATUS_FAILED = 3;
+
+  // For dry-run only validation
+  UPLOAD_STATUS_VALIDATED = 4;
+}
+
+
+// Supported file types for bulk upload
+enum FileType {
+  // Unspecified file type
+  FILE_TYPE_UNSPECIFIED = 0;
+
+  // CSV file type
+  FILE_TYPE_CSV = 1;
+
+  // XLS file type
+  FILE_TYPE_XLS = 2;
+
+  // XLSX file type
+  FILE_TYPE_XLSX = 3;
+}
