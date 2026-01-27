@@ -332,17 +332,17 @@ enum ConnectionCategory {
 }
 
 enum MeterStatus {
-    // Unknown meter status.
-    METER_STATUS_UNKNOWN = 0;
+  // Unknown meter status.
+  METER_STATUS_UNKNOWN = 0;
 
-    // Active meter.
-    METER_STATUS_ACTIVE = 1;
+  // Active meter.
+  METER_STATUS_ACTIVE = 1;
 
-    // Inactive meter.
-    METER_STATUS_INACTIVE = 2;
+  // Inactive meter.
+  METER_STATUS_INACTIVE = 2;
 
-    // Removed meter.
-    METER_STATUS_REMOVED = 3;
+  // Removed meter.
+  METER_STATUS_REMOVED = 3;
 }
 
 // Timezone definitions covering UTC-12 to UTC+14 
@@ -395,7 +395,6 @@ enum TimeZone {
 }
 
 enum ConsumerStatus {
-  
   // Unknown consumer status.
   CONSUMER_STATUS_UNKNOWN = 0;
 
@@ -409,25 +408,17 @@ enum ConsumerStatus {
   CONSUMER_STATUS_TERMINATED = 3;
 }
 
-
-// Upload status enumeration
+// Upload status enumeration (simplified)
 enum UploadStatus {
   // Unspecified status
   UPLOAD_STATUS_UNSPECIFIED = 0;
 
-  // Complete success
+  // All records processed successfully
   UPLOAD_STATUS_SUCCESS = 1;
 
-  // Partial success with some failures
-  UPLOAD_STATUS_PARTIAL = 2;
-
-  // Complete failure
-  UPLOAD_STATUS_FAILED = 3;
-
-  // For dry-run only validation
-  UPLOAD_STATUS_VALIDATED = 4;
+  // Some or all records failed
+  UPLOAD_STATUS_FAILED = 2;
 }
-
 
 // Supported file types for bulk upload
 enum FileType {

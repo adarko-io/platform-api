@@ -86,10 +86,11 @@ service ConnectionService {
     };
   }
 
-  // Upload CSV/XLS/XLSX file using a client streaming RPC
-  rpc BulkUpload(stream BulkUploadRequest) returns (BulkUploadResponse) {
+  // Upload CSV/XLS/XLSX file (handles records with HTTP streaming)
+  rpc BulkUpload(BulkUploadRequest) returns (BulkUploadResponse) {
     option (google.api.http) = {
       post: "/api/connections/bulk-upload"
+      body: "*"
     };
   }
 
@@ -100,7 +101,7 @@ service ConnectionService {
     };
   }
 
-  // Download a report file
+  // Download a report file (server streaming for large files)
   rpc DownloadReport(DownloadReportRequest) returns (stream DownloadReportResponse) {
     option (google.api.http) = {
       get: "/api/connections/bulk-upload/report/{filename}"
@@ -299,43 +300,29 @@ message ListMeterConnectionsResponse {
   repeated MeterConnection meter_connections = 2;
 }
 
-// Bulk upload request (streaming like device)
+
+// Bulk upload request for HTTP multipart form upload
 message BulkUploadRequest {
-  // CSV/XLS/XLSX file name
-  string filename = 1;
+  // CSV/XLS/XLSX file content as bytes
+  bytes file_content = 1;
   
-  // File content chunk (for CSV) or entire file bytes (for XLS/XLSX)
-  bytes content = 2;
+  // Original file name
+  string filename = 2;
   
   // File type: CSV, XLS, or XLSX
-  FileType file_type = 4;
+  FileType file_type = 3;
   
-  // Is this the first chunk? (for chunked uploads)
-  bool is_first_chunk = 5;
-  
-  // Is this the last chunk? (for chunked uploads)
-  bool is_last_chunk = 6;
-  
-  // Total file size in bytes
-  int64 total_size = 7;
-  
-  // Current chunk index
-  int32 chunk_index = 8;
-  
-  // Total chunks
-  int32 total_chunks = 9;            
-  
-  // Tenant ID (UUID) to which the connection belongs.
-  string tenant_id = 10;
+  // Tenant ID (UUID) to which the connections belong
+  string tenant_id = 4;
 }
 
 // Bulk upload response
 message BulkUploadResponse {
-  // Uploaded file path
-  string filename = 1;
-  
   // Status message
-  string message = 2;
+  string message = 1;
+  
+  // Upload status (SUCCESS or FAILED)
+  UploadStatus status = 2;
   
   // Number of connections created
   uint32 connections_created = 3;
@@ -343,59 +330,41 @@ message BulkUploadResponse {
   // Number of connections failed
   uint32 connections_failed = 4;
   
-  // Number of consumers created (if applicable)
-  uint32 consumers_created = 5;
-  
   // Total records processed
-  uint32 total_processed = 6;
+  uint32 total_processed = 5;
   
-  // Detailed report of each connection upload attempt
-  repeated BulkUploadReportItem report = 7;
+  // Detailed report of each record processed
+  repeated BulkUploadReportItem report = 6;
   
-  // Report file path
-  string report_filename = 8;
-  
-  // Upload status
-  UploadStatus status = 9;
-  
-  // List of created connection IDs
-  repeated string connection_ids = 10;
+  // Report file name (if generated)
+  string report_filename = 7;
   
   // Processing time in milliseconds
-  uint64 processing_time_ms = 11;
+  uint64 processing_time_ms = 8;
+  
+  // List of successfully created connection IDs
+  repeated string connection_ids = 9;
 }
 
 // Individual record upload result
 message BulkUploadReportItem {
-  // Record index (1-based)
-  uint32 record_index = 1;
+  // Row number in file (1-based)
+  uint32 row_number = 1;
   
-  // Connection number (if available)
+  // Connection number from file
   string connection_number = 2;
   
-  // Consumer name (if available)
-  string consumer_name = 3;
-  
-  // Status (Success/Failed)
-  string status = 4;
+  // Status: "success" or "failed"
+  string status = 3;
   
   // Error message if failed
-  string error_message = 5;
+  string error_message = 4;
   
   // Created connection ID (if successful)
-  string connection_id = 6;
+  string connection_id = 5;
   
-  // Created consumer ID (if consumer was created)
-  string consumer_id = 7;
-  
-  // Row number in original file
-  uint32 row_number = 8;
-  
-  // Sheet name (for Excel files)
-  string sheet_name = 9;
-  
-  // Warning messages (non-fatal issues)
-  repeated string warnings = 10;
+  // Consumer name/ID (if available)
+  string consumer_info = 6;
 }
 
 // Request to list report files
@@ -420,6 +389,9 @@ message ListReportFilesRequest {
   
   // Tenant ID filter
   string tenant_id = 7;
+  
+  // Status filter
+  UploadStatus status = 8;
 }
 
 // Response with list of report files
@@ -433,67 +405,61 @@ message ListReportFilesResponse {
 
 // Report file information
 message ReportFile {
-  // File name
+  // Report file name
   string filename = 1;
   
-  // File path
-  string path = 2;
-  
   // Created at timestamp
-  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp created_at = 2;
   
   // Success count
-  uint32 success_count = 4;
+  uint32 success_count = 3;
   
   // Failure count
-  uint32 failure_count = 5;
-  
-  // Connections created
-  uint32 connections_created = 6;
-  
-  // Consumers created
-  uint32 consumers_created = 7;
+  uint32 failure_count = 4;
   
   // Upload status
-  UploadStatus status = 8;
+  UploadStatus status = 5;
   
-  // Original filename
-  string original_filename = 9;
-  
-  // Total records
-  uint32 total_records = 10;
+  // Original uploaded filename
+  string original_filename = 6;
   
   // File type
-  FileType file_type = 11;
+  FileType file_type = 7;
   
   // Tenant ID
-  string tenant_id = 12;
+  string tenant_id = 8;
   
-  // Uploaded by user
-  string uploaded_by = 13;
+  // Total records processed
+  uint32 total_records = 9;
   
   // Processing time in milliseconds
-  uint64 processing_time_ms = 14;
+  uint64 processing_time_ms = 10;
 }
 
 // Request to download a report file
 message DownloadReportRequest {
   // File name
   string filename = 1;
-  
 }
 
 // Response for downloading report files (streaming)
 message DownloadReportResponse {
-  // File content chunk
-  bytes content = 1;
-  
+  oneof data {
+    // First response contains metadata
+    DownloadMetadata metadata = 1;
+    // Subsequent responses contain file chunks
+    bytes chunk = 2;
+  }
+}
+
+// Download metadata sent in first response
+message DownloadMetadata {
   // File name
-  string filename = 2;
+  string filename = 1;
   
-  // Content type
-  string content_type = 3;
+  // Content type (e.g., "text/csv", "application/vnd.ms-excel")
+  string content_type = 2;
   
-  // Total file size
-  int64 total_size = 4;
+  // Total file size in bytes
+  int64 total_size = 3;
 }
