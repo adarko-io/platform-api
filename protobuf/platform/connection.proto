@@ -323,7 +323,10 @@ message BulkUploadRequest {
   int32 chunk_index = 8;
   
   // Total chunks
-  int32 total_chunks = 9;
+  int32 total_chunks = 9;            
+  
+  // Tenant ID (UUID) to which the connection belongs.
+  string tenant_id = 10;
 }
 
 // Bulk upload response
