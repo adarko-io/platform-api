@@ -201,6 +201,9 @@ message Connection {
 
   // User who last updated the consumer
   string updated_by = 20;
+
+  // Location information.
+  Location location = 22;
 }
 
 // Request message for creating a connection.

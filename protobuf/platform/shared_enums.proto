@@ -92,6 +92,9 @@ enum LocationSource {
   
   // GEO resolver WiFi.
   LOCATION_SOURCE_GEO_RESOLVER_WIFI = 10;
+
+  // GEO resolver MOBILE GPS.
+  LOCATION_SOURCE_GEO_RESOLVER_MOBILE_GPS = 11;
 }
 
 // Inventory status enumeration.

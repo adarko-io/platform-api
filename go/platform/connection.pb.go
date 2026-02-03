@@ -67,6 +67,8 @@ type Connection struct {
 	CreatedBy string `protobuf:"bytes,19,opt,name=created_by,json=createdBy,proto3" json:"created_by,omitempty"`
 	// User who last updated the consumer
 	UpdatedBy string `protobuf:"bytes,20,opt,name=updated_by,json=updatedBy,proto3" json:"updated_by,omitempty"`
+	// Location information.
+	Location *Location `protobuf:"bytes,22,opt,name=location,proto3" json:"location,omitempty"`
 }
 
 func (x *Connection) Reset() {
@@ -239,6 +241,13 @@ func (x *Connection) GetUpdatedBy() string {
 		return x.UpdatedBy
 	}
 	return ""
+}
+
+func (x *Connection) GetLocation() *Location {
+	if x != nil {
+		return x.Location
+	}
+	return nil
 }
 
 // Request message for creating a connection.
@@ -2655,7 +2664,7 @@ var file_platform_connection_proto_rawDesc = []byte{
 	0x6f, 0x1a, 0x1b, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2f, 0x73, 0x68, 0x61, 0x72,
 	0x65, 0x64, 0x5f, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1c,
 	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f,
-	0x73, 0x74, 0x72, 0x75, 0x63, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xc0, 0x06, 0x0a,
+	0x73, 0x74, 0x72, 0x75, 0x63, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xf0, 0x06, 0x0a,
 	0x0a, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x0e, 0x0a, 0x02, 0x69,
 	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x1f, 0x0a, 0x0b, 0x63,
 	0x6f, 0x6e, 0x73, 0x75, 0x6d, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
@@ -2704,7 +2713,10 @@ var file_platform_connection_proto_rawDesc = []byte{
 	0x74, 0x65, 0x64, 0x5f, 0x62, 0x79, 0x18, 0x13, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x63, 0x72,
 	0x65, 0x61, 0x74, 0x65, 0x64, 0x42, 0x79, 0x12, 0x1d, 0x0a, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74,
 	0x65, 0x64, 0x5f, 0x62, 0x79, 0x18, 0x14, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x75, 0x70, 0x64,
-	0x61, 0x74, 0x65, 0x64, 0x42, 0x79, 0x1a, 0x37, 0x0a, 0x09, 0x54, 0x61, 0x67, 0x73, 0x45, 0x6e,
+	0x61, 0x74, 0x65, 0x64, 0x42, 0x79, 0x12, 0x2e, 0x0a, 0x08, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x18, 0x16, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66,
+	0x6f, 0x72, 0x6d, 0x2e, 0x4c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x08, 0x6c, 0x6f,
+	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x1a, 0x37, 0x0a, 0x09, 0x54, 0x61, 0x67, 0x73, 0x45, 0x6e,
 	0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
 	0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22,
@@ -3239,10 +3251,11 @@ var file_platform_connection_proto_goTypes = []any{
 	(ConnectionCategory)(0),                  // 40: platform.ConnectionCategory
 	(ConnectionStatus)(0),                    // 41: platform.ConnectionStatus
 	(*timestamppb.Timestamp)(nil),            // 42: google.protobuf.Timestamp
-	(MeterStatus)(0),                         // 43: platform.MeterStatus
-	(FileType)(0),                            // 44: platform.FileType
-	(UploadStatus)(0),                        // 45: platform.UploadStatus
-	(*emptypb.Empty)(nil),                    // 46: google.protobuf.Empty
+	(*Location)(nil),                         // 43: platform.Location
+	(MeterStatus)(0),                         // 44: platform.MeterStatus
+	(FileType)(0),                            // 45: platform.FileType
+	(UploadStatus)(0),                        // 46: platform.UploadStatus
+	(*emptypb.Empty)(nil),                    // 47: google.protobuf.Empty
 }
 var file_platform_connection_proto_depIdxs = []int32{
 	39, // 0: platform.Connection.connection_type:type_name -> platform.ConnectionType
@@ -3251,83 +3264,84 @@ var file_platform_connection_proto_depIdxs = []int32{
 	37, // 3: platform.Connection.tags:type_name -> platform.Connection.TagsEntry
 	42, // 4: platform.Connection.created_at:type_name -> google.protobuf.Timestamp
 	42, // 5: platform.Connection.updated_at:type_name -> google.protobuf.Timestamp
-	0,  // 6: platform.CreateConnectionRequest.connection:type_name -> platform.Connection
-	0,  // 7: platform.GetConnectionResponse.connection:type_name -> platform.Connection
-	0,  // 8: platform.UpdateConnectionRequest.connection:type_name -> platform.Connection
-	41, // 9: platform.ListConnectionsRequest.status:type_name -> platform.ConnectionStatus
-	39, // 10: platform.ListConnectionsRequest.connection_type:type_name -> platform.ConnectionType
-	40, // 11: platform.ListConnectionsRequest.category:type_name -> platform.ConnectionCategory
-	0,  // 12: platform.ListConnectionsResponse.connections:type_name -> platform.Connection
-	42, // 13: platform.MeterConnection.installed_at:type_name -> google.protobuf.Timestamp
-	42, // 14: platform.MeterConnection.removed_at:type_name -> google.protobuf.Timestamp
-	42, // 15: platform.MeterConnection.created_at:type_name -> google.protobuf.Timestamp
-	42, // 16: platform.MeterConnection.updated_at:type_name -> google.protobuf.Timestamp
-	43, // 17: platform.MeterConnection.meter_status:type_name -> platform.MeterStatus
-	9,  // 18: platform.AddMeterToConnectionRequest.meter_connection:type_name -> platform.MeterConnection
-	9,  // 19: platform.GetMeterConnectionResponse.meter_connection:type_name -> platform.MeterConnection
-	9,  // 20: platform.UpdateMeterConnectionRequest.meter_connection:type_name -> platform.MeterConnection
-	43, // 21: platform.ListMeterConnectionsRequest.meter_status:type_name -> platform.MeterStatus
-	9,  // 22: platform.ListMeterConnectionsResponse.meter_connections:type_name -> platform.MeterConnection
-	44, // 23: platform.BulkUploadRequest.file_type:type_name -> platform.FileType
-	45, // 24: platform.BulkUploadResponse.status:type_name -> platform.UploadStatus
-	20, // 25: platform.BulkUploadResponse.report:type_name -> platform.BulkUploadReportItem
-	42, // 26: platform.ListReportFilesRequest.start_date:type_name -> google.protobuf.Timestamp
-	42, // 27: platform.ListReportFilesRequest.end_date:type_name -> google.protobuf.Timestamp
-	44, // 28: platform.ListReportFilesRequest.file_type:type_name -> platform.FileType
-	45, // 29: platform.ListReportFilesRequest.status:type_name -> platform.UploadStatus
-	23, // 30: platform.ListReportFilesResponse.reports:type_name -> platform.ReportFile
-	42, // 31: platform.ReportFile.created_at:type_name -> google.protobuf.Timestamp
-	45, // 32: platform.ReportFile.status:type_name -> platform.UploadStatus
-	44, // 33: platform.ReportFile.file_type:type_name -> platform.FileType
-	26, // 34: platform.DownloadReportResponse.metadata:type_name -> platform.DownloadMetadata
-	42, // 35: platform.Zone.created_at:type_name -> google.protobuf.Timestamp
-	42, // 36: platform.Zone.updated_at:type_name -> google.protobuf.Timestamp
-	38, // 37: platform.Zone.tags:type_name -> platform.Zone.TagsEntry
-	27, // 38: platform.CreateZoneRequest.zone:type_name -> platform.Zone
-	27, // 39: platform.GetZoneResponse.zone:type_name -> platform.Zone
-	27, // 40: platform.ListZonesResponse.zones:type_name -> platform.Zone
-	27, // 41: platform.UpdateZoneRequest.zone:type_name -> platform.Zone
-	1,  // 42: platform.ConnectionService.Create:input_type -> platform.CreateConnectionRequest
-	3,  // 43: platform.ConnectionService.Get:input_type -> platform.GetConnectionRequest
-	5,  // 44: platform.ConnectionService.Update:input_type -> platform.UpdateConnectionRequest
-	6,  // 45: platform.ConnectionService.Delete:input_type -> platform.DeleteConnectionRequest
-	7,  // 46: platform.ConnectionService.List:input_type -> platform.ListConnectionsRequest
-	28, // 47: platform.ConnectionService.CreateZone:input_type -> platform.CreateZoneRequest
-	30, // 48: platform.ConnectionService.GetZone:input_type -> platform.GetZoneRequest
-	32, // 49: platform.ConnectionService.ListZones:input_type -> platform.ListZonesRequest
-	34, // 50: platform.ConnectionService.DeleteZone:input_type -> platform.DeleteZoneRequest
-	35, // 51: platform.ConnectionService.UpdateZone:input_type -> platform.UpdateZoneRequest
-	10, // 52: platform.ConnectionService.AddMeterToConnection:input_type -> platform.AddMeterToConnectionRequest
-	12, // 53: platform.ConnectionService.GetMeterConnection:input_type -> platform.GetMeterConnectionRequest
-	14, // 54: platform.ConnectionService.RemoveMeterFromConnection:input_type -> platform.RemoveMeterFromConnectionRequest
-	15, // 55: platform.ConnectionService.UpdateMeterConnection:input_type -> platform.UpdateMeterConnectionRequest
-	16, // 56: platform.ConnectionService.ListMeterConnections:input_type -> platform.ListMeterConnectionsRequest
-	18, // 57: platform.ConnectionService.BulkUpload:input_type -> platform.BulkUploadRequest
-	21, // 58: platform.ConnectionService.ListReportFiles:input_type -> platform.ListReportFilesRequest
-	24, // 59: platform.ConnectionService.DownloadReport:input_type -> platform.DownloadReportRequest
-	2,  // 60: platform.ConnectionService.Create:output_type -> platform.CreateConnectionResponse
-	4,  // 61: platform.ConnectionService.Get:output_type -> platform.GetConnectionResponse
-	46, // 62: platform.ConnectionService.Update:output_type -> google.protobuf.Empty
-	46, // 63: platform.ConnectionService.Delete:output_type -> google.protobuf.Empty
-	8,  // 64: platform.ConnectionService.List:output_type -> platform.ListConnectionsResponse
-	29, // 65: platform.ConnectionService.CreateZone:output_type -> platform.CreateZoneResponse
-	31, // 66: platform.ConnectionService.GetZone:output_type -> platform.GetZoneResponse
-	33, // 67: platform.ConnectionService.ListZones:output_type -> platform.ListZonesResponse
-	46, // 68: platform.ConnectionService.DeleteZone:output_type -> google.protobuf.Empty
-	36, // 69: platform.ConnectionService.UpdateZone:output_type -> platform.UpdateZoneResponse
-	11, // 70: platform.ConnectionService.AddMeterToConnection:output_type -> platform.AddMeterToConnectionResponse
-	13, // 71: platform.ConnectionService.GetMeterConnection:output_type -> platform.GetMeterConnectionResponse
-	46, // 72: platform.ConnectionService.RemoveMeterFromConnection:output_type -> google.protobuf.Empty
-	46, // 73: platform.ConnectionService.UpdateMeterConnection:output_type -> google.protobuf.Empty
-	17, // 74: platform.ConnectionService.ListMeterConnections:output_type -> platform.ListMeterConnectionsResponse
-	19, // 75: platform.ConnectionService.BulkUpload:output_type -> platform.BulkUploadResponse
-	22, // 76: platform.ConnectionService.ListReportFiles:output_type -> platform.ListReportFilesResponse
-	25, // 77: platform.ConnectionService.DownloadReport:output_type -> platform.DownloadReportResponse
-	60, // [60:78] is the sub-list for method output_type
-	42, // [42:60] is the sub-list for method input_type
-	42, // [42:42] is the sub-list for extension type_name
-	42, // [42:42] is the sub-list for extension extendee
-	0,  // [0:42] is the sub-list for field type_name
+	43, // 6: platform.Connection.location:type_name -> platform.Location
+	0,  // 7: platform.CreateConnectionRequest.connection:type_name -> platform.Connection
+	0,  // 8: platform.GetConnectionResponse.connection:type_name -> platform.Connection
+	0,  // 9: platform.UpdateConnectionRequest.connection:type_name -> platform.Connection
+	41, // 10: platform.ListConnectionsRequest.status:type_name -> platform.ConnectionStatus
+	39, // 11: platform.ListConnectionsRequest.connection_type:type_name -> platform.ConnectionType
+	40, // 12: platform.ListConnectionsRequest.category:type_name -> platform.ConnectionCategory
+	0,  // 13: platform.ListConnectionsResponse.connections:type_name -> platform.Connection
+	42, // 14: platform.MeterConnection.installed_at:type_name -> google.protobuf.Timestamp
+	42, // 15: platform.MeterConnection.removed_at:type_name -> google.protobuf.Timestamp
+	42, // 16: platform.MeterConnection.created_at:type_name -> google.protobuf.Timestamp
+	42, // 17: platform.MeterConnection.updated_at:type_name -> google.protobuf.Timestamp
+	44, // 18: platform.MeterConnection.meter_status:type_name -> platform.MeterStatus
+	9,  // 19: platform.AddMeterToConnectionRequest.meter_connection:type_name -> platform.MeterConnection
+	9,  // 20: platform.GetMeterConnectionResponse.meter_connection:type_name -> platform.MeterConnection
+	9,  // 21: platform.UpdateMeterConnectionRequest.meter_connection:type_name -> platform.MeterConnection
+	44, // 22: platform.ListMeterConnectionsRequest.meter_status:type_name -> platform.MeterStatus
+	9,  // 23: platform.ListMeterConnectionsResponse.meter_connections:type_name -> platform.MeterConnection
+	45, // 24: platform.BulkUploadRequest.file_type:type_name -> platform.FileType
+	46, // 25: platform.BulkUploadResponse.status:type_name -> platform.UploadStatus
+	20, // 26: platform.BulkUploadResponse.report:type_name -> platform.BulkUploadReportItem
+	42, // 27: platform.ListReportFilesRequest.start_date:type_name -> google.protobuf.Timestamp
+	42, // 28: platform.ListReportFilesRequest.end_date:type_name -> google.protobuf.Timestamp
+	45, // 29: platform.ListReportFilesRequest.file_type:type_name -> platform.FileType
+	46, // 30: platform.ListReportFilesRequest.status:type_name -> platform.UploadStatus
+	23, // 31: platform.ListReportFilesResponse.reports:type_name -> platform.ReportFile
+	42, // 32: platform.ReportFile.created_at:type_name -> google.protobuf.Timestamp
+	46, // 33: platform.ReportFile.status:type_name -> platform.UploadStatus
+	45, // 34: platform.ReportFile.file_type:type_name -> platform.FileType
+	26, // 35: platform.DownloadReportResponse.metadata:type_name -> platform.DownloadMetadata
+	42, // 36: platform.Zone.created_at:type_name -> google.protobuf.Timestamp
+	42, // 37: platform.Zone.updated_at:type_name -> google.protobuf.Timestamp
+	38, // 38: platform.Zone.tags:type_name -> platform.Zone.TagsEntry
+	27, // 39: platform.CreateZoneRequest.zone:type_name -> platform.Zone
+	27, // 40: platform.GetZoneResponse.zone:type_name -> platform.Zone
+	27, // 41: platform.ListZonesResponse.zones:type_name -> platform.Zone
+	27, // 42: platform.UpdateZoneRequest.zone:type_name -> platform.Zone
+	1,  // 43: platform.ConnectionService.Create:input_type -> platform.CreateConnectionRequest
+	3,  // 44: platform.ConnectionService.Get:input_type -> platform.GetConnectionRequest
+	5,  // 45: platform.ConnectionService.Update:input_type -> platform.UpdateConnectionRequest
+	6,  // 46: platform.ConnectionService.Delete:input_type -> platform.DeleteConnectionRequest
+	7,  // 47: platform.ConnectionService.List:input_type -> platform.ListConnectionsRequest
+	28, // 48: platform.ConnectionService.CreateZone:input_type -> platform.CreateZoneRequest
+	30, // 49: platform.ConnectionService.GetZone:input_type -> platform.GetZoneRequest
+	32, // 50: platform.ConnectionService.ListZones:input_type -> platform.ListZonesRequest
+	34, // 51: platform.ConnectionService.DeleteZone:input_type -> platform.DeleteZoneRequest
+	35, // 52: platform.ConnectionService.UpdateZone:input_type -> platform.UpdateZoneRequest
+	10, // 53: platform.ConnectionService.AddMeterToConnection:input_type -> platform.AddMeterToConnectionRequest
+	12, // 54: platform.ConnectionService.GetMeterConnection:input_type -> platform.GetMeterConnectionRequest
+	14, // 55: platform.ConnectionService.RemoveMeterFromConnection:input_type -> platform.RemoveMeterFromConnectionRequest
+	15, // 56: platform.ConnectionService.UpdateMeterConnection:input_type -> platform.UpdateMeterConnectionRequest
+	16, // 57: platform.ConnectionService.ListMeterConnections:input_type -> platform.ListMeterConnectionsRequest
+	18, // 58: platform.ConnectionService.BulkUpload:input_type -> platform.BulkUploadRequest
+	21, // 59: platform.ConnectionService.ListReportFiles:input_type -> platform.ListReportFilesRequest
+	24, // 60: platform.ConnectionService.DownloadReport:input_type -> platform.DownloadReportRequest
+	2,  // 61: platform.ConnectionService.Create:output_type -> platform.CreateConnectionResponse
+	4,  // 62: platform.ConnectionService.Get:output_type -> platform.GetConnectionResponse
+	47, // 63: platform.ConnectionService.Update:output_type -> google.protobuf.Empty
+	47, // 64: platform.ConnectionService.Delete:output_type -> google.protobuf.Empty
+	8,  // 65: platform.ConnectionService.List:output_type -> platform.ListConnectionsResponse
+	29, // 66: platform.ConnectionService.CreateZone:output_type -> platform.CreateZoneResponse
+	31, // 67: platform.ConnectionService.GetZone:output_type -> platform.GetZoneResponse
+	33, // 68: platform.ConnectionService.ListZones:output_type -> platform.ListZonesResponse
+	47, // 69: platform.ConnectionService.DeleteZone:output_type -> google.protobuf.Empty
+	36, // 70: platform.ConnectionService.UpdateZone:output_type -> platform.UpdateZoneResponse
+	11, // 71: platform.ConnectionService.AddMeterToConnection:output_type -> platform.AddMeterToConnectionResponse
+	13, // 72: platform.ConnectionService.GetMeterConnection:output_type -> platform.GetMeterConnectionResponse
+	47, // 73: platform.ConnectionService.RemoveMeterFromConnection:output_type -> google.protobuf.Empty
+	47, // 74: platform.ConnectionService.UpdateMeterConnection:output_type -> google.protobuf.Empty
+	17, // 75: platform.ConnectionService.ListMeterConnections:output_type -> platform.ListMeterConnectionsResponse
+	19, // 76: platform.ConnectionService.BulkUpload:output_type -> platform.BulkUploadResponse
+	22, // 77: platform.ConnectionService.ListReportFiles:output_type -> platform.ListReportFilesResponse
+	25, // 78: platform.ConnectionService.DownloadReport:output_type -> platform.DownloadReportResponse
+	61, // [61:79] is the sub-list for method output_type
+	43, // [43:61] is the sub-list for method input_type
+	43, // [43:43] is the sub-list for extension type_name
+	43, // [43:43] is the sub-list for extension extendee
+	0,  // [0:43] is the sub-list for field type_name
 }
 
 func init() { file_platform_connection_proto_init() }
