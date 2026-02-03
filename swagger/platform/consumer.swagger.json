@@ -220,30 +220,6 @@
           "type": "string",
           "title": "Consumer Mobile Country Code"
         },
-        "email": {
-          "type": "string",
-          "title": "Consumer Email"
-        },
-        "address": {
-          "type": "string",
-          "title": "Consumer Address"
-        },
-        "city": {
-          "type": "string",
-          "title": "Consumer City"
-        },
-        "state": {
-          "type": "string",
-          "title": "Consumer State"
-        },
-        "country": {
-          "type": "string",
-          "title": "Consumer Country"
-        },
-        "postalCode": {
-          "type": "string",
-          "title": "Consumer Postal Code"
-        },
         "status": {
           "$ref": "#/definitions/platformConsumerStatus",
           "title": "Consumer Status"
@@ -274,6 +250,13 @@
           "type": "string",
           "format": "uint64",
           "title": "Consumer number (unique identifier)"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Tags associated with the consumer."
         },
         "tenantId": {
           "type": "string",

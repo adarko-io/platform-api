@@ -62,23 +62,6 @@ message Consumer {
   // Consumer Mobile Country Code
   string mobile_country_code = 4;
 
-  // Consumer Email
-  string email = 5;
-
-  // Consumer Address
-  string address = 6;
-
-  // Consumer City
-  string city = 7;
-
-  // Consumer State
-  string state = 8;
-
-  // Consumer Country
-  string country = 9;
-
-  // Consumer Postal Code
-  string postal_code = 10;
 
   // Consumer Status
   ConsumerStatus status = 11; // ACTIVE/INACTIVE/TERMINATED
@@ -101,8 +84,11 @@ message Consumer {
   // Consumer number (unique identifier)
   uint64 consumer_number = 17;
 
+  // Tags associated with the consumer.
+  map<string, string> tags = 18;
+
   // Tenant ID (UUID) to which the consumer belongs.
-  string tenant_id = 18;
+  string tenant_id = 19;
 }
 
 message CreateConsumerRequest {

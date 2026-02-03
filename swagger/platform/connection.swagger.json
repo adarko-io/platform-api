@@ -640,6 +640,187 @@
           "ConnectionService"
         ]
       }
+    },
+    "/api/zones": {
+      "get": {
+        "summary": "List Zones/Blocks/Localities",
+        "operationId": "ConnectionService_ListZones",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformListZonesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "tenantId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      },
+      "post": {
+        "summary": "Create Zone/Block/Locality within a city",
+        "operationId": "ConnectionService_CreateZone",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformCreateZoneResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformCreateZoneRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/api/zones/{id}": {
+      "get": {
+        "summary": "Get Zone/Block/Locality by ID",
+        "operationId": "ConnectionService_GetZone",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetZoneResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      },
+      "delete": {
+        "summary": "Delete Zone/Block/Locality by ID",
+        "operationId": "ConnectionService_DeleteZone",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/api/zones/{zone.id}": {
+      "put": {
+        "summary": "Update Zone/Block/Locality by ID",
+        "operationId": "ConnectionService_UpdateZone",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformUpdateZoneResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "zone.id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformUpdateZoneRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -788,6 +969,7 @@
         },
         "connectionNumber": {
           "type": "string",
+          "format": "uint64",
           "description": "Connection or service number."
         },
         "category": {
@@ -802,6 +984,34 @@
           "type": "string",
           "description": "Tenant ID (UUID) to which the connection belongs."
         },
+        "doorPlotNumber": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "zoneId": {
+          "type": "string",
+          "title": "Zone ID (UUID) to which the connection belongs. (Zone /Block/Locality within a city)"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "createdAt": {
           "type": "string",
           "format": "date-time",
@@ -811,6 +1021,14 @@
           "type": "string",
           "format": "date-time",
           "description": "Timestamp when the connection was last updated."
+        },
+        "createdBy": {
+          "type": "string",
+          "title": "User who created the consumer"
+        },
+        "updatedBy": {
+          "type": "string",
+          "title": "User who last updated the consumer"
         }
       },
       "description": "Connection represents a connection configuration for a consumer."
@@ -865,6 +1083,22 @@
         }
       },
       "description": "Response message for creating a connection."
+    },
+    "platformCreateZoneRequest": {
+      "type": "object",
+      "properties": {
+        "zone": {
+          "$ref": "#/definitions/platformZone"
+        }
+      }
+    },
+    "platformCreateZoneResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
     },
     "platformDownloadMetadata": {
       "type": "object",
@@ -930,6 +1164,14 @@
       },
       "description": "Response message for getting a MeterConnection."
     },
+    "platformGetZoneResponse": {
+      "type": "object",
+      "properties": {
+        "zone": {
+          "$ref": "#/definitions/platformZone"
+        }
+      }
+    },
     "platformListConnectionsResponse": {
       "type": "object",
       "properties": {
@@ -983,6 +1225,21 @@
         }
       },
       "title": "Response with list of report files"
+    },
+    "platformListZonesResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "zones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformZone"
+          }
+        }
+      }
     },
     "platformMeterConnection": {
       "type": "object",
@@ -1120,6 +1377,22 @@
       },
       "description": "Request message for updating a MeterConnection."
     },
+    "platformUpdateZoneRequest": {
+      "type": "object",
+      "properties": {
+        "zone": {
+          "$ref": "#/definitions/platformZone"
+        }
+      }
+    },
+    "platformUpdateZoneResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
     "platformUploadStatus": {
       "type": "string",
       "enum": [
@@ -1130,6 +1403,46 @@
       "default": "UPLOAD_STATUS_UNSPECIFIED",
       "description": "- UPLOAD_STATUS_UNSPECIFIED: Unspecified status\n - UPLOAD_STATUS_SUCCESS: All records processed successfully\n - UPLOAD_STATUS_FAILED: Some or all records failed",
       "title": "Upload status enumeration (simplified)"
+    },
+    "platformZone": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "updatedBy": {
+          "type": "string"
+        },
+        "tenantId": {
+          "type": "string"
+        },
+        "applicationId": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
     },
     "protobufAny": {
       "type": "object",

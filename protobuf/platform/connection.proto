@@ -49,6 +49,44 @@ service ConnectionService {
     };
   }
 
+  //Create Zone/Block/Locality within a city
+  rpc CreateZone(CreateZoneRequest) returns (CreateZoneResponse) {
+    option (google.api.http) = {
+      post: "/api/zones"
+      body: "*"
+    };
+  }
+
+  //Get Zone/Block/Locality by ID
+  rpc GetZone(GetZoneRequest) returns (GetZoneResponse) {
+    option (google.api.http) = {
+      get: "/api/zones/{id}"
+    };
+  }
+
+  //List Zones/Blocks/Localities
+  rpc ListZones(ListZonesRequest) returns (ListZonesResponse) {
+    option (google.api.http) = {
+      get: "/api/zones"
+    };
+  }
+
+  //Delete Zone/Block/Locality by ID
+  rpc DeleteZone(DeleteZoneRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/api/zones/{id}"
+    };
+  }
+
+ 
+  // Update Zone/Block/Locality by ID
+  rpc UpdateZone(UpdateZoneRequest) returns (UpdateZoneResponse) {
+    option (google.api.http) = {
+      put: "/api/zones/{zone.id}"
+      body: "*"
+    };
+  }
+
   // Add a meter to a connection.
   rpc AddMeterToConnection(AddMeterToConnectionRequest) returns (AddMeterToConnectionResponse) {
     option (google.api.http) = {
@@ -124,7 +162,7 @@ message Connection {
   ConnectionType connection_type = 4;
 
   // Connection or service number.
-  string connection_number = 5;
+  uint64 connection_number = 5;
 
   // Category of the connection (e.g., domestic, commercial, industrial).
   ConnectionCategory category = 6;
@@ -135,11 +173,34 @@ message Connection {
   // Tenant ID (UUID) to which the connection belongs.
   string tenant_id = 8;
 
+  string door_plot_number = 10;
+
+  string address = 11;
+
+  string city = 12;
+
+  string state = 13;
+
+  string country = 14;
+
+  string postal_code = 15;
+
+  //Zone ID (UUID) to which the connection belongs. (Zone /Block/Locality within a city)
+  string zone_id = 21;
+
+   map<string, string> tags = 16;
+
   // Timestamp when the connection was created.
-  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp created_at = 17;
 
   // Timestamp when the connection was last updated.
-  google.protobuf.Timestamp updated_at = 10;
+  google.protobuf.Timestamp updated_at = 18;
+
+  // User who created the consumer
+  string created_by = 19;
+
+  // User who last updated the consumer
+  string updated_by = 20;
 }
 
 // Request message for creating a connection.
@@ -462,4 +523,55 @@ message DownloadMetadata {
   
   // Total file size in bytes
   int64 total_size = 3;
+}
+
+
+message Zone {
+  string id = 1;
+  string name = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+  string created_by = 5;
+  string updated_by = 6;
+  string tenant_id = 7;
+  string application_id = 8;
+  string description = 9;
+  map<string, string> tags = 10;
+}
+message CreateZoneRequest {
+ Zone zone = 1;
+}
+
+message CreateZoneResponse {
+  string id = 1;
+}
+
+message GetZoneRequest {
+  string id = 1;
+}
+
+message GetZoneResponse {
+  Zone zone = 1;
+}
+
+message ListZonesRequest {
+  uint32 limit = 1;
+  uint32 offset = 2;
+  string tenant_id = 3;
+  string search = 4; 
+}
+
+message ListZonesResponse {
+  uint32 total_count = 1;
+  repeated Zone zones = 2;
+}
+
+message DeleteZoneRequest {
+  string id = 1;
+}
+message UpdateZoneRequest {
+  Zone zone = 1;
+}
+message UpdateZoneResponse {
+  string id = 1;
 }
