@@ -220,6 +220,9 @@
           "type": "string",
           "title": "Consumer Mobile Country Code"
         },
+        "email": {
+          "type": "string"
+        },
         "status": {
           "$ref": "#/definitions/platformConsumerStatus",
           "title": "Consumer Status"
@@ -227,6 +230,22 @@
         "note": {
           "type": "string",
           "title": "Additional notes about the consumer"
+        },
+        "consumerNumber": {
+          "type": "string",
+          "format": "uint64",
+          "title": "Consumer number (unique identifier)"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Tags associated with the consumer."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant ID (UUID) to which the consumer belongs."
         },
         "createdBy": {
           "type": "string",
@@ -245,22 +264,6 @@
           "type": "string",
           "format": "date-time",
           "title": "Last update timestamp"
-        },
-        "consumerNumber": {
-          "type": "string",
-          "format": "uint64",
-          "title": "Consumer number (unique identifier)"
-        },
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Tags associated with the consumer."
-        },
-        "tenantId": {
-          "type": "string",
-          "description": "Tenant ID (UUID) to which the consumer belongs."
         }
       }
     },

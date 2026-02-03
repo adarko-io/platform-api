@@ -62,33 +62,36 @@ message Consumer {
   // Consumer Mobile Country Code
   string mobile_country_code = 4;
 
+  string email = 5;
 
   // Consumer Status
-  ConsumerStatus status = 11; // ACTIVE/INACTIVE/TERMINATED
+  ConsumerStatus status = 6; // ACTIVE/INACTIVE/TERMINATED
 
   // Additional notes about the consumer
-  string note = 12;
-
-  // User who created the consumer
-  string created_by = 13;
-
-  // User who last updated the consumer
-  string updated_by = 14;
-
-  // Creation timestamp
-  google.protobuf.Timestamp created_at = 15;
-
-  // Last update timestamp
-  google.protobuf.Timestamp updated_at = 16;
+  string note = 7;
 
   // Consumer number (unique identifier)
-  uint64 consumer_number = 17;
+  uint64 consumer_number = 8;
 
   // Tags associated with the consumer.
-  map<string, string> tags = 18;
+  map<string, string> tags = 9;
 
   // Tenant ID (UUID) to which the consumer belongs.
-  string tenant_id = 19;
+  string tenant_id = 10;
+
+  // User who created the consumer
+  string created_by = 11;
+
+  // User who last updated the consumer
+  string updated_by = 12;
+
+  // Creation timestamp
+  google.protobuf.Timestamp created_at = 13;
+
+  // Last update timestamp
+  google.protobuf.Timestamp updated_at = 14;
+
+  
 }
 
 message CreateConsumerRequest {
