@@ -1488,6 +1488,9 @@
         "description": {
           "type": "string"
         },
+        "parentZoneId": {
+          "type": "string"
+        },
         "tags": {
           "type": "object",
           "additionalProperties": {

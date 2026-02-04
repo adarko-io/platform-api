@@ -539,7 +539,8 @@ message Zone {
   string tenant_id = 7;
   string application_id = 8;
   string description = 9;
-  map<string, string> tags = 10;
+  string parent_zone_id = 10;
+  map<string, string> tags = 11;
 }
 message CreateZoneRequest {
  Zone zone = 1;
