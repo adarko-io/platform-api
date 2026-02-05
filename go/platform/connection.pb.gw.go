@@ -621,15 +621,15 @@ func request_ConnectionService_GetMeterConnection_0(ctx context.Context, marshal
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "connection_id", err)
 	}
 
-	val, ok = pathParams["meter_connection_id"]
+	val, ok = pathParams["meter_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "meter_connection_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "meter_id")
 	}
 
-	protoReq.MeterConnectionId, err = runtime.String(val)
+	protoReq.MeterId, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "meter_connection_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "meter_id", err)
 	}
 
 	msg, err := client.GetMeterConnection(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -659,15 +659,15 @@ func local_request_ConnectionService_GetMeterConnection_0(ctx context.Context, m
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "connection_id", err)
 	}
 
-	val, ok = pathParams["meter_connection_id"]
+	val, ok = pathParams["meter_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "meter_connection_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "meter_id")
 	}
 
-	protoReq.MeterConnectionId, err = runtime.String(val)
+	protoReq.MeterId, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "meter_connection_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "meter_id", err)
 	}
 
 	msg, err := server.GetMeterConnection(ctx, &protoReq)
@@ -697,15 +697,15 @@ func request_ConnectionService_RemoveMeterFromConnection_0(ctx context.Context, 
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "connection_id", err)
 	}
 
-	val, ok = pathParams["meter_connection_id"]
+	val, ok = pathParams["meter_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "meter_connection_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "meter_id")
 	}
 
-	protoReq.MeterConnectionId, err = runtime.String(val)
+	protoReq.MeterId, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "meter_connection_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "meter_id", err)
 	}
 
 	msg, err := client.RemoveMeterFromConnection(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -735,15 +735,15 @@ func local_request_ConnectionService_RemoveMeterFromConnection_0(ctx context.Con
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "connection_id", err)
 	}
 
-	val, ok = pathParams["meter_connection_id"]
+	val, ok = pathParams["meter_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "meter_connection_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "meter_id")
 	}
 
-	protoReq.MeterConnectionId, err = runtime.String(val)
+	protoReq.MeterId, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "meter_connection_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "meter_id", err)
 	}
 
 	msg, err := server.RemoveMeterFromConnection(ctx, &protoReq)
@@ -1851,9 +1851,9 @@ var (
 
 	pattern_ConnectionService_AddMeterToConnection_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"api", "connections", "meter_connection.connection_id", "meters"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_ConnectionService_GetMeterConnection_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "connections", "connection_id", "meters", "meter_connection_id"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_ConnectionService_GetMeterConnection_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "connections", "connection_id", "meters", "meter_id"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_ConnectionService_RemoveMeterFromConnection_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "connections", "connection_id", "meters", "meter_connection_id"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_ConnectionService_RemoveMeterFromConnection_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "connections", "connection_id", "meters", "meter_id"}, "", runtime.AssumeColonVerbOpt(true)))
 
 	pattern_ConnectionService_UpdateMeterConnection_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "connections", "meter_connection.connection_id", "meters", "meter_connection.id"}, "", runtime.AssumeColonVerbOpt(true)))
 

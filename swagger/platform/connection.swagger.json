@@ -451,7 +451,7 @@
         ]
       }
     },
-    "/api/connections/{connectionId}/meters/{meterConnectionId}": {
+    "/api/connections/{connectionId}/meters/{meterId}": {
       "get": {
         "summary": "Get a meter connection by ID.",
         "operationId": "ConnectionService_GetMeterConnection",
@@ -477,7 +477,7 @@
             "type": "string"
           },
           {
-            "name": "meterConnectionId",
+            "name": "meterId",
             "in": "path",
             "required": true,
             "type": "string"
@@ -512,7 +512,7 @@
             "type": "string"
           },
           {
-            "name": "meterConnectionId",
+            "name": "meterId",
             "in": "path",
             "required": true,
             "type": "string"

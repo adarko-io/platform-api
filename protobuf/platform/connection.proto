@@ -98,14 +98,14 @@ service ConnectionService {
   // Get a meter connection by ID.
   rpc GetMeterConnection(GetMeterConnectionRequest) returns (GetMeterConnectionResponse) {
     option (google.api.http) = {
-      get: "/api/connections/{connection_id}/meters/{meter_connection_id}"
+      get: "/api/connections/{connection_id}/meters/{meter_id}"
     };
   }
 
   // Remove a meter from a connection.
   rpc RemoveMeterFromConnection(RemoveMeterFromConnectionRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete: "/api/connections/{connection_id}/meters/{meter_connection_id}"
+      delete: "/api/connections/{connection_id}/meters/{meter_id}"
     };
   }
 
@@ -321,7 +321,7 @@ message AddMeterToConnectionResponse {
 // Request message for getting a MeterConnection by ID.
 message GetMeterConnectionRequest {
   string connection_id = 1;
-  string meter_connection_id = 2;
+  string meter_id = 2;
 }
 
 // Response message for getting a MeterConnection.
@@ -332,7 +332,7 @@ message GetMeterConnectionResponse {
 // Request message for removing a meter from a connection.
 message RemoveMeterFromConnectionRequest {
   string connection_id = 1;
-  string meter_connection_id = 2;
+  string meter_id = 2;
 }
 
 // Request message for updating a MeterConnection.
