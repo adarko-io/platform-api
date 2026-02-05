@@ -533,6 +533,8 @@ type DeviceListItem struct {
 	DeviceStatus    *DeviceStatus `protobuf:"bytes,8,opt,name=device_status,json=deviceStatus,proto3" json:"device_status,omitempty"`
 	// Device tags.
 	Tags map[string]string `protobuf:"bytes,9,rep,name=tags,proto3" json:"tags,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	// locations
+	Location *Location `protobuf:"bytes,10,opt,name=location,proto3" json:"location,omitempty"`
 }
 
 func (x *DeviceListItem) Reset() {
@@ -626,6 +628,13 @@ func (x *DeviceListItem) GetDeviceStatus() *DeviceStatus {
 func (x *DeviceListItem) GetTags() map[string]string {
 	if x != nil {
 		return x.Tags
+	}
+	return nil
+}
+
+func (x *DeviceListItem) GetLocation() *Location {
+	if x != nil {
+		return x.Location
 	}
 	return nil
 }
@@ -1255,7 +1264,7 @@ var file_platform_device_proto_rawDesc = []byte{
 	0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x0a, 0x6c, 0x61, 0x73, 0x74, 0x53, 0x65, 0x65, 0x6e,
 	0x41, 0x74, 0x12, 0x1b, 0x0a, 0x09, 0x69, 0x73, 0x5f, 0x6f, 0x6e, 0x6c, 0x69, 0x6e, 0x65, 0x18,
 	0x03, 0x20, 0x01, 0x28, 0x08, 0x52, 0x08, 0x69, 0x73, 0x4f, 0x6e, 0x6c, 0x69, 0x6e, 0x65, 0x22,
-	0xb8, 0x03, 0x0a, 0x0e, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x74,
+	0xe8, 0x03, 0x0a, 0x0e, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x74,
 	0x65, 0x6d, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
 	0x69, 0x64, 0x12, 0x10, 0x0a, 0x03, 0x65, 0x75, 0x69, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x03, 0x65, 0x75, 0x69, 0x12, 0x39, 0x0a, 0x0a, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x5f,
@@ -1279,7 +1288,10 @@ var file_platform_device_proto_rawDesc = []byte{
 	0x73, 0x18, 0x09, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f,
 	0x72, 0x6d, 0x2e, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x74, 0x65,
 	0x6d, 0x2e, 0x54, 0x61, 0x67, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x04, 0x74, 0x61, 0x67,
-	0x73, 0x1a, 0x37, 0x0a, 0x09, 0x54, 0x61, 0x67, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10,
+	0x73, 0x12, 0x2e, 0x0a, 0x08, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x0a, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x4c,
+	0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x08, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x1a, 0x37, 0x0a, 0x09, 0x54, 0x61, 0x67, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10,
 	0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79,
 	0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x3f, 0x0a, 0x13, 0x43, 0x72,
@@ -1464,36 +1476,37 @@ var file_platform_device_proto_depIdxs = []int32{
 	24, // 10: platform.DeviceListItem.updated_at:type_name -> google.protobuf.Timestamp
 	4,  // 11: platform.DeviceListItem.device_status:type_name -> platform.DeviceStatus
 	16, // 12: platform.DeviceListItem.tags:type_name -> platform.DeviceListItem.TagsEntry
-	3,  // 13: platform.CreateDeviceRequest.device:type_name -> platform.Device
-	3,  // 14: platform.GetDeviceResponse.device:type_name -> platform.Device
-	24, // 15: platform.GetDeviceResponse.created_at:type_name -> google.protobuf.Timestamp
-	24, // 16: platform.GetDeviceResponse.updated_at:type_name -> google.protobuf.Timestamp
-	4,  // 17: platform.GetDeviceResponse.device_status:type_name -> platform.DeviceStatus
-	3,  // 18: platform.UpdateDeviceRequest.device:type_name -> platform.Device
-	19, // 19: platform.ListDevicesRequest.asset_type:type_name -> platform.AssetType
-	20, // 20: platform.ListDevicesRequest.asset_sub_type:type_name -> platform.AssetSubType
-	18, // 21: platform.ListDevicesRequest.device_type:type_name -> platform.DeviceType
-	21, // 22: platform.ListDevicesRequest.transport_protocol:type_name -> platform.TransportProtocol
-	0,  // 23: platform.ListDevicesRequest.order_by:type_name -> platform.ListDevicesRequest.OrderBy
-	17, // 24: platform.ListDevicesRequest.tags:type_name -> platform.ListDevicesRequest.TagsEntry
-	5,  // 25: platform.ListDevicesResponse.result:type_name -> platform.DeviceListItem
-	6,  // 26: platform.DeviceService.Create:input_type -> platform.CreateDeviceRequest
-	8,  // 27: platform.DeviceService.Get:input_type -> platform.GetDeviceRequest
-	10, // 28: platform.DeviceService.Update:input_type -> platform.UpdateDeviceRequest
-	11, // 29: platform.DeviceService.Delete:input_type -> platform.DeleteDeviceRequest
-	12, // 30: platform.DeviceService.List:input_type -> platform.ListDevicesRequest
-	1,  // 31: platform.DeviceService.GetDevicesSummary:input_type -> platform.GetDevicesSummaryRequest
-	7,  // 32: platform.DeviceService.Create:output_type -> platform.CreateDeviceResponse
-	9,  // 33: platform.DeviceService.Get:output_type -> platform.GetDeviceResponse
-	25, // 34: platform.DeviceService.Update:output_type -> google.protobuf.Empty
-	25, // 35: platform.DeviceService.Delete:output_type -> google.protobuf.Empty
-	13, // 36: platform.DeviceService.List:output_type -> platform.ListDevicesResponse
-	2,  // 37: platform.DeviceService.GetDevicesSummary:output_type -> platform.GetDevicesSummaryResponse
-	32, // [32:38] is the sub-list for method output_type
-	26, // [26:32] is the sub-list for method input_type
-	26, // [26:26] is the sub-list for extension type_name
-	26, // [26:26] is the sub-list for extension extendee
-	0,  // [0:26] is the sub-list for field type_name
+	22, // 13: platform.DeviceListItem.location:type_name -> platform.Location
+	3,  // 14: platform.CreateDeviceRequest.device:type_name -> platform.Device
+	3,  // 15: platform.GetDeviceResponse.device:type_name -> platform.Device
+	24, // 16: platform.GetDeviceResponse.created_at:type_name -> google.protobuf.Timestamp
+	24, // 17: platform.GetDeviceResponse.updated_at:type_name -> google.protobuf.Timestamp
+	4,  // 18: platform.GetDeviceResponse.device_status:type_name -> platform.DeviceStatus
+	3,  // 19: platform.UpdateDeviceRequest.device:type_name -> platform.Device
+	19, // 20: platform.ListDevicesRequest.asset_type:type_name -> platform.AssetType
+	20, // 21: platform.ListDevicesRequest.asset_sub_type:type_name -> platform.AssetSubType
+	18, // 22: platform.ListDevicesRequest.device_type:type_name -> platform.DeviceType
+	21, // 23: platform.ListDevicesRequest.transport_protocol:type_name -> platform.TransportProtocol
+	0,  // 24: platform.ListDevicesRequest.order_by:type_name -> platform.ListDevicesRequest.OrderBy
+	17, // 25: platform.ListDevicesRequest.tags:type_name -> platform.ListDevicesRequest.TagsEntry
+	5,  // 26: platform.ListDevicesResponse.result:type_name -> platform.DeviceListItem
+	6,  // 27: platform.DeviceService.Create:input_type -> platform.CreateDeviceRequest
+	8,  // 28: platform.DeviceService.Get:input_type -> platform.GetDeviceRequest
+	10, // 29: platform.DeviceService.Update:input_type -> platform.UpdateDeviceRequest
+	11, // 30: platform.DeviceService.Delete:input_type -> platform.DeleteDeviceRequest
+	12, // 31: platform.DeviceService.List:input_type -> platform.ListDevicesRequest
+	1,  // 32: platform.DeviceService.GetDevicesSummary:input_type -> platform.GetDevicesSummaryRequest
+	7,  // 33: platform.DeviceService.Create:output_type -> platform.CreateDeviceResponse
+	9,  // 34: platform.DeviceService.Get:output_type -> platform.GetDeviceResponse
+	25, // 35: platform.DeviceService.Update:output_type -> google.protobuf.Empty
+	25, // 36: platform.DeviceService.Delete:output_type -> google.protobuf.Empty
+	13, // 37: platform.DeviceService.List:output_type -> platform.ListDevicesResponse
+	2,  // 38: platform.DeviceService.GetDevicesSummary:output_type -> platform.GetDevicesSummaryResponse
+	33, // [33:39] is the sub-list for method output_type
+	27, // [27:33] is the sub-list for method input_type
+	27, // [27:27] is the sub-list for extension type_name
+	27, // [27:27] is the sub-list for extension extendee
+	0,  // [0:27] is the sub-list for field type_name
 }
 
 func init() { file_platform_device_proto_init() }

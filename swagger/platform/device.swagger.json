@@ -585,6 +585,10 @@
             "type": "string"
           },
           "description": "Device tags."
+        },
+        "location": {
+          "$ref": "#/definitions/platformLocation",
+          "title": "locations"
         }
       }
     },

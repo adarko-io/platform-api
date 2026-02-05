@@ -188,6 +188,9 @@ message DeviceListItem {
 
   // Device tags.
   map<string, string> tags = 9;
+
+  //locations
+  Location location = 10;
 }
 
 message CreateDeviceRequest {
