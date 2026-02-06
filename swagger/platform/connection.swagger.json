@@ -776,6 +776,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "deleteApplications",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
           }
         ],
         "tags": [

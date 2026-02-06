@@ -572,6 +572,7 @@ message ListZonesResponse {
 
 message DeleteZoneRequest {
   string id = 1;
+  bool delete_applications = 2;
 }
 message UpdateZoneRequest {
   Zone zone = 1;
