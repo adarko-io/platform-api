@@ -1488,6 +1488,12 @@
         "parentZoneId": {
           "type": "string"
         },
+        "assertTypeApplicationId": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "tags": {
           "type": "object",
           "additionalProperties": {
