@@ -538,9 +538,10 @@ message Zone {
   string updated_by = 6;
   string tenant_id = 7;
   string application_id = 8;
-  string description = 9;
-  string parent_zone_id = 10;
-  map<string, string> tags = 11;
+  AssetType asset_type = 9;
+  string description = 10;
+  string parent_zone_id = 11;
+  map<string, string> tags = 12;
 }
 message CreateZoneRequest {
  Zone zone = 1;
@@ -563,6 +564,7 @@ message ListZonesRequest {
   uint32 offset = 2;
   string tenant_id = 3;
   string search = 4; 
+  string application_id=5;
 }
 
 message ListZonesResponse {
