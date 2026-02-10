@@ -151,8 +151,14 @@ message ListInventoryDevicesRequest {
   // Offset for pagination.
   uint32 offset = 2;
 
-  // Search query (name, description, etc.).
+  // Search query (Name, EUI, Serial Number, etc.).
   string search = 3;
+
+  //AssetType
+  AssetType asset_type = 5;
+
+  //DeviceProfile ID
+  string device_profile_id = 6;
 
   // Filter by tags.
   map<string, string> tags = 4;

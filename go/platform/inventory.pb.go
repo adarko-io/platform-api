@@ -483,8 +483,12 @@ type ListInventoryDevicesRequest struct {
 	Limit uint32 `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
 	// Offset for pagination.
 	Offset uint32 `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
-	// Search query (name, description, etc.).
+	// Search query (Name, EUI, Serial Number, etc.).
 	Search string `protobuf:"bytes,3,opt,name=search,proto3" json:"search,omitempty"`
+	// AssetType
+	AssetType AssetType `protobuf:"varint,5,opt,name=asset_type,json=assetType,proto3,enum=platform.AssetType" json:"asset_type,omitempty"`
+	// DeviceProfile ID
+	DeviceProfileId string `protobuf:"bytes,6,opt,name=device_profile_id,json=deviceProfileId,proto3" json:"device_profile_id,omitempty"`
 	// Filter by tags.
 	Tags map[string]string `protobuf:"bytes,4,rep,name=tags,proto3" json:"tags,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
@@ -538,6 +542,20 @@ func (x *ListInventoryDevicesRequest) GetOffset() uint32 {
 func (x *ListInventoryDevicesRequest) GetSearch() string {
 	if x != nil {
 		return x.Search
+	}
+	return ""
+}
+
+func (x *ListInventoryDevicesRequest) GetAssetType() AssetType {
+	if x != nil {
+		return x.AssetType
+	}
+	return AssetType_ASSET_TYPE_UNKNOWN
+}
+
+func (x *ListInventoryDevicesRequest) GetDeviceProfileId() string {
+	if x != nil {
+		return x.DeviceProfileId
 	}
 	return ""
 }
@@ -1055,13 +1073,19 @@ var file_platform_inventory_proto_rawDesc = []byte{
 	0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x22, 0x2e, 0x0a, 0x1c, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
 	0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x52,
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0xe1, 0x01, 0x0a, 0x1b, 0x4c, 0x69, 0x73, 0x74, 0x49,
+	0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0xc1, 0x02, 0x0a, 0x1b, 0x4c, 0x69, 0x73, 0x74, 0x49,
 	0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x73, 0x52,
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18,
 	0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x12, 0x16, 0x0a, 0x06,
 	0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x06, 0x6f, 0x66,
 	0x66, 0x73, 0x65, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x18, 0x03,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x12, 0x43, 0x0a, 0x04,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x12, 0x32, 0x0a, 0x0a,
+	0x61, 0x73, 0x73, 0x65, 0x74, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0e,
+	0x32, 0x13, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x41, 0x73, 0x73, 0x65,
+	0x74, 0x54, 0x79, 0x70, 0x65, 0x52, 0x09, 0x61, 0x73, 0x73, 0x65, 0x74, 0x54, 0x79, 0x70, 0x65,
+	0x12, 0x2a, 0x0a, 0x11, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x70, 0x72, 0x6f, 0x66, 0x69,
+	0x6c, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x64, 0x65, 0x76,
+	0x69, 0x63, 0x65, 0x50, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x49, 0x64, 0x12, 0x43, 0x0a, 0x04,
 	0x74, 0x61, 0x67, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2f, 0x2e, 0x70, 0x6c, 0x61,
 	0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74,
 	0x6f, 0x72, 0x79, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
@@ -1221,7 +1245,8 @@ var file_platform_inventory_proto_goTypes = []any{
 	(InventoryStatus)(0),                  // 17: platform.InventoryStatus
 	(*structpb.Value)(nil),                // 18: google.protobuf.Value
 	(*timestamppb.Timestamp)(nil),         // 19: google.protobuf.Timestamp
-	(*emptypb.Empty)(nil),                 // 20: google.protobuf.Empty
+	(AssetType)(0),                        // 20: platform.AssetType
+	(*emptypb.Empty)(nil),                 // 21: google.protobuf.Empty
 }
 var file_platform_inventory_proto_depIdxs = []int32{
 	17, // 0: platform.InventoryDevice.status:type_name -> platform.InventoryStatus
@@ -1233,33 +1258,34 @@ var file_platform_inventory_proto_depIdxs = []int32{
 	19, // 6: platform.GetInventoryDeviceResponse.created_at:type_name -> google.protobuf.Timestamp
 	19, // 7: platform.GetInventoryDeviceResponse.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 8: platform.UpdateInventoryDeviceRequest.inventory:type_name -> platform.InventoryDevice
-	16, // 9: platform.ListInventoryDevicesRequest.tags:type_name -> platform.ListInventoryDevicesRequest.TagsEntry
-	17, // 10: platform.InventoryDeviceListItem.status:type_name -> platform.InventoryStatus
-	19, // 11: platform.InventoryDeviceListItem.created_at:type_name -> google.protobuf.Timestamp
-	19, // 12: platform.InventoryDeviceListItem.updated_at:type_name -> google.protobuf.Timestamp
-	8,  // 13: platform.ListInventoryDevicesResponse.devices:type_name -> platform.InventoryDeviceListItem
-	17, // 14: platform.UpdateDeviceStatusRequest.status:type_name -> platform.InventoryStatus
-	0,  // 15: platform.BulkImportRequest.devices:type_name -> platform.InventoryDevice
-	13, // 16: platform.BulkImportResponse.errors:type_name -> platform.ImportError
-	1,  // 17: platform.InventoryService.Create:input_type -> platform.CreateInventoryDeviceRequest
-	3,  // 18: platform.InventoryService.Get:input_type -> platform.GetInventoryDeviceRequest
-	5,  // 19: platform.InventoryService.Update:input_type -> platform.UpdateInventoryDeviceRequest
-	6,  // 20: platform.InventoryService.Delete:input_type -> platform.DeleteInventoryDeviceRequest
-	7,  // 21: platform.InventoryService.List:input_type -> platform.ListInventoryDevicesRequest
-	10, // 22: platform.InventoryService.UpdateStatus:input_type -> platform.UpdateDeviceStatusRequest
-	11, // 23: platform.InventoryService.BulkImport:input_type -> platform.BulkImportRequest
-	2,  // 24: platform.InventoryService.Create:output_type -> platform.CreateInventoryDeviceResponse
-	4,  // 25: platform.InventoryService.Get:output_type -> platform.GetInventoryDeviceResponse
-	20, // 26: platform.InventoryService.Update:output_type -> google.protobuf.Empty
-	20, // 27: platform.InventoryService.Delete:output_type -> google.protobuf.Empty
-	9,  // 28: platform.InventoryService.List:output_type -> platform.ListInventoryDevicesResponse
-	20, // 29: platform.InventoryService.UpdateStatus:output_type -> google.protobuf.Empty
-	12, // 30: platform.InventoryService.BulkImport:output_type -> platform.BulkImportResponse
-	24, // [24:31] is the sub-list for method output_type
-	17, // [17:24] is the sub-list for method input_type
-	17, // [17:17] is the sub-list for extension type_name
-	17, // [17:17] is the sub-list for extension extendee
-	0,  // [0:17] is the sub-list for field type_name
+	20, // 9: platform.ListInventoryDevicesRequest.asset_type:type_name -> platform.AssetType
+	16, // 10: platform.ListInventoryDevicesRequest.tags:type_name -> platform.ListInventoryDevicesRequest.TagsEntry
+	17, // 11: platform.InventoryDeviceListItem.status:type_name -> platform.InventoryStatus
+	19, // 12: platform.InventoryDeviceListItem.created_at:type_name -> google.protobuf.Timestamp
+	19, // 13: platform.InventoryDeviceListItem.updated_at:type_name -> google.protobuf.Timestamp
+	8,  // 14: platform.ListInventoryDevicesResponse.devices:type_name -> platform.InventoryDeviceListItem
+	17, // 15: platform.UpdateDeviceStatusRequest.status:type_name -> platform.InventoryStatus
+	0,  // 16: platform.BulkImportRequest.devices:type_name -> platform.InventoryDevice
+	13, // 17: platform.BulkImportResponse.errors:type_name -> platform.ImportError
+	1,  // 18: platform.InventoryService.Create:input_type -> platform.CreateInventoryDeviceRequest
+	3,  // 19: platform.InventoryService.Get:input_type -> platform.GetInventoryDeviceRequest
+	5,  // 20: platform.InventoryService.Update:input_type -> platform.UpdateInventoryDeviceRequest
+	6,  // 21: platform.InventoryService.Delete:input_type -> platform.DeleteInventoryDeviceRequest
+	7,  // 22: platform.InventoryService.List:input_type -> platform.ListInventoryDevicesRequest
+	10, // 23: platform.InventoryService.UpdateStatus:input_type -> platform.UpdateDeviceStatusRequest
+	11, // 24: platform.InventoryService.BulkImport:input_type -> platform.BulkImportRequest
+	2,  // 25: platform.InventoryService.Create:output_type -> platform.CreateInventoryDeviceResponse
+	4,  // 26: platform.InventoryService.Get:output_type -> platform.GetInventoryDeviceResponse
+	21, // 27: platform.InventoryService.Update:output_type -> google.protobuf.Empty
+	21, // 28: platform.InventoryService.Delete:output_type -> google.protobuf.Empty
+	9,  // 29: platform.InventoryService.List:output_type -> platform.ListInventoryDevicesResponse
+	21, // 30: platform.InventoryService.UpdateStatus:output_type -> google.protobuf.Empty
+	12, // 31: platform.InventoryService.BulkImport:output_type -> platform.BulkImportResponse
+	25, // [25:32] is the sub-list for method output_type
+	18, // [18:25] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_platform_inventory_proto_init() }
