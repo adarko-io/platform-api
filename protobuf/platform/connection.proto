@@ -204,6 +204,9 @@ message Connection {
 
   // Location information.
   Location location = 22;
+
+  //meterConnections associated with this connection
+  repeated MeterConnection meter_connections = 23;
 }
 
 // Request message for creating a connection.
