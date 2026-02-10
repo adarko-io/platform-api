@@ -154,11 +154,9 @@ message ListInventoryDevicesRequest {
   // Search query (Name, EUI, Serial Number, etc.).
   string search = 3;
 
-  //AssetType
-  AssetType asset_type = 5;
 
   //DeviceProfile ID
-  string device_profile_id = 6;
+  repeated string device_profile_id = 5;
 
   // Filter by tags.
   map<string, string> tags = 4;

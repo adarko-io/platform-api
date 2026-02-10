@@ -54,27 +54,15 @@
             "type": "string"
           },
           {
-            "name": "assetType",
-            "description": "AssetType.\n\n - ASSET_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_TYPE_WATER_METER: AMR Water meter Inductive.\n - ASSET_TYPE_ENERGY_METER: Energy Meter device.\n - ASSET_TYPE_GAS_METER: GAS Meter device.\n - ASSET_TYPE_GPS_TRACKER: GPS Tracker device.\n - ASSET_TYPE_GATEWAY: Gateway device.",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "ASSET_TYPE_UNKNOWN",
-              "ASSET_TYPE_WATER_METER",
-              "ASSET_TYPE_ENERGY_METER",
-              "ASSET_TYPE_GAS_METER",
-              "ASSET_TYPE_GPS_TRACKER",
-              "ASSET_TYPE_GATEWAY"
-            ],
-            "default": "ASSET_TYPE_UNKNOWN"
-          },
-          {
             "name": "deviceProfileId",
             "description": "DeviceProfile ID.",
             "in": "query",
             "required": false,
-            "type": "string"
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
           }
         ],
         "tags": [
@@ -290,19 +278,6 @@
     }
   },
   "definitions": {
-    "platformAssetType": {
-      "type": "string",
-      "enum": [
-        "ASSET_TYPE_UNKNOWN",
-        "ASSET_TYPE_WATER_METER",
-        "ASSET_TYPE_ENERGY_METER",
-        "ASSET_TYPE_GAS_METER",
-        "ASSET_TYPE_GPS_TRACKER",
-        "ASSET_TYPE_GATEWAY"
-      ],
-      "default": "ASSET_TYPE_UNKNOWN",
-      "description": " - ASSET_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_TYPE_WATER_METER: AMR Water meter Inductive.\n - ASSET_TYPE_ENERGY_METER: Energy Meter device.\n - ASSET_TYPE_GAS_METER: GAS Meter device.\n - ASSET_TYPE_GPS_TRACKER: GPS Tracker device.\n - ASSET_TYPE_GATEWAY: Gateway device."
-    },
     "platformBulkImportRequest": {
       "type": "object",
       "properties": {
