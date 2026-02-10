@@ -52,6 +52,13 @@
             "in": "query",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "tenantId",
+            "description": "Tenant ID (UUID) to filter billing profiles.",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -264,6 +271,10 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant ID (UUID) to which this billing profile belongs."
         }
       }
     },

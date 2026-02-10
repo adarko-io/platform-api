@@ -89,6 +89,9 @@ message BillingProfile {
 
     map<string, string> tags = 16; // Custom tags for the billing profile
 
+  // Tenant ID (UUID) to which this billing profile belongs.
+  string tenant_id = 17;
+
 }
 
 message BillingSlab {
@@ -133,6 +136,9 @@ message ListBillingProfilesRequest {
 
   // Optional filter by tags (key-value pairs).
   map<string, string> tags = 4;
+
+  // Tenant ID (UUID) to filter billing profiles.
+  string tenant_id = 5;
 }
 
 message ListBillingProfilesResponse {
