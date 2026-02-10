@@ -45,6 +45,81 @@
             "required": false,
             "type": "integer",
             "format": "int32"
+          },
+          {
+            "name": "assetType",
+            "description": " - ASSET_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_TYPE_WATER_METER: AMR Water meter Inductive.\n - ASSET_TYPE_ENERGY_METER: Energy Meter device.\n - ASSET_TYPE_GAS_METER: GAS Meter device.\n - ASSET_TYPE_GPS_TRACKER: GPS Tracker device.\n - ASSET_TYPE_GATEWAY: Gateway device.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "ASSET_TYPE_UNKNOWN",
+              "ASSET_TYPE_WATER_METER",
+              "ASSET_TYPE_ENERGY_METER",
+              "ASSET_TYPE_GAS_METER",
+              "ASSET_TYPE_GPS_TRACKER",
+              "ASSET_TYPE_GATEWAY"
+            ],
+            "default": "ASSET_TYPE_UNKNOWN"
+          },
+          {
+            "name": "assetSubType",
+            "description": " - ASSET_SUB_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_ODU: Outdoor LoRaWAN Gateway - CPI ODU\n - ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_IDU: Indoor LoRaWAN Gateway - CPI IDU\n - ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_AIL_V1: ADARKO Inductive Water Meter AMR - V1\n - ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_CPI_V1: CPI Inductive Water Meter AMR - V1\n - ASSET_SUB_TYPE_WATER_METER_AMR_PULSE_AIL_V1: ADARKO Pulse Water Meter AMR - V1\n - ASSET_SUB_TYPE_WATER_METER_AMR_MAGNETIC_AIL_V1: ADARKO Magnetic Water Meter AMR - V1",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "ASSET_SUB_TYPE_UNKNOWN",
+              "ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_ODU",
+              "ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_IDU",
+              "ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_AIL_V1",
+              "ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_CPI_V1",
+              "ASSET_SUB_TYPE_WATER_METER_AMR_PULSE_AIL_V1",
+              "ASSET_SUB_TYPE_WATER_METER_AMR_MAGNETIC_AIL_V1"
+            ],
+            "default": "ASSET_SUB_TYPE_UNKNOWN"
+          },
+          {
+            "name": "deviceType",
+            "description": " - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN_DEVICE: LoRaWAN device type.\n - DEVICE_TYPE_CELLULAR_GSM: Cellular MQTT device type.\n - DEVICE_TYPE_CELLULAR_LTE: Cellular TCP device type.\n - DEVICE_TYPE_CELLULAR_GSM_LTE: Cellular UDP device type.\n - DEVICE_TYPE_GATEWAY: Gateway device type.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device type.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "DEVICE_TYPE_UNKNOWN",
+              "DEVICE_TYPE_LORAWAN_DEVICE",
+              "DEVICE_TYPE_CELLULAR_GSM",
+              "DEVICE_TYPE_CELLULAR_LTE",
+              "DEVICE_TYPE_CELLULAR_GSM_LTE",
+              "DEVICE_TYPE_GATEWAY",
+              "DEVICE_TYPE_LORAWAN_GATEWAY"
+            ],
+            "default": "DEVICE_TYPE_UNKNOWN"
+          },
+          {
+            "name": "transportProtocol",
+            "description": " - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_HTTP: HTTP/HTTPS over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_MQTT: MQTT over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_TCP: TCP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_UDP: UDP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_COAP: CoAP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_WEBSOCKET: WebSocket.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "TRANSPORT_PROTOCOL_UNKNOWN",
+              "TRANSPORT_LORAWAN",
+              "TRANSPORT_HTTP",
+              "TRANSPORT_MQTT",
+              "TRANSPORT_TCP",
+              "TRANSPORT_UDP",
+              "TRANSPORT_COAP",
+              "TRANSPORT_WEBSOCKET"
+            ],
+            "default": "TRANSPORT_PROTOCOL_UNKNOWN"
+          },
+          {
+            "name": "search",
+            "description": "Search term for filtering by name or description.",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [

@@ -64,6 +64,17 @@ message ListDeviceProfilesRequest {
 
     // Pagination: Number of items per page.
     int32 offset = 2;
+
+    AssetType asset_type = 3;
+
+    AssetSubType asset_sub_type = 4;
+
+    DeviceType device_type = 5;
+  
+    TransportProtocol transport_protocol = 6;
+  
+      // Search term for filtering by name or description.
+    string search = 7;
 }
 
 message ListDeviceProfilesResponse {
