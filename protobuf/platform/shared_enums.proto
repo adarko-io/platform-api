@@ -437,3 +437,13 @@ enum FileType {
   // XLSX file type
   FILE_TYPE_XLSX = 3;
 }
+
+
+enum OverdueType {
+  OVERDUE_TYPE_UNSPECIFIED = 0;
+  OVERDUE_TYPE_NONE        = 1;
+  OVERDUE_TYPE_PER_DAY     = 2;
+  OVERDUE_TYPE_PER_MONTH   = 3;
+  OVERDUE_TYPE_FLAT        = 4;
+  OVERDUE_TYPE_PERCENTAGE  = 5;
+}

@@ -1,0 +1,143 @@
+syntax = "proto3";
+
+package platform;
+
+option go_package = "github.com/adarko-io/platform-api/go/v4/platform";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "platform/shared_enums.proto";
+import "google/protobuf/struct.proto";
+
+// BillingService manages billing related operations like meter management, billing cycles, etc.
+service BillingService {
+  // Create a new Billing Profile.
+  rpc CreateBillingProfile(CreateBillingProfileRequest) returns (CreateBillingProfileResponse) {
+    option (google.api.http) = {
+      post: "/api/billing/profiles"
+      body: "*" 
+    };
+  }
+
+  // Get a Billing Profile by ID.
+  rpc GetBillingProfile(GetBillingProfileRequest) returns (GetBillingProfileResponse) {
+    option (google.api.http) = {
+      get: "/api/billing/profiles/{id}" 
+    };  
+  }
+
+    // Update an existing Billing Profile.
+    rpc UpdateBillingProfile(UpdateBillingProfileRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/api/billing/profiles/{billing_profile.id}"
+      body: "*" 
+        };
+    }
+
+    // Delete a Billing Profile by ID.
+    rpc DeleteBillingProfile(DeleteBillingProfileRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/api/billing/profiles/{id}"
+    };
+    }
+
+    // List Billing Profiles with optional filtering.
+    rpc ListBillingProfiles(ListBillingProfilesRequest) returns (ListBillingProfilesResponse) {
+    option (google.api.http) = {
+      get: "/api/billing/profiles"
+        };
+    }
+}
+
+message BillingProfile {
+  string id = 1; // UUID
+
+  string name = 2;
+
+  // Currency & billing
+  string currency = 3; // INR, USD
+  double fixed_charge = 4;
+
+  // Payment rules
+  int32 payment_due_days  = 5; // days after bill generation
+  int32 grace_period_days = 6; // extra days before overdue applies
+
+  // Overdue rules
+  OverdueType overdue_type = 7;
+  double overdue_value     = 8; // 10/day | 100/month | 2(%)
+
+  // 0 means no cap
+  double max_overdue_cap = 9;
+
+  // Auto-clear
+  bool auto_clear = 10;
+
+  // Slabs
+  repeated BillingSlab slabs = 11;
+
+  // Creation timestamp
+  google.protobuf.Timestamp created_at = 12; // epoch millis
+
+  // Last update timestamp
+  google.protobuf.Timestamp updated_at = 13; // epoch millis
+
+  //CreateBy
+    string created_by = 14;
+   //UpdatedBy
+    string updated_by = 15;
+
+    map<string, string> tags = 16; // Custom tags for the billing profile
+
+}
+
+message BillingSlab {
+  double from_unit = 1;
+  double to_unit   = 2; // 0 means infinity (open-ended)
+  double rate      = 3; // rate per unit
+}
+
+message CreateBillingProfileRequest {
+  BillingProfile billing_profile = 1;
+}
+
+message CreateBillingProfileResponse {
+  string id = 1; // UUID of the created billing profile
+}
+
+message GetBillingProfileRequest {
+  string id = 1; // UUID of the billing profile to retrieve
+}
+
+message GetBillingProfileResponse {
+  BillingProfile billing_profile = 1;
+}
+
+message UpdateBillingProfileRequest {
+  BillingProfile billing_profile = 1;
+}
+
+message DeleteBillingProfileRequest {
+  string id = 1; // UUID of the billing profile to delete
+}
+
+message ListBillingProfilesRequest {
+  // Pagination limit.
+  int32 limit = 1;
+
+  // Pagination offset.
+  int32 offset = 2;
+
+  // Optional search query to filter billing profiles by name or tags.
+  string search = 3;
+
+  // Optional filter by tags (key-value pairs).
+  map<string, string> tags = 4;
+}
+
+message ListBillingProfilesResponse {
+    // Total count of billing profiles matching the filter (ignoring pagination).
+    uint32 total_count = 1;
+
+    repeated BillingProfile billing_profiles = 2;
+}   
