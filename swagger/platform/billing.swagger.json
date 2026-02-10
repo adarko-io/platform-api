@@ -1,0 +1,381 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "platform/billing.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/billing/profiles": {
+      "get": {
+        "summary": "List Billing Profiles with optional filtering.",
+        "operationId": "BillingService_ListBillingProfiles",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformListBillingProfilesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "description": "Pagination limit.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "offset",
+            "description": "Pagination offset.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "search",
+            "description": "Optional search query to filter billing profiles by name or tags.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "BillingService"
+        ]
+      },
+      "post": {
+        "summary": "Create a new Billing Profile.",
+        "operationId": "BillingService_CreateBillingProfile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformCreateBillingProfileResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformCreateBillingProfileRequest"
+            }
+          }
+        ],
+        "tags": [
+          "BillingService"
+        ]
+      }
+    },
+    "/api/billing/profiles/{billingProfile.id}": {
+      "put": {
+        "summary": "Update an existing Billing Profile.",
+        "operationId": "BillingService_UpdateBillingProfile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "billingProfile.id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformUpdateBillingProfileRequest"
+            }
+          }
+        ],
+        "tags": [
+          "BillingService"
+        ]
+      }
+    },
+    "/api/billing/profiles/{id}": {
+      "get": {
+        "summary": "Get a Billing Profile by ID.",
+        "operationId": "BillingService_GetBillingProfile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetBillingProfileResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "BillingService"
+        ]
+      },
+      "delete": {
+        "summary": "Delete a Billing Profile by ID.",
+        "operationId": "BillingService_DeleteBillingProfile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "BillingService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "platformBillingProfile": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string",
+          "title": "Currency \u0026 billing"
+        },
+        "fixedCharge": {
+          "type": "number",
+          "format": "double"
+        },
+        "paymentDueDays": {
+          "type": "integer",
+          "format": "int32",
+          "title": "Payment rules"
+        },
+        "gracePeriodDays": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "overdueType": {
+          "$ref": "#/definitions/platformOverdueType",
+          "title": "Overdue rules"
+        },
+        "overdueValue": {
+          "type": "number",
+          "format": "double"
+        },
+        "maxOverdueCap": {
+          "type": "number",
+          "format": "double",
+          "title": "0 means no cap"
+        },
+        "autoClear": {
+          "type": "boolean",
+          "title": "Auto-clear"
+        },
+        "slabs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformBillingSlab"
+          },
+          "title": "Slabs"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Last update timestamp"
+        },
+        "createdBy": {
+          "type": "string",
+          "title": "CreateBy"
+        },
+        "updatedBy": {
+          "type": "string",
+          "title": "UpdatedBy"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "platformBillingSlab": {
+      "type": "object",
+      "properties": {
+        "fromUnit": {
+          "type": "number",
+          "format": "double"
+        },
+        "toUnit": {
+          "type": "number",
+          "format": "double"
+        },
+        "rate": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "platformCreateBillingProfileRequest": {
+      "type": "object",
+      "properties": {
+        "billingProfile": {
+          "$ref": "#/definitions/platformBillingProfile"
+        }
+      }
+    },
+    "platformCreateBillingProfileResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "platformGetBillingProfileResponse": {
+      "type": "object",
+      "properties": {
+        "billingProfile": {
+          "$ref": "#/definitions/platformBillingProfile"
+        }
+      }
+    },
+    "platformListBillingProfilesResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total count of billing profiles matching the filter (ignoring pagination)."
+        },
+        "billingProfiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformBillingProfile"
+          }
+        }
+      }
+    },
+    "platformOverdueType": {
+      "type": "string",
+      "enum": [
+        "OVERDUE_TYPE_UNSPECIFIED",
+        "OVERDUE_TYPE_NONE",
+        "OVERDUE_TYPE_PER_DAY",
+        "OVERDUE_TYPE_PER_MONTH",
+        "OVERDUE_TYPE_FLAT",
+        "OVERDUE_TYPE_PERCENTAGE"
+      ],
+      "default": "OVERDUE_TYPE_UNSPECIFIED"
+    },
+    "platformUpdateBillingProfileRequest": {
+      "type": "object",
+      "properties": {
+        "billingProfile": {
+          "$ref": "#/definitions/platformBillingProfile"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
