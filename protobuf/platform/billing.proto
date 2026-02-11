@@ -126,10 +126,10 @@ message DeleteBillingProfileRequest {
 
 message ListBillingProfilesRequest {
   // Pagination limit.
-  int32 limit = 1;
+  uint32 limit = 1;
 
   // Pagination offset.
-  int32 offset = 2;
+  uint32 offset = 2;
 
   // Optional search query to filter billing profiles by name or tags.
   string search = 3;

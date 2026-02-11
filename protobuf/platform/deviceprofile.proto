@@ -62,10 +62,10 @@ message GetDeviceProfileResponse {
 }
 message ListDeviceProfilesRequest {
     // Pagination: Page number (starting from 1).
-    int32 limit = 1;
+    uint32 limit = 1;
 
     // Pagination: Number of items per page.
-    int32 offset = 2;
+    uint32 offset = 2;
 
     AssetType asset_type = 3;
 
@@ -84,5 +84,5 @@ message ListDeviceProfilesResponse {
     repeated DeviceProfile device_profiles = 1;
 
     // Total number of device profiles.
-    int32 total_count = 2;
+    uint32 total_count = 2;
 }

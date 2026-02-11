@@ -35,7 +35,7 @@
             "description": "Max number of user to return in the result-set.",
             "in": "query",
             "required": false,
-            "type": "string",
+            "type": "integer",
             "format": "int64"
           },
           {
@@ -43,7 +43,7 @@
             "description": "Offset in the result-set (for pagination).",
             "in": "query",
             "required": false,
-            "type": "string",
+            "type": "integer",
             "format": "int64"
           },
           {
@@ -286,7 +286,7 @@
       "type": "object",
       "properties": {
         "totalCount": {
-          "type": "string",
+          "type": "integer",
           "format": "int64",
           "description": "Total number of users."
         },

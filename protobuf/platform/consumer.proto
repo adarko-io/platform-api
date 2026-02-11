@@ -124,10 +124,10 @@ message DeleteConsumerRequest {
 
 message ListConsumersRequest {
   // Pagination limit.
-  int32 limit = 1;
+  uint32 limit = 1;
 
   // Pagination offset.
-  int32 offset = 2;
+  uint32 offset = 2;
 
   // Tenant ID (UUID) to filter consumers.
   string tenant_id = 3;
@@ -138,7 +138,7 @@ message ListConsumersRequest {
 
 message ListConsumersResponse {
   // Total number of Consumers matching the filters.
-  int64 total_count = 1;
+  uint32 total_count = 1;
 
   // Result-set.
   repeated Consumer result = 2;
