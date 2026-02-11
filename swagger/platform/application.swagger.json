@@ -230,31 +230,6 @@
             "type": "string"
           },
           "description": "Tags (user defined).\nThese tags can be used to add additional information to the application.\nThese tags are exposed in all the integration events of devices under\nthis application."
-        }
-      }
-    },
-    "platformApplicationListItem": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Application ID (UUID)."
-        },
-        "assetType": {
-          "$ref": "#/definitions/platformAssetType",
-          "description": "Asset Type Water Meter, Gas Meter, Energy Meter etc."
-        },
-        "name": {
-          "type": "string",
-          "description": "Application name."
-        },
-        "description": {
-          "type": "string",
-          "description": "Application description."
-        },
-        "tenantId": {
-          "type": "string",
-          "description": "Tenant ID (UUID)."
         },
         "createdAt": {
           "type": "string",
@@ -265,6 +240,14 @@
           "type": "string",
           "format": "date-time",
           "description": "Last update timestamp."
+        },
+        "createdBy": {
+          "type": "string",
+          "title": "Created By"
+        },
+        "updatedBy": {
+          "type": "string",
+          "description": "Updated by (user ID)."
         }
       }
     },
@@ -305,16 +288,6 @@
         "application": {
           "$ref": "#/definitions/platformApplication",
           "description": "Application object."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Created at timestamp."
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Last update timestamp."
         }
       }
     },
@@ -329,7 +302,7 @@
         "result": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/platformApplicationListItem"
+            "$ref": "#/definitions/platformApplication"
           },
           "description": "Result-set."
         }

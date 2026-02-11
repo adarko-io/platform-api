@@ -76,32 +76,20 @@ message Application {
   // These tags are exposed in all the integration events of devices under
   // this application.
   map<string, string> tags = 6;
-}
-
-message ApplicationListItem {
-  // Application ID (UUID).
-  string id = 1;
-
-  //Asset Type Water Meter, Gas Meter, Energy Meter etc.
-  AssetType asset_type = 2;
-
-  // Application name.
-  string name = 3;
-
-  // Application description.
-  string description = 4;
-
-  // Tenant ID (UUID).
-  string tenant_id = 5;
 
   // Created at timestamp.
-  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp created_at = 7;
 
   // Last update timestamp.
-  google.protobuf.Timestamp updated_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
 
+  //Created By
+  string created_by=9;
+  // Updated by (user ID).
+  string updated_by=10;
 
 }
+
 
 message CreateApplicationRequest {
   // Application object to create.
@@ -121,13 +109,6 @@ message GetApplicationRequest {
 message GetApplicationResponse {
   // Application object.
   Application application = 1;
-
-  // Created at timestamp.
-  google.protobuf.Timestamp created_at = 2;
-
-  // Last update timestamp.
-  google.protobuf.Timestamp updated_at = 3;
-
 }
 
 message UpdateApplicationRequest {
@@ -160,5 +141,5 @@ message ListApplicationsResponse {
   uint32 total_count = 1;
 
   // Result-set.
-  repeated ApplicationListItem result = 2;
+  repeated Application result = 2;
 }
