@@ -539,62 +539,12 @@
           "$ref": "#/definitions/platformLocation",
           "description": "Location information."
         },
-        "isParentDevice": {
-          "type": "boolean",
-          "title": "is Parent Device"
-        },
         "parentDeviceId": {
           "type": "string",
           "title": "Parent Device ID in case of isParentDevice=false;"
-        }
-      }
-    },
-    "platformDeviceListItem": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "title": "ID"
-        },
-        "eui": {
-          "type": "string",
-          "description": "EUI (EUI64)."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Created at timestamp."
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Last update timestamp."
-        },
-        "name": {
-          "type": "string",
-          "description": "Name."
-        },
-        "description": {
-          "type": "string",
-          "description": "Description."
-        },
-        "deviceProfileId": {
-          "type": "string",
-          "description": "Device-profile ID (UUID)."
         },
         "deviceStatus": {
           "$ref": "#/definitions/platformDeviceStatus"
-        },
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Device tags."
-        },
-        "location": {
-          "$ref": "#/definitions/platformLocation",
-          "title": "locations"
         }
       }
     },
@@ -636,20 +586,6 @@
         "device": {
           "$ref": "#/definitions/platformDevice",
           "description": "Device object."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Created at timestamp."
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Last update timestamp."
-        },
-        "deviceStatus": {
-          "$ref": "#/definitions/platformDeviceStatus",
-          "description": "Device status."
         }
       }
     },
@@ -689,7 +625,7 @@
         "result": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/platformDeviceListItem"
+            "$ref": "#/definitions/platformDevice"
           },
           "description": "Result-set."
         }
