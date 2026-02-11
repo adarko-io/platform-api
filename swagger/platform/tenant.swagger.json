@@ -240,6 +240,13 @@
             "required": false,
             "type": "integer",
             "format": "int64"
+          },
+          {
+            "name": "search",
+            "description": "If set, the given string will be used to search on email.",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -488,7 +495,7 @@
         "result": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/platformTenantUserListItem"
+            "$ref": "#/definitions/platformTenantUser"
           },
           "description": "Result-set."
         }
@@ -505,7 +512,7 @@
         "result": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/platformTenantListItem"
+            "$ref": "#/definitions/platformTenant"
           },
           "description": "Result-set."
         }
@@ -542,15 +549,13 @@
         "timezone": {
           "$ref": "#/definitions/platformTimeZone",
           "title": "timezone of the tenant"
-        }
-      }
-    },
-    "platformTenantListItem": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Tenant ID (UUID)."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Tags are key-value pairs that can be used to organize your tenants.\nYou can use tags to filter your tenants when you are using the list tenants API."
         },
         "createdAt": {
           "type": "string",
@@ -562,18 +567,26 @@
           "format": "date-time",
           "description": "Last update timestamp."
         },
-        "name": {
+        "createdBy": {
           "type": "string",
-          "description": "Tenant name."
+          "description": "Created by (user ID)."
         },
-        "maxDeviceCount": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Max device count.\n0 = unlimited."
+        "updatedBy": {
+          "type": "string",
+          "description": "Updated by (user ID)."
         },
-        "isMain": {
+        "isSuspended": {
           "type": "boolean",
-          "description": "Is main tenant."
+          "title": "is tenant suspended"
+        },
+        "notes": {
+          "type": "string",
+          "title": "String Notes"
+        },
+        "validUntil": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Validity of the tenant"
         }
       }
     },
@@ -603,45 +616,33 @@
         "email": {
           "type": "string",
           "description": "Email (only used on get and when adding a user to a tenant)."
-        }
-      }
-    },
-    "platformTenantUserListItem": {
-      "type": "object",
-      "properties": {
-        "tenantId": {
-          "type": "string",
-          "description": "Tenant ID (UUID)."
-        },
-        "userId": {
-          "type": "string",
-          "description": "User ID (UUID)."
         },
         "createdAt": {
           "type": "string",
           "format": "date-time",
-          "description": "Created at timestamp."
+          "description": "created at timestamp."
         },
         "updatedAt": {
           "type": "string",
           "format": "date-time",
-          "description": "Last update timestamp."
+          "description": "last update timestamp."
         },
-        "email": {
+        "approvedAt": {
           "type": "string",
-          "description": "Email."
+          "format": "date-time",
+          "description": "approved at timestamp."
         },
-        "isAdmin": {
-          "type": "boolean",
-          "description": "User is admin within the context of the tenant.\nThere is no need to set the is_device_admin and is_gateway_admin flags."
+        "createdBy": {
+          "type": "string",
+          "description": "Created by (user ID)."
         },
-        "isEditor": {
-          "type": "boolean",
-          "description": "User is able to modify device related resources (applications,\ndevice-profiles, devices, multicast-groups)."
+        "updatedBy": {
+          "type": "string",
+          "description": "Updated by (user ID)."
         },
-        "isViewer": {
-          "type": "boolean",
-          "description": "User is able to viewer."
+        "approvedBy": {
+          "type": "string",
+          "description": "approved by (user ID)."
         }
       }
     },

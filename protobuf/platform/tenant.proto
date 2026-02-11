@@ -103,7 +103,6 @@ message Tenant {
   // Tenant description.
   string description = 4;
 
-
   // Max. device count for tenant.
   // When set to 0, the tenant can have unlimited devices.
   uint32 max_device_count = 5;
@@ -113,28 +112,27 @@ message Tenant {
 
   // timezone of the tenant
   TimeZone timezone = 7;
-}
 
-message TenantListItem {
-  // Tenant ID (UUID).
-  string id = 1;
+  // Tags are key-value pairs that can be used to organize your tenants.
+  // You can use tags to filter your tenants when you are using the list tenants API.
+  map<string, string> tags = 8;
 
   // Created at timestamp.
-  google.protobuf.Timestamp created_at = 2;
-
+  google.protobuf.Timestamp created_at = 9;
   // Last update timestamp.
-  google.protobuf.Timestamp updated_at = 3;
-
-  // Tenant name.
-  string name = 4;
-
-  // Max device count.
-  // 0 = unlimited.
-  uint32 max_device_count = 5;
-
-  // Is main tenant.
-  bool is_main = 6;
+  google.protobuf.Timestamp updated_at = 10;
+  // Created by (user ID).
+  string created_by = 11;
+  // Updated by (user ID).
+  string updated_by = 12;
+  //is tenant suspended
+  bool is_suspended = 13;
+  // String Notes
+  string notes = 14;
+  //Validity of the tenant
+  google.protobuf.Timestamp valid_until = 15;
 }
+
 
 message CreateTenantRequest {
   // Tenant object to create.
@@ -193,7 +191,7 @@ message ListTenantsResponse {
   uint32 total_count = 1;
 
   // Result-set.
-  repeated TenantListItem result = 2;
+  repeated Tenant result = 2;
 }
 
 message TenantUser {
@@ -215,35 +213,22 @@ message TenantUser {
 
   // Email (only used on get and when adding a user to a tenant).
   string email = 6;
+
+  //created at timestamp.
+  google.protobuf.Timestamp created_at = 7;
+  //last update timestamp.
+  google.protobuf.Timestamp updated_at = 8;
+  //approved at timestamp.
+  google.protobuf.Timestamp approved_at = 9;
+  // Created by (user ID).
+  string created_by = 10;
+  // Updated by (user ID).
+  string updated_by = 11;
+  //approved by (user ID).
+  string approved_by = 12;
 }
 
-message TenantUserListItem {
-  // Tenant ID (UUID).
-  string tenant_id = 1;
 
-  // User ID (UUID).
-  string user_id = 2;
-
-  // Created at timestamp.
-  google.protobuf.Timestamp created_at = 3;
-
-  // Last update timestamp.
-  google.protobuf.Timestamp updated_at = 4;
-
-  // Email.
-  string email = 5;
-
-  // User is admin within the context of the tenant.
-  // There is no need to set the is_device_admin and is_gateway_admin flags.
-  bool is_admin = 6;
-
-  // User is able to modify device related resources (applications,
-  // device-profiles, devices, multicast-groups).
-  bool is_editor = 7;
-
-  // User is able to viewer.
-  bool is_viewer = 8;
-}
 
 message AddTenantUserRequest {
   // Tenant user object.
@@ -292,6 +277,9 @@ message ListTenantUsersRequest {
 
   // Offset in the result-set (for pagination).
   uint32 offset = 3;
+
+  // If set, the given string will be used to search on email.
+  string search = 4;
 }
 
 message ListTenantUsersResponse {
@@ -299,5 +287,5 @@ message ListTenantUsersResponse {
   uint32 total_count = 1;
 
   // Result-set.
-  repeated TenantUserListItem result = 2;
+  repeated TenantUser result = 2;
 }
