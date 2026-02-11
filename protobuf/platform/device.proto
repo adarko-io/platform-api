@@ -151,6 +151,21 @@ message Device {
 
   DeviceStatus device_status = 20;
 
+  // Created at timestamp.
+  google.protobuf.Timestamp created_at = 21;
+  // Last update timestamp.
+  google.protobuf.Timestamp updated_at = 22;
+
+  // Approved at timestamp.
+  google.protobuf.Timestamp approved_at = 23;
+  // Created by (user ID).
+  string created_by = 24;
+  // Updated by (user ID).
+  string updated_by = 25;
+
+  // Updated by (user ID).
+  string approved_by = 26;
+
 }
 
 message DeviceStatus {
