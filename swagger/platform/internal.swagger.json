@@ -450,9 +450,31 @@
           "type": "string",
           "description": "E-mail of the user."
         },
+        "emailVerified": {
+          "type": "boolean",
+          "title": "Email Verified or not"
+        },
         "note": {
           "type": "string",
           "description": "Optional note to store with the user."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Created at timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp."
+        },
+        "createdBy": {
+          "type": "string",
+          "title": "created_by user id"
+        },
+        "updatedBy": {
+          "type": "string",
+          "title": "updated_by user id"
         }
       }
     },

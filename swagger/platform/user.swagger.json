@@ -286,7 +286,7 @@
         "result": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/platformUserListItem"
+            "$ref": "#/definitions/platformUser"
           },
           "description": "Result-set."
         }
@@ -350,47 +350,13 @@
           "type": "string",
           "description": "E-mail of the user."
         },
+        "emailVerified": {
+          "type": "boolean",
+          "title": "Email Verified or not"
+        },
         "note": {
           "type": "string",
           "description": "Optional note to store with the user."
-        }
-      }
-    },
-    "platformUserListItem": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "User ID (UUID).\nWill be set automatically on create."
-        },
-        "email": {
-          "type": "string",
-          "description": "Email of the user."
-        },
-        "sessionTTL": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The session timeout, in minutes."
-        },
-        "isAdmin": {
-          "type": "boolean",
-          "description": "Set to true to make the user a global administrator."
-        },
-        "isEditor": {
-          "type": "boolean",
-          "description": "Set to true to make the user a global editor."
-        },
-        "isViewer": {
-          "type": "boolean",
-          "description": "Set to true to make the user a global viewer."
-        },
-        "isSubscriber": {
-          "type": "boolean",
-          "description": "Set to true to make the user a subscriber."
-        },
-        "isActive": {
-          "type": "boolean",
-          "description": "Set to false to disable the user."
         },
         "createdAt": {
           "type": "string",
@@ -401,6 +367,14 @@
           "type": "string",
           "format": "date-time",
           "description": "Last update timestamp."
+        },
+        "createdBy": {
+          "type": "string",
+          "title": "created_by user id"
+        },
+        "updatedBy": {
+          "type": "string",
+          "title": "updated_by user id"
         }
       }
     },
