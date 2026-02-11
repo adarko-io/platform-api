@@ -10,6 +10,7 @@ import "google/protobuf/empty.proto";
 import "platform/shared_enums.proto";
 import "google/protobuf/struct.proto";
 
+// ConsumerService manages consumer entities with CRUD operations and listing capabilities.
 service ConsumerService {
   // Create a new consumer.
   rpc Create(CreateConsumerRequest) returns (CreateConsumerResponse) {

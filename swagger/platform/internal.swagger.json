@@ -475,6 +475,13 @@
         "updatedBy": {
           "type": "string",
           "title": "updated_by user id"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Tags associated with the user."
         }
       }
     },

@@ -10,6 +10,8 @@ import "google/protobuf/empty.proto";
 import "platform/shared_enums.proto";
 import "google/protobuf/struct.proto";
 
+// DeviceProfileService provides operations for managing device profiles,
+// including retrieving individual profiles and listing profiles with filtering options.
 service DeviceProfileService {
  
   // Get returns the device profile for the given ID.

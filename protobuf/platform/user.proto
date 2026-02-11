@@ -8,7 +8,8 @@ import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
-
+// UserService provides RPC methods for managing users, including listing, creating,
+// retrieving, updating, and deleting users, as well as password management.
 service UserService {
 	// Get user list.
 	rpc List(ListUserRequest) returns (ListUserResponse) {
@@ -97,6 +98,9 @@ message User {
 	string created_by = 13;
 	//updated_by user id
 	string updated_by = 14;
+
+	//Tags associated with the user.
+	map<string, string> tags = 16;
 }
 
 // message UserListItem {
@@ -194,6 +198,9 @@ message ListUserRequest {
 
 	// Offset in the result-set (for pagination).
 	int64 offset = 2;
+
+	//Search query to filter on email (optional).
+	string search = 3;
 }
 
 message ListUserResponse {
