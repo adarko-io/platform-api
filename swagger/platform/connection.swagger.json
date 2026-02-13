@@ -778,10 +778,6 @@
           "type": "string",
           "description": "ID of the consumer this connection belongs to."
         },
-        "isAssociated": {
-          "type": "boolean",
-          "description": "Flag indicating if the connection is associated with an installation site."
-        },
         "connectionType": {
           "$ref": "#/definitions/platformConnectionType",
           "description": "Type of connection (e.g., water, gas, electricity)."

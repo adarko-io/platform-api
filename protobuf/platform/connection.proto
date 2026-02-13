@@ -118,70 +118,68 @@ message Connection {
   // ID of the consumer this connection belongs to.
   string consumer_id = 2;
 
-  // Flag indicating if the connection is associated with an installation site.
-  bool is_associated = 3;
 
   // Type of connection (e.g., water, gas, electricity).
-  ConnectionType connection_type = 4;
+  ConnectionType connection_type = 3;
 
   // Connection or service number.
-  uint64 connection_number = 5;
+  uint64 connection_number = 4;
 
   // Category of the connection (e.g., domestic, commercial, industrial).
-  ConnectionCategory category = 6;
+  ConnectionCategory category = 5;
 
   // Status of the connection (e.g., active, disconnected, disabled).
-  ConnectionStatus status = 7;
+  ConnectionStatus status = 6;
 
   // Tenant ID (UUID) to which the connection belongs.
-  string tenant_id = 8;
+  string tenant_id = 7;
 
-  string door_plot_number = 10;
+  string door_plot_number = 8;
 
-  string address = 11;
+  string address = 9;
 
-  string city = 12;
+  string city = 10;
 
-  string state = 13;
+  string state = 11;
 
-  string country = 14;
+  string country = 12;
 
-  string postal_code = 15;
+  string postal_code = 13;
 
   //Zone ID (UUID) to which the connection belongs. (Zone /Block/Locality within a city)
-  string zone_id = 21;
+  string zone_id = 14;
 
-   map<string, string> tags = 16;
+   map<string, string> tags = 15;
 
   // Timestamp when the connection was created.
-  google.protobuf.Timestamp created_at = 17;
+  google.protobuf.Timestamp created_at = 16;
 
   // Timestamp when the connection was last updated.
-  google.protobuf.Timestamp updated_at = 18;
+  google.protobuf.Timestamp updated_at = 17;
 
   // User who created the consumer
-  string created_by = 19;
+  string created_by = 18;
 
   // User who last updated the consumer
-  string updated_by = 20;
+  string updated_by = 19;
 
   // Location information.
-  Location location = 22;
+  Location location = 20;
 
   //meterConnections associated with this connection
-  repeated Meter meter = 23;
+  repeated Meter meter = 21;
 
   //reference number
-  string reference_number = 24;
+  string reference_number = 22;
 
   // Timestamp when the connection was last updated.
-  google.protobuf.Timestamp approved_at = 25;
+  google.protobuf.Timestamp approved_at = 23;
 
   // User who created the consumer
-  string approved_by = 26;
+  string approved_by = 24;
 
   // Additional notes about the consumer
-  string note = 27;
+  string note = 25;
 }
 
 // Request message for creating a connection.
