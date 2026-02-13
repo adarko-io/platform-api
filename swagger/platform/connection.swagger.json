@@ -859,6 +859,23 @@
             "$ref": "#/definitions/platformMeterConnection"
           },
           "title": "meterConnections associated with this connection"
+        },
+        "referenceNumber": {
+          "type": "string",
+          "title": "reference number"
+        },
+        "approvedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the connection was last updated."
+        },
+        "approvedBy": {
+          "type": "string",
+          "title": "User who created the consumer"
+        },
+        "note": {
+          "type": "string",
+          "title": "Additional notes about the consumer"
         }
       },
       "description": "Connection represents a connection configuration for a consumer."

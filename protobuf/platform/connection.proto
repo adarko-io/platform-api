@@ -170,6 +170,18 @@ message Connection {
 
   //meterConnections associated with this connection
   repeated MeterConnection meter_connections = 23;
+
+  //reference number
+  string reference_number = 24;
+
+  // Timestamp when the connection was last updated.
+  google.protobuf.Timestamp approved_at = 25;
+
+  // User who created the consumer
+  string approved_by = 26;
+
+  // Additional notes about the consumer
+  string note = 27;
 }
 
 // Request message for creating a connection.

@@ -92,6 +92,15 @@ message Consumer {
   // Last update timestamp
   google.protobuf.Timestamp updated_at = 14;
 
+  //reference number
+  string reference_number = 15;
+
+  // Timestamp when the connection was last updated.
+  google.protobuf.Timestamp approved_at = 16;
+
+  // User who created the consumer
+  string approved_by = 17;
+
   
 }
 
