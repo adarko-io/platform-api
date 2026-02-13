@@ -280,6 +280,8 @@ message Meter {
 
   // First billable reading from the meter.
   double first_billable_reading = 10;
+
+   map<string, string> tags = 11;
 }
 
 // Request message for adding a meter to a connection.

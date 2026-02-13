@@ -1144,6 +1144,12 @@
           "type": "number",
           "format": "double",
           "description": "First billable reading from the meter."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       },
       "description": "MeterConnection represents a meter associated with a connection."
