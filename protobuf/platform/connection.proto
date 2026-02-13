@@ -53,13 +53,13 @@ service ConnectionService {
   // Add a meter to a connection.
   rpc AddMeterToConnection(AddMeterToConnectionRequest) returns (AddMeterToConnectionResponse) {
     option (google.api.http) = {
-      post: "/api/connections/{meter_connection.connection_id}/meters"
+      post: "/api/connections/{meter.connection_id}/meters"
       body: "*"
     };
   }
 
   // Get a meter connection by ID.
-  rpc GetMeterConnection(GetMeterConnectionRequest) returns (GetMeterConnectionResponse) {
+  rpc GetMeterConnection(GetMeterRequest) returns (GetMeterResponse) {
     option (google.api.http) = {
       get: "/api/connections/{connection_id}/meters/{meter_id}"
     };
@@ -73,15 +73,15 @@ service ConnectionService {
   }
 
   // Update a meter connection.
-  rpc UpdateMeterConnection(UpdateMeterConnectionRequest) returns (google.protobuf.Empty) {
+  rpc UpdateMeterConnection(UpdateMeterRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/api/connections/{meter_connection.connection_id}/meters/{meter_connection.id}"
+      put: "/api/connections/{meter.connection_id}/meters/{meter.id}"
       body: "*"
     };
   }
 
   // List all meter connections.
-  rpc ListMeterConnections(ListMeterConnectionsRequest) returns (ListMeterConnectionsResponse) {
+  rpc ListMeterConnections(ListMeterRequest) returns (ListMeterResponse) {
     option (google.api.http) = {
       get: "/api/connections/{connection_id}/meters"
     };
@@ -169,7 +169,7 @@ message Connection {
   Location location = 22;
 
   //meterConnections associated with this connection
-  repeated MeterConnection meter_connections = 23;
+  repeated Meter meter = 23;
 
   //reference number
   string reference_number = 24;
@@ -251,8 +251,8 @@ message ListConnectionsResponse {
 }
 
 // MeterConnection represents a meter associated with a connection.
-message MeterConnection {
-  // Unique identifier for the MeterConnection.
+message Meter {
+  // Unique identifier for the Meter.
   string id = 1;
 
   // Timestamp when the meter was installed.
@@ -270,25 +270,21 @@ message MeterConnection {
   // ID of the connection this meter is associated with.
   string connection_id = 6;
 
-  // Meter EUI (Extended Unique Identifier).
-  string meter_eui = 7;
-
-  // Meter serial number.
-  string meter_serial_number = 8;
+  string inventory_id=7;
 
   // Status of the meter (e.g., active, inactive).
-  MeterStatus meter_status = 9;
+  MeterStatus meter_status = 8;
 
   // Last known reading from the meter.
-  double last_known_reading = 10;
+  double last_known_reading = 9;
 
   // First billable reading from the meter.
-  double first_billable_reading = 11;
+  double first_billable_reading = 10;
 }
 
 // Request message for adding a meter to a connection.
 message AddMeterToConnectionRequest {
-  MeterConnection meter_connection = 1;
+  Meter meter= 1;
 }
 
 // Response message for adding a meter to a connection.
@@ -297,14 +293,14 @@ message AddMeterToConnectionResponse {
 }
 
 // Request message for getting a MeterConnection by ID.
-message GetMeterConnectionRequest {
+message GetMeterRequest {
   string connection_id = 1;
   string meter_id = 2;
 }
 
 // Response message for getting a MeterConnection.
-message GetMeterConnectionResponse {
-  MeterConnection meter_connection = 1;
+message GetMeterResponse {
+  Meter meter = 1;
 }
 
 // Request message for removing a meter from a connection.
@@ -314,12 +310,12 @@ message RemoveMeterFromConnectionRequest {
 }
 
 // Request message for updating a MeterConnection.
-message UpdateMeterConnectionRequest {
-  MeterConnection meter_connection = 1;
+message UpdateMeterRequest {
+  Meter meter = 1;
 }
 
 // Request message for listing MeterConnections.
-message ListMeterConnectionsRequest {
+message ListMeterRequest {
   // Connection ID to filter meter connections.
   string connection_id = 1;
 
@@ -334,12 +330,12 @@ message ListMeterConnectionsRequest {
 }
 
 // Response message for listing MeterConnections.
-message ListMeterConnectionsResponse {
+message ListMeterResponse {
   // Total number of meter connections matching the criteria.
   uint32 total_count = 1;
 
   // List of meter connections.
-  repeated MeterConnection meter_connections = 2;
+  repeated Meter meter = 2;
 }
 
 

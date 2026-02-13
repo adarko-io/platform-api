@@ -397,7 +397,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/platformListMeterConnectionsResponse"
+              "$ref": "#/definitions/platformListMeterResponse"
             }
           },
           "default": {
@@ -459,7 +459,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/platformGetMeterConnectionResponse"
+              "$ref": "#/definitions/platformGetMeterResponse"
             }
           },
           "default": {
@@ -554,7 +554,7 @@
         ]
       }
     },
-    "/api/connections/{meterConnection.connectionId}/meters": {
+    "/api/connections/{meter.connectionId}/meters": {
       "post": {
         "summary": "Add a meter to a connection.",
         "operationId": "ConnectionService_AddMeterToConnection",
@@ -574,7 +574,7 @@
         },
         "parameters": [
           {
-            "name": "meterConnection.connectionId",
+            "name": "meter.connectionId",
             "description": "ID of the connection this meter is associated with.",
             "in": "path",
             "required": true,
@@ -594,7 +594,7 @@
         ]
       }
     },
-    "/api/connections/{meterConnection.connectionId}/meters/{meterConnection.id}": {
+    "/api/connections/{meter.connectionId}/meters/{meter.id}": {
       "put": {
         "summary": "Update a meter connection.",
         "operationId": "ConnectionService_UpdateMeterConnection",
@@ -614,15 +614,15 @@
         },
         "parameters": [
           {
-            "name": "meterConnection.connectionId",
+            "name": "meter.connectionId",
             "description": "ID of the connection this meter is associated with.",
             "in": "path",
             "required": true,
             "type": "string"
           },
           {
-            "name": "meterConnection.id",
-            "description": "Unique identifier for the MeterConnection.",
+            "name": "meter.id",
+            "description": "Unique identifier for the Meter.",
             "in": "path",
             "required": true,
             "type": "string"
@@ -632,7 +632,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/platformUpdateMeterConnectionRequest"
+              "$ref": "#/definitions/platformUpdateMeterRequest"
             }
           }
         ],
@@ -646,8 +646,8 @@
     "platformAddMeterToConnectionRequest": {
       "type": "object",
       "properties": {
-        "meterConnection": {
-          "$ref": "#/definitions/platformMeterConnection"
+        "meter": {
+          "$ref": "#/definitions/platformMeter"
         }
       },
       "description": "Request message for adding a meter to a connection."
@@ -853,10 +853,10 @@
           "$ref": "#/definitions/platformLocation",
           "description": "Location information."
         },
-        "meterConnections": {
+        "meter": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/platformMeterConnection"
+            "$ref": "#/definitions/platformMeter"
           },
           "title": "meterConnections associated with this connection"
         },
@@ -986,11 +986,11 @@
       },
       "description": "Response message for getting a connection."
     },
-    "platformGetMeterConnectionResponse": {
+    "platformGetMeterResponse": {
       "type": "object",
       "properties": {
-        "meterConnection": {
-          "$ref": "#/definitions/platformMeterConnection"
+        "meter": {
+          "$ref": "#/definitions/platformMeter"
         }
       },
       "description": "Response message for getting a MeterConnection."
@@ -1013,7 +1013,7 @@
       },
       "description": "Response message for listing connections."
     },
-    "platformListMeterConnectionsResponse": {
+    "platformListMeterResponse": {
       "type": "object",
       "properties": {
         "totalCount": {
@@ -1021,10 +1021,10 @@
           "format": "int64",
           "description": "Total number of meter connections matching the criteria."
         },
-        "meterConnections": {
+        "meter": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/platformMeterConnection"
+            "$ref": "#/definitions/platformMeter"
           },
           "description": "List of meter connections."
         }
@@ -1097,12 +1097,12 @@
       "default": "LOCATION_SOURCE_UNKNOWN",
       "description": "Location source enumeration - unified across all services.\n\n - LOCATION_SOURCE_UNKNOWN: Unknown location source.\n - LOCATION_SOURCE_GPS: GPS coordinates.\n - LOCATION_SOURCE_MANUAL: Manually configured.\n - LOCATION_SOURCE_TRIANGULATION: Calculated via triangulation.\n - LOCATION_SOURCE_WIFI: WiFi-based location.\n - LOCATION_SOURCE_MANUAL_OVERRIDE: Manual override.\n - LOCATION_SOURCE_CONFIG: Configuration-based.\n - LOCATION_SOURCE_GEO_RESOLVER_TDOA: GEO resolver TDOA.\n - LOCATION_SOURCE_GEO_RESOLVER_RSSI: GEO resolver RSSI.\n - LOCATION_SOURCE_GEO_RESOLVER_GNSS: GEO resolver GNSS.\n - LOCATION_SOURCE_GEO_RESOLVER_WIFI: GEO resolver WiFi.\n - LOCATION_SOURCE_GEO_RESOLVER_MOBILE_GPS: GEO resolver MOBILE GPS."
     },
-    "platformMeterConnection": {
+    "platformMeter": {
       "type": "object",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the MeterConnection."
+          "description": "Unique identifier for the Meter."
         },
         "installedAt": {
           "type": "string",
@@ -1128,13 +1128,8 @@
           "type": "string",
           "description": "ID of the connection this meter is associated with."
         },
-        "meterEui": {
-          "type": "string",
-          "description": "Meter EUI (Extended Unique Identifier)."
-        },
-        "meterSerialNumber": {
-          "type": "string",
-          "description": "Meter serial number."
+        "inventoryId": {
+          "type": "string"
         },
         "meterStatus": {
           "$ref": "#/definitions/platformMeterStatus",
@@ -1224,11 +1219,11 @@
       },
       "description": "Request message for updating a connection."
     },
-    "platformUpdateMeterConnectionRequest": {
+    "platformUpdateMeterRequest": {
       "type": "object",
       "properties": {
-        "meterConnection": {
-          "$ref": "#/definitions/platformMeterConnection"
+        "meter": {
+          "$ref": "#/definitions/platformMeter"
         }
       },
       "description": "Request message for updating a MeterConnection."
