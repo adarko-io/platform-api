@@ -80,7 +80,7 @@ message InventoryDevice {
   string serial_number = 3;
 
   // Device name/model.
-  string name = 4;
+  string notes = 4;
 
   // Device description.
   string description = 5;
@@ -162,40 +162,40 @@ message ListInventoryDevicesRequest {
   map<string, string> tags = 4;
 }
 
-message InventoryDeviceListItem {
+// message InventoryDeviceListItem {
 
-  //Inventory ID
-  string id = 1;
+//   //Inventory ID
+//   string id = 1;
 
-  // Device EUI.
-  string eui = 2;
+//   // Device EUI.
+//   string eui = 2;
 
-  // Device name.
-  string name = 3;
+//   // Device name.
+//   string name = 3;
 
-  // Serial number.
-  string serial_number = 4;
+//   // Serial number.
+//   string serial_number = 4;
 
-  // Current status.
-  InventoryStatus status = 5;
+//   // Current status.
+//   InventoryStatus status = 5;
 
-  // Device profile ID.
-  string device_profile_id = 6;
+//   // Device profile ID.
+//   string device_profile_id = 6;
 
 
-  // Created at timestamp.
-  google.protobuf.Timestamp created_at = 7;
+//   // Created at timestamp.
+//   google.protobuf.Timestamp created_at = 7;
 
-  // Last update timestamp.
-  google.protobuf.Timestamp updated_at = 8;
-}
+//   // Last update timestamp.
+//   google.protobuf.Timestamp updated_at = 8;
+// }
 
 message ListInventoryDevicesResponse {
   // Total count.
   uint32 total_count = 1;
 
   // Device list.
-  repeated InventoryDeviceListItem devices = 2;
+  repeated InventoryDevice devices = 2;
 }
 
 message UpdateDeviceStatusRequest {

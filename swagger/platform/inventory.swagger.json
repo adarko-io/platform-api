@@ -387,7 +387,7 @@
           "type": "string",
           "description": "Serial number."
         },
-        "name": {
+        "notes": {
           "type": "string",
           "description": "Device name/model."
         },
@@ -428,45 +428,6 @@
       },
       "description": "InventoryDevice represents a device in the inventory with all necessary configuration."
     },
-    "platformInventoryDeviceListItem": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "title": "Inventory ID"
-        },
-        "eui": {
-          "type": "string",
-          "description": "Device EUI."
-        },
-        "name": {
-          "type": "string",
-          "description": "Device name."
-        },
-        "serialNumber": {
-          "type": "string",
-          "description": "Serial number."
-        },
-        "status": {
-          "$ref": "#/definitions/platformInventoryStatus",
-          "description": "Current status."
-        },
-        "deviceProfileId": {
-          "type": "string",
-          "description": "Device profile ID."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Created at timestamp."
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Last update timestamp."
-        }
-      }
-    },
     "platformInventoryStatus": {
       "type": "string",
       "enum": [
@@ -491,7 +452,7 @@
         "devices": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/platformInventoryDeviceListItem"
+            "$ref": "#/definitions/platformInventoryDevice"
           },
           "description": "Device list."
         }
