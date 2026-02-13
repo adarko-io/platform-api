@@ -102,6 +102,21 @@ message InventoryDevice {
 
   // Batch/lot information.
   string batch_id = 11;
+
+    // Created at timestamp.
+  google.protobuf.Timestamp created_at = 12;
+
+  // Last update timestamp.
+  google.protobuf.Timestamp updated_at = 13;
+
+  //Created By
+  string created_by=14;
+  
+  // Updated by (user ID).
+  string updated_by=15;
+
+  //Tenant ID Optional for Now.
+  string tenant_id = 16;
 }
 
 // NOTE: Enums moved to shared_enums.proto to avoid conflicts between services.

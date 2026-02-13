@@ -424,6 +424,20 @@
         "batchId": {
           "type": "string",
           "description": "Batch/lot information."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Created at timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant ID Optional for Now."
         }
       },
       "description": "InventoryDevice represents a device in the inventory with all necessary configuration."
