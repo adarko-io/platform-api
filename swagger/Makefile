@@ -23,5 +23,6 @@ platform-api:
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/connection.proto
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/deviceprofile.proto
 	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/billing.proto
+	protoc -I=$(GOOGLEAPIS_PATH) -I=../protobuf -I=../protobuf/platform --swagger_out=json_names_for_fields=true:. platform/zone.proto
 	
 	

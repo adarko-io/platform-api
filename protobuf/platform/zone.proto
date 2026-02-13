@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package platform;
+
+option go_package = "github.com/adarko-io/platform-api/go/v4/platform";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+
+// ZoneService provides API methods for managing zones for Consumers.
+service ZoneService {
+  // Create a new zone for a consumer.
+  rpc Create(CreateZoneRequest) returns (CreateZoneResponse) {
+    option (google.api.http) = {
+      post: "/api/zones"
+      body: "*"
+    };
+  }
+
+  // Get the zone details for a given Zone ID.
+  rpc Get(GetZoneRequest) returns (GetZoneResponse) {
+    option (google.api.http) = {
+      get: "/api/zones/{id}"
+    };
+  }
+
+  // Update an existing zone for a consumer.
+  rpc Update(UpdateZoneRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/api/zones/{zone.id}"
+      body: "*"
+    };
+  }
+
+  // Delete a zone for a consumer.
+  rpc Delete(DeleteZoneRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/api/zones/{id}"
+    };
+  }
+
+  // List all zones
+  rpc List(ListZonesRequest) returns (ListZonesResponse) {
+    option (google.api.http) = {
+      get: "/api/zones"
+    };
+  }
+
+  
+}
+
+message Zone {
+  string id = 1;
+  string name = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+  string created_by = 5;
+  string updated_by = 6;
+  string tenant_id = 7;
+  string description = 8;
+  string parent_zone_id = 9;
+  map<string, string> assert_type_application_id = 10;
+  map<string, string> tags = 11;
+}
+message CreateZoneRequest {
+ Zone zone = 1;
+}
+
+message CreateZoneResponse {
+  string id = 1;
+}
+
+message GetZoneRequest {
+  string id = 1;
+}
+
+message GetZoneResponse {
+  Zone zone = 1;
+}
+
+message ListZonesRequest {
+  uint32 limit = 1;
+  uint32 offset = 2;
+  string tenant_id = 3;
+  string search = 4; 
+}
+
+message ListZonesResponse {
+  uint32 total_count = 1;
+  repeated Zone zones = 2;
+}
+
+message DeleteZoneRequest {
+  string id = 1;
+  bool delete_applications = 2;
+}
+message UpdateZoneRequest {
+  Zone zone = 1;
+}
+message UpdateZoneResponse {
+  string id = 1;
+}
