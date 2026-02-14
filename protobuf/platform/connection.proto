@@ -183,6 +183,9 @@ message Connection {
 
   //Billing Profile ID for this connection
   string billing_profile_id = 26;
+
+  //Name
+  string name = 27;
 }
 
 // Request message for creating a connection.

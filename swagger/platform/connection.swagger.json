@@ -876,6 +876,10 @@
         "billingProfileId": {
           "type": "string",
           "title": "Billing Profile ID for this connection"
+        },
+        "name": {
+          "type": "string",
+          "title": "Name"
         }
       },
       "description": "Connection represents a connection configuration for a consumer."
