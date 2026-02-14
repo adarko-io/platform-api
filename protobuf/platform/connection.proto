@@ -180,6 +180,9 @@ message Connection {
 
   // Additional notes about the consumer
   string note = 25;
+
+  //Billing Profile ID for this connection
+  string billing_profile_id = 26;
 }
 
 // Request message for creating a connection.

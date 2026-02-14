@@ -435,6 +435,14 @@
           "format": "date-time",
           "description": "Last update timestamp."
         },
+        "createdBy": {
+          "type": "string",
+          "title": "Created By"
+        },
+        "updatedBy": {
+          "type": "string",
+          "description": "Updated by (user ID)."
+        },
         "tenantId": {
           "type": "string",
           "description": "Tenant ID Optional for Now."
