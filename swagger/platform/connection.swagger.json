@@ -1150,6 +1150,10 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "name": {
+          "type": "string",
+          "title": "Name"
         }
       },
       "description": "MeterConnection represents a meter associated with a connection."

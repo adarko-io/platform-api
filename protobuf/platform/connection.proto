@@ -283,6 +283,9 @@ message Meter {
   double first_billable_reading = 10;
 
    map<string, string> tags = 11;
+
+   //Name
+   string name=12;
 }
 
 // Request message for adding a meter to a connection.
