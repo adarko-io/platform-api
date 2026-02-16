@@ -188,6 +188,7 @@
     "platformInventoryStatus": {
       "type": "string",
       "enum": [
+        "INVENTORY_STATUS_UNKNOWN",
         "INVENTORY_STATUS_INVENTORY",
         "INVENTORY_STATUS_ONBOARDED",
         "INVENTORY_STATUS_PROVISIONED",
@@ -195,8 +196,8 @@
         "INVENTORY_STATUS_FAULTY",
         "INVENTORY_STATUS_LOST"
       ],
-      "default": "INVENTORY_STATUS_INVENTORY",
-      "description": "Inventory status enumeration.\n\n - INVENTORY_STATUS_INVENTORY: Device in inventory, not yet onboarded.\n - INVENTORY_STATUS_ONBOARDED: Device onboarded to platform.\n - INVENTORY_STATUS_PROVISIONED: Device provisioned and active.\n - INVENTORY_STATUS_DECOMMISSIONED: Device decommissioned.\n - INVENTORY_STATUS_FAULTY: Device reported as faulty.\n - INVENTORY_STATUS_LOST: Device lost or stolen."
+      "default": "INVENTORY_STATUS_UNKNOWN",
+      "description": "Inventory status enumeration.\n\n - INVENTORY_STATUS_UNKNOWN: Device in inventory, Status Unknown\n - INVENTORY_STATUS_INVENTORY: Device in inventory, not yet onboarded.\n - INVENTORY_STATUS_ONBOARDED: Device onboarded to platform.\n - INVENTORY_STATUS_PROVISIONED: Device provisioned and active.\n - INVENTORY_STATUS_DECOMMISSIONED: Device decommissioned.\n - INVENTORY_STATUS_FAULTY: Device reported as faulty.\n - INVENTORY_STATUS_LOST: Device lost or stolen."
     },
     "platformListEnumsHelperResponse": {
       "type": "object",

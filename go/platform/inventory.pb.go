@@ -139,7 +139,7 @@ func (x *InventoryDevice) GetStatus() InventoryStatus {
 	if x != nil {
 		return x.Status
 	}
-	return InventoryStatus_INVENTORY_STATUS_INVENTORY
+	return InventoryStatus_INVENTORY_STATUS_UNKNOWN
 }
 
 func (x *InventoryDevice) GetDeviceProfileId() string {
@@ -716,7 +716,7 @@ func (x *UpdateDeviceStatusRequest) GetStatus() InventoryStatus {
 	if x != nil {
 		return x.Status
 	}
-	return InventoryStatus_INVENTORY_STATUS_INVENTORY
+	return InventoryStatus_INVENTORY_STATUS_UNKNOWN
 }
 
 func (x *UpdateDeviceStatusRequest) GetNotes() string {
