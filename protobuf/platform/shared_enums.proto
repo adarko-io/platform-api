@@ -338,6 +338,20 @@ enum ConnectionCategory {
   CONNECTION_CATEGORY_INDUSTRIAL = 3;
 }
 
+enum ConnectionLevel {
+  // Unknown level.
+  CONNECTION_LEVEL_UNKNOWN = 0;
+
+  // Water entering the system (dam, borewell, treatment plant).
+  CONNECTION_LEVEL_SUPPLY = 1;
+
+  // Intermediate bulk / zone / DMA meter.
+  CONNECTION_LEVEL_DISTRIBUTION = 2;
+
+  // End consumer meter (house, commercial, industrial).
+  CONNECTION_LEVEL_CONSUMPTION = 3;
+}
+
 enum MeterStatus {
   // Unknown meter status.
   METER_STATUS_UNKNOWN = 0;

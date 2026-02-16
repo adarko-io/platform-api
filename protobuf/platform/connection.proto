@@ -186,6 +186,9 @@ message Connection {
 
   //Name
   string name = 27;
+
+  //Connection Level
+  ConnectionLevel connection_level = 28;
 }
 
 // Request message for creating a connection.

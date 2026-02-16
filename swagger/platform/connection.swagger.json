@@ -880,6 +880,10 @@
         "name": {
           "type": "string",
           "title": "Name"
+        },
+        "connectionLevel": {
+          "$ref": "#/definitions/platformConnectionLevel",
+          "title": "Connection Level"
         }
       },
       "description": "Connection represents a connection configuration for a consumer."
@@ -894,6 +898,17 @@
       ],
       "default": "CONNECTION_CATEGORY_UNKNOWN",
       "description": " - CONNECTION_CATEGORY_UNKNOWN: Unknown connection category.\n - CONNECTION_CATEGORY_DOMESTIC: Domestic connection category.\n - CONNECTION_CATEGORY_COMMERCIAL: Commercial connection category.\n - CONNECTION_CATEGORY_INDUSTRIAL: Industrial connection category."
+    },
+    "platformConnectionLevel": {
+      "type": "string",
+      "enum": [
+        "CONNECTION_LEVEL_UNKNOWN",
+        "CONNECTION_LEVEL_SUPPLY",
+        "CONNECTION_LEVEL_DISTRIBUTION",
+        "CONNECTION_LEVEL_CONSUMPTION"
+      ],
+      "default": "CONNECTION_LEVEL_UNKNOWN",
+      "description": " - CONNECTION_LEVEL_UNKNOWN: Unknown level.\n - CONNECTION_LEVEL_SUPPLY: Water entering the system (dam, borewell, treatment plant).\n - CONNECTION_LEVEL_DISTRIBUTION: Intermediate bulk / zone / DMA meter.\n - CONNECTION_LEVEL_CONSUMPTION: End consumer meter (house, commercial, industrial)."
     },
     "platformConnectionStatus": {
       "type": "string",
