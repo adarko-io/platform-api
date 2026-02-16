@@ -78,6 +78,9 @@ message ListEnumsHelperResponse {
 
   //Timezone types
   repeated TimeZone time_zones = 16;
+
+  //Connection Level
+  repeated ConnectionLevel connection_levels = 17;
   
 }
 
