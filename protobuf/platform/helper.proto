@@ -59,7 +59,26 @@ message ListEnumsHelperResponse {
   repeated TimeInterval time_intervals = 9;
 
   // consumer statuses.
-  repeated ConsumerStatus consumer_statuses = 10;
+  repeated ConsumerStatus consumer_status = 10;
+
+  // connection types.
+  repeated ConnectionType connection_type = 11;
+
+  // connection categories.
+  repeated ConnectionCategory connection_category = 12;
+
+  // connection statuses.
+  repeated ConnectionStatus connection_status = 13;
+  
+  // meter statuses.
+  repeated MeterStatus meter_status = 14;
+
+  //Field types for dynamic attributes
+  repeated FieldType field_types = 15;
+
+  //Timezone types
+  repeated TimeZone time_zones = 16;
+  
 }
 
 

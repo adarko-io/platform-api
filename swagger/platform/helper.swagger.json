@@ -96,6 +96,39 @@
       "default": "ASSET_TYPE_UNKNOWN",
       "description": " - ASSET_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_TYPE_WATER_METER: AMR Water meter Inductive.\n - ASSET_TYPE_ENERGY_METER: Energy Meter device.\n - ASSET_TYPE_GAS_METER: GAS Meter device.\n - ASSET_TYPE_GPS_TRACKER: GPS Tracker device.\n - ASSET_TYPE_GATEWAY: Gateway device."
     },
+    "platformConnectionCategory": {
+      "type": "string",
+      "enum": [
+        "CONNECTION_CATEGORY_UNKNOWN",
+        "CONNECTION_CATEGORY_DOMESTIC",
+        "CONNECTION_CATEGORY_COMMERCIAL",
+        "CONNECTION_CATEGORY_INDUSTRIAL"
+      ],
+      "default": "CONNECTION_CATEGORY_UNKNOWN",
+      "description": " - CONNECTION_CATEGORY_UNKNOWN: Unknown connection category.\n - CONNECTION_CATEGORY_DOMESTIC: Domestic connection category.\n - CONNECTION_CATEGORY_COMMERCIAL: Commercial connection category.\n - CONNECTION_CATEGORY_INDUSTRIAL: Industrial connection category."
+    },
+    "platformConnectionStatus": {
+      "type": "string",
+      "enum": [
+        "CONNECTION_STATUS_UNKNOWN",
+        "CONNECTION_STATUS_ACTIVE",
+        "CONNECTION_STATUS_DISCONNECTED",
+        "CONNECTION_STATUS_DISABLED"
+      ],
+      "default": "CONNECTION_STATUS_UNKNOWN",
+      "description": " - CONNECTION_STATUS_UNKNOWN: Unknown connection status.\n - CONNECTION_STATUS_ACTIVE: Active connection.\n - CONNECTION_STATUS_DISCONNECTED: Disconnected connection.\n - CONNECTION_STATUS_DISABLED: Disabled connection."
+    },
+    "platformConnectionType": {
+      "type": "string",
+      "enum": [
+        "CONNECTION_TYPE_UNKNOWN",
+        "CONNECTION_TYPE_WATER",
+        "CONNECTION_TYPE_GAS",
+        "CONNECTION_TYPE_ELECTRICITY"
+      ],
+      "default": "CONNECTION_TYPE_UNKNOWN",
+      "description": " - CONNECTION_TYPE_UNKNOWN: Unknown connection type.\n - CONNECTION_TYPE_WATER: Water connection.\n - CONNECTION_TYPE_GAS: Gas connection.\n - CONNECTION_TYPE_ELECTRICITY: Electricity connection."
+    },
     "platformConsumerStatus": {
       "type": "string",
       "enum": [
@@ -130,6 +163,16 @@
       ],
       "default": "DOWNLINK_MODE_IMMEDIATE",
       "description": "Downlink delivery mode enumeration.\n\n - DOWNLINK_MODE_IMMEDIATE: Immediate downlink (for always-on devices).\n - DOWNLINK_MODE_QUEUED: Queued downlink (for battery-powered devices, sent on next uplink).\n - DOWNLINK_MODE_SCHEDULED: Scheduled downlink (sent at specific time)."
+    },
+    "platformFieldType": {
+      "type": "string",
+      "enum": [
+        "FIELD_TYPE_UNKNOWN",
+        "FIELD_TYPE_CUMULATIVE",
+        "FIELD_TYPE_VARIABLE"
+      ],
+      "default": "FIELD_TYPE_UNKNOWN",
+      "description": "Field type enumeration for data aggregation.\nDetermines how aggregation functions should be applied to different field types.\n\n - FIELD_TYPE_UNKNOWN: Unknown field type - defaults to VARIABLE behavior.\n - FIELD_TYPE_CUMULATIVE: Cumulative/monotonic fields (e.g., accumulated_volume_m3, total_energy_kwh).\nFor these fields:\n- MIN/MAX/AVG/SUM calculate differences between readings (consumption)\n- NONE returns raw accumulated values with gap filling\n - FIELD_TYPE_VARIABLE: Variable/instantaneous fields (e.g., battery_voltage, temperature, pressure).\nFor these fields:\n- MIN returns minimum value in time period\n- MAX returns maximum value in time period  \n- AVG returns average value in time period\n- SUM returns sum of values (rarely useful)\n- NONE returns raw values with gap filling"
     },
     "platformInventoryStatus": {
       "type": "string",
@@ -207,12 +250,54 @@
           },
           "description": "Time intervals."
         },
-        "consumerStatuses": {
+        "consumerStatus": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/platformConsumerStatus"
           },
           "description": "consumer statuses."
+        },
+        "connectionType": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformConnectionType"
+          },
+          "description": "connection types."
+        },
+        "connectionCategory": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformConnectionCategory"
+          },
+          "description": "connection categories."
+        },
+        "connectionStatus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformConnectionStatus"
+          },
+          "description": "connection statuses."
+        },
+        "meterStatus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformMeterStatus"
+          },
+          "description": "meter statuses."
+        },
+        "fieldTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformFieldType"
+          },
+          "title": "Field types for dynamic attributes"
+        },
+        "timeZones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformTimeZone"
+          },
+          "title": "Timezone types"
         }
       },
       "description": "Simple response for UI helper endpoint with concrete enum values."
@@ -236,6 +321,17 @@
       "default": "LOCATION_SOURCE_UNKNOWN",
       "description": "Location source enumeration - unified across all services.\n\n - LOCATION_SOURCE_UNKNOWN: Unknown location source.\n - LOCATION_SOURCE_GPS: GPS coordinates.\n - LOCATION_SOURCE_MANUAL: Manually configured.\n - LOCATION_SOURCE_TRIANGULATION: Calculated via triangulation.\n - LOCATION_SOURCE_WIFI: WiFi-based location.\n - LOCATION_SOURCE_MANUAL_OVERRIDE: Manual override.\n - LOCATION_SOURCE_CONFIG: Configuration-based.\n - LOCATION_SOURCE_GEO_RESOLVER_TDOA: GEO resolver TDOA.\n - LOCATION_SOURCE_GEO_RESOLVER_RSSI: GEO resolver RSSI.\n - LOCATION_SOURCE_GEO_RESOLVER_GNSS: GEO resolver GNSS.\n - LOCATION_SOURCE_GEO_RESOLVER_WIFI: GEO resolver WiFi.\n - LOCATION_SOURCE_GEO_RESOLVER_MOBILE_GPS: GEO resolver MOBILE GPS."
     },
+    "platformMeterStatus": {
+      "type": "string",
+      "enum": [
+        "METER_STATUS_UNKNOWN",
+        "METER_STATUS_ACTIVE",
+        "METER_STATUS_INACTIVE",
+        "METER_STATUS_REMOVED"
+      ],
+      "default": "METER_STATUS_UNKNOWN",
+      "description": " - METER_STATUS_UNKNOWN: Unknown meter status.\n - METER_STATUS_ACTIVE: Active meter.\n - METER_STATUS_INACTIVE: Inactive meter.\n - METER_STATUS_REMOVED: Removed meter."
+    },
     "platformTimeInterval": {
       "type": "string",
       "enum": [
@@ -252,6 +348,52 @@
       ],
       "default": "TIME_INTERVAL_MINUTE",
       "description": "Time interval for aggregation.\n\n - TIME_INTERVAL_MINUTE: 1 minute intervals.\n - TIME_INTERVAL_MINUTE_5: 5 minute intervals.\n - TIME_INTERVAL_MINUTE_15: 15 minute intervals.\n - TIME_INTERVAL_MINUTE_30: 30 minute intervals.\n - TIME_INTERVAL_HOUR: 1 hour intervals.\n - TIME_INTERVAL_HOUR_6: 6 hour intervals.\n - TIME_INTERVAL_HOUR_12: 12 hour intervals.\n - TIME_INTERVAL_DAY: 1 day intervals.\n - TIME_INTERVAL_WEEK: 1 week intervals.\n - TIME_INTERVAL_MONTH: 1 month intervals."
+    },
+    "platformTimeZone": {
+      "type": "string",
+      "enum": [
+        "TZ_PLUS_00_00",
+        "TZ_UNKNOWN",
+        "TZ_MINUS_12_00",
+        "TZ_MINUS_11_00",
+        "TZ_MINUS_10_00",
+        "TZ_MINUS_09_00",
+        "TZ_MINUS_08_00",
+        "TZ_MINUS_07_00",
+        "TZ_MINUS_06_00",
+        "TZ_MINUS_05_00",
+        "TZ_MINUS_04_00",
+        "TZ_MINUS_03_30",
+        "TZ_MINUS_03_00",
+        "TZ_MINUS_02_00",
+        "TZ_MINUS_01_00",
+        "TZ_PLUS_01_00",
+        "TZ_PLUS_02_00",
+        "TZ_PLUS_03_00",
+        "TZ_PLUS_03_30",
+        "TZ_PLUS_04_00",
+        "TZ_PLUS_04_30",
+        "TZ_PLUS_05_00",
+        "TZ_PLUS_05_30",
+        "TZ_PLUS_05_45",
+        "TZ_PLUS_06_00",
+        "TZ_PLUS_06_30",
+        "TZ_PLUS_07_00",
+        "TZ_PLUS_08_00",
+        "TZ_PLUS_08_45",
+        "TZ_PLUS_09_00",
+        "TZ_PLUS_09_30",
+        "TZ_PLUS_10_00",
+        "TZ_PLUS_10_30",
+        "TZ_PLUS_11_00",
+        "TZ_PLUS_12_00",
+        "TZ_PLUS_12_45",
+        "TZ_PLUS_13_00",
+        "TZ_PLUS_14_00"
+      ],
+      "default": "TZ_PLUS_00_00",
+      "description": "- TZ_PLUS_00_00: UTC±0\n - TZ_UNKNOWN: Unknown timezone\n - TZ_MINUS_12_00: UTC-12 to UTC-1\n - TZ_PLUS_01_00: UTC+1 to UTC+14",
+      "title": "Timezone definitions covering UTC-12 to UTC+14"
     },
     "platformTransportProtocol": {
       "type": "string",
