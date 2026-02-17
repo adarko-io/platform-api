@@ -14,24 +14,27 @@ enum TransportProtocol {
   
   // LoRaWAN.
   TRANSPORT_LORAWAN = 1;
+
+  // Wireless M-Bus C Mode.
+  TRANSPORT_WMBUS_C_MODE = 2;
   
   // HTTP/HTTPS over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).
-  TRANSPORT_HTTP = 2;
+  TRANSPORT_HTTP = 3;
   
   // MQTT over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).
-  TRANSPORT_MQTT = 3;
+  TRANSPORT_MQTT = 4;
   
   // TCP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).
-  TRANSPORT_TCP = 4;
+  TRANSPORT_TCP = 5;
   
   // UDP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).
-  TRANSPORT_UDP = 5;
+  TRANSPORT_UDP = 6;
   
   // CoAP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).
-  TRANSPORT_COAP = 6;
+  TRANSPORT_COAP = 7;
     
   // WebSocket.
-  TRANSPORT_WEBSOCKET = 7;
+  TRANSPORT_WEBSOCKET = 8;  
   
 }
 

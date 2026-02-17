@@ -43,7 +43,7 @@ message DeviceProfile{
     AssetSubType asset_sub_type = 5;
 
     // Device Transport Protocol
-    TransportProtocol transport_protocol = 6;
+    repeated TransportProtocol transport_protocol = 6;
 
     string description = 7;
     // Manufacturer details
