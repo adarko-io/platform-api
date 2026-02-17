@@ -32,6 +32,7 @@ enum TransportProtocol {
     
   // WebSocket.
   TRANSPORT_WEBSOCKET = 7;
+  
 }
 
 // Communication mode enumeration - unified for inventory and other services.
@@ -56,6 +57,15 @@ enum DeviceType {
 
   // LoRaWAN Gateway device type.
   DEVICE_TYPE_LORAWAN_GATEWAY = 6;
+
+  // Wmbus C Mode End Device type.
+  DEVICE_TYPE_WMBUS_C_MODE_END_DEVICE = 7;
+
+  //Wmbus C Mode HHU Gateway Device type.
+  DEVICE_TYPE_WMBUS_C_MODE_HHU_GATEWAY_DEVICE = 8;
+
+  //LoRaWAN WMBUS C Mode Dual End Device type.
+  DEVICE_TYPE_LORAWAN_WMBUS_C_MODE_DUAL_END_DEVICE = 9;
 }
 
 // Location source enumeration - unified across all services.

@@ -104,7 +104,7 @@
           },
           {
             "name": "deviceType",
-            "description": "Device type to filter devices on.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN_DEVICE: LoRaWAN device type.\n - DEVICE_TYPE_CELLULAR_GSM: Cellular MQTT device type.\n - DEVICE_TYPE_CELLULAR_LTE: Cellular TCP device type.\n - DEVICE_TYPE_CELLULAR_GSM_LTE: Cellular UDP device type.\n - DEVICE_TYPE_GATEWAY: Gateway device type.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device type.",
+            "description": "Device type to filter devices on.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN_DEVICE: LoRaWAN device type.\n - DEVICE_TYPE_CELLULAR_GSM: Cellular MQTT device type.\n - DEVICE_TYPE_CELLULAR_LTE: Cellular TCP device type.\n - DEVICE_TYPE_CELLULAR_GSM_LTE: Cellular UDP device type.\n - DEVICE_TYPE_GATEWAY: Gateway device type.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device type.\n - DEVICE_TYPE_WMBUS_C_MODE_END_DEVICE: Wmbus C Mode End Device type.\n - DEVICE_TYPE_WMBUS_C_MODE_HHU_GATEWAY_DEVICE: Wmbus C Mode HHU Gateway Device type.\n - DEVICE_TYPE_LORAWAN_WMBUS_C_MODE_DUAL_END_DEVICE: LoRaWAN WMBUS C Mode Dual End Device type.",
             "in": "query",
             "required": false,
             "type": "string",
@@ -115,7 +115,10 @@
               "DEVICE_TYPE_CELLULAR_LTE",
               "DEVICE_TYPE_CELLULAR_GSM_LTE",
               "DEVICE_TYPE_GATEWAY",
-              "DEVICE_TYPE_LORAWAN_GATEWAY"
+              "DEVICE_TYPE_LORAWAN_GATEWAY",
+              "DEVICE_TYPE_WMBUS_C_MODE_END_DEVICE",
+              "DEVICE_TYPE_WMBUS_C_MODE_HHU_GATEWAY_DEVICE",
+              "DEVICE_TYPE_LORAWAN_WMBUS_C_MODE_DUAL_END_DEVICE"
             ],
             "default": "DEVICE_TYPE_UNKNOWN"
           },
@@ -230,7 +233,7 @@
           },
           {
             "name": "deviceType",
-            "description": "Device Type.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN_DEVICE: LoRaWAN device type.\n - DEVICE_TYPE_CELLULAR_GSM: Cellular MQTT device type.\n - DEVICE_TYPE_CELLULAR_LTE: Cellular TCP device type.\n - DEVICE_TYPE_CELLULAR_GSM_LTE: Cellular UDP device type.\n - DEVICE_TYPE_GATEWAY: Gateway device type.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device type.",
+            "description": "Device Type.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN_DEVICE: LoRaWAN device type.\n - DEVICE_TYPE_CELLULAR_GSM: Cellular MQTT device type.\n - DEVICE_TYPE_CELLULAR_LTE: Cellular TCP device type.\n - DEVICE_TYPE_CELLULAR_GSM_LTE: Cellular UDP device type.\n - DEVICE_TYPE_GATEWAY: Gateway device type.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device type.\n - DEVICE_TYPE_WMBUS_C_MODE_END_DEVICE: Wmbus C Mode End Device type.\n - DEVICE_TYPE_WMBUS_C_MODE_HHU_GATEWAY_DEVICE: Wmbus C Mode HHU Gateway Device type.\n - DEVICE_TYPE_LORAWAN_WMBUS_C_MODE_DUAL_END_DEVICE: LoRaWAN WMBUS C Mode Dual End Device type.",
             "in": "query",
             "required": false,
             "type": "string",
@@ -241,7 +244,10 @@
               "DEVICE_TYPE_CELLULAR_LTE",
               "DEVICE_TYPE_CELLULAR_GSM_LTE",
               "DEVICE_TYPE_GATEWAY",
-              "DEVICE_TYPE_LORAWAN_GATEWAY"
+              "DEVICE_TYPE_LORAWAN_GATEWAY",
+              "DEVICE_TYPE_WMBUS_C_MODE_END_DEVICE",
+              "DEVICE_TYPE_WMBUS_C_MODE_HHU_GATEWAY_DEVICE",
+              "DEVICE_TYPE_LORAWAN_WMBUS_C_MODE_DUAL_END_DEVICE"
             ],
             "default": "DEVICE_TYPE_UNKNOWN"
           },
@@ -602,10 +608,13 @@
         "DEVICE_TYPE_CELLULAR_LTE",
         "DEVICE_TYPE_CELLULAR_GSM_LTE",
         "DEVICE_TYPE_GATEWAY",
-        "DEVICE_TYPE_LORAWAN_GATEWAY"
+        "DEVICE_TYPE_LORAWAN_GATEWAY",
+        "DEVICE_TYPE_WMBUS_C_MODE_END_DEVICE",
+        "DEVICE_TYPE_WMBUS_C_MODE_HHU_GATEWAY_DEVICE",
+        "DEVICE_TYPE_LORAWAN_WMBUS_C_MODE_DUAL_END_DEVICE"
       ],
       "default": "DEVICE_TYPE_UNKNOWN",
-      "description": "Communication mode enumeration - unified for inventory and other services.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN_DEVICE: LoRaWAN device type.\n - DEVICE_TYPE_CELLULAR_GSM: Cellular MQTT device type.\n - DEVICE_TYPE_CELLULAR_LTE: Cellular TCP device type.\n - DEVICE_TYPE_CELLULAR_GSM_LTE: Cellular UDP device type.\n - DEVICE_TYPE_GATEWAY: Gateway device type.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device type."
+      "description": "Communication mode enumeration - unified for inventory and other services.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN_DEVICE: LoRaWAN device type.\n - DEVICE_TYPE_CELLULAR_GSM: Cellular MQTT device type.\n - DEVICE_TYPE_CELLULAR_LTE: Cellular TCP device type.\n - DEVICE_TYPE_CELLULAR_GSM_LTE: Cellular UDP device type.\n - DEVICE_TYPE_GATEWAY: Gateway device type.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device type.\n - DEVICE_TYPE_WMBUS_C_MODE_END_DEVICE: Wmbus C Mode End Device type.\n - DEVICE_TYPE_WMBUS_C_MODE_HHU_GATEWAY_DEVICE: Wmbus C Mode HHU Gateway Device type.\n - DEVICE_TYPE_LORAWAN_WMBUS_C_MODE_DUAL_END_DEVICE: LoRaWAN WMBUS C Mode Dual End Device type."
     },
     "platformGetDeviceResponse": {
       "type": "object",
