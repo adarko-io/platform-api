@@ -454,6 +454,11 @@
         "firmwareVersion": {
           "type": "string",
           "description": "Firmware version."
+        },
+        "mfrDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Manufacturing date."
         }
       },
       "description": "InventoryDevice represents a device in the inventory with all necessary configuration."

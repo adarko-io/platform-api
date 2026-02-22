@@ -123,6 +123,9 @@ message InventoryDevice {
 
   //Firmware version.
   string firmware_version = 18;
+
+  //Manufacturing date.
+  google.protobuf.Timestamp mfr_date = 19;
 }
 
 // NOTE: Enums moved to shared_enums.proto to avoid conflicts between services.
