@@ -117,6 +117,12 @@ message InventoryDevice {
 
   //Tenant ID Optional for Now.
   string tenant_id = 16;
+
+  //Hardware version.
+  string hardware_version = 17;
+
+  //Firmware version.
+  string firmware_version = 18;
 }
 
 // NOTE: Enums moved to shared_enums.proto to avoid conflicts between services.

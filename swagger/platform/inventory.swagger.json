@@ -446,6 +446,14 @@
         "tenantId": {
           "type": "string",
           "description": "Tenant ID Optional for Now."
+        },
+        "hardwareVersion": {
+          "type": "string",
+          "description": "Hardware version."
+        },
+        "firmwareVersion": {
+          "type": "string",
+          "description": "Firmware version."
         }
       },
       "description": "InventoryDevice represents a device in the inventory with all necessary configuration."
