@@ -373,7 +373,7 @@ message InsertFromDataloggerRequest {
   string eui = 5;
 
   // Protocol used (e.g., "mqtt-lorawan", "mqtt", "tcp", "udp").
-  string protocol = 6;
+  TransportProtocol protocol = 6;
 
   // Processed data (JSON string containing decoded sensor readings).
   google.protobuf.Value data = 7;

@@ -887,7 +887,7 @@
           "description": "Device EUI (EUI64 as string)."
         },
         "protocol": {
-          "type": "string",
+          "$ref": "#/definitions/platformTransportProtocol",
           "description": "Protocol used (e.g., \"mqtt-lorawan\", \"mqtt\", \"tcp\", \"udp\")."
         },
         "data": {
@@ -967,6 +967,22 @@
       ],
       "default": "TIME_INTERVAL_MINUTE",
       "description": "Time interval for aggregation.\n\n - TIME_INTERVAL_MINUTE: 1 minute intervals.\n - TIME_INTERVAL_MINUTE_5: 5 minute intervals.\n - TIME_INTERVAL_MINUTE_15: 15 minute intervals.\n - TIME_INTERVAL_MINUTE_30: 30 minute intervals.\n - TIME_INTERVAL_HOUR: 1 hour intervals.\n - TIME_INTERVAL_HOUR_6: 6 hour intervals.\n - TIME_INTERVAL_HOUR_12: 12 hour intervals.\n - TIME_INTERVAL_DAY: 1 day intervals.\n - TIME_INTERVAL_WEEK: 1 week intervals.\n - TIME_INTERVAL_MONTH: 1 month intervals."
+    },
+    "platformTransportProtocol": {
+      "type": "string",
+      "enum": [
+        "TRANSPORT_PROTOCOL_UNKNOWN",
+        "TRANSPORT_LORAWAN",
+        "TRANSPORT_WMBUS_C_MODE",
+        "TRANSPORT_HTTP",
+        "TRANSPORT_MQTT",
+        "TRANSPORT_TCP",
+        "TRANSPORT_UDP",
+        "TRANSPORT_COAP",
+        "TRANSPORT_WEBSOCKET"
+      ],
+      "default": "TRANSPORT_PROTOCOL_UNKNOWN",
+      "description": "Transport protocol enumeration - unified for inventory and data services.\n\n - TRANSPORT_PROTOCOL_UNKNOWN: Unknown protocol.\n - TRANSPORT_LORAWAN: LoRaWAN.\n - TRANSPORT_WMBUS_C_MODE: Wireless M-Bus C Mode.\n - TRANSPORT_HTTP: HTTP/HTTPS over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_MQTT: MQTT over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_TCP: TCP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_UDP: UDP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_COAP: CoAP over  (2G/3G/4G/5G/NB-IoT/LTE-M/WIFI).\n - TRANSPORT_WEBSOCKET: WebSocket."
     },
     "platformUpdateDeviceLocationRequest": {
       "type": "object",
