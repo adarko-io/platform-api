@@ -905,10 +905,11 @@
         },
         "metadata": {
           "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
           "description": "Optional: Additional metadata."
+        },
+        "deviceProfileId": {
+          "type": "string",
+          "title": "Device Profile ID"
         }
       },
       "description": "Request to insert device data from datalogger."

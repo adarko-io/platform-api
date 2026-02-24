@@ -385,7 +385,10 @@ message InsertFromDataloggerRequest {
   google.protobuf.Timestamp received_at = 9;
 
   // Optional: Additional metadata.
-  map<string, string> metadata = 10;
+  google.protobuf.Value metadata = 10;
+
+  //Device Profile ID 
+  string device_profile_id = 11;
 }
 
 // Response from inserting datalogger data.
