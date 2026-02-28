@@ -910,6 +910,11 @@
         "deviceProfileId": {
           "type": "string",
           "title": "Device Profile ID"
+        },
+        "port": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Optional: Port number (for protocols that use ports, e.g., LoRaWAN f_port)."
         }
       },
       "description": "Request to insert device data from datalogger."

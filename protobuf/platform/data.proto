@@ -389,6 +389,9 @@ message InsertFromDataloggerRequest {
 
   //Device Profile ID 
   string device_profile_id = 11;
+
+  // Optional: Port number (for protocols that use ports, e.g., LoRaWAN f_port).
+  uint32 port = 12;
 }
 
 // Response from inserting datalogger data.
