@@ -29,6 +29,22 @@ service DataService {
     };
   }
 
+  // Insert decoded/processed data from datalogger (split model).
+  rpc PushDataFromDatabridge(PushDataFromDatabridgeRequest) returns (PushDataFromDatabridgeResponse) {
+    option (google.api.http) = {
+      post: "/api/device-data/decoded"
+      body: "*"
+    };
+  }
+
+  // Insert raw original data from datalogger (split model).
+  rpc PushDataOriginalFromDatabridge(PushDataOriginalFromDatabridgeRequest) returns (PushDataOriginalFromDatabridgeResponse) {
+    option (google.api.http) = {
+      post: "/api/device-data/original"
+      body: "*"
+    };
+  }
+
   // Get device data for a specific device within a time range.
   rpc GetDeviceData(GetDeviceDataRequest) returns (GetDeviceDataResponse) {
     option (google.api.http) = {
@@ -403,6 +419,80 @@ message InsertFromDataloggerResponse {
   string message = 2;
 
   // Assigned data ID (if applicable).
+  string data_id = 3;
+}
+
+// Request to insert one decoded/processed data record from the datalogger.
+// Corresponds to the Data table (split model).
+message PushDataFromDatabridgeRequest {
+  // Unique ID of this decoded record (Data.ID).
+  string id = 1;
+
+  // Shared link to the raw original record (Data.DataID → DataOriginal.DataID).
+  string data_id = 2;
+
+  // Platform device ID.
+  string device_id = 3;
+
+  // Platform application ID.
+  string application_id = 4;
+
+  // Platform tenant ID.
+  string tenant_id = 5;
+
+  // Device profile ID.
+  string device_profile_id = 6;
+
+  // Device EUI (EUI64 hex string).
+  string eui = 7;
+
+  // Transport protocol.
+  TransportProtocol protocol = 8;
+
+  // Decoded/processed payload as JSON.
+  google.protobuf.Value data = 9;
+
+  // Optional arbitrary metadata.
+  google.protobuf.Value metadata = 10;
+
+  // Timestamp from the device payload.
+  google.protobuf.Timestamp data_timestamp = 11;
+
+  // Timestamp when the datalogger received the message.
+  google.protobuf.Timestamp received_at = 12;
+}
+
+// Response from inserting a decoded data record.
+message PushDataFromDatabridgeResponse {
+  bool success = 1;
+  string message = 2;
+  // Echoed back Data.ID.
+  string id = 3;
+  // Echoed back Data.DataID.
+  string data_id = 4;
+}
+
+// Request to insert one raw original data record from the datalogger.
+// Corresponds to the DataOriginal table (split model).
+message PushDataOriginalFromDatabridgeRequest {
+  // Shared key linking this record to its decoded Data rows (DataOriginal.DataID).
+  string data_id = 1;
+
+  // Transport protocol.
+  TransportProtocol protocol = 2;
+
+  // Raw payload as received (full JSON).
+  google.protobuf.Value original_data = 3;
+
+  // Timestamp when the datalogger received the message.
+  google.protobuf.Timestamp received_at = 4;
+}
+
+// Response from inserting a raw original data record.
+message PushDataOriginalFromDatabridgeResponse {
+  bool success = 1;
+  string message = 2;
+  // Echoed back DataOriginal.DataID.
   string data_id = 3;
 }
 

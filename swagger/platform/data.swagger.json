@@ -464,6 +464,72 @@
           "DataService"
         ]
       }
+    },
+    "/api/device-data/decoded": {
+      "post": {
+        "summary": "Insert decoded/processed data from datalogger (split model).",
+        "operationId": "DataService_PushDataFromDatabridge",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformPushDataFromDatabridgeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformPushDataFromDatabridgeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DataService"
+        ]
+      }
+    },
+    "/api/device-data/original": {
+      "post": {
+        "summary": "Insert raw original data from datalogger (split model).",
+        "operationId": "DataService_PushDataOriginalFromDatabridge",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformPushDataOriginalFromDatabridgeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformPushDataOriginalFromDatabridgeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DataService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -955,6 +1021,121 @@
       ],
       "default": "LOCATION_SOURCE_UNKNOWN",
       "description": "Location source enumeration - unified across all services.\n\n - LOCATION_SOURCE_UNKNOWN: Unknown location source.\n - LOCATION_SOURCE_GPS: GPS coordinates.\n - LOCATION_SOURCE_MANUAL: Manually configured.\n - LOCATION_SOURCE_TRIANGULATION: Calculated via triangulation.\n - LOCATION_SOURCE_WIFI: WiFi-based location.\n - LOCATION_SOURCE_MANUAL_OVERRIDE: Manual override.\n - LOCATION_SOURCE_CONFIG: Configuration-based.\n - LOCATION_SOURCE_GEO_RESOLVER_TDOA: GEO resolver TDOA.\n - LOCATION_SOURCE_GEO_RESOLVER_RSSI: GEO resolver RSSI.\n - LOCATION_SOURCE_GEO_RESOLVER_GNSS: GEO resolver GNSS.\n - LOCATION_SOURCE_GEO_RESOLVER_WIFI: GEO resolver WiFi.\n - LOCATION_SOURCE_GEO_RESOLVER_MOBILE_GPS: GEO resolver MOBILE GPS."
+    },
+    "platformPushDataFromDatabridgeRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique ID of this decoded record (Data.ID)."
+        },
+        "dataId": {
+          "type": "string",
+          "description": "Shared link to the raw original record (Data.DataID → DataOriginal.DataID)."
+        },
+        "deviceId": {
+          "type": "string",
+          "description": "Platform device ID."
+        },
+        "applicationId": {
+          "type": "string",
+          "description": "Platform application ID."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Platform tenant ID."
+        },
+        "deviceProfileId": {
+          "type": "string",
+          "description": "Device profile ID."
+        },
+        "eui": {
+          "type": "string",
+          "description": "Device EUI (EUI64 hex string)."
+        },
+        "protocol": {
+          "$ref": "#/definitions/platformTransportProtocol",
+          "description": "Transport protocol."
+        },
+        "data": {
+          "type": "object",
+          "description": "Decoded/processed payload as JSON."
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Optional arbitrary metadata."
+        },
+        "dataTimestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp from the device payload."
+        },
+        "receivedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the datalogger received the message."
+        }
+      },
+      "description": "Request to insert one decoded/processed data record from the datalogger.\nCorresponds to the Data table (split model)."
+    },
+    "platformPushDataFromDatabridgeResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "description": "Echoed back Data.ID."
+        },
+        "dataId": {
+          "type": "string",
+          "description": "Echoed back Data.DataID."
+        }
+      },
+      "description": "Response from inserting a decoded data record."
+    },
+    "platformPushDataOriginalFromDatabridgeRequest": {
+      "type": "object",
+      "properties": {
+        "dataId": {
+          "type": "string",
+          "description": "Shared key linking this record to its decoded Data rows (DataOriginal.DataID)."
+        },
+        "protocol": {
+          "$ref": "#/definitions/platformTransportProtocol",
+          "description": "Transport protocol."
+        },
+        "originalData": {
+          "type": "object",
+          "description": "Raw payload as received (full JSON)."
+        },
+        "receivedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the datalogger received the message."
+        }
+      },
+      "description": "Request to insert one raw original data record from the datalogger.\nCorresponds to the DataOriginal table (split model)."
+    },
+    "platformPushDataOriginalFromDatabridgeResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "dataId": {
+          "type": "string",
+          "description": "Echoed back DataOriginal.DataID."
+        }
+      },
+      "description": "Response from inserting a raw original data record."
     },
     "platformTimeInterval": {
       "type": "string",
