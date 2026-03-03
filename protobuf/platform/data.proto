@@ -378,32 +378,35 @@ message PushDataFromDatabridgeRequest {
   // Platform device ID.
   string device_id = 3;
 
+  // Indicates if the device ID was available in the original payload (some protocols may not provide it).
+  bool is_device_id_available = 4;
+
   // Platform application ID.
-  string application_id = 4;
+  string application_id = 5;
 
   // Platform tenant ID.
-  string tenant_id = 5;
+  string tenant_id = 6;
 
   // Device profile ID.
-  string device_profile_id = 6;
+  string device_profile_id = 7;
 
   // Device EUI (EUI64 hex string).
-  string eui = 7;
+  string eui = 8;
 
   // Transport protocol.
-  TransportProtocol protocol = 8;
+  TransportProtocol protocol = 9;
 
   // Decoded/processed payload as JSON.
-  google.protobuf.Value data = 9;
+  google.protobuf.Value data = 10;
 
   // Optional arbitrary metadata.
-  google.protobuf.Value metadata = 10;
+  google.protobuf.Value metadata = 11;
 
   // Timestamp from the device payload.
-  google.protobuf.Timestamp data_timestamp = 11;
+  google.protobuf.Timestamp data_timestamp = 12;
 
   // Timestamp when the datalogger received the message.
-  google.protobuf.Timestamp received_at = 12;
+  google.protobuf.Timestamp received_at = 13;
 }
 
 // Response from inserting a decoded data record.

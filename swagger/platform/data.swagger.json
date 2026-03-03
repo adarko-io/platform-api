@@ -932,6 +932,10 @@
           "type": "string",
           "description": "Platform device ID."
         },
+        "isDeviceIdAvailable": {
+          "type": "boolean",
+          "description": "Indicates if the device ID was available in the original payload (some protocols may not provide it)."
+        },
         "applicationId": {
           "type": "string",
           "description": "Platform application ID."
