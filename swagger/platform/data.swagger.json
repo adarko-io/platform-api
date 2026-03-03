@@ -432,42 +432,9 @@
         ]
       }
     },
-    "/api/device-data": {
-      "post": {
-        "summary": "Insert device data from datalogger (specific endpoint for datalogger integration).",
-        "operationId": "DataService_InsertFromDatalogger",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/platformInsertFromDataloggerResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/platformInsertFromDataloggerRequest"
-            }
-          }
-        ],
-        "tags": [
-          "DataService"
-        ]
-      }
-    },
     "/api/device-data/decoded": {
       "post": {
-        "summary": "Insert decoded/processed data from datalogger (split model).",
+        "summary": "Push decoded/processed data from databridge (split model).",
         "operationId": "DataService_PushDataFromDatabridge",
         "responses": {
           "200": {
@@ -500,7 +467,7 @@
     },
     "/api/device-data/original": {
       "post": {
-        "summary": "Insert raw original data from datalogger (split model).",
+        "summary": "Push raw original data from databridge (split model).",
         "operationId": "DataService_PushDataOriginalFromDatabridge",
         "responses": {
           "200": {
@@ -931,78 +898,6 @@
       },
       "description": "Request to insert device data."
     },
-    "platformInsertFromDataloggerRequest": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "device  ID (UUID from device )."
-        },
-        "applicationId": {
-          "type": "string"
-        },
-        "tenantId": {
-          "type": "string"
-        },
-        "dataId": {
-          "type": "string",
-          "description": "Local device data ID (UUID from datalogger storage)."
-        },
-        "eui": {
-          "type": "string",
-          "description": "Device EUI (EUI64 as string)."
-        },
-        "protocol": {
-          "$ref": "#/definitions/platformTransportProtocol",
-          "description": "Protocol used (e.g., \"mqtt-lorawan\", \"mqtt\", \"tcp\", \"udp\")."
-        },
-        "data": {
-          "type": "object",
-          "description": "Processed data (JSON string containing decoded sensor readings)."
-        },
-        "originalData": {
-          "type": "object",
-          "description": "Original data (raw message as received, JSON string)."
-        },
-        "receivedAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Timestamp when data was received by datalogger."
-        },
-        "metadata": {
-          "type": "object",
-          "description": "Optional: Additional metadata."
-        },
-        "deviceProfileId": {
-          "type": "string",
-          "title": "Device Profile ID"
-        },
-        "port": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Optional: Port number (for protocols that use ports, e.g., LoRaWAN f_port)."
-        }
-      },
-      "description": "Request to insert device data from datalogger."
-    },
-    "platformInsertFromDataloggerResponse": {
-      "type": "object",
-      "properties": {
-        "success": {
-          "type": "boolean",
-          "description": "Success status."
-        },
-        "message": {
-          "type": "string",
-          "description": "Message (error message if success=false)."
-        },
-        "dataId": {
-          "type": "string",
-          "description": "Assigned data ID (if applicable)."
-        }
-      },
-      "description": "Response from inserting datalogger data."
-    },
     "platformLocationSource": {
       "type": "string",
       "enum": [
@@ -1076,7 +971,7 @@
           "description": "Timestamp when the datalogger received the message."
         }
       },
-      "description": "Request to insert one decoded/processed data record from the datalogger.\nCorresponds to the Data table (split model)."
+      "description": "Request to insert one decoded/processed data record from the databridge.\nCorresponds to the Data table (split model)."
     },
     "platformPushDataFromDatabridgeResponse": {
       "type": "object",
@@ -1119,7 +1014,7 @@
           "description": "Timestamp when the datalogger received the message."
         }
       },
-      "description": "Request to insert one raw original data record from the datalogger.\nCorresponds to the DataOriginal table (split model)."
+      "description": "Request to insert one raw original data record from the databridge.\nCorresponds to the DataOriginal table (split model)."
     },
     "platformPushDataOriginalFromDatabridgeResponse": {
       "type": "object",

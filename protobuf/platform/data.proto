@@ -21,15 +21,7 @@ service DataService {
     };
   }
 
-  // Insert device data from datalogger (specific endpoint for datalogger integration).
-  rpc InsertFromDatalogger(InsertFromDataloggerRequest) returns (InsertFromDataloggerResponse) {
-    option (google.api.http) = {
-      post: "/api/device-data"
-      body: "*"
-    };
-  }
-
-  // Insert decoded/processed data from datalogger (split model).
+  // Push decoded/processed data from databridge (split model).
   rpc PushDataFromDatabridge(PushDataFromDatabridgeRequest) returns (PushDataFromDatabridgeResponse) {
     option (google.api.http) = {
       post: "/api/device-data/decoded"
@@ -37,7 +29,7 @@ service DataService {
     };
   }
 
-  // Insert raw original data from datalogger (split model).
+  // Push raw original data from databridge (split model).
   rpc PushDataOriginalFromDatabridge(PushDataOriginalFromDatabridgeRequest) returns (PushDataOriginalFromDatabridgeResponse) {
     option (google.api.http) = {
       post: "/api/device-data/original"
@@ -373,56 +365,8 @@ message DeviceLocation {
 
 // NOTE: Enums moved to shared_enums.proto to avoid conflicts between services.
 
-// Request to insert device data from datalogger.
-message InsertFromDataloggerRequest {
-  // device  ID (UUID from device ).
-  string id = 1;
 
-  string application_id =  2;
-
-  string tenant_id = 3;
-  
-  // Local device data ID (UUID from datalogger storage).
-  string data_id = 4;
-
-  // Device EUI (EUI64 as string).
-  string eui = 5;
-
-  // Protocol used (e.g., "mqtt-lorawan", "mqtt", "tcp", "udp").
-  TransportProtocol protocol = 6;
-
-  // Processed data (JSON string containing decoded sensor readings).
-  google.protobuf.Value data = 7;
-
-  // Original data (raw message as received, JSON string).
-  google.protobuf.Value original_data = 8;
-
-  // Timestamp when data was received by datalogger.
-  google.protobuf.Timestamp received_at = 9;
-
-  // Optional: Additional metadata.
-  google.protobuf.Value metadata = 10;
-
-  //Device Profile ID 
-  string device_profile_id = 11;
-
-  // Optional: Port number (for protocols that use ports, e.g., LoRaWAN f_port).
-  uint32 port = 12;
-}
-
-// Response from inserting datalogger data.
-message InsertFromDataloggerResponse {
-  // Success status.
-  bool success = 1;
-
-  // Message (error message if success=false).
-  string message = 2;
-
-  // Assigned data ID (if applicable).
-  string data_id = 3;
-}
-
-// Request to insert one decoded/processed data record from the datalogger.
+// Request to insert one decoded/processed data record from the databridge.
 // Corresponds to the Data table (split model).
 message PushDataFromDatabridgeRequest {
   // Unique ID of this decoded record (Data.ID).
@@ -472,7 +416,7 @@ message PushDataFromDatabridgeResponse {
   string data_id = 4;
 }
 
-// Request to insert one raw original data record from the datalogger.
+// Request to insert one raw original data record from the databridge.
 // Corresponds to the DataOriginal table (split model).
 message PushDataOriginalFromDatabridgeRequest {
   // Shared key linking this record to its decoded Data rows (DataOriginal.DataID).
