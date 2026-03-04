@@ -686,9 +686,13 @@
           "type": "integer",
           "format": "int64",
           "description": "Offset for pagination."
+        },
+        "deviceProfileId": {
+          "type": "string",
+          "description": "Filter by device profile ID — returns data for all devices using this profile (optional)."
         }
       },
-      "description": "Request for meter consumption data.\nAt least one of device_ids, application_id, or tenant_id must be set."
+      "description": "Request for meter consumption data.\nAt least one of device_ids, application_id, tenant_id, or device_profile_id must be set."
     },
     "platformGetAggregatedDataResponse": {
       "type": "object",
