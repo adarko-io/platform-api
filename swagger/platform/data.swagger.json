@@ -506,11 +506,19 @@
         "timestamp": {
           "type": "string",
           "format": "date-time",
-          "description": "Timestamp (bucket start time)."
+          "description": "Bucket start time."
         },
-        "id": {
+        "deviceId": {
           "type": "string",
-          "description": "device  ID (UUID from device )."
+          "description": "Device ID — populated when group_by_device = true or a single device is queried."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant ID of the device."
+        },
+        "applicationId": {
+          "type": "string",
+          "description": "Application ID of the device."
         },
         "values": {
           "type": "object",
@@ -518,30 +526,10 @@
             "type": "number",
             "format": "double"
           },
-          "description": "Aggregated values by field name."
-        },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Count of data points in this bucket."
+          "description": "Consumption values keyed by counter field name\n(e.g. \"accumulated_volume_m3\", \"accumulated_kwh\")."
         }
       },
-      "description": "Aggregated data point."
-    },
-    "platformAggregationType": {
-      "type": "string",
-      "enum": [
-        "AGGREGATION_TYPE_NONE",
-        "AGGREGATION_TYPE_AVG",
-        "AGGREGATION_TYPE_MIN",
-        "AGGREGATION_TYPE_MAX",
-        "AGGREGATION_TYPE_SUM",
-        "AGGREGATION_TYPE_COUNT",
-        "AGGREGATION_TYPE_FIRST",
-        "AGGREGATION_TYPE_LAST"
-      ],
-      "default": "AGGREGATION_TYPE_NONE",
-      "description": "Aggregation type for time-series data.\n\n - AGGREGATION_TYPE_NONE: No aggregation (raw data).\n - AGGREGATION_TYPE_AVG: Average values.\n - AGGREGATION_TYPE_MIN: Minimum values.\n - AGGREGATION_TYPE_MAX: Maximum values.\n - AGGREGATION_TYPE_SUM: Sum of values.\n - AGGREGATION_TYPE_COUNT: Count of data points.\n - AGGREGATION_TYPE_FIRST: First value in time window.\n - AGGREGATION_TYPE_LAST: Last value in time window."
+      "description": "One consumption bucket in the response."
     },
     "platformDataSizeStats": {
       "type": "object",
@@ -653,59 +641,46 @@
       },
       "description": "Device location information."
     },
-    "platformFieldType": {
-      "type": "string",
-      "enum": [
-        "FIELD_TYPE_UNKNOWN",
-        "FIELD_TYPE_CUMULATIVE",
-        "FIELD_TYPE_VARIABLE"
-      ],
-      "default": "FIELD_TYPE_UNKNOWN",
-      "description": "Field type enumeration for data aggregation.\nDetermines how aggregation functions should be applied to different field types.\n\n - FIELD_TYPE_UNKNOWN: Unknown field type - defaults to VARIABLE behavior.\n - FIELD_TYPE_CUMULATIVE: Cumulative/monotonic fields (e.g., accumulated_volume_m3, total_energy_kwh).\nFor these fields:\n- MIN/MAX/AVG/SUM calculate differences between readings (consumption)\n- NONE returns raw accumulated values with gap filling\n - FIELD_TYPE_VARIABLE: Variable/instantaneous fields (e.g., battery_voltage, temperature, pressure).\nFor these fields:\n- MIN returns minimum value in time period\n- MAX returns maximum value in time period  \n- AVG returns average value in time period\n- SUM returns sum of values (rarely useful)\n- NONE returns raw values with gap filling"
-    },
     "platformGetAggregatedDataRequest": {
       "type": "object",
       "properties": {
-        "ids": {
+        "deviceIds": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "description": "ID(s) to get data for."
+          "description": "Filter by specific device IDs (optional)."
+        },
+        "applicationId": {
+          "type": "string",
+          "description": "Filter by application ID — returns data for all devices in this application (optional)."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Filter by tenant ID — returns data for all devices in this tenant (optional)."
         },
         "startTime": {
           "type": "string",
           "format": "date-time",
-          "description": "Start time for data range."
+          "description": "Start time (required)."
         },
         "endTime": {
           "type": "string",
           "format": "date-time",
-          "description": "End time for data range."
-        },
-        "aggregation": {
-          "$ref": "#/definitions/platformAggregationType",
-          "description": "Aggregation type."
+          "description": "End time (required)."
         },
         "interval": {
           "$ref": "#/definitions/platformTimeInterval",
-          "description": "Time interval for aggregation."
-        },
-        "fields": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/platformFieldType"
-          },
-          "description": "Fields to aggregate with their types (field name -\u003e field type).\ne.g., {\"accumulated_volume_m3\": \"FIELD_TYPE_CUMULATIVE\", \"battery_raw\": \"FIELD_TYPE_VARIABLE\"}\nIf not specified, defaults will be used based on field names."
+          "description": "Time interval: HOUR → hourly buckets, MONTH → monthly, everything else → daily."
         },
         "groupByDevice": {
           "type": "boolean",
-          "description": "Group by device (if false, aggregate across all devices)."
+          "description": "Group results by device.\nfalse = sum all selected devices into one aggregated time series per bucket."
         },
         "limit": {
           "type": "integer",
           "format": "int64",
-          "description": "Maximum number of data points to return."
+          "description": "Maximum number of data points to return (0 = count only)."
         },
         "offset": {
           "type": "integer",
@@ -713,7 +688,7 @@
           "description": "Offset for pagination."
         }
       },
-      "description": "Request for aggregated data."
+      "description": "Request for meter consumption data.\nAt least one of device_ids, application_id, or tenant_id must be set."
     },
     "platformGetAggregatedDataResponse": {
       "type": "object",

@@ -477,51 +477,55 @@ message GetDeviceDataResponse {
   repeated DeviceData data = 2;
 }
 
-// Request for aggregated data.
+// Request for meter consumption data.
+// At least one of device_ids, application_id, or tenant_id must be set.
 message GetAggregatedDataRequest {
-  // ID(s) to get data for.
-  repeated string ids = 1;
+  // Filter by specific device IDs (optional).
+  repeated string device_ids = 1;
 
-  // Start time for data range.
-  google.protobuf.Timestamp start_time = 2;
+  // Filter by application ID — returns data for all devices in this application (optional).
+  string application_id = 2;
 
-  // End time for data range.
-  google.protobuf.Timestamp end_time = 3;
+  // Filter by tenant ID — returns data for all devices in this tenant (optional).
+  string tenant_id = 3;
 
-  // Aggregation type.
-  AggregationType aggregation = 4;
+  // Start time (required).
+  google.protobuf.Timestamp start_time = 4;
 
-  // Time interval for aggregation.
-  TimeInterval interval = 5;
+  // End time (required).
+  google.protobuf.Timestamp end_time = 5;
 
-  // Fields to aggregate with their types (field name -> field type).
-  // e.g., {"accumulated_volume_m3": "FIELD_TYPE_CUMULATIVE", "battery_raw": "FIELD_TYPE_VARIABLE"}
-  // If not specified, defaults will be used based on field names.
-  map<string, FieldType> fields = 6;
+  // Time interval: HOUR → hourly buckets, MONTH → monthly, everything else → daily.
+  TimeInterval interval = 6;
 
-  // Group by device (if false, aggregate across all devices).
+  // Group results by device.
+  // false = sum all selected devices into one aggregated time series per bucket.
   bool group_by_device = 7;
 
-  // Maximum number of data points to return.
+  // Maximum number of data points to return (0 = count only).
   uint32 limit = 8;
 
   // Offset for pagination.
   uint32 offset = 9;
 }
 
-// Aggregated data point.
+// One consumption bucket in the response.
 message AggregatedDataPoint {
-  // Timestamp (bucket start time).
+  // Bucket start time.
   google.protobuf.Timestamp timestamp = 1;
 
-   // device  ID (UUID from device ).
-  string id = 2;
+  // Device ID — populated when group_by_device = true or a single device is queried.
+  string device_id = 2;
 
-  // Aggregated values by field name.
-  map<string, double> values = 3;
+  // Tenant ID of the device.
+  string tenant_id = 3;
 
-  // Count of data points in this bucket.
-  uint32 count = 4;
+  // Application ID of the device.
+  string application_id = 4;
+
+  // Consumption values keyed by counter field name
+  // (e.g. "accumulated_volume_m3", "accumulated_kwh").
+  map<string, double> values = 5;
 }
 
 // Response containing aggregated data.
