@@ -112,7 +112,7 @@ service ConnectionService {
   // List connections as a flat datagrid with joined data from consumers, meters, inventory, zones, and device stats.
   rpc ListConnectionGrid(ListConnectionGridRequest) returns (ListConnectionGridResponse) {
     option (google.api.http) = {
-      get: "/api/connections/grid"
+      get: "/api/connection-grid"
     };
   }
 }
