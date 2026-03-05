@@ -7,6 +7,7 @@ option go_package = "github.com/adarko-io/platform-api/go/v4/platform";
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
+import "platform/shared_enums.proto";
 
 
 // ZoneService provides API methods for managing zones for Consumers.
@@ -61,7 +62,8 @@ message Zone {
   string tenant_id = 7;
   string description = 8;
   string parent_zone_id = 9;
-  map<string, string> assert_type_application_id = 10;
+  // Mapping of AssetType name to Application ID (UUID) for the zone.
+  map<string, string> asset_type_application_id = 10;
   map<string, string> tags = 11;
 }
 message CreateZoneRequest {

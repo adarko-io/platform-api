@@ -279,11 +279,12 @@
         "parentZoneId": {
           "type": "string"
         },
-        "assertTypeApplicationId": {
+        "assetTypeApplicationId": {
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          }
+          },
+          "description": "Mapping of AssetType name to Application ID (UUID) for the zone."
         },
         "tags": {
           "type": "object",
