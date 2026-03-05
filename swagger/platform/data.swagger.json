@@ -520,12 +520,8 @@
           "type": "string",
           "description": "Application ID of the device."
         },
-        "values": {
+        "data": {
           "type": "object",
-          "additionalProperties": {
-            "type": "number",
-            "format": "double"
-          },
           "description": "Consumption values keyed by counter field name\n(e.g. \"accumulated_volume_m3\", \"accumulated_kwh\")."
         }
       },

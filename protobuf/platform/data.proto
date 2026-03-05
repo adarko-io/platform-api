@@ -528,7 +528,7 @@ message AggregatedDataPoint {
 
   // Consumption values keyed by counter field name
   // (e.g. "accumulated_volume_m3", "accumulated_kwh").
-  map<string, double> values = 5;
+  google.protobuf.Value data = 5;
 }
 
 // Response containing aggregated data.
