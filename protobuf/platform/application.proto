@@ -134,6 +134,9 @@ message ListApplicationsRequest {
 
   // Tenant ID to list the applications for.
   string tenant_id = 4;
+
+  // Asset type to filter the applications for.
+  AssetType asset_type = 5;
 }
 
 message ListApplicationsResponse {
