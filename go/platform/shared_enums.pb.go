@@ -1414,6 +1414,67 @@ func (OverdueType) EnumDescriptor() ([]byte, []int) {
 	return file_platform_shared_enums_proto_rawDescGZIP(), []int{19}
 }
 
+// Device connectivity status enumeration.
+type DeviceConnectivityStatus int32
+
+const (
+	// Unknown / unset (used as no-filter sentinel).
+	DeviceConnectivityStatus_DEVICE_CONNECTIVITY_STATUS_UNKNOWN DeviceConnectivityStatus = 0
+	// Device is online (heartbeat active).
+	DeviceConnectivityStatus_DEVICE_CONNECTIVITY_STATUS_ONLINE DeviceConnectivityStatus = 1
+	// Device is offline (heartbeat expired).
+	DeviceConnectivityStatus_DEVICE_CONNECTIVITY_STATUS_OFFLINE DeviceConnectivityStatus = 2
+	// Device has never communicated since creation.
+	DeviceConnectivityStatus_DEVICE_CONNECTIVITY_STATUS_NEVER_SEEN DeviceConnectivityStatus = 3
+	// Some devices in a group are online (aggregate use).
+	DeviceConnectivityStatus_DEVICE_CONNECTIVITY_STATUS_PARTIALLY_ONLINE DeviceConnectivityStatus = 4
+)
+
+// Enum value maps for DeviceConnectivityStatus.
+var (
+	DeviceConnectivityStatus_name = map[int32]string{
+		0: "DEVICE_CONNECTIVITY_STATUS_UNKNOWN",
+		1: "DEVICE_CONNECTIVITY_STATUS_ONLINE",
+		2: "DEVICE_CONNECTIVITY_STATUS_OFFLINE",
+		3: "DEVICE_CONNECTIVITY_STATUS_NEVER_SEEN",
+		4: "DEVICE_CONNECTIVITY_STATUS_PARTIALLY_ONLINE",
+	}
+	DeviceConnectivityStatus_value = map[string]int32{
+		"DEVICE_CONNECTIVITY_STATUS_UNKNOWN":          0,
+		"DEVICE_CONNECTIVITY_STATUS_ONLINE":           1,
+		"DEVICE_CONNECTIVITY_STATUS_OFFLINE":          2,
+		"DEVICE_CONNECTIVITY_STATUS_NEVER_SEEN":       3,
+		"DEVICE_CONNECTIVITY_STATUS_PARTIALLY_ONLINE": 4,
+	}
+)
+
+func (x DeviceConnectivityStatus) Enum() *DeviceConnectivityStatus {
+	p := new(DeviceConnectivityStatus)
+	*p = x
+	return p
+}
+
+func (x DeviceConnectivityStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (DeviceConnectivityStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_platform_shared_enums_proto_enumTypes[20].Descriptor()
+}
+
+func (DeviceConnectivityStatus) Type() protoreflect.EnumType {
+	return &file_platform_shared_enums_proto_enumTypes[20]
+}
+
+func (x DeviceConnectivityStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use DeviceConnectivityStatus.Descriptor instead.
+func (DeviceConnectivityStatus) EnumDescriptor() ([]byte, []int) {
+	return file_platform_shared_enums_proto_rawDescGZIP(), []int{20}
+}
+
 type Location struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1808,7 +1869,22 @@ var file_platform_shared_enums_proto_rawDesc = []byte{
 	0x0a, 0x11, 0x4f, 0x56, 0x45, 0x52, 0x44, 0x55, 0x45, 0x5f, 0x54, 0x59, 0x50, 0x45, 0x5f, 0x46,
 	0x4c, 0x41, 0x54, 0x10, 0x04, 0x12, 0x1b, 0x0a, 0x17, 0x4f, 0x56, 0x45, 0x52, 0x44, 0x55, 0x45,
 	0x5f, 0x54, 0x59, 0x50, 0x45, 0x5f, 0x50, 0x45, 0x52, 0x43, 0x45, 0x4e, 0x54, 0x41, 0x47, 0x45,
-	0x10, 0x05, 0x42, 0x32, 0x5a, 0x30, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
+	0x10, 0x05, 0x2a, 0xed, 0x01, 0x0a, 0x18, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x43, 0x6f, 0x6e,
+	0x6e, 0x65, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12,
+	0x26, 0x0a, 0x22, 0x44, 0x45, 0x56, 0x49, 0x43, 0x45, 0x5f, 0x43, 0x4f, 0x4e, 0x4e, 0x45, 0x43,
+	0x54, 0x49, 0x56, 0x49, 0x54, 0x59, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x55, 0x4e,
+	0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x10, 0x00, 0x12, 0x25, 0x0a, 0x21, 0x44, 0x45, 0x56, 0x49, 0x43,
+	0x45, 0x5f, 0x43, 0x4f, 0x4e, 0x4e, 0x45, 0x43, 0x54, 0x49, 0x56, 0x49, 0x54, 0x59, 0x5f, 0x53,
+	0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x4f, 0x4e, 0x4c, 0x49, 0x4e, 0x45, 0x10, 0x01, 0x12, 0x26,
+	0x0a, 0x22, 0x44, 0x45, 0x56, 0x49, 0x43, 0x45, 0x5f, 0x43, 0x4f, 0x4e, 0x4e, 0x45, 0x43, 0x54,
+	0x49, 0x56, 0x49, 0x54, 0x59, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x4f, 0x46, 0x46,
+	0x4c, 0x49, 0x4e, 0x45, 0x10, 0x02, 0x12, 0x29, 0x0a, 0x25, 0x44, 0x45, 0x56, 0x49, 0x43, 0x45,
+	0x5f, 0x43, 0x4f, 0x4e, 0x4e, 0x45, 0x43, 0x54, 0x49, 0x56, 0x49, 0x54, 0x59, 0x5f, 0x53, 0x54,
+	0x41, 0x54, 0x55, 0x53, 0x5f, 0x4e, 0x45, 0x56, 0x45, 0x52, 0x5f, 0x53, 0x45, 0x45, 0x4e, 0x10,
+	0x03, 0x12, 0x2f, 0x0a, 0x2b, 0x44, 0x45, 0x56, 0x49, 0x43, 0x45, 0x5f, 0x43, 0x4f, 0x4e, 0x4e,
+	0x45, 0x43, 0x54, 0x49, 0x56, 0x49, 0x54, 0x59, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f,
+	0x50, 0x41, 0x52, 0x54, 0x49, 0x41, 0x4c, 0x4c, 0x59, 0x5f, 0x4f, 0x4e, 0x4c, 0x49, 0x4e, 0x45,
+	0x10, 0x04, 0x42, 0x32, 0x5a, 0x30, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
 	0x2f, 0x61, 0x64, 0x61, 0x72, 0x6b, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x70, 0x6c, 0x61, 0x74, 0x66,
 	0x6f, 0x72, 0x6d, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x6f, 0x2f, 0x76, 0x34, 0x2f, 0x70, 0x6c,
 	0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
@@ -1826,30 +1902,31 @@ func file_platform_shared_enums_proto_rawDescGZIP() []byte {
 	return file_platform_shared_enums_proto_rawDescData
 }
 
-var file_platform_shared_enums_proto_enumTypes = make([]protoimpl.EnumInfo, 20)
+var file_platform_shared_enums_proto_enumTypes = make([]protoimpl.EnumInfo, 21)
 var file_platform_shared_enums_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_platform_shared_enums_proto_goTypes = []any{
-	(TransportProtocol)(0),  // 0: platform.TransportProtocol
-	(DeviceType)(0),         // 1: platform.DeviceType
-	(LocationSource)(0),     // 2: platform.LocationSource
-	(InventoryStatus)(0),    // 3: platform.InventoryStatus
-	(DownlinkMode)(0),       // 4: platform.DownlinkMode
-	(AggregationType)(0),    // 5: platform.AggregationType
-	(TimeInterval)(0),       // 6: platform.TimeInterval
-	(AssetType)(0),          // 7: platform.AssetType
-	(AssetSubType)(0),       // 8: platform.AssetSubType
-	(FieldType)(0),          // 9: platform.FieldType
-	(ConnectionStatus)(0),   // 10: platform.ConnectionStatus
-	(ConnectionType)(0),     // 11: platform.ConnectionType
-	(ConnectionCategory)(0), // 12: platform.ConnectionCategory
-	(ConnectionLevel)(0),    // 13: platform.ConnectionLevel
-	(MeterStatus)(0),        // 14: platform.MeterStatus
-	(TimeZone)(0),           // 15: platform.TimeZone
-	(ConsumerStatus)(0),     // 16: platform.ConsumerStatus
-	(UploadStatus)(0),       // 17: platform.UploadStatus
-	(FileType)(0),           // 18: platform.FileType
-	(OverdueType)(0),        // 19: platform.OverdueType
-	(*Location)(nil),        // 20: platform.Location
+	(TransportProtocol)(0),        // 0: platform.TransportProtocol
+	(DeviceType)(0),               // 1: platform.DeviceType
+	(LocationSource)(0),           // 2: platform.LocationSource
+	(InventoryStatus)(0),          // 3: platform.InventoryStatus
+	(DownlinkMode)(0),             // 4: platform.DownlinkMode
+	(AggregationType)(0),          // 5: platform.AggregationType
+	(TimeInterval)(0),             // 6: platform.TimeInterval
+	(AssetType)(0),                // 7: platform.AssetType
+	(AssetSubType)(0),             // 8: platform.AssetSubType
+	(FieldType)(0),                // 9: platform.FieldType
+	(ConnectionStatus)(0),         // 10: platform.ConnectionStatus
+	(ConnectionType)(0),           // 11: platform.ConnectionType
+	(ConnectionCategory)(0),       // 12: platform.ConnectionCategory
+	(ConnectionLevel)(0),          // 13: platform.ConnectionLevel
+	(MeterStatus)(0),              // 14: platform.MeterStatus
+	(TimeZone)(0),                 // 15: platform.TimeZone
+	(ConsumerStatus)(0),           // 16: platform.ConsumerStatus
+	(UploadStatus)(0),             // 17: platform.UploadStatus
+	(FileType)(0),                 // 18: platform.FileType
+	(OverdueType)(0),              // 19: platform.OverdueType
+	(DeviceConnectivityStatus)(0), // 20: platform.DeviceConnectivityStatus
+	(*Location)(nil),              // 21: platform.Location
 }
 var file_platform_shared_enums_proto_depIdxs = []int32{
 	2, // 0: platform.Location.source:type_name -> platform.LocationSource
@@ -1884,7 +1961,7 @@ func file_platform_shared_enums_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_platform_shared_enums_proto_rawDesc,
-			NumEnums:      20,
+			NumEnums:      21,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,

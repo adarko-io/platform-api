@@ -479,3 +479,21 @@ enum OverdueType {
   OVERDUE_TYPE_FLAT        = 4;
   OVERDUE_TYPE_PERCENTAGE  = 5;
 }
+
+// Device connectivity status enumeration.
+enum DeviceConnectivityStatus {
+  // Unknown / unset (used as no-filter sentinel).
+  DEVICE_CONNECTIVITY_STATUS_UNKNOWN = 0;
+
+  // Device is online (heartbeat active).
+  DEVICE_CONNECTIVITY_STATUS_ONLINE = 1;
+
+  // Device is offline (heartbeat expired).
+  DEVICE_CONNECTIVITY_STATUS_OFFLINE = 2;
+
+  // Device has never communicated since creation.
+  DEVICE_CONNECTIVITY_STATUS_NEVER_SEEN = 3;
+
+  // Some devices in a group are online (aggregate use).
+  DEVICE_CONNECTIVITY_STATUS_PARTIALLY_ONLINE = 4;
+}

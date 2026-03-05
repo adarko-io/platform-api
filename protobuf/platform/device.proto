@@ -173,8 +173,8 @@ message DeviceStatus {
   google.protobuf.Value data = 1;
   // Last seen at timestamp.
   google.protobuf.Timestamp last_seen_at = 2;
-   //is online 
-  bool is_online = 3;
+  // Device connectivity status (ONLINE, OFFLINE, NEVER_SEEN, PARTIALLY_ONLINE).
+  DeviceConnectivityStatus connectivity_status = 3;
 }
 
 // message DeviceListItem {

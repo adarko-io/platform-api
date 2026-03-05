@@ -539,7 +539,7 @@ message ConnectionGridRow {
   string zone_name = 14;
   google.protobuf.Value data = 15;
   google.protobuf.Timestamp last_seen_at = 16;
-  bool is_online = 17;
+  DeviceConnectivityStatus connectivity_status = 17;
 }
 
 // Request message for listing connections in datagrid format.
@@ -551,10 +551,8 @@ message ListConnectionGridRequest {
   ConnectionLevel connection_level = 5;
   ConnectionStatus connection_status = 6;
   string zone_id = 7;
-  // Whether to apply the is_online filter.
-  bool filter_is_online = 8;
-  // The is_online filter value (only used when filter_is_online is true).
-  bool is_online = 9;
+  // Connectivity status filter (UNKNOWN = no filter applied).
+  DeviceConnectivityStatus connectivity_status = 8;
   string search = 10;
   uint64 connection_number = 11;
   string plot_or_door_no = 12;

@@ -105,18 +105,19 @@
             "type": "string"
           },
           {
-            "name": "filterIsOnline",
-            "description": "Whether to apply the is_online filter.",
+            "name": "connectivityStatus",
+            "description": "Connectivity status filter (UNKNOWN = no filter applied).\n\n - DEVICE_CONNECTIVITY_STATUS_UNKNOWN: Unknown / unset (used as no-filter sentinel).\n - DEVICE_CONNECTIVITY_STATUS_ONLINE: Device is online (heartbeat active).\n - DEVICE_CONNECTIVITY_STATUS_OFFLINE: Device is offline (heartbeat expired).\n - DEVICE_CONNECTIVITY_STATUS_NEVER_SEEN: Device has never communicated since creation.\n - DEVICE_CONNECTIVITY_STATUS_PARTIALLY_ONLINE: Some devices in a group are online (aggregate use).",
             "in": "query",
             "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "isOnline",
-            "description": "The is_online filter value (only used when filter_is_online is true).",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
+            "type": "string",
+            "enum": [
+              "DEVICE_CONNECTIVITY_STATUS_UNKNOWN",
+              "DEVICE_CONNECTIVITY_STATUS_ONLINE",
+              "DEVICE_CONNECTIVITY_STATUS_OFFLINE",
+              "DEVICE_CONNECTIVITY_STATUS_NEVER_SEEN",
+              "DEVICE_CONNECTIVITY_STATUS_PARTIALLY_ONLINE"
+            ],
+            "default": "DEVICE_CONNECTIVITY_STATUS_UNKNOWN"
           },
           {
             "name": "search",
@@ -1113,8 +1114,8 @@
           "type": "string",
           "format": "date-time"
         },
-        "isOnline": {
-          "type": "boolean"
+        "connectivityStatus": {
+          "$ref": "#/definitions/platformDeviceConnectivityStatus"
         }
       },
       "description": "A single row in the connection datagrid view."
@@ -1169,6 +1170,18 @@
         }
       },
       "description": "Response message for creating a connection."
+    },
+    "platformDeviceConnectivityStatus": {
+      "type": "string",
+      "enum": [
+        "DEVICE_CONNECTIVITY_STATUS_UNKNOWN",
+        "DEVICE_CONNECTIVITY_STATUS_ONLINE",
+        "DEVICE_CONNECTIVITY_STATUS_OFFLINE",
+        "DEVICE_CONNECTIVITY_STATUS_NEVER_SEEN",
+        "DEVICE_CONNECTIVITY_STATUS_PARTIALLY_ONLINE"
+      ],
+      "default": "DEVICE_CONNECTIVITY_STATUS_UNKNOWN",
+      "description": "Device connectivity status enumeration.\n\n - DEVICE_CONNECTIVITY_STATUS_UNKNOWN: Unknown / unset (used as no-filter sentinel).\n - DEVICE_CONNECTIVITY_STATUS_ONLINE: Device is online (heartbeat active).\n - DEVICE_CONNECTIVITY_STATUS_OFFLINE: Device is offline (heartbeat expired).\n - DEVICE_CONNECTIVITY_STATUS_NEVER_SEEN: Device has never communicated since creation.\n - DEVICE_CONNECTIVITY_STATUS_PARTIALLY_ONLINE: Some devices in a group are online (aggregate use)."
     },
     "platformDownloadMetadata": {
       "type": "object",
