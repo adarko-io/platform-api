@@ -108,6 +108,13 @@ service ConnectionService {
       get: "/api/connections/bulk-upload/report/{filename}"
     };
   }
+
+  // List connections as a flat datagrid with joined data from consumers, meters, inventory, zones, and device stats.
+  rpc ListConnectionGrid(ListConnectionGridRequest) returns (ListConnectionGridResponse) {
+    option (google.api.http) = {
+      get: "/api/connections/grid"
+    };
+  }
 }
 
 // Connection represents a connection configuration for a consumer.
@@ -506,10 +513,61 @@ message DownloadReportResponse {
 message DownloadMetadata {
   // File name
   string filename = 1;
-  
+
   // Content type (e.g., "text/csv", "application/vnd.ms-excel")
   string content_type = 2;
-  
+
   // Total file size in bytes
   int64 total_size = 3;
+}
+
+// A single row in the connection datagrid view.
+message ConnectionGridRow {
+  string connection_id = 1;
+  uint64 connection_number = 2;
+  string consumer_id = 3;
+  uint64 consumer_number = 4;
+  string plot_or_door_no = 5;
+  ConnectionType connection_type = 6;
+  ConnectionLevel connection_level = 7;
+  ConnectionStatus connection_status = 8;
+  ConnectionCategory connection_category = 9;
+  string connection_name = 10;
+  string meter_id = 11;
+  string serial_number = 12;
+  string zone_id = 13;
+  string zone_name = 14;
+  google.protobuf.Value data = 15;
+  google.protobuf.Timestamp last_seen_at = 16;
+  bool is_online = 17;
+}
+
+// Request message for listing connections in datagrid format.
+message ListConnectionGridRequest {
+  string tenant_id = 1;
+  string consumer_id = 2;
+  ConnectionType connection_type = 3;
+  ConnectionCategory connection_category = 4;
+  ConnectionLevel connection_level = 5;
+  ConnectionStatus connection_status = 6;
+  string zone_id = 7;
+  // Whether to apply the is_online filter.
+  bool filter_is_online = 8;
+  // The is_online filter value (only used when filter_is_online is true).
+  bool is_online = 9;
+  string search = 10;
+  uint64 connection_number = 11;
+  string plot_or_door_no = 12;
+  uint32 limit = 13;
+  uint32 offset = 14;
+  // Column to sort by: connection_number, consumer_number, plot_or_door_no, connection_type, connection_level, serial_number, zone_name, last_seen_at, is_online, connection_name, connection_status, connection_category.
+  string sort_by = 15;
+  // Sort order: "asc" or "desc" (default: "asc").
+  string sort_order = 16;
+}
+
+// Response message for listing connections in datagrid format.
+message ListConnectionGridResponse {
+  uint32 total_count = 1;
+  repeated ConnectionGridRow rows = 2;
 }

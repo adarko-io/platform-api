@@ -318,6 +318,166 @@
         ]
       }
     },
+    "/api/connections/grid": {
+      "get": {
+        "summary": "List connections as a flat datagrid with joined data from consumers, meters, inventory, zones, and device stats.",
+        "operationId": "ConnectionService_ListConnectionGrid",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformListConnectionGridResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "tenantId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "consumerId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "connectionType",
+            "description": " - CONNECTION_TYPE_UNKNOWN: Unknown connection type.\n - CONNECTION_TYPE_WATER: Water connection.\n - CONNECTION_TYPE_GAS: Gas connection.\n - CONNECTION_TYPE_ELECTRICITY: Electricity connection.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "CONNECTION_TYPE_UNKNOWN",
+              "CONNECTION_TYPE_WATER",
+              "CONNECTION_TYPE_GAS",
+              "CONNECTION_TYPE_ELECTRICITY"
+            ],
+            "default": "CONNECTION_TYPE_UNKNOWN"
+          },
+          {
+            "name": "connectionCategory",
+            "description": " - CONNECTION_CATEGORY_UNKNOWN: Unknown connection category.\n - CONNECTION_CATEGORY_DOMESTIC: Domestic connection category.\n - CONNECTION_CATEGORY_COMMERCIAL: Commercial connection category.\n - CONNECTION_CATEGORY_INDUSTRIAL: Industrial connection category.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "CONNECTION_CATEGORY_UNKNOWN",
+              "CONNECTION_CATEGORY_DOMESTIC",
+              "CONNECTION_CATEGORY_COMMERCIAL",
+              "CONNECTION_CATEGORY_INDUSTRIAL"
+            ],
+            "default": "CONNECTION_CATEGORY_UNKNOWN"
+          },
+          {
+            "name": "connectionLevel",
+            "description": " - CONNECTION_LEVEL_UNKNOWN: Unknown level.\n - CONNECTION_LEVEL_SUPPLY: Water entering the system (dam, borewell, treatment plant).\n - CONNECTION_LEVEL_DISTRIBUTION: Intermediate bulk / zone / DMA meter.\n - CONNECTION_LEVEL_CONSUMPTION: End consumer meter (house, commercial, industrial).",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "CONNECTION_LEVEL_UNKNOWN",
+              "CONNECTION_LEVEL_SUPPLY",
+              "CONNECTION_LEVEL_DISTRIBUTION",
+              "CONNECTION_LEVEL_CONSUMPTION"
+            ],
+            "default": "CONNECTION_LEVEL_UNKNOWN"
+          },
+          {
+            "name": "connectionStatus",
+            "description": " - CONNECTION_STATUS_UNKNOWN: Unknown connection status.\n - CONNECTION_STATUS_ACTIVE: Active connection.\n - CONNECTION_STATUS_DISCONNECTED: Disconnected connection.\n - CONNECTION_STATUS_DISABLED: Disabled connection.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "CONNECTION_STATUS_UNKNOWN",
+              "CONNECTION_STATUS_ACTIVE",
+              "CONNECTION_STATUS_DISCONNECTED",
+              "CONNECTION_STATUS_DISABLED"
+            ],
+            "default": "CONNECTION_STATUS_UNKNOWN"
+          },
+          {
+            "name": "zoneId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filterIsOnline",
+            "description": "Whether to apply the is_online filter.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "isOnline",
+            "description": "The is_online filter value (only used when filter_is_online is true).",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "connectionNumber",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "plotOrDoorNo",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "sortBy",
+            "description": "Column to sort by: connection_number, consumer_number, plot_or_door_no, connection_type, connection_level, serial_number, zone_name, last_seen_at, is_online, connection_name, connection_status, connection_category.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sortOrder",
+            "description": "Sort order: \"asc\" or \"desc\" (default: \"asc\").",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
     "/api/connections/{connection.id}": {
       "put": {
         "summary": "Update an existing connection for a consumer.",
@@ -899,6 +1059,66 @@
       "default": "CONNECTION_CATEGORY_UNKNOWN",
       "description": " - CONNECTION_CATEGORY_UNKNOWN: Unknown connection category.\n - CONNECTION_CATEGORY_DOMESTIC: Domestic connection category.\n - CONNECTION_CATEGORY_COMMERCIAL: Commercial connection category.\n - CONNECTION_CATEGORY_INDUSTRIAL: Industrial connection category."
     },
+    "platformConnectionGridRow": {
+      "type": "object",
+      "properties": {
+        "connectionId": {
+          "type": "string"
+        },
+        "connectionNumber": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "consumerId": {
+          "type": "string"
+        },
+        "consumerNumber": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "plotOrDoorNo": {
+          "type": "string"
+        },
+        "connectionType": {
+          "$ref": "#/definitions/platformConnectionType"
+        },
+        "connectionLevel": {
+          "$ref": "#/definitions/platformConnectionLevel"
+        },
+        "connectionStatus": {
+          "$ref": "#/definitions/platformConnectionStatus"
+        },
+        "connectionCategory": {
+          "$ref": "#/definitions/platformConnectionCategory"
+        },
+        "connectionName": {
+          "type": "string"
+        },
+        "meterId": {
+          "type": "string"
+        },
+        "serialNumber": {
+          "type": "string"
+        },
+        "zoneId": {
+          "type": "string"
+        },
+        "zoneName": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        },
+        "lastSeenAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isOnline": {
+          "type": "boolean"
+        }
+      },
+      "description": "A single row in the connection datagrid view."
+    },
     "platformConnectionLevel": {
       "type": "string",
       "enum": [
@@ -1013,6 +1233,22 @@
         }
       },
       "description": "Response message for getting a MeterConnection."
+    },
+    "platformListConnectionGridResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformConnectionGridRow"
+          }
+        }
+      },
+      "description": "Response message for listing connections in datagrid format."
     },
     "platformListConnectionsResponse": {
       "type": "object",
@@ -1279,6 +1515,14 @@
           "format": "byte"
         }
       }
+    },
+    "protobufNullValue": {
+      "type": "string",
+      "enum": [
+        "NULL_VALUE"
+      ],
+      "default": "NULL_VALUE",
+      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\nThe JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
     },
     "runtimeError": {
       "type": "object",
