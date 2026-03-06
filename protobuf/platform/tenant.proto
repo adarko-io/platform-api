@@ -110,8 +110,8 @@ message Tenant {
   // Set to true to make this the main tenant.
   bool is_main = 6;
 
-  // timezone of the tenant
-  TimeZone timezone = 7;
+  // Timezone of the tenant (IANA-based enum).
+  Timezone timezone = 7;
 
   // Tags are key-value pairs that can be used to organize your tenants.
   // You can use tags to filter your tenants when you are using the list tenants API.

@@ -322,9 +322,9 @@
         "timeZones": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/platformTimeZone"
+            "$ref": "#/definitions/platformTimezoneInfo"
           },
-          "title": "Timezone types"
+          "title": "Timezone types with human-readable labels for UI dropdowns"
         },
         "connectionLevels": {
           "type": "array",
@@ -390,51 +390,78 @@
       "default": "TIME_INTERVAL_MINUTE",
       "description": "Time interval for aggregation.\n\n - TIME_INTERVAL_MINUTE: 1 minute intervals.\n - TIME_INTERVAL_MINUTE_5: 5 minute intervals.\n - TIME_INTERVAL_MINUTE_15: 15 minute intervals.\n - TIME_INTERVAL_MINUTE_30: 30 minute intervals.\n - TIME_INTERVAL_HOUR: 1 hour intervals.\n - TIME_INTERVAL_HOUR_6: 6 hour intervals.\n - TIME_INTERVAL_HOUR_12: 12 hour intervals.\n - TIME_INTERVAL_DAY: 1 day intervals.\n - TIME_INTERVAL_WEEK: 1 week intervals.\n - TIME_INTERVAL_MONTH: 1 month intervals."
     },
-    "platformTimeZone": {
+    "platformTimezone": {
       "type": "string",
       "enum": [
-        "TZ_PLUS_00_00",
-        "TZ_UNKNOWN",
-        "TZ_MINUS_12_00",
-        "TZ_MINUS_11_00",
-        "TZ_MINUS_10_00",
-        "TZ_MINUS_09_00",
-        "TZ_MINUS_08_00",
-        "TZ_MINUS_07_00",
-        "TZ_MINUS_06_00",
-        "TZ_MINUS_05_00",
-        "TZ_MINUS_04_00",
-        "TZ_MINUS_03_30",
-        "TZ_MINUS_03_00",
-        "TZ_MINUS_02_00",
-        "TZ_MINUS_01_00",
-        "TZ_PLUS_01_00",
-        "TZ_PLUS_02_00",
-        "TZ_PLUS_03_00",
-        "TZ_PLUS_03_30",
-        "TZ_PLUS_04_00",
-        "TZ_PLUS_04_30",
-        "TZ_PLUS_05_00",
-        "TZ_PLUS_05_30",
-        "TZ_PLUS_05_45",
-        "TZ_PLUS_06_00",
-        "TZ_PLUS_06_30",
-        "TZ_PLUS_07_00",
-        "TZ_PLUS_08_00",
-        "TZ_PLUS_08_45",
-        "TZ_PLUS_09_00",
-        "TZ_PLUS_09_30",
-        "TZ_PLUS_10_00",
-        "TZ_PLUS_10_30",
-        "TZ_PLUS_11_00",
-        "TZ_PLUS_12_00",
-        "TZ_PLUS_12_45",
-        "TZ_PLUS_13_00",
-        "TZ_PLUS_14_00"
+        "TIMEZONE_UNKNOWN",
+        "TIMEZONE_UTC",
+        "TIMEZONE_AFRICA_CAIRO",
+        "TIMEZONE_AFRICA_NAIROBI",
+        "TIMEZONE_AFRICA_LAGOS",
+        "TIMEZONE_AFRICA_JOHANNESBURG",
+        "TIMEZONE_AMERICA_NEW_YORK",
+        "TIMEZONE_AMERICA_CHICAGO",
+        "TIMEZONE_AMERICA_DENVER",
+        "TIMEZONE_AMERICA_LOS_ANGELES",
+        "TIMEZONE_AMERICA_SAO_PAULO",
+        "TIMEZONE_AMERICA_BOGOTA",
+        "TIMEZONE_AMERICA_MEXICO_CITY",
+        "TIMEZONE_AMERICA_TORONTO",
+        "TIMEZONE_AMERICA_ANCHORAGE",
+        "TIMEZONE_ASIA_RIYADH",
+        "TIMEZONE_ASIA_DUBAI",
+        "TIMEZONE_ASIA_KARACHI",
+        "TIMEZONE_ASIA_TASHKENT",
+        "TIMEZONE_ASIA_KOLKATA",
+        "TIMEZONE_ASIA_COLOMBO",
+        "TIMEZONE_ASIA_KATHMANDU",
+        "TIMEZONE_ASIA_DHAKA",
+        "TIMEZONE_ASIA_ALMATY",
+        "TIMEZONE_ASIA_YANGON",
+        "TIMEZONE_ASIA_BANGKOK",
+        "TIMEZONE_ASIA_JAKARTA",
+        "TIMEZONE_ASIA_SINGAPORE",
+        "TIMEZONE_ASIA_SHANGHAI",
+        "TIMEZONE_ASIA_HONG_KONG",
+        "TIMEZONE_ASIA_MANILA",
+        "TIMEZONE_ASIA_SEOUL",
+        "TIMEZONE_ASIA_TOKYO",
+        "TIMEZONE_ASIA_TEHRAN",
+        "TIMEZONE_ASIA_KABUL",
+        "TIMEZONE_ASIA_ISTANBUL",
+        "TIMEZONE_AUSTRALIA_PERTH",
+        "TIMEZONE_AUSTRALIA_DARWIN",
+        "TIMEZONE_AUSTRALIA_ADELAIDE",
+        "TIMEZONE_AUSTRALIA_BRISBANE",
+        "TIMEZONE_AUSTRALIA_SYDNEY",
+        "TIMEZONE_EUROPE_LONDON",
+        "TIMEZONE_EUROPE_AMSTERDAM",
+        "TIMEZONE_EUROPE_PARIS",
+        "TIMEZONE_EUROPE_BERLIN",
+        "TIMEZONE_EUROPE_HELSINKI",
+        "TIMEZONE_EUROPE_ATHENS",
+        "TIMEZONE_EUROPE_MOSCOW",
+        "TIMEZONE_PACIFIC_HONOLULU",
+        "TIMEZONE_PACIFIC_AUCKLAND",
+        "TIMEZONE_PACIFIC_FIJI"
       ],
-      "default": "TZ_PLUS_00_00",
-      "description": "- TZ_PLUS_00_00: UTC±0\n - TZ_UNKNOWN: Unknown timezone\n - TZ_MINUS_12_00: UTC-12 to UTC-1\n - TZ_PLUS_01_00: UTC+1 to UTC+14",
-      "title": "Timezone definitions covering UTC-12 to UTC+14"
+      "default": "TIMEZONE_UNKNOWN",
+      "description": "Timezone using IANA timezone database names for accurate DST support.\nSequential integer values; use TimezoneToIANA() in Go to get the IANA string.\n\n - TIMEZONE_AFRICA_CAIRO: Africa\n - TIMEZONE_AMERICA_NEW_YORK: America\n - TIMEZONE_ASIA_RIYADH: Asia\n - TIMEZONE_AUSTRALIA_PERTH: Australia\n - TIMEZONE_EUROPE_LONDON: Europe\n - TIMEZONE_PACIFIC_HONOLULU: Pacific"
+    },
+    "platformTimezoneInfo": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/platformTimezone"
+        },
+        "label": {
+          "type": "string"
+        },
+        "iana": {
+          "type": "string"
+        }
+      },
+      "description": "TimezoneInfo pairs a Timezone enum value with its human-readable label for UI dropdowns."
     },
     "platformTransportProtocol": {
       "type": "string",

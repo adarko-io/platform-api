@@ -46,8 +46,8 @@ type Tenant struct {
 	MaxDeviceCount uint32 `protobuf:"varint,5,opt,name=max_device_count,json=maxDeviceCount,proto3" json:"max_device_count,omitempty"`
 	// Set to true to make this the main tenant.
 	IsMain bool `protobuf:"varint,6,opt,name=is_main,json=isMain,proto3" json:"is_main,omitempty"`
-	// timezone of the tenant
-	Timezone TimeZone `protobuf:"varint,7,opt,name=timezone,proto3,enum=platform.TimeZone" json:"timezone,omitempty"`
+	// Timezone of the tenant (IANA-based enum).
+	Timezone Timezone `protobuf:"varint,7,opt,name=timezone,proto3,enum=platform.Timezone" json:"timezone,omitempty"`
 	// Tags are key-value pairs that can be used to organize your tenants.
 	// You can use tags to filter your tenants when you are using the list tenants API.
 	Tags map[string]string `protobuf:"bytes,8,rep,name=tags,proto3" json:"tags,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
@@ -141,11 +141,11 @@ func (x *Tenant) GetIsMain() bool {
 	return false
 }
 
-func (x *Tenant) GetTimezone() TimeZone {
+func (x *Tenant) GetTimezone() Timezone {
 	if x != nil {
 		return x.Timezone
 	}
-	return TimeZone_TZ_PLUS_00_00
+	return Timezone_TIMEZONE_UNKNOWN
 }
 
 func (x *Tenant) GetTags() map[string]string {
@@ -1226,7 +1226,7 @@ var file_platform_tenant_proto_rawDesc = []byte{
 	0x73, 0x5f, 0x6d, 0x61, 0x69, 0x6e, 0x18, 0x06, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x69, 0x73,
 	0x4d, 0x61, 0x69, 0x6e, 0x12, 0x2e, 0x0a, 0x08, 0x74, 0x69, 0x6d, 0x65, 0x7a, 0x6f, 0x6e, 0x65,
 	0x18, 0x07, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x12, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72,
-	0x6d, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x5a, 0x6f, 0x6e, 0x65, 0x52, 0x08, 0x74, 0x69, 0x6d, 0x65,
+	0x6d, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x7a, 0x6f, 0x6e, 0x65, 0x52, 0x08, 0x74, 0x69, 0x6d, 0x65,
 	0x7a, 0x6f, 0x6e, 0x65, 0x12, 0x2e, 0x0a, 0x04, 0x74, 0x61, 0x67, 0x73, 0x18, 0x08, 0x20, 0x03,
 	0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x54, 0x65,
 	0x6e, 0x61, 0x6e, 0x74, 0x2e, 0x54, 0x61, 0x67, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x04,
@@ -1477,12 +1477,12 @@ var file_platform_tenant_proto_goTypes = []any{
 	(*ListTenantUsersRequest)(nil),  // 15: platform.ListTenantUsersRequest
 	(*ListTenantUsersResponse)(nil), // 16: platform.ListTenantUsersResponse
 	nil,                             // 17: platform.Tenant.TagsEntry
-	(TimeZone)(0),                   // 18: platform.TimeZone
+	(Timezone)(0),                   // 18: platform.Timezone
 	(*timestamppb.Timestamp)(nil),   // 19: google.protobuf.Timestamp
 	(*emptypb.Empty)(nil),           // 20: google.protobuf.Empty
 }
 var file_platform_tenant_proto_depIdxs = []int32{
-	18, // 0: platform.Tenant.timezone:type_name -> platform.TimeZone
+	18, // 0: platform.Tenant.timezone:type_name -> platform.Timezone
 	17, // 1: platform.Tenant.tags:type_name -> platform.Tenant.TagsEntry
 	19, // 2: platform.Tenant.created_at:type_name -> google.protobuf.Timestamp
 	19, // 3: platform.Tenant.updated_at:type_name -> google.protobuf.Timestamp

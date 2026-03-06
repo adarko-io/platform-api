@@ -510,6 +510,11 @@ message GetAggregatedDataRequest {
 
   // Filter by device profile ID — returns data for all devices using this profile (optional).
   string device_profile_id = 10;
+
+  // Timezone for daily/monthly bucket grouping (IANA-based enum).
+  // Overrides the tenant's configured timezone when set.
+  // Falls back to tenant timezone, then UTC if both are absent.
+  Timezone timezone = 11;
 }
 
 // One consumption bucket in the response.
@@ -533,12 +538,14 @@ message AggregatedDataPoint {
 
 // Response containing aggregated data.
 message GetAggregatedDataResponse {
-  
   // Total count of data points available.
   uint32 total_count = 1;
 
-// Aggregated data points.
+  // Aggregated data points.
   repeated AggregatedDataPoint data = 2;
+
+  // Timezone that was applied to compute the returned buckets.
+  Timezone timezone = 3;
 }
 
 // Request to get latest data.

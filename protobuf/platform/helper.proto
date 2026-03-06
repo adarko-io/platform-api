@@ -76,8 +76,8 @@ message ListEnumsHelperResponse {
   //Field types for dynamic attributes
   repeated FieldType field_types = 15;
 
-  //Timezone types
-  repeated TimeZone time_zones = 16;
+  //Timezone types with human-readable labels for UI dropdowns
+  repeated TimezoneInfo time_zones = 16;
 
   //Connection Level
   repeated ConnectionLevel connection_levels = 17;
@@ -87,6 +87,13 @@ message ListEnumsHelperResponse {
   
 }
 
+
+// TimezoneInfo pairs a Timezone enum value with its human-readable label for UI dropdowns.
+message TimezoneInfo {
+  Timezone value = 1; // enum integer stored in DB (e.g. 19)
+  string   label = 2; // human-readable display name (e.g. "Asia/Kolkata")
+  string   iana  = 3; // IANA timezone string for programmatic use (e.g. "Asia/Kolkata")
+}
 
 message GetRegionRequest {
   // Region ID.

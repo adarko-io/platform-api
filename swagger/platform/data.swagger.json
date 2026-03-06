@@ -686,6 +686,10 @@
         "deviceProfileId": {
           "type": "string",
           "description": "Filter by device profile ID — returns data for all devices using this profile (optional)."
+        },
+        "timezone": {
+          "$ref": "#/definitions/platformTimezone",
+          "description": "Timezone for daily/monthly bucket grouping (IANA-based enum).\nOverrides the tenant's configured timezone when set.\nFalls back to tenant timezone, then UTC if both are absent."
         }
       },
       "description": "Request for meter consumption data.\nAt least one of device_ids, application_id, tenant_id, or device_profile_id must be set."
@@ -704,6 +708,10 @@
             "$ref": "#/definitions/platformAggregatedDataPoint"
           },
           "description": "Aggregated data points."
+        },
+        "timezone": {
+          "$ref": "#/definitions/platformTimezone",
+          "description": "Timezone that was applied to compute the returned buckets."
         }
       },
       "description": "Response containing aggregated data."
@@ -1027,6 +1035,64 @@
       ],
       "default": "TIME_INTERVAL_MINUTE",
       "description": "Time interval for aggregation.\n\n - TIME_INTERVAL_MINUTE: 1 minute intervals.\n - TIME_INTERVAL_MINUTE_5: 5 minute intervals.\n - TIME_INTERVAL_MINUTE_15: 15 minute intervals.\n - TIME_INTERVAL_MINUTE_30: 30 minute intervals.\n - TIME_INTERVAL_HOUR: 1 hour intervals.\n - TIME_INTERVAL_HOUR_6: 6 hour intervals.\n - TIME_INTERVAL_HOUR_12: 12 hour intervals.\n - TIME_INTERVAL_DAY: 1 day intervals.\n - TIME_INTERVAL_WEEK: 1 week intervals.\n - TIME_INTERVAL_MONTH: 1 month intervals."
+    },
+    "platformTimezone": {
+      "type": "string",
+      "enum": [
+        "TIMEZONE_UNKNOWN",
+        "TIMEZONE_UTC",
+        "TIMEZONE_AFRICA_CAIRO",
+        "TIMEZONE_AFRICA_NAIROBI",
+        "TIMEZONE_AFRICA_LAGOS",
+        "TIMEZONE_AFRICA_JOHANNESBURG",
+        "TIMEZONE_AMERICA_NEW_YORK",
+        "TIMEZONE_AMERICA_CHICAGO",
+        "TIMEZONE_AMERICA_DENVER",
+        "TIMEZONE_AMERICA_LOS_ANGELES",
+        "TIMEZONE_AMERICA_SAO_PAULO",
+        "TIMEZONE_AMERICA_BOGOTA",
+        "TIMEZONE_AMERICA_MEXICO_CITY",
+        "TIMEZONE_AMERICA_TORONTO",
+        "TIMEZONE_AMERICA_ANCHORAGE",
+        "TIMEZONE_ASIA_RIYADH",
+        "TIMEZONE_ASIA_DUBAI",
+        "TIMEZONE_ASIA_KARACHI",
+        "TIMEZONE_ASIA_TASHKENT",
+        "TIMEZONE_ASIA_KOLKATA",
+        "TIMEZONE_ASIA_COLOMBO",
+        "TIMEZONE_ASIA_KATHMANDU",
+        "TIMEZONE_ASIA_DHAKA",
+        "TIMEZONE_ASIA_ALMATY",
+        "TIMEZONE_ASIA_YANGON",
+        "TIMEZONE_ASIA_BANGKOK",
+        "TIMEZONE_ASIA_JAKARTA",
+        "TIMEZONE_ASIA_SINGAPORE",
+        "TIMEZONE_ASIA_SHANGHAI",
+        "TIMEZONE_ASIA_HONG_KONG",
+        "TIMEZONE_ASIA_MANILA",
+        "TIMEZONE_ASIA_SEOUL",
+        "TIMEZONE_ASIA_TOKYO",
+        "TIMEZONE_ASIA_TEHRAN",
+        "TIMEZONE_ASIA_KABUL",
+        "TIMEZONE_ASIA_ISTANBUL",
+        "TIMEZONE_AUSTRALIA_PERTH",
+        "TIMEZONE_AUSTRALIA_DARWIN",
+        "TIMEZONE_AUSTRALIA_ADELAIDE",
+        "TIMEZONE_AUSTRALIA_BRISBANE",
+        "TIMEZONE_AUSTRALIA_SYDNEY",
+        "TIMEZONE_EUROPE_LONDON",
+        "TIMEZONE_EUROPE_AMSTERDAM",
+        "TIMEZONE_EUROPE_PARIS",
+        "TIMEZONE_EUROPE_BERLIN",
+        "TIMEZONE_EUROPE_HELSINKI",
+        "TIMEZONE_EUROPE_ATHENS",
+        "TIMEZONE_EUROPE_MOSCOW",
+        "TIMEZONE_PACIFIC_HONOLULU",
+        "TIMEZONE_PACIFIC_AUCKLAND",
+        "TIMEZONE_PACIFIC_FIJI"
+      ],
+      "default": "TIMEZONE_UNKNOWN",
+      "description": "Timezone using IANA timezone database names for accurate DST support.\nSequential integer values; use TimezoneToIANA() in Go to get the IANA string.\n\n - TIMEZONE_AFRICA_CAIRO: Africa\n - TIMEZONE_AMERICA_NEW_YORK: America\n - TIMEZONE_ASIA_RIYADH: Asia\n - TIMEZONE_AUSTRALIA_PERTH: Australia\n - TIMEZONE_EUROPE_LONDON: Europe\n - TIMEZONE_PACIFIC_HONOLULU: Pacific"
     },
     "platformTransportProtocol": {
       "type": "string",

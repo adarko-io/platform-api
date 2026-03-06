@@ -8,6 +8,9 @@ package platform
 
 import (
 	context "context"
+	reflect "reflect"
+	sync "sync"
+
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -16,8 +19,6 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	structpb "google.golang.org/protobuf/types/known/structpb"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -63,8 +64,8 @@ type ListEnumsHelperResponse struct {
 	MeterStatus []MeterStatus `protobuf:"varint,14,rep,packed,name=meter_status,json=meterStatus,proto3,enum=platform.MeterStatus" json:"meter_status,omitempty"`
 	// Field types for dynamic attributes
 	FieldTypes []FieldType `protobuf:"varint,15,rep,packed,name=field_types,json=fieldTypes,proto3,enum=platform.FieldType" json:"field_types,omitempty"`
-	// Timezone types
-	TimeZones []TimeZone `protobuf:"varint,16,rep,packed,name=time_zones,json=timeZones,proto3,enum=platform.TimeZone" json:"time_zones,omitempty"`
+	// Timezone types with human-readable labels for UI dropdowns
+	TimeZones []*TimezoneInfo `protobuf:"bytes,16,rep,name=time_zones,json=timeZones,proto3" json:"time_zones,omitempty"`
 	// Connection Level
 	ConnectionLevels []ConnectionLevel `protobuf:"varint,17,rep,packed,name=connection_levels,json=connectionLevels,proto3,enum=platform.ConnectionLevel" json:"connection_levels,omitempty"`
 	// Connectivity Status
@@ -208,7 +209,7 @@ func (x *ListEnumsHelperResponse) GetFieldTypes() []FieldType {
 	return nil
 }
 
-func (x *ListEnumsHelperResponse) GetTimeZones() []TimeZone {
+func (x *ListEnumsHelperResponse) GetTimeZones() []*TimezoneInfo {
 	if x != nil {
 		return x.TimeZones
 	}
@@ -229,6 +230,70 @@ func (x *ListEnumsHelperResponse) GetDeviceConnectivityStatus() []DeviceConnecti
 	return nil
 }
 
+// TimezoneInfo pairs a Timezone enum value with its human-readable label for UI dropdowns.
+type TimezoneInfo struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Value Timezone `protobuf:"varint,1,opt,name=value,proto3,enum=platform.Timezone" json:"value,omitempty"` // enum integer stored in DB (e.g. 19)
+	Label string   `protobuf:"bytes,2,opt,name=label,proto3" json:"label,omitempty"`                         // human-readable display name (e.g. "Asia/Kolkata")
+	Iana  string   `protobuf:"bytes,3,opt,name=iana,proto3" json:"iana,omitempty"`                           // IANA timezone string for programmatic use (e.g. "Asia/Kolkata")
+}
+
+func (x *TimezoneInfo) Reset() {
+	*x = TimezoneInfo{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_platform_helper_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TimezoneInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TimezoneInfo) ProtoMessage() {}
+
+func (x *TimezoneInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_platform_helper_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TimezoneInfo.ProtoReflect.Descriptor instead.
+func (*TimezoneInfo) Descriptor() ([]byte, []int) {
+	return file_platform_helper_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *TimezoneInfo) GetValue() Timezone {
+	if x != nil {
+		return x.Value
+	}
+	return Timezone_TIMEZONE_UNKNOWN
+}
+
+func (x *TimezoneInfo) GetLabel() string {
+	if x != nil {
+		return x.Label
+	}
+	return ""
+}
+
+func (x *TimezoneInfo) GetIana() string {
+	if x != nil {
+		return x.Iana
+	}
+	return ""
+}
+
 type GetRegionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -241,7 +306,7 @@ type GetRegionRequest struct {
 func (x *GetRegionRequest) Reset() {
 	*x = GetRegionRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_platform_helper_proto_msgTypes[1]
+		mi := &file_platform_helper_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -254,7 +319,7 @@ func (x *GetRegionRequest) String() string {
 func (*GetRegionRequest) ProtoMessage() {}
 
 func (x *GetRegionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_platform_helper_proto_msgTypes[1]
+	mi := &file_platform_helper_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -267,7 +332,7 @@ func (x *GetRegionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRegionRequest.ProtoReflect.Descriptor instead.
 func (*GetRegionRequest) Descriptor() ([]byte, []int) {
-	return file_platform_helper_proto_rawDescGZIP(), []int{1}
+	return file_platform_helper_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetRegionRequest) GetId() string {
@@ -289,7 +354,7 @@ var file_platform_helper_proto_rawDesc = []byte{
 	0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x73, 0x74,
 	0x72, 0x75, 0x63, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1b, 0x70, 0x6c, 0x61, 0x74,
 	0x66, 0x6f, 0x72, 0x6d, 0x2f, 0x73, 0x68, 0x61, 0x72, 0x65, 0x64, 0x5f, 0x65, 0x6e, 0x75, 0x6d,
-	0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xc2, 0x09, 0x0a, 0x17, 0x4c, 0x69, 0x73, 0x74,
+	0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xe0, 0x08, 0x0a, 0x17, 0x4c, 0x69, 0x73, 0x74,
 	0x45, 0x6e, 0x75, 0x6d, 0x73, 0x48, 0x65, 0x6c, 0x70, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f,
 	0x6e, 0x73, 0x65, 0x12, 0x30, 0x0a, 0x07, 0x6c, 0x6f, 0x72, 0x61, 0x77, 0x61, 0x6e, 0x18, 0x01,
 	0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
@@ -359,33 +424,27 @@ var file_platform_helper_proto_rawDesc = []byte{
 	0x5f, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x73, 0x18, 0x11, 0x20, 0x03, 0x28, 0x0e, 0x32, 0x19, 0x2e,
 	0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74,
 	0x69, 0x6f, 0x6e, 0x4c, 0x65, 0x76, 0x65, 0x6c, 0x52, 0x10, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63,
-	0x74, 0x69, 0x6f, 0x6e, 0x4c, 0x65, 0x76, 0x65, 0x6c, 0x73, 0x12, 0x60, 0x0a, 0x1a, 0x64, 0x65,
-	0x76, 0x69, 0x63, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74,
-	0x79, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x12, 0x20, 0x03, 0x28, 0x0e, 0x32, 0x22,
-	0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65,
-	0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x53, 0x74, 0x61, 0x74,
-	0x75, 0x73, 0x52, 0x18, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63,
-	0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x22, 0x22, 0x0a, 0x10,
-	0x47, 0x65, 0x74, 0x52, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64,
-	0x32, 0xde, 0x01, 0x0a, 0x0d, 0x48, 0x65, 0x6c, 0x70, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x12, 0x62, 0x0a, 0x09, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x6e, 0x75, 0x6d, 0x73, 0x12,
-	0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
-	0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x21, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f,
-	0x72, 0x6d, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x6e, 0x75, 0x6d, 0x73, 0x48, 0x65, 0x6c, 0x70,
-	0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1a, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x14, 0x12, 0x12, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2f,
-	0x68, 0x65, 0x6c, 0x70, 0x65, 0x72, 0x12, 0x69, 0x0a, 0x09, 0x47, 0x65, 0x74, 0x52, 0x65, 0x67,
-	0x69, 0x6f, 0x6e, 0x12, 0x1a, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x47,
-	0x65, 0x74, 0x52, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
-	0x66, 0x2e, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x22, 0x28, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x22, 0x12,
-	0x20, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x68, 0x65, 0x6c, 0x70, 0x65, 0x72, 0x2f, 0x6c, 0x6f, 0x72,
-	0x61, 0x77, 0x61, 0x6e, 0x2f, 0x72, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64,
-	0x7d, 0x42, 0x32, 0x5a, 0x30, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
-	0x61, 0x64, 0x61, 0x72, 0x6b, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f,
-	0x72, 0x6d, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x6f, 0x2f, 0x76, 0x34, 0x2f, 0x70, 0x6c, 0x61,
-	0x74, 0x66, 0x6f, 0x72, 0x6d, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x69, 0x6f, 0x6e, 0x4c, 0x65, 0x76, 0x65, 0x6c, 0x73, 0x22, 0x22, 0x0a, 0x10, 0x47, 0x65,
+	0x74, 0x52, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e,
+	0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x32, 0xde,
+	0x01, 0x0a, 0x0d, 0x48, 0x65, 0x6c, 0x70, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
+	0x12, 0x62, 0x0a, 0x09, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x6e, 0x75, 0x6d, 0x73, 0x12, 0x16, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x21, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d,
+	0x2e, 0x4c, 0x69, 0x73, 0x74, 0x45, 0x6e, 0x75, 0x6d, 0x73, 0x48, 0x65, 0x6c, 0x70, 0x65, 0x72,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1a, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x14,
+	0x12, 0x12, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2f, 0x68, 0x65,
+	0x6c, 0x70, 0x65, 0x72, 0x12, 0x69, 0x0a, 0x09, 0x47, 0x65, 0x74, 0x52, 0x65, 0x67, 0x69, 0x6f,
+	0x6e, 0x12, 0x1a, 0x2e, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2e, 0x47, 0x65, 0x74,
+	0x52, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x16, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x56, 0x61, 0x6c, 0x75, 0x65, 0x22, 0x28, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x22, 0x12, 0x20, 0x2f,
+	0x61, 0x70, 0x69, 0x2f, 0x68, 0x65, 0x6c, 0x70, 0x65, 0x72, 0x2f, 0x6c, 0x6f, 0x72, 0x61, 0x77,
+	0x61, 0x6e, 0x2f, 0x72, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x42,
+	0x32, 0x5a, 0x30, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x61, 0x64,
+	0x61, 0x72, 0x6b, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d,
+	0x2d, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x6f, 0x2f, 0x76, 0x34, 0x2f, 0x70, 0x6c, 0x61, 0x74, 0x66,
+	0x6f, 0x72, 0x6d, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -400,58 +459,56 @@ func file_platform_helper_proto_rawDescGZIP() []byte {
 	return file_platform_helper_proto_rawDescData
 }
 
-var file_platform_helper_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_platform_helper_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_platform_helper_proto_goTypes = []any{
 	(*ListEnumsHelperResponse)(nil), // 0: platform.ListEnumsHelperResponse
-	(*GetRegionRequest)(nil),        // 1: platform.GetRegionRequest
-	(*structpb.Value)(nil),          // 2: google.protobuf.Value
-	(LocationSource)(0),             // 3: platform.LocationSource
-	(DeviceType)(0),                 // 4: platform.DeviceType
-	(InventoryStatus)(0),            // 5: platform.InventoryStatus
-	(DownlinkMode)(0),               // 6: platform.DownlinkMode
-	(AssetType)(0),                  // 7: platform.AssetType
-	(TransportProtocol)(0),          // 8: platform.TransportProtocol
-	(AggregationType)(0),            // 9: platform.AggregationType
-	(TimeInterval)(0),               // 10: platform.TimeInterval
-	(ConsumerStatus)(0),             // 11: platform.ConsumerStatus
-	(ConnectionType)(0),             // 12: platform.ConnectionType
-	(ConnectionCategory)(0),         // 13: platform.ConnectionCategory
-	(ConnectionStatus)(0),           // 14: platform.ConnectionStatus
-	(MeterStatus)(0),                // 15: platform.MeterStatus
-	(FieldType)(0),                  // 16: platform.FieldType
-	(TimeZone)(0),                   // 17: platform.TimeZone
+	(*TimezoneInfo)(nil),            // 1: platform.TimezoneInfo
+	(*GetRegionRequest)(nil),        // 2: platform.GetRegionRequest
+	(*structpb.Value)(nil),          // 3: google.protobuf.Value
+	(LocationSource)(0),             // 4: platform.LocationSource
+	(DeviceType)(0),                 // 5: platform.DeviceType
+	(InventoryStatus)(0),            // 6: platform.InventoryStatus
+	(DownlinkMode)(0),               // 7: platform.DownlinkMode
+	(AssetType)(0),                  // 8: platform.AssetType
+	(TransportProtocol)(0),          // 9: platform.TransportProtocol
+	(AggregationType)(0),            // 10: platform.AggregationType
+	(TimeInterval)(0),               // 11: platform.TimeInterval
+	(ConsumerStatus)(0),             // 12: platform.ConsumerStatus
+	(ConnectionType)(0),             // 13: platform.ConnectionType
+	(ConnectionCategory)(0),         // 14: platform.ConnectionCategory
+	(ConnectionStatus)(0),           // 15: platform.ConnectionStatus
+	(MeterStatus)(0),                // 16: platform.MeterStatus
+	(FieldType)(0),                  // 17: platform.FieldType
 	(ConnectionLevel)(0),            // 18: platform.ConnectionLevel
-	(DeviceConnectivityStatus)(0),   // 19: platform.DeviceConnectivityStatus
-	(*emptypb.Empty)(nil),           // 20: google.protobuf.Empty
+	(*emptypb.Empty)(nil),           // 19: google.protobuf.Empty
 }
 var file_platform_helper_proto_depIdxs = []int32{
-	2,  // 0: platform.ListEnumsHelperResponse.lorawan:type_name -> google.protobuf.Value
-	3,  // 1: platform.ListEnumsHelperResponse.location_sources:type_name -> platform.LocationSource
-	4,  // 2: platform.ListEnumsHelperResponse.device_types:type_name -> platform.DeviceType
-	5,  // 3: platform.ListEnumsHelperResponse.inventory_status:type_name -> platform.InventoryStatus
-	6,  // 4: platform.ListEnumsHelperResponse.downlink_modes:type_name -> platform.DownlinkMode
-	7,  // 5: platform.ListEnumsHelperResponse.asset_type:type_name -> platform.AssetType
-	8,  // 6: platform.ListEnumsHelperResponse.transport_protocols:type_name -> platform.TransportProtocol
-	9,  // 7: platform.ListEnumsHelperResponse.aggregation_types:type_name -> platform.AggregationType
-	10, // 8: platform.ListEnumsHelperResponse.time_intervals:type_name -> platform.TimeInterval
-	11, // 9: platform.ListEnumsHelperResponse.consumer_status:type_name -> platform.ConsumerStatus
-	12, // 10: platform.ListEnumsHelperResponse.connection_type:type_name -> platform.ConnectionType
-	13, // 11: platform.ListEnumsHelperResponse.connection_category:type_name -> platform.ConnectionCategory
-	14, // 12: platform.ListEnumsHelperResponse.connection_status:type_name -> platform.ConnectionStatus
-	15, // 13: platform.ListEnumsHelperResponse.meter_status:type_name -> platform.MeterStatus
-	16, // 14: platform.ListEnumsHelperResponse.field_types:type_name -> platform.FieldType
-	17, // 15: platform.ListEnumsHelperResponse.time_zones:type_name -> platform.TimeZone
+	3,  // 0: platform.ListEnumsHelperResponse.lorawan:type_name -> google.protobuf.Value
+	4,  // 1: platform.ListEnumsHelperResponse.location_sources:type_name -> platform.LocationSource
+	5,  // 2: platform.ListEnumsHelperResponse.device_types:type_name -> platform.DeviceType
+	6,  // 3: platform.ListEnumsHelperResponse.inventory_status:type_name -> platform.InventoryStatus
+	7,  // 4: platform.ListEnumsHelperResponse.downlink_modes:type_name -> platform.DownlinkMode
+	8,  // 5: platform.ListEnumsHelperResponse.asset_type:type_name -> platform.AssetType
+	9,  // 6: platform.ListEnumsHelperResponse.transport_protocols:type_name -> platform.TransportProtocol
+	10, // 7: platform.ListEnumsHelperResponse.aggregation_types:type_name -> platform.AggregationType
+	11, // 8: platform.ListEnumsHelperResponse.time_intervals:type_name -> platform.TimeInterval
+	12, // 9: platform.ListEnumsHelperResponse.consumer_status:type_name -> platform.ConsumerStatus
+	13, // 10: platform.ListEnumsHelperResponse.connection_type:type_name -> platform.ConnectionType
+	14, // 11: platform.ListEnumsHelperResponse.connection_category:type_name -> platform.ConnectionCategory
+	15, // 12: platform.ListEnumsHelperResponse.connection_status:type_name -> platform.ConnectionStatus
+	16, // 13: platform.ListEnumsHelperResponse.meter_status:type_name -> platform.MeterStatus
+	17, // 14: platform.ListEnumsHelperResponse.field_types:type_name -> platform.FieldType
+	1,  // 15: platform.ListEnumsHelperResponse.time_zones:type_name -> platform.TimezoneInfo
 	18, // 16: platform.ListEnumsHelperResponse.connection_levels:type_name -> platform.ConnectionLevel
-	19, // 17: platform.ListEnumsHelperResponse.device_connectivity_status:type_name -> platform.DeviceConnectivityStatus
-	20, // 18: platform.HelperService.ListEnums:input_type -> google.protobuf.Empty
-	1,  // 19: platform.HelperService.GetRegion:input_type -> platform.GetRegionRequest
-	0,  // 20: platform.HelperService.ListEnums:output_type -> platform.ListEnumsHelperResponse
-	2,  // 21: platform.HelperService.GetRegion:output_type -> google.protobuf.Value
-	20, // [20:22] is the sub-list for method output_type
-	18, // [18:20] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	19, // 17: platform.HelperService.ListEnums:input_type -> google.protobuf.Empty
+	1,  // 18: platform.HelperService.GetRegion:input_type -> platform.GetRegionRequest
+	0,  // 19: platform.HelperService.ListEnums:output_type -> platform.ListEnumsHelperResponse
+	2,  // 20: platform.HelperService.GetRegion:output_type -> google.protobuf.Value
+	19, // [19:21] is the sub-list for method output_type
+	17, // [17:19] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_platform_helper_proto_init() }
@@ -474,6 +531,18 @@ func file_platform_helper_proto_init() {
 			}
 		}
 		file_platform_helper_proto_msgTypes[1].Exporter = func(v any, i int) any {
+			switch v := v.(*TimezoneInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_platform_helper_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*GetRegionRequest); i {
 			case 0:
 				return &v.state
@@ -492,7 +561,7 @@ func file_platform_helper_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_platform_helper_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
