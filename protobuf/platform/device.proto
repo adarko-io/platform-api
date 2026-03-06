@@ -50,7 +50,7 @@ service DeviceService {
     };
   }
 
-  // GetDevicesSummary returns an aggregated summary of the devices (online,offline,never seen based DeviceType, TransportProtocol, AssetType, AssetSubType , tenantid, applicationid).
+  // GetDevicesSummary returns an aggregated summary of the devices (online,offline,never seen based DeviceType, TransportProtocol, AssetType, tenantid, applicationid).
     rpc GetDevicesSummary(GetDevicesSummaryRequest) returns (GetDevicesSummaryResponse) {
         option(google.api.http) = {
             get: "/api/devices-summary"
@@ -73,14 +73,11 @@ message GetDevicesSummaryRequest {
     //Asset Type Water Meter, Gas Meter, Energy Meter etc.
     AssetType asset_type = 4;
 
-    //Asset Sub Type
-    AssetSubType asset_sub_type = 5;
-
     // Device Transport Protocol
-    TransportProtocol transport_protocol = 6;
+    TransportProtocol transport_protocol = 5;
 
     //Device Profile ID
-    string device_profile_id = 7;
+    string device_profile_id = 6;
 
 }
 
@@ -258,13 +255,10 @@ message ListDevicesRequest {
   // Asset Type to filter devices on.
   AssetType asset_type = 6;
 
-  // Asset Sub Type to filter devices on.
-  AssetSubType asset_sub_type = 7;
-
   // Device type to filter devices on.
-  DeviceType device_type = 8;
+  DeviceType device_type = 7;
 
-  TransportProtocol transport_protocol = 9;
+  TransportProtocol transport_protocol = 8;
 
   enum OrderBy {
     NAME = 0;
@@ -274,13 +268,13 @@ message ListDevicesRequest {
   }
 
   // If set, the given value will be used to sort by (optional).
-  OrderBy order_by = 10;
+  OrderBy order_by = 9;
 
   // If set, the sorting direction will be decending (default = ascending) (optional).
-  bool order_by_desc = 11;
+  bool order_by_desc = 10;
 
   // Tags to filter devices on.
-  map<string, string> tags = 12;
+  map<string, string> tags = 11;
 
 }
 

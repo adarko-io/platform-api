@@ -84,25 +84,6 @@
             "default": "ASSET_TYPE_UNKNOWN"
           },
           {
-            "name": "assetSubType",
-            "description": "Asset Sub Type to filter devices on.\n\n - ASSET_SUB_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_ODU: Outdoor LoRaWAN Gateway - CPI ODU\n - ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_IDU: Indoor LoRaWAN Gateway - CPI IDU\n - ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_AIL_V1: ADARKO Inductive Water Meter AMR - V1\n - ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_CPI_V1: CPI Inductive Water Meter AMR - V1\n - ASSET_SUB_TYPE_WATER_METER_AMR_PULSE_AIL_V1: ADARKO Pulse Water Meter AMR - V1\n - ASSET_SUB_TYPE_WATER_METER_AMR_MAGNETIC_AIL_V1: ADARKO Magnetic Water Meter AMR - V1\n - ASSET_SUB_TYPE_GAS_METER_AMR_INDUCTIVE_GAIL_V1: Gail Gas Meter  AMR - V1\n - ASSET_SUB_TYPE_ENERGY_METER_ELM_3PH_V1: Elmeasure 3hpase enagy Meter  AMR - V1",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "ASSET_SUB_TYPE_UNKNOWN",
-              "ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_ODU",
-              "ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_IDU",
-              "ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_AIL_V1",
-              "ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_CPI_V1",
-              "ASSET_SUB_TYPE_WATER_METER_AMR_PULSE_AIL_V1",
-              "ASSET_SUB_TYPE_WATER_METER_AMR_MAGNETIC_AIL_V1",
-              "ASSET_SUB_TYPE_GAS_METER_AMR_INDUCTIVE_GAIL_V1",
-              "ASSET_SUB_TYPE_ENERGY_METER_ELM_3PH_V1"
-            ],
-            "default": "ASSET_SUB_TYPE_UNKNOWN"
-          },
-          {
             "name": "deviceType",
             "description": "Device type to filter devices on.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN_DEVICE: LoRaWAN device type.\n - DEVICE_TYPE_CELLULAR_GSM: Cellular MQTT device type.\n - DEVICE_TYPE_CELLULAR_LTE: Cellular TCP device type.\n - DEVICE_TYPE_CELLULAR_GSM_LTE: Cellular UDP device type.\n - DEVICE_TYPE_GATEWAY: Gateway device type.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device type.\n - DEVICE_TYPE_WMBUS_C_MODE_END_DEVICE: Wmbus C Mode End Device type.\n - DEVICE_TYPE_WMBUS_C_MODE_HHU_GATEWAY_DEVICE: Wmbus C Mode HHU Gateway Device type.\n - DEVICE_TYPE_LORAWAN_WMBUS_C_MODE_DUAL_END_DEVICE: LoRaWAN WMBUS C Mode Dual End Device type.",
             "in": "query",
@@ -201,7 +182,7 @@
     },
     "/api/devices-summary": {
       "get": {
-        "summary": "GetDevicesSummary returns an aggregated summary of the devices (online,offline,never seen based DeviceType, TransportProtocol, AssetType, AssetSubType , tenantid, applicationid).",
+        "summary": "GetDevicesSummary returns an aggregated summary of the devices (online,offline,never seen based DeviceType, TransportProtocol, AssetType, tenantid, applicationid).",
         "operationId": "DeviceService_GetDevicesSummary",
         "responses": {
           "200": {
@@ -267,25 +248,6 @@
               "ASSET_TYPE_GATEWAY"
             ],
             "default": "ASSET_TYPE_UNKNOWN"
-          },
-          {
-            "name": "assetSubType",
-            "description": "Asset Sub Type.\n\n - ASSET_SUB_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_ODU: Outdoor LoRaWAN Gateway - CPI ODU\n - ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_IDU: Indoor LoRaWAN Gateway - CPI IDU\n - ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_AIL_V1: ADARKO Inductive Water Meter AMR - V1\n - ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_CPI_V1: CPI Inductive Water Meter AMR - V1\n - ASSET_SUB_TYPE_WATER_METER_AMR_PULSE_AIL_V1: ADARKO Pulse Water Meter AMR - V1\n - ASSET_SUB_TYPE_WATER_METER_AMR_MAGNETIC_AIL_V1: ADARKO Magnetic Water Meter AMR - V1\n - ASSET_SUB_TYPE_GAS_METER_AMR_INDUCTIVE_GAIL_V1: Gail Gas Meter  AMR - V1\n - ASSET_SUB_TYPE_ENERGY_METER_ELM_3PH_V1: Elmeasure 3hpase enagy Meter  AMR - V1",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "ASSET_SUB_TYPE_UNKNOWN",
-              "ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_ODU",
-              "ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_IDU",
-              "ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_AIL_V1",
-              "ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_CPI_V1",
-              "ASSET_SUB_TYPE_WATER_METER_AMR_PULSE_AIL_V1",
-              "ASSET_SUB_TYPE_WATER_METER_AMR_MAGNETIC_AIL_V1",
-              "ASSET_SUB_TYPE_GAS_METER_AMR_INDUCTIVE_GAIL_V1",
-              "ASSET_SUB_TYPE_ENERGY_METER_ELM_3PH_V1"
-            ],
-            "default": "ASSET_SUB_TYPE_UNKNOWN"
           },
           {
             "name": "transportProtocol",
@@ -432,23 +394,6 @@
         "DEVICE_PROFILE_NAME"
       ],
       "default": "NAME"
-    },
-    "platformAssetSubType": {
-      "type": "string",
-      "enum": [
-        "ASSET_SUB_TYPE_UNKNOWN",
-        "ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_ODU",
-        "ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_IDU",
-        "ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_AIL_V1",
-        "ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_CPI_V1",
-        "ASSET_SUB_TYPE_WATER_METER_AMR_PULSE_AIL_V1",
-        "ASSET_SUB_TYPE_WATER_METER_AMR_MAGNETIC_AIL_V1",
-        "ASSET_SUB_TYPE_GAS_METER_AMR_INDUCTIVE_GAIL_V1",
-        "ASSET_SUB_TYPE_ENERGY_METER_ELM_3PH_V1"
-      ],
-      "default": "ASSET_SUB_TYPE_UNKNOWN",
-      "description": "- ASSET_SUB_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_ODU: Outdoor LoRaWAN Gateway - CPI ODU\n - ASSET_SUB_TYPE_LORAWAN_GATEWAY_CPI_IDU: Indoor LoRaWAN Gateway - CPI IDU\n - ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_AIL_V1: ADARKO Inductive Water Meter AMR - V1\n - ASSET_SUB_TYPE_WATER_METER_AMR_INDUCTIVE_CPI_V1: CPI Inductive Water Meter AMR - V1\n - ASSET_SUB_TYPE_WATER_METER_AMR_PULSE_AIL_V1: ADARKO Pulse Water Meter AMR - V1\n - ASSET_SUB_TYPE_WATER_METER_AMR_MAGNETIC_AIL_V1: ADARKO Magnetic Water Meter AMR - V1\n - ASSET_SUB_TYPE_GAS_METER_AMR_INDUCTIVE_GAIL_V1: Gail Gas Meter  AMR - V1\n - ASSET_SUB_TYPE_ENERGY_METER_ELM_3PH_V1: Elmeasure 3hpase enagy Meter  AMR - V1",
-      "title": "Asset sub-type enumeration.\nAssetSubType defines specific sub-types for various asset categories. which will help for UI representation, filtering, data decode etc.\nit will be manufacturer and model specific.\nEx : ASSET_SUB_TYPE_WATER_METER_INDUCTIVE_mfr_model = ASSET_SUB_TYPE_WATER_METER_INDUCTIVE_AIL_V1\nDO NOT CHANGE THE EXISTING VALUES, APPEND NEW VALUES AT THE END TO AVOID CONFLICTS"
     },
     "platformAssetType": {
       "type": "string",

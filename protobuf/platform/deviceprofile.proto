@@ -28,19 +28,24 @@ service DeviceProfileService {
       get: "/api/device-profiles"
     };
   }
+
+  // Reload re-reads the local TOML file and upserts all device profiles to the DB.
+  rpc Reload(google.protobuf.Empty) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/api/device-profiles/reload"
+      body: "*"
+    };
+  }
 }
 
 message DeviceProfile{
     string id = 1;
     string name = 2;
-  // Device Type.
+    // Device Type.
     DeviceType device_type = 3;
 
-    //Asset Type Water Meter, Gas Meter, Energy Meter etc.
+    // Asset Type Water Meter, Gas Meter, Energy Meter etc.
     AssetType asset_type = 4;
-
-    //Asset Sub Type
-    AssetSubType asset_sub_type = 5;
 
     // Device Transport Protocol
     repeated TransportProtocol transport_protocol = 6;
@@ -49,8 +54,6 @@ message DeviceProfile{
     // Manufacturer details
     string manufacturer_name = 8;
     string model = 9;
-    string firmware_version = 10;
-    string hardware_version = 11;
 }
 
 message GetDeviceProfileRequest {
@@ -69,14 +72,12 @@ message ListDeviceProfilesRequest {
 
     AssetType asset_type = 3;
 
-    AssetSubType asset_sub_type = 4;
+    DeviceType device_type = 4;
 
-    DeviceType device_type = 5;
-  
-    TransportProtocol transport_protocol = 6;
-  
-      // Search term for filtering by name or description.
-    string search = 7;
+    TransportProtocol transport_protocol = 5;
+
+    // Search term for filtering by name or description.
+    string search = 6;
 }
 
 message ListDeviceProfilesResponse {
