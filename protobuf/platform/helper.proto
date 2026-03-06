@@ -81,6 +81,9 @@ message ListEnumsHelperResponse {
 
   //Connection Level
   repeated ConnectionLevel connection_levels = 17;
+
+  //Connectivity Status
+  repeated DeviceConnectivityStatus device_connectivity_status = 18;
   
 }
 

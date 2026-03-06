@@ -151,6 +151,18 @@
       "default": "CONSUMER_STATUS_UNKNOWN",
       "description": " - CONSUMER_STATUS_UNKNOWN: Unknown consumer status.\n - CONSUMER_STATUS_ACTIVE: Active consumer.\n - CONSUMER_STATUS_INACTIVE: Inactive consumer.\n - CONSUMER_STATUS_TERMINATED: Terminated consumer."
     },
+    "platformDeviceConnectivityStatus": {
+      "type": "string",
+      "enum": [
+        "DEVICE_CONNECTIVITY_STATUS_UNKNOWN",
+        "DEVICE_CONNECTIVITY_STATUS_ONLINE",
+        "DEVICE_CONNECTIVITY_STATUS_OFFLINE",
+        "DEVICE_CONNECTIVITY_STATUS_NEVER_SEEN",
+        "DEVICE_CONNECTIVITY_STATUS_PARTIALLY_ONLINE"
+      ],
+      "default": "DEVICE_CONNECTIVITY_STATUS_UNKNOWN",
+      "description": "Device connectivity status enumeration.\n\n - DEVICE_CONNECTIVITY_STATUS_UNKNOWN: Unknown / unset (used as no-filter sentinel).\n - DEVICE_CONNECTIVITY_STATUS_ONLINE: Device is online (heartbeat active).\n - DEVICE_CONNECTIVITY_STATUS_OFFLINE: Device is offline (heartbeat expired).\n - DEVICE_CONNECTIVITY_STATUS_NEVER_SEEN: Device has never communicated since creation.\n - DEVICE_CONNECTIVITY_STATUS_PARTIALLY_ONLINE: Some devices in a group are online (aggregate use)."
+    },
     "platformDeviceType": {
       "type": "string",
       "enum": [
@@ -320,6 +332,13 @@
             "$ref": "#/definitions/platformConnectionLevel"
           },
           "title": "Connection Level"
+        },
+        "deviceConnectivityStatus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformDeviceConnectivityStatus"
+          },
+          "title": "Connectivity Status"
         }
       },
       "description": "Simple response for UI helper endpoint with concrete enum values."
