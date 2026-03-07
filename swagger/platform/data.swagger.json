@@ -500,32 +500,36 @@
     }
   },
   "definitions": {
-    "platformAggregatedDataPoint": {
+    "platformAggregatedTimestampBucket": {
       "type": "object",
       "properties": {
         "timestamp": {
           "type": "string",
           "format": "date-time",
-          "description": "Bucket start time."
+          "description": "Bucket start timestamp."
         },
-        "deviceId": {
-          "type": "string",
-          "description": "Device ID — populated when group_by_device = true or a single device is queried."
-        },
-        "tenantId": {
-          "type": "string",
-          "description": "Tenant ID of the device."
-        },
-        "applicationId": {
-          "type": "string",
-          "description": "Application ID of the device."
-        },
-        "data": {
-          "type": "object",
-          "description": "Consumption values keyed by counter field name\n(e.g. \"accumulated_volume_m3\", \"accumulated_kwh\")."
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformDeviceValue"
+          },
+          "description": "One entry per device (group_by_device = true) or a single summed entry (group_by_device = false)."
         }
       },
-      "description": "One consumption bucket in the response."
+      "description": "AggregatedTimestampBucket groups all device values for one time bucket.\nEvery bucket in [start_time, end_time] is always emitted (gap-fill)."
+    },
+    "platformAssetType": {
+      "type": "string",
+      "enum": [
+        "ASSET_TYPE_UNKNOWN",
+        "ASSET_TYPE_WATER_METER",
+        "ASSET_TYPE_ENERGY_METER",
+        "ASSET_TYPE_GAS_METER",
+        "ASSET_TYPE_GPS_TRACKER",
+        "ASSET_TYPE_GATEWAY"
+      ],
+      "default": "ASSET_TYPE_UNKNOWN",
+      "description": " - ASSET_TYPE_UNKNOWN: Unknown asset type.\n - ASSET_TYPE_WATER_METER: AMR Water meter Inductive.\n - ASSET_TYPE_ENERGY_METER: Energy Meter device.\n - ASSET_TYPE_GAS_METER: GAS Meter device.\n - ASSET_TYPE_GPS_TRACKER: GPS Tracker device.\n - ASSET_TYPE_GATEWAY: Gateway device."
     },
     "platformDataSizeStats": {
       "type": "object",
@@ -637,6 +641,28 @@
       },
       "description": "Device location information."
     },
+    "platformDeviceValue": {
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "type": "string",
+          "description": "Device ID — empty when group_by_device = false."
+        },
+        "applicationId": {
+          "type": "string",
+          "description": "Application ID of the device."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant ID of the device."
+        },
+        "data": {
+          "type": "object",
+          "description": "Consumption values keyed by counter field name\n(e.g. \"accumulated_volume_m3\", \"accumulated_kwh\").\nEmpty Struct {} indicates no data for this device in this bucket."
+        }
+      },
+      "description": "DeviceValue holds one device's consumption data within a single time bucket.\ndata is an empty Struct {} when the device did not communicate in that period (gap-fill)."
+    },
     "platformGetAggregatedDataRequest": {
       "type": "object",
       "properties": {
@@ -665,9 +691,9 @@
           "format": "date-time",
           "description": "End time (required)."
         },
-        "interval": {
-          "$ref": "#/definitions/platformTimeInterval",
-          "description": "Time interval: HOUR → hourly buckets, MONTH → monthly, everything else → daily."
+        "granularity": {
+          "$ref": "#/definitions/platformGranularity",
+          "description": "Bucket granularity: HOUR → hourly, MONTH → monthly, everything else → daily."
         },
         "groupByDevice": {
           "type": "boolean",
@@ -690,6 +716,14 @@
         "timezone": {
           "$ref": "#/definitions/platformTimezone",
           "description": "Timezone for daily/monthly bucket grouping (IANA-based enum).\nOverrides the tenant's configured timezone when set.\nFalls back to tenant timezone, then UTC if both are absent."
+        },
+        "assetType": {
+          "$ref": "#/definitions/platformAssetType",
+          "description": "Filter by asset type (e.g. ASSET_TYPE_WATER_METER).\nWhen group_by_device = false and multiple devices are selected,\neither asset_type or device_profile_id must be set to ensure only\ncompatible device types are summed together."
+        },
+        "zoneId": {
+          "type": "string",
+          "description": "Filter by zone ID — resolves to the application(s) mapped to this zone.\nOptionally combined with asset_type to narrow to a specific meter type within the zone."
         }
       },
       "description": "Request for meter consumption data.\nAt least one of device_ids, application_id, tenant_id, or device_profile_id must be set."
@@ -700,14 +734,14 @@
         "totalCount": {
           "type": "integer",
           "format": "int64",
-          "description": "Total count of data points available."
+          "description": "Total number of time buckets in [start_time, end_time] (used for pagination)."
         },
         "data": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/platformAggregatedDataPoint"
+            "$ref": "#/definitions/platformAggregatedTimestampBucket"
           },
-          "description": "Aggregated data points."
+          "description": "Aggregated data grouped by timestamp, with gap-fill.\nEvery bucket in the requested range is always present."
         },
         "timezone": {
           "$ref": "#/definitions/platformTimezone",
@@ -868,6 +902,23 @@
       },
       "description": "Response containing multiple device locations."
     },
+    "platformGranularity": {
+      "type": "string",
+      "enum": [
+        "GRANULARITY_MINUTE",
+        "GRANULARITY_MINUTE_5",
+        "GRANULARITY_MINUTE_15",
+        "GRANULARITY_MINUTE_30",
+        "GRANULARITY_HOUR",
+        "GRANULARITY_HOUR_6",
+        "GRANULARITY_HOUR_12",
+        "GRANULARITY_DAY",
+        "GRANULARITY_WEEK",
+        "GRANULARITY_MONTH"
+      ],
+      "default": "GRANULARITY_MINUTE",
+      "description": "Granularity for time-series aggregation (bucket size).\n\n - GRANULARITY_MINUTE: 1 minute intervals.\n - GRANULARITY_MINUTE_5: 5 minute intervals.\n - GRANULARITY_MINUTE_15: 15 minute intervals.\n - GRANULARITY_MINUTE_30: 30 minute intervals.\n - GRANULARITY_HOUR: 1 hour intervals.\n - GRANULARITY_HOUR_6: 6 hour intervals.\n - GRANULARITY_HOUR_12: 12 hour intervals.\n - GRANULARITY_DAY: 1 day intervals.\n - GRANULARITY_WEEK: 1 week intervals.\n - GRANULARITY_MONTH: 1 month intervals."
+    },
     "platformInsertDataRequest": {
       "type": "object",
       "properties": {
@@ -1018,23 +1069,6 @@
         }
       },
       "description": "Response from inserting a raw original data record."
-    },
-    "platformTimeInterval": {
-      "type": "string",
-      "enum": [
-        "TIME_INTERVAL_MINUTE",
-        "TIME_INTERVAL_MINUTE_5",
-        "TIME_INTERVAL_MINUTE_15",
-        "TIME_INTERVAL_MINUTE_30",
-        "TIME_INTERVAL_HOUR",
-        "TIME_INTERVAL_HOUR_6",
-        "TIME_INTERVAL_HOUR_12",
-        "TIME_INTERVAL_DAY",
-        "TIME_INTERVAL_WEEK",
-        "TIME_INTERVAL_MONTH"
-      ],
-      "default": "TIME_INTERVAL_MINUTE",
-      "description": "Time interval for aggregation.\n\n - TIME_INTERVAL_MINUTE: 1 minute intervals.\n - TIME_INTERVAL_MINUTE_5: 5 minute intervals.\n - TIME_INTERVAL_MINUTE_15: 15 minute intervals.\n - TIME_INTERVAL_MINUTE_30: 30 minute intervals.\n - TIME_INTERVAL_HOUR: 1 hour intervals.\n - TIME_INTERVAL_HOUR_6: 6 hour intervals.\n - TIME_INTERVAL_HOUR_12: 12 hour intervals.\n - TIME_INTERVAL_DAY: 1 day intervals.\n - TIME_INTERVAL_WEEK: 1 week intervals.\n - TIME_INTERVAL_MONTH: 1 month intervals."
     },
     "platformTimezone": {
       "type": "string",

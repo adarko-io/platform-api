@@ -172,37 +172,37 @@ enum AggregationType {
   AGGREGATION_TYPE_LAST = 7;
 }
 
-// Time interval for aggregation.
-enum TimeInterval {
+// Granularity for time-series aggregation (bucket size).
+enum Granularity {
   // 1 minute intervals.
-  TIME_INTERVAL_MINUTE = 0;
-  
+  GRANULARITY_MINUTE = 0;
+
   // 5 minute intervals.
-  TIME_INTERVAL_MINUTE_5 = 1;
-  
+  GRANULARITY_MINUTE_5 = 1;
+
   // 15 minute intervals.
-  TIME_INTERVAL_MINUTE_15 = 2;
-  
+  GRANULARITY_MINUTE_15 = 2;
+
   // 30 minute intervals.
-  TIME_INTERVAL_MINUTE_30 = 3;
-  
+  GRANULARITY_MINUTE_30 = 3;
+
   // 1 hour intervals.
-  TIME_INTERVAL_HOUR = 4;
-  
+  GRANULARITY_HOUR = 4;
+
   // 6 hour intervals.
-  TIME_INTERVAL_HOUR_6 = 5;
-  
+  GRANULARITY_HOUR_6 = 5;
+
   // 12 hour intervals.
-  TIME_INTERVAL_HOUR_12 = 6;
-  
+  GRANULARITY_HOUR_12 = 6;
+
   // 1 day intervals.
-  TIME_INTERVAL_DAY = 7;
-  
+  GRANULARITY_DAY = 7;
+
   // 1 week intervals.
-  TIME_INTERVAL_WEEK = 8;
-  
+  GRANULARITY_WEEK = 8;
+
   // 1 month intervals.
-  TIME_INTERVAL_MONTH = 9;
+  GRANULARITY_MONTH = 9;
 }
 
 enum AssetType {

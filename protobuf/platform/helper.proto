@@ -55,8 +55,8 @@ message ListEnumsHelperResponse {
   // Aggregation types.
   repeated AggregationType aggregation_types = 8;
 
-  // Time intervals.
-  repeated TimeInterval time_intervals = 9;
+  // Granularities (bucket sizes) for time-series queries.
+  repeated Granularity time_intervals = 9;
 
   // consumer statuses.
   repeated ConsumerStatus consumer_status = 10;

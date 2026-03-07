@@ -495,8 +495,8 @@ message GetAggregatedDataRequest {
   // End time (required).
   google.protobuf.Timestamp end_time = 5;
 
-  // Time interval: HOUR → hourly buckets, MONTH → monthly, everything else → daily.
-  TimeInterval interval = 6;
+  // Bucket granularity: HOUR → hourly, MONTH → monthly, everything else → daily.
+  Granularity granularity = 6;
 
   // Group results by device.
   // false = sum all selected devices into one aggregated time series per bucket.
@@ -515,9 +515,47 @@ message GetAggregatedDataRequest {
   // Overrides the tenant's configured timezone when set.
   // Falls back to tenant timezone, then UTC if both are absent.
   Timezone timezone = 11;
+
+  // Filter by asset type (e.g. ASSET_TYPE_WATER_METER).
+  // When group_by_device = false and multiple devices are selected,
+  // either asset_type or device_profile_id must be set to ensure only
+  // compatible device types are summed together.
+  AssetType asset_type = 12;
+
+  // Filter by zone ID — resolves to the application(s) mapped to this zone.
+  // Optionally combined with asset_type to narrow to a specific meter type within the zone.
+  string zone_id = 13;
 }
 
-// One consumption bucket in the response.
+// DeviceValue holds one device's consumption data within a single time bucket.
+// data is an empty Struct {} when the device did not communicate in that period (gap-fill).
+message DeviceValue {
+  // Device ID — empty when group_by_device = false.
+  string device_id = 1;
+
+  // Application ID of the device.
+  string application_id = 2;
+
+  // Tenant ID of the device.
+  string tenant_id = 3;
+
+  // Consumption values keyed by counter field name
+  // (e.g. "accumulated_volume_m3", "accumulated_kwh").
+  // Empty Struct {} indicates no data for this device in this bucket.
+  google.protobuf.Struct data = 4;
+}
+
+// AggregatedTimestampBucket groups all device values for one time bucket.
+// Every bucket in [start_time, end_time] is always emitted (gap-fill).
+message AggregatedTimestampBucket {
+  // Bucket start timestamp.
+  google.protobuf.Timestamp timestamp = 1;
+
+  // One entry per device (group_by_device = true) or a single summed entry (group_by_device = false).
+  repeated DeviceValue values = 2;
+}
+
+// One consumption bucket in the response (legacy — kept for reference).
 message AggregatedDataPoint {
   // Bucket start time.
   google.protobuf.Timestamp timestamp = 1;
@@ -538,11 +576,12 @@ message AggregatedDataPoint {
 
 // Response containing aggregated data.
 message GetAggregatedDataResponse {
-  // Total count of data points available.
+  // Total number of time buckets in [start_time, end_time] (used for pagination).
   uint32 total_count = 1;
 
-  // Aggregated data points.
-  repeated AggregatedDataPoint data = 2;
+  // Aggregated data grouped by timestamp, with gap-fill.
+  // Every bucket in the requested range is always present.
+  repeated AggregatedTimestampBucket data = 2;
 
   // Timezone that was applied to compute the returned buckets.
   Timezone timezone = 3;
