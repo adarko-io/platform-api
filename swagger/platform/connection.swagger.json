@@ -165,6 +165,18 @@
             "in": "query",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "applicationId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "deviceId",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [

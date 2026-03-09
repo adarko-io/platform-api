@@ -564,6 +564,8 @@ message ListConnectionGridRequest {
   string sort_by = 15;
   // Sort order: "asc" or "desc" (default: "asc").
   string sort_order = 16;
+  string application_id = 17;
+  string device_id = 18;
 }
 
 // Response message for listing connections in datagrid format.
