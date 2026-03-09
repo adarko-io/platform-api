@@ -528,18 +528,20 @@ message ConnectionGridRow {
   string consumer_id = 3;
   uint64 consumer_number = 4;
   string plot_or_door_no = 5;
-  ConnectionType connection_type = 6;
-  ConnectionLevel connection_level = 7;
-  ConnectionStatus connection_status = 8;
-  ConnectionCategory connection_category = 9;
-  string connection_name = 10;
-  string meter_id = 11;
-  string serial_number = 12;
-  string zone_id = 13;
-  string zone_name = 14;
-  google.protobuf.Value data = 15;
-  google.protobuf.Timestamp last_seen_at = 16;
-  DeviceConnectivityStatus connectivity_status = 17;
+  string device_id = 6;
+  string application_id = 7;
+  ConnectionType connection_type = 8;
+  ConnectionLevel connection_level = 9;
+  ConnectionStatus connection_status = 10;
+  ConnectionCategory connection_category = 11;
+  string connection_name = 12;
+  string meter_id = 13;
+  string serial_number = 14;
+  string zone_id = 15;
+  string zone_name = 16;
+  google.protobuf.Value data = 17;
+  google.protobuf.Timestamp last_seen_at = 18;
+  DeviceConnectivityStatus connectivity_status = 19;
 }
 
 // Request message for listing connections in datagrid format.
@@ -558,7 +560,7 @@ message ListConnectionGridRequest {
   string plot_or_door_no = 12;
   uint32 limit = 13;
   uint32 offset = 14;
-  // Column to sort by: connection_number, consumer_number, plot_or_door_no, connection_type, connection_level, serial_number, zone_name, last_seen_at, is_online, connection_name, connection_status, connection_category.
+  // Column to sort by: connectionNumber, consumerNumber, plotOrDoorNo, connectionType, connectionLevel, serialNumber, zoneName, lastSeenAt, isOnline, connectionName, connectionStatus, connectionCategory.
   string sort_by = 15;
   // Sort order: "asc" or "desc" (default: "asc").
   string sort_order = 16;

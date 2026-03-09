@@ -154,7 +154,7 @@
           },
           {
             "name": "sortBy",
-            "description": "Column to sort by: connection_number, consumer_number, plot_or_door_no, connection_type, connection_level, serial_number, zone_name, last_seen_at, is_online, connection_name, connection_status, connection_category.",
+            "description": "Column to sort by: connectionNumber, consumerNumber, plotOrDoorNo, connectionType, connectionLevel, serialNumber, zoneName, lastSeenAt, isOnline, connectionName, connectionStatus, connectionCategory.",
             "in": "query",
             "required": false,
             "type": "string"
@@ -1078,6 +1078,12 @@
           "format": "uint64"
         },
         "plotOrDoorNo": {
+          "type": "string"
+        },
+        "deviceId": {
+          "type": "string"
+        },
+        "applicationId": {
           "type": "string"
         },
         "connectionType": {
