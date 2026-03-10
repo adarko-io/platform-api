@@ -553,6 +553,9 @@ message AggregatedTimestampBucket {
 
   // One entry per device (group_by_device = true) or a single summed entry (group_by_device = false).
   repeated DeviceValue values = 2;
+
+  // Inclusive bucket end timestamp (= start of next bucket − 1ns).
+  google.protobuf.Timestamp end_timestamp = 3;
 }
 
 // One consumption bucket in the response (legacy — kept for reference).

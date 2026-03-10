@@ -514,6 +514,11 @@
             "$ref": "#/definitions/platformDeviceValue"
           },
           "description": "One entry per device (group_by_device = true) or a single summed entry (group_by_device = false)."
+        },
+        "endTimestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Inclusive bucket end timestamp (= start of next bucket − 1ns)."
         }
       },
       "description": "AggregatedTimestampBucket groups all device values for one time bucket.\nEvery bucket in [start_time, end_time] is always emitted (gap-fill)."
