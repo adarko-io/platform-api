@@ -115,6 +115,15 @@ service ConnectionService {
       get: "/api/connection-grid"
     };
   }
+
+  // List connections as a time-bucketed datagrid: same connection metadata as ListConnectionGrid,
+  // but with per-period device readings (last known value) from TimescaleDB instead of a snapshot.
+  rpc ListConnectionTimeGrid(ListConnectionTimeGridRequest) returns (ListConnectionTimeGridResponse) {
+    option (google.api.http) = {
+      post: "/api/connection-time-grid"
+      body: "*"
+    };
+  }
 }
 
 // Connection represents a connection configuration for a consumer.
@@ -572,4 +581,65 @@ message ListConnectionGridRequest {
 message ListConnectionGridResponse {
   uint32 total_count = 1;
   repeated ConnectionGridRow rows = 2;
+}
+
+// Request message for listing connections with time-bucketed device readings.
+message ListConnectionTimeGridRequest {
+  string tenant_id = 1;
+  string consumer_id = 2;
+  ConnectionType connection_type = 3;
+  ConnectionCategory connection_category = 4;
+  ConnectionLevel connection_level = 5;
+  ConnectionStatus connection_status = 6;
+  string zone_id = 7;
+  string search = 10;
+  uint64 connection_number = 11;
+  string plot_or_door_no = 12;
+  uint32 limit = 13;
+  uint32 offset = 14;
+  string sort_by = 15;
+  string sort_order = 16;
+  string application_id = 17;
+  string device_id = 18;
+  // Time window and aggregation settings.
+  google.protobuf.Timestamp start_time = 20;
+  google.protobuf.Timestamp end_time = 21;
+  Granularity granularity = 22;
+  Timezone timezone = 23;
+}
+
+// A single time bucket (one period) of device readings for a connection.
+message ConnectionTimeBucket {
+  google.protobuf.Timestamp timestamp = 1;
+  google.protobuf.Timestamp end_timestamp = 2;
+  // Last known device reading in this period (full device data JSONB).
+  google.protobuf.Value data = 3;
+}
+
+// A single row in the connection time-grid: connection metadata + per-period device readings.
+message ConnectionTimeGridRow {
+  string connection_id = 1;
+  uint64 connection_number = 2;
+  string consumer_id = 3;
+  uint64 consumer_number = 4;
+  string plot_or_door_no = 5;
+  string device_id = 6;
+  string application_id = 7;
+  ConnectionType connection_type = 8;
+  ConnectionLevel connection_level = 9;
+  ConnectionStatus connection_status = 10;
+  ConnectionCategory connection_category = 11;
+  string connection_name = 12;
+  string meter_id = 13;
+  string serial_number = 14;
+  string zone_id = 15;
+  string zone_name = 16;
+  repeated ConnectionTimeBucket buckets = 17;
+}
+
+// Response message for the connection time-grid.
+message ListConnectionTimeGridResponse {
+  uint32 total_count = 1;
+  repeated ConnectionTimeGridRow rows = 2;
+  Timezone timezone = 3;
 }

@@ -184,6 +184,39 @@
         ]
       }
     },
+    "/api/connection-time-grid": {
+      "post": {
+        "summary": "List connections as a time-bucketed datagrid: same connection metadata as ListConnectionGrid,\nbut with per-period device readings (last known value) from TimescaleDB instead of a snapshot.",
+        "operationId": "ConnectionService_ListConnectionTimeGrid",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformListConnectionTimeGridResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformListConnectionTimeGridRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
     "/api/connections": {
       "get": {
         "summary": "List all connections",
@@ -1160,6 +1193,86 @@
       "default": "CONNECTION_STATUS_UNKNOWN",
       "description": " - CONNECTION_STATUS_UNKNOWN: Unknown connection status.\n - CONNECTION_STATUS_ACTIVE: Active connection.\n - CONNECTION_STATUS_DISCONNECTED: Disconnected connection.\n - CONNECTION_STATUS_DISABLED: Disabled connection."
     },
+    "platformConnectionTimeBucket": {
+      "type": "object",
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endTimestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "type": "object",
+          "description": "Last known device reading in this period (full device data JSONB)."
+        }
+      },
+      "description": "A single time bucket (one period) of device readings for a connection."
+    },
+    "platformConnectionTimeGridRow": {
+      "type": "object",
+      "properties": {
+        "connectionId": {
+          "type": "string"
+        },
+        "connectionNumber": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "consumerId": {
+          "type": "string"
+        },
+        "consumerNumber": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "plotOrDoorNo": {
+          "type": "string"
+        },
+        "deviceId": {
+          "type": "string"
+        },
+        "applicationId": {
+          "type": "string"
+        },
+        "connectionType": {
+          "$ref": "#/definitions/platformConnectionType"
+        },
+        "connectionLevel": {
+          "$ref": "#/definitions/platformConnectionLevel"
+        },
+        "connectionStatus": {
+          "$ref": "#/definitions/platformConnectionStatus"
+        },
+        "connectionCategory": {
+          "$ref": "#/definitions/platformConnectionCategory"
+        },
+        "connectionName": {
+          "type": "string"
+        },
+        "meterId": {
+          "type": "string"
+        },
+        "serialNumber": {
+          "type": "string"
+        },
+        "zoneId": {
+          "type": "string"
+        },
+        "zoneName": {
+          "type": "string"
+        },
+        "buckets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformConnectionTimeBucket"
+          }
+        }
+      },
+      "description": "A single row in the connection time-grid: connection metadata + per-period device readings."
+    },
     "platformConnectionType": {
       "type": "string",
       "enum": [
@@ -1265,6 +1378,23 @@
       },
       "description": "Response message for getting a MeterConnection."
     },
+    "platformGranularity": {
+      "type": "string",
+      "enum": [
+        "GRANULARITY_MINUTE",
+        "GRANULARITY_MINUTE_5",
+        "GRANULARITY_MINUTE_15",
+        "GRANULARITY_MINUTE_30",
+        "GRANULARITY_HOUR",
+        "GRANULARITY_HOUR_6",
+        "GRANULARITY_HOUR_12",
+        "GRANULARITY_DAY",
+        "GRANULARITY_WEEK",
+        "GRANULARITY_MONTH"
+      ],
+      "default": "GRANULARITY_MINUTE",
+      "description": "Granularity for time-series aggregation (bucket size).\n\n - GRANULARITY_MINUTE: 1 minute intervals.\n - GRANULARITY_MINUTE_5: 5 minute intervals.\n - GRANULARITY_MINUTE_15: 15 minute intervals.\n - GRANULARITY_MINUTE_30: 30 minute intervals.\n - GRANULARITY_HOUR: 1 hour intervals.\n - GRANULARITY_HOUR_6: 6 hour intervals.\n - GRANULARITY_HOUR_12: 12 hour intervals.\n - GRANULARITY_DAY: 1 day intervals.\n - GRANULARITY_WEEK: 1 week intervals.\n - GRANULARITY_MONTH: 1 month intervals."
+    },
     "platformListConnectionGridResponse": {
       "type": "object",
       "properties": {
@@ -1280,6 +1410,97 @@
         }
       },
       "description": "Response message for listing connections in datagrid format."
+    },
+    "platformListConnectionTimeGridRequest": {
+      "type": "object",
+      "properties": {
+        "tenantId": {
+          "type": "string"
+        },
+        "consumerId": {
+          "type": "string"
+        },
+        "connectionType": {
+          "$ref": "#/definitions/platformConnectionType"
+        },
+        "connectionCategory": {
+          "$ref": "#/definitions/platformConnectionCategory"
+        },
+        "connectionLevel": {
+          "$ref": "#/definitions/platformConnectionLevel"
+        },
+        "connectionStatus": {
+          "$ref": "#/definitions/platformConnectionStatus"
+        },
+        "zoneId": {
+          "type": "string"
+        },
+        "search": {
+          "type": "string"
+        },
+        "connectionNumber": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "plotOrDoorNo": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sortBy": {
+          "type": "string"
+        },
+        "sortOrder": {
+          "type": "string"
+        },
+        "applicationId": {
+          "type": "string"
+        },
+        "deviceId": {
+          "type": "string"
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time window and aggregation settings."
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "granularity": {
+          "$ref": "#/definitions/platformGranularity"
+        },
+        "timezone": {
+          "$ref": "#/definitions/platformTimezone"
+        }
+      },
+      "description": "Request message for listing connections with time-bucketed device readings."
+    },
+    "platformListConnectionTimeGridResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformConnectionTimeGridRow"
+          }
+        },
+        "timezone": {
+          "$ref": "#/definitions/platformTimezone"
+        }
+      },
+      "description": "Response message for the connection time-grid."
     },
     "platformListConnectionsResponse": {
       "type": "object",
@@ -1505,6 +1726,64 @@
         }
       },
       "title": "Report file information"
+    },
+    "platformTimezone": {
+      "type": "string",
+      "enum": [
+        "TIMEZONE_UNKNOWN",
+        "TIMEZONE_UTC",
+        "TIMEZONE_AFRICA_CAIRO",
+        "TIMEZONE_AFRICA_NAIROBI",
+        "TIMEZONE_AFRICA_LAGOS",
+        "TIMEZONE_AFRICA_JOHANNESBURG",
+        "TIMEZONE_AMERICA_NEW_YORK",
+        "TIMEZONE_AMERICA_CHICAGO",
+        "TIMEZONE_AMERICA_DENVER",
+        "TIMEZONE_AMERICA_LOS_ANGELES",
+        "TIMEZONE_AMERICA_SAO_PAULO",
+        "TIMEZONE_AMERICA_BOGOTA",
+        "TIMEZONE_AMERICA_MEXICO_CITY",
+        "TIMEZONE_AMERICA_TORONTO",
+        "TIMEZONE_AMERICA_ANCHORAGE",
+        "TIMEZONE_ASIA_RIYADH",
+        "TIMEZONE_ASIA_DUBAI",
+        "TIMEZONE_ASIA_KARACHI",
+        "TIMEZONE_ASIA_TASHKENT",
+        "TIMEZONE_ASIA_KOLKATA",
+        "TIMEZONE_ASIA_COLOMBO",
+        "TIMEZONE_ASIA_KATHMANDU",
+        "TIMEZONE_ASIA_DHAKA",
+        "TIMEZONE_ASIA_ALMATY",
+        "TIMEZONE_ASIA_YANGON",
+        "TIMEZONE_ASIA_BANGKOK",
+        "TIMEZONE_ASIA_JAKARTA",
+        "TIMEZONE_ASIA_SINGAPORE",
+        "TIMEZONE_ASIA_SHANGHAI",
+        "TIMEZONE_ASIA_HONG_KONG",
+        "TIMEZONE_ASIA_MANILA",
+        "TIMEZONE_ASIA_SEOUL",
+        "TIMEZONE_ASIA_TOKYO",
+        "TIMEZONE_ASIA_TEHRAN",
+        "TIMEZONE_ASIA_KABUL",
+        "TIMEZONE_ASIA_ISTANBUL",
+        "TIMEZONE_AUSTRALIA_PERTH",
+        "TIMEZONE_AUSTRALIA_DARWIN",
+        "TIMEZONE_AUSTRALIA_ADELAIDE",
+        "TIMEZONE_AUSTRALIA_BRISBANE",
+        "TIMEZONE_AUSTRALIA_SYDNEY",
+        "TIMEZONE_EUROPE_LONDON",
+        "TIMEZONE_EUROPE_AMSTERDAM",
+        "TIMEZONE_EUROPE_PARIS",
+        "TIMEZONE_EUROPE_BERLIN",
+        "TIMEZONE_EUROPE_HELSINKI",
+        "TIMEZONE_EUROPE_ATHENS",
+        "TIMEZONE_EUROPE_MOSCOW",
+        "TIMEZONE_PACIFIC_HONOLULU",
+        "TIMEZONE_PACIFIC_AUCKLAND",
+        "TIMEZONE_PACIFIC_FIJI"
+      ],
+      "default": "TIMEZONE_UNKNOWN",
+      "description": "Timezone using IANA timezone database names for accurate DST support.\nSequential integer values; use TimezoneToIANA() in Go to get the IANA string.\n\n - TIMEZONE_AFRICA_CAIRO: Africa\n - TIMEZONE_AMERICA_NEW_YORK: America\n - TIMEZONE_ASIA_RIYADH: Asia\n - TIMEZONE_AUSTRALIA_PERTH: Australia\n - TIMEZONE_EUROPE_LONDON: Europe\n - TIMEZONE_PACIFIC_HONOLULU: Pacific"
     },
     "platformUpdateConnectionRequest": {
       "type": "object",
