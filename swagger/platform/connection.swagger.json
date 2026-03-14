@@ -1207,6 +1207,10 @@
         "data": {
           "type": "object",
           "description": "Last known device reading in this period (full device data JSONB)."
+        },
+        "filledFromPrevious": {
+          "type": "boolean",
+          "description": "True when this bucket has no real data and was filled with the previous bucket's reading."
         }
       },
       "description": "A single time bucket (one period) of device readings for a connection."
@@ -1479,6 +1483,10 @@
         },
         "timezone": {
           "$ref": "#/definitions/platformTimezone"
+        },
+        "fillPrevious": {
+          "type": "boolean",
+          "description": "When true, buckets with no device data are filled with the last known reading\nfrom a prior bucket. Filled buckets are marked with filled_from_previous=true."
         }
       },
       "description": "Request message for listing connections with time-bucketed device readings."

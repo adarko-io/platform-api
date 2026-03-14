@@ -606,6 +606,9 @@ message ListConnectionTimeGridRequest {
   google.protobuf.Timestamp end_time = 21;
   Granularity granularity = 22;
   Timezone timezone = 23;
+  // When true, buckets with no device data are filled with the last known reading
+  // from a prior bucket. Filled buckets are marked with filled_from_previous=true.
+  bool fill_previous = 24;
 }
 
 // A single time bucket (one period) of device readings for a connection.
@@ -614,6 +617,8 @@ message ConnectionTimeBucket {
   google.protobuf.Timestamp end_timestamp = 2;
   // Last known device reading in this period (full device data JSONB).
   google.protobuf.Value data = 3;
+  // True when this bucket has no real data and was filled with the previous bucket's reading.
+  bool filled_from_previous = 4;
 }
 
 // A single row in the connection time-grid: connection metadata + per-period device readings.
