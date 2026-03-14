@@ -618,7 +618,7 @@ message ListConnectionTimeGridRequest {
   // Field projection: if set, only return these fields from device data.
   // If any selector has an alias, output is a flat map keyed by alias.
   // If no aliases, output retains nested structure filtered to selected paths.
-  repeated DataFieldSelector required_data = 25;
+  repeated DataFieldSelector data_field_selector = 25;
 }
 
 // A single time bucket (one period) of device readings for a connection.

@@ -1500,7 +1500,7 @@
           "type": "boolean",
           "description": "When true, buckets with no device data are filled with the last known reading\nfrom a prior bucket. Filled buckets are marked with filled_from_previous=true."
         },
-        "requiredData": {
+        "dataFieldSelector": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/platformDataFieldSelector"
