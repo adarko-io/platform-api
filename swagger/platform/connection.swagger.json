@@ -1306,6 +1306,18 @@
       },
       "description": "Response message for creating a connection."
     },
+    "platformDataFieldSelector": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        }
+      },
+      "description": "Request message for listing connections with time-bucketed device readings.\nSelects a single field from device data by dot-notation path, with optional alias."
+    },
     "platformDeviceConnectivityStatus": {
       "type": "string",
       "enum": [
@@ -1487,9 +1499,15 @@
         "fillPrevious": {
           "type": "boolean",
           "description": "When true, buckets with no device data are filled with the last known reading\nfrom a prior bucket. Filled buckets are marked with filled_from_previous=true."
+        },
+        "requiredData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformDataFieldSelector"
+          },
+          "description": "Field projection: if set, only return these fields from device data.\nIf any selector has an alias, output is a flat map keyed by alias.\nIf no aliases, output retains nested structure filtered to selected paths."
         }
-      },
-      "description": "Request message for listing connections with time-bucketed device readings."
+      }
     },
     "platformListConnectionTimeGridResponse": {
       "type": "object",

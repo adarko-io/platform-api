@@ -584,6 +584,12 @@ message ListConnectionGridResponse {
 }
 
 // Request message for listing connections with time-bucketed device readings.
+// Selects a single field from device data by dot-notation path, with optional alias.
+message DataFieldSelector {
+  string path = 1;   // dot-notation, e.g. "counter.forward_volume_m3"
+  string alias = 2;  // optional rename, e.g. "FWD_m3"; empty = use path
+}
+
 message ListConnectionTimeGridRequest {
   string tenant_id = 1;
   string consumer_id = 2;
@@ -609,6 +615,10 @@ message ListConnectionTimeGridRequest {
   // When true, buckets with no device data are filled with the last known reading
   // from a prior bucket. Filled buckets are marked with filled_from_previous=true.
   bool fill_previous = 24;
+  // Field projection: if set, only return these fields from device data.
+  // If any selector has an alias, output is a flat map keyed by alias.
+  // If no aliases, output retains nested structure filtered to selected paths.
+  repeated DataFieldSelector required_data = 25;
 }
 
 // A single time bucket (one period) of device readings for a connection.
