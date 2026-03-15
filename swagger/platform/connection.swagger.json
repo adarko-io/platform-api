@@ -1506,6 +1506,11 @@
             "$ref": "#/definitions/platformDataFieldSelector"
           },
           "description": "Field projection: if set, only return these fields from device data.\nIf any selector has an alias, output is a flat map keyed by alias.\nIf no aliases, output retains nested structure filtered to selected paths."
+        },
+        "dataPort": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Filter device data and device_stats by this port number. 0 = no filter."
         }
       }
     },

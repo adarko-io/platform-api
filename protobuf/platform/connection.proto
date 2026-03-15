@@ -619,6 +619,8 @@ message ListConnectionTimeGridRequest {
   // If any selector has an alias, output is a flat map keyed by alias.
   // If no aliases, output retains nested structure filtered to selected paths.
   repeated DataFieldSelector data_field_selector = 25;
+  // Filter device data and device_stats by this port number. 0 = no filter.
+  uint32 data_port = 26;
 }
 
 // A single time bucket (one period) of device readings for a connection.
