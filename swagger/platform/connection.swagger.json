@@ -177,6 +177,14 @@
             "in": "query",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "dataPort",
+            "description": "Filter device data by LoRaWAN FPort / protocol data port. 0 = no filter.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -1167,6 +1175,10 @@
         },
         "connectivityStatus": {
           "$ref": "#/definitions/platformDeviceConnectivityStatus"
+        },
+        "dataPort": {
+          "type": "integer",
+          "format": "int64"
         }
       },
       "description": "A single row in the connection datagrid view."
@@ -1273,6 +1285,10 @@
           "items": {
             "$ref": "#/definitions/platformConnectionTimeBucket"
           }
+        },
+        "dataPort": {
+          "type": "integer",
+          "format": "int64"
         }
       },
       "description": "A single row in the connection time-grid: connection metadata + per-period device readings."

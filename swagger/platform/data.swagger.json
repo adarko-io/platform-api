@@ -664,6 +664,11 @@
         "data": {
           "type": "object",
           "description": "Consumption values keyed by counter field name\n(e.g. \"accumulated_volume_m3\", \"accumulated_kwh\").\nEmpty Struct {} indicates no data for this device in this bucket."
+        },
+        "dataPort": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Data port (LoRaWAN FPort / protocol port) that this data belongs to."
         }
       },
       "description": "DeviceValue holds one device's consumption data within a single time bucket.\ndata is an empty Struct {} when the device did not communicate in that period (gap-fill)."

@@ -551,6 +551,7 @@ message ConnectionGridRow {
   google.protobuf.Value data = 17;
   google.protobuf.Timestamp last_seen_at = 18;
   DeviceConnectivityStatus connectivity_status = 19;
+  uint32 data_port = 20;
 }
 
 // Request message for listing connections in datagrid format.
@@ -575,6 +576,8 @@ message ListConnectionGridRequest {
   string sort_order = 16;
   string application_id = 17;
   string device_id = 18;
+  // Filter device data by LoRaWAN FPort / protocol data port. 0 = no filter.
+  uint32 data_port = 19;
 }
 
 // Response message for listing connections in datagrid format.
@@ -652,6 +655,7 @@ message ConnectionTimeGridRow {
   string zone_id = 15;
   string zone_name = 16;
   repeated ConnectionTimeBucket buckets = 17;
+  uint32 data_port = 18;
 }
 
 // Response message for the connection time-grid.

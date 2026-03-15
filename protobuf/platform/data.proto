@@ -551,6 +551,9 @@ message DeviceValue {
   // (e.g. "accumulated_volume_m3", "accumulated_kwh").
   // Empty Struct {} indicates no data for this device in this bucket.
   google.protobuf.Struct data = 4;
+
+  // Data port (LoRaWAN FPort / protocol port) that this data belongs to.
+  uint32 data_port = 5;
 }
 
 // AggregatedTimestampBucket groups all device values for one time bucket.
