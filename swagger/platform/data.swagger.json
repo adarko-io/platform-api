@@ -1013,7 +1013,7 @@
           "format": "date-time",
           "description": "Timestamp when the datalogger received the message."
         },
-        "port": {
+        "dataPort": {
           "type": "integer",
           "format": "int64",
           "title": "Port number for to identify thr type of data"

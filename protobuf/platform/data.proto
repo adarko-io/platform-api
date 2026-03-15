@@ -409,7 +409,7 @@ message PushDataFromDatabridgeRequest {
   google.protobuf.Timestamp received_at = 13;
 
   //Port number for to identify thr type of data
-  uint32 port = 14;
+  uint32 data_port = 14;
 }
 
 // Response from inserting a decoded data record.
