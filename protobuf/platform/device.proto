@@ -56,8 +56,6 @@ service DeviceService {
             get: "/api/devices-summary"
         };
     }
-
-
 }
 
 message GetDevicesSummaryRequest {
@@ -163,15 +161,22 @@ message Device {
   // Updated by (user ID).
   string approved_by = 26;
 
+  repeated DeviceLastData device_data = 27;
+
 }
 
 message DeviceStatus {
+  // Last seen at timestamp.
+  google.protobuf.Timestamp last_seen_at = 1;
+  // Device connectivity status (ONLINE, OFFLINE, NEVER_SEEN, PARTIALLY_ONLINE).
+  DeviceConnectivityStatus connectivity_status = 2;
+}
+
+message DeviceLastData {
   // Processed data (JSON string containing decoded sensor readings).
   google.protobuf.Value data = 1;
-  // Last seen at timestamp.
-  google.protobuf.Timestamp last_seen_at = 2;
-  // Device connectivity status (ONLINE, OFFLINE, NEVER_SEEN, PARTIALLY_ONLINE).
-  DeviceConnectivityStatus connectivity_status = 3;
+  //Data port
+  uint32 data_port = 2;
 }
 
 // message DeviceListItem {

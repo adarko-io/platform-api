@@ -729,6 +729,11 @@
         "zoneId": {
           "type": "string",
           "description": "Filter by zone ID — resolves to the application(s) mapped to this zone.\nOptionally combined with asset_type to narrow to a specific meter type within the zone."
+        },
+        "dataPort": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Filter by LoRaWAN FPort / protocol data port.\nWhen set (non-zero), only data records with this port are included."
         }
       },
       "description": "Request for meter consumption data.\nAt least one of device_ids, application_id, tenant_id, or device_profile_id must be set."

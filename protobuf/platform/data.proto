@@ -529,6 +529,10 @@ message GetAggregatedDataRequest {
   // Optionally combined with asset_type to narrow to a specific meter type within the zone.
   string zone_id = 13;
 
+  // Filter by LoRaWAN FPort / protocol data port.
+  // When set (non-zero), only data records with this port are included.
+  uint32 data_port = 14;
+
 }
 
 // DeviceValue holds one device's consumption data within a single time bucket.

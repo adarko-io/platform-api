@@ -525,6 +525,12 @@
         "approvedBy": {
           "type": "string",
           "description": "Updated by (user ID)."
+        },
+        "deviceData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformDeviceLastData"
+          }
         }
       }
     },
@@ -540,13 +546,23 @@
       "default": "DEVICE_CONNECTIVITY_STATUS_UNKNOWN",
       "description": "Device connectivity status enumeration.\n\n - DEVICE_CONNECTIVITY_STATUS_UNKNOWN: Unknown / unset (used as no-filter sentinel).\n - DEVICE_CONNECTIVITY_STATUS_ONLINE: Device is online (heartbeat active).\n - DEVICE_CONNECTIVITY_STATUS_OFFLINE: Device is offline (heartbeat expired).\n - DEVICE_CONNECTIVITY_STATUS_NEVER_SEEN: Device has never communicated since creation.\n - DEVICE_CONNECTIVITY_STATUS_PARTIALLY_ONLINE: Some devices in a group are online (aggregate use)."
     },
-    "platformDeviceStatus": {
+    "platformDeviceLastData": {
       "type": "object",
       "properties": {
         "data": {
           "type": "object",
           "description": "Processed data (JSON string containing decoded sensor readings)."
         },
+        "dataPort": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Data port"
+        }
+      }
+    },
+    "platformDeviceStatus": {
+      "type": "object",
+      "properties": {
         "lastSeenAt": {
           "type": "string",
           "format": "date-time",
