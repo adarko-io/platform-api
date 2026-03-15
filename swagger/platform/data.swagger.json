@@ -1012,6 +1012,11 @@
           "type": "string",
           "format": "date-time",
           "description": "Timestamp when the datalogger received the message."
+        },
+        "port": {
+          "type": "integer",
+          "format": "int64",
+          "title": "Port number for to identify thr type of data"
         }
       },
       "description": "Request to insert one decoded/processed data record from the databridge.\nCorresponds to the Data table (split model)."

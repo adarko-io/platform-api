@@ -407,6 +407,9 @@ message PushDataFromDatabridgeRequest {
 
   // Timestamp when the datalogger received the message.
   google.protobuf.Timestamp received_at = 13;
+
+  //Port number for to identify thr type of data
+  uint32 port = 14;
 }
 
 // Response from inserting a decoded data record.
@@ -525,6 +528,7 @@ message GetAggregatedDataRequest {
   // Filter by zone ID — resolves to the application(s) mapped to this zone.
   // Optionally combined with asset_type to narrow to a specific meter type within the zone.
   string zone_id = 13;
+
 }
 
 // DeviceValue holds one device's consumption data within a single time bucket.
