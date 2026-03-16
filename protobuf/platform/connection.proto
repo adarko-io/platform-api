@@ -112,7 +112,8 @@ service ConnectionService {
   // List connections as a flat datagrid with joined data from consumers, meters, inventory, zones, and device stats.
   rpc ListConnectionGrid(ListConnectionGridRequest) returns (ListConnectionGridResponse) {
     option (google.api.http) = {
-      get: "/api/connection-grid"
+      post: "/api/connection-grid"
+      body: "*"
     };
   }
 
@@ -578,6 +579,10 @@ message ListConnectionGridRequest {
   string device_id = 18;
   // Filter device data by LoRaWAN FPort / protocol data port. 0 = no filter.
   uint32 data_port = 19;
+  // Optional field projection. Empty = return full device JSONB unchanged.
+  // Dot-notation paths (e.g. "counter.accumulated_volume_m3"). When any alias
+  // is present, output is a flat map keyed by alias (or path if no alias).
+  repeated DataFieldSelector data_field_selector = 20;
 }
 
 // Response message for listing connections in datagrid format.
