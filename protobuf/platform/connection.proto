@@ -125,6 +125,16 @@ service ConnectionService {
       body: "*"
     };
   }
+
+  // List connections with per-period consumption deltas (counter differences), similar to
+  // GetAggregatedData but organised by connection. Each row contains time buckets with delta
+  // values computed from TimescaleDB continuous aggregate data.
+  rpc ListConnectionAggregatedGrid(ListConnectionAggregatedGridRequest) returns (ListConnectionAggregatedGridResponse) {
+    option (google.api.http) = {
+      post: "/api/connection-aggregated-grid"
+      body: "*"
+    };
+  }
 }
 
 // Connection represents a connection configuration for a consumer.
@@ -666,6 +676,51 @@ message ConnectionTimeGridRow {
 // Response message for the connection time-grid.
 message ListConnectionTimeGridResponse {
   uint32 total_count = 1;
+  repeated ConnectionTimeGridRow rows = 2;
+  Timezone timezone = 3;
+}
+
+// Request message for the connection aggregated grid (consumption deltas per period).
+message ListConnectionAggregatedGridRequest {
+  string tenant_id = 1;
+  string consumer_id = 2;
+  ConnectionType connection_type = 3;
+  ConnectionCategory connection_category = 4;
+  ConnectionLevel connection_level = 5;
+  ConnectionStatus connection_status = 6;
+  string zone_id = 7;
+  // Connectivity status filter (UNKNOWN = no filter applied).
+  DeviceConnectivityStatus connectivity_status = 8;
+  string search = 10;
+  uint64 connection_number = 11;
+  string plot_or_door_no = 12;
+  uint32 limit = 13;
+  uint32 offset = 14;
+  // Column to sort by: same options as ListConnectionGridRequest.
+  string sort_by = 15;
+  // Sort order: "asc" or "desc" (default: "asc").
+  string sort_order = 16;
+  string application_id = 17;
+  string device_id = 18;
+  // Filter device data by LoRaWAN FPort / protocol data port. 0 = no filter (defaults to port 1).
+  uint32 data_port = 19;
+  // Time window for consumption calculation (required).
+  google.protobuf.Timestamp start_time = 20;
+  google.protobuf.Timestamp end_time = 21;
+  // Bucket granularity: HOUR, DAY, or MONTH.
+  Granularity granularity = 22;
+  // Override tenant timezone for bucket alignment. UNKNOWN = use tenant default.
+  Timezone timezone = 23;
+  // Optional field projection applied to each bucket's delta data.
+  // Empty = return all counter fields. Dot-notation paths into the delta map.
+  repeated DataFieldSelector data_field_selector = 25;
+}
+
+// Response message for the connection aggregated grid.
+message ListConnectionAggregatedGridResponse {
+  uint32 total_count = 1;
+  // Rows reuse ConnectionTimeGridRow; each bucket's data field contains consumption
+  // deltas (e.g. {"accumulated_volume_m3": 6.04}) instead of raw sensor snapshots.
   repeated ConnectionTimeGridRow rows = 2;
   Timezone timezone = 3;
 }

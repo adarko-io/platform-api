@@ -11,6 +11,39 @@
     "application/json"
   ],
   "paths": {
+    "/api/connection-aggregated-grid": {
+      "post": {
+        "summary": "List connections with per-period consumption deltas (counter differences), similar to\nGetAggregatedData but organised by connection. Each row contains time buckets with delta\nvalues computed from TimescaleDB continuous aggregate data.",
+        "operationId": "ConnectionService_ListConnectionAggregatedGrid",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformListConnectionAggregatedGridResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/platformListConnectionAggregatedGridRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
     "/api/connection-grid": {
       "post": {
         "summary": "List connections as a flat datagrid with joined data from consumers, meters, inventory, zones, and device stats.",
@@ -1278,6 +1311,118 @@
       ],
       "default": "GRANULARITY_MINUTE",
       "description": "Granularity for time-series aggregation (bucket size).\n\n - GRANULARITY_MINUTE: 1 minute intervals.\n - GRANULARITY_MINUTE_5: 5 minute intervals.\n - GRANULARITY_MINUTE_15: 15 minute intervals.\n - GRANULARITY_MINUTE_30: 30 minute intervals.\n - GRANULARITY_HOUR: 1 hour intervals.\n - GRANULARITY_HOUR_6: 6 hour intervals.\n - GRANULARITY_HOUR_12: 12 hour intervals.\n - GRANULARITY_DAY: 1 day intervals.\n - GRANULARITY_WEEK: 1 week intervals.\n - GRANULARITY_MONTH: 1 month intervals."
+    },
+    "platformListConnectionAggregatedGridRequest": {
+      "type": "object",
+      "properties": {
+        "tenantId": {
+          "type": "string"
+        },
+        "consumerId": {
+          "type": "string"
+        },
+        "connectionType": {
+          "$ref": "#/definitions/platformConnectionType"
+        },
+        "connectionCategory": {
+          "$ref": "#/definitions/platformConnectionCategory"
+        },
+        "connectionLevel": {
+          "$ref": "#/definitions/platformConnectionLevel"
+        },
+        "connectionStatus": {
+          "$ref": "#/definitions/platformConnectionStatus"
+        },
+        "zoneId": {
+          "type": "string"
+        },
+        "connectivityStatus": {
+          "$ref": "#/definitions/platformDeviceConnectivityStatus",
+          "description": "Connectivity status filter (UNKNOWN = no filter applied)."
+        },
+        "search": {
+          "type": "string"
+        },
+        "connectionNumber": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "plotOrDoorNo": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sortBy": {
+          "type": "string",
+          "description": "Column to sort by: same options as ListConnectionGridRequest."
+        },
+        "sortOrder": {
+          "type": "string",
+          "description": "Sort order: \"asc\" or \"desc\" (default: \"asc\")."
+        },
+        "applicationId": {
+          "type": "string"
+        },
+        "deviceId": {
+          "type": "string"
+        },
+        "dataPort": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Filter device data by LoRaWAN FPort / protocol data port. 0 = no filter (defaults to port 1)."
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time window for consumption calculation (required)."
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "granularity": {
+          "$ref": "#/definitions/platformGranularity",
+          "description": "Bucket granularity: HOUR, DAY, or MONTH."
+        },
+        "timezone": {
+          "$ref": "#/definitions/platformTimezone",
+          "description": "Override tenant timezone for bucket alignment. UNKNOWN = use tenant default."
+        },
+        "dataFieldSelector": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformDataFieldSelector"
+          },
+          "description": "Optional field projection applied to each bucket's delta data.\nEmpty = return all counter fields. Dot-notation paths into the delta map."
+        }
+      },
+      "description": "Request message for the connection aggregated grid (consumption deltas per period)."
+    },
+    "platformListConnectionAggregatedGridResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformConnectionTimeGridRow"
+          },
+          "description": "Rows reuse ConnectionTimeGridRow; each bucket's data field contains consumption\ndeltas (e.g. {\"accumulated_volume_m3\": 6.04}) instead of raw sensor snapshots."
+        },
+        "timezone": {
+          "$ref": "#/definitions/platformTimezone"
+        }
+      },
+      "description": "Response message for the connection aggregated grid."
     },
     "platformListConnectionGridRequest": {
       "type": "object",
