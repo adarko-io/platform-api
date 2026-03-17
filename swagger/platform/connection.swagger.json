@@ -1174,6 +1174,13 @@
         "dataPort": {
           "type": "integer",
           "format": "int64"
+        },
+        "lastSeenAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "connectivityStatus": {
+          "$ref": "#/definitions/platformDeviceConnectivityStatus"
         }
       },
       "description": "A single row in the connection time-grid: connection metadata + per-period device readings."

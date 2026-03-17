@@ -671,6 +671,8 @@ message ConnectionTimeGridRow {
   string zone_name = 16;
   repeated ConnectionTimeBucket buckets = 17;
   uint32 data_port = 18;
+  google.protobuf.Timestamp last_seen_at = 19;
+  DeviceConnectivityStatus connectivity_status = 20;
 }
 
 // Response message for the connection time-grid.
