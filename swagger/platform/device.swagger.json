@@ -142,6 +142,13 @@
             "in": "query",
             "required": false,
             "type": "boolean"
+          },
+          {
+            "name": "includeDeviceData",
+            "description": "When true, per-port last data (DeviceLastData) will be loaded and returned in each device.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
           }
         ],
         "tags": [
@@ -639,6 +646,10 @@
             "$ref": "#/definitions/platformDevice"
           },
           "description": "Result-set."
+        },
+        "deviceDataLoaded": {
+          "type": "boolean",
+          "description": "Indicates whether device_data was populated on the returned devices."
         }
       }
     },

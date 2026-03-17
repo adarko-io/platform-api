@@ -281,6 +281,9 @@ message ListDevicesRequest {
   // Tags to filter devices on.
   map<string, string> tags = 11;
 
+  // When true, per-port last data (DeviceLastData) will be loaded and returned in each device.
+  bool include_device_data = 12;
+
 }
 
 message ListDevicesResponse {
@@ -289,4 +292,7 @@ message ListDevicesResponse {
 
   // Result-set.
   repeated Device result = 2;
+
+  // Indicates whether device_data was populated on the returned devices.
+  bool device_data_loaded = 3;
 }
