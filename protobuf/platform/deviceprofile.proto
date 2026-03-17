@@ -41,8 +41,8 @@ service DeviceProfileService {
 message DeviceProfile{
     string id = 1;
     string name = 2;
-    // Device Type.
-    DeviceType device_type = 3;
+    // Device Sub Type.
+    DeviceSubType device_sub_type = 3;
 
     // Asset Type Water Meter, Gas Meter, Energy Meter etc.
     AssetType asset_type = 4;
@@ -72,7 +72,7 @@ message ListDeviceProfilesRequest {
 
     AssetType asset_type = 3;
 
-    DeviceType device_type = 4;
+    DeviceSubType device_sub_type = 4;
 
     TransportProtocol transport_protocol = 5;
 

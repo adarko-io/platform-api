@@ -163,22 +163,22 @@
       "default": "DEVICE_CONNECTIVITY_STATUS_UNKNOWN",
       "description": "Device connectivity status enumeration.\n\n - DEVICE_CONNECTIVITY_STATUS_UNKNOWN: Unknown / unset (used as no-filter sentinel).\n - DEVICE_CONNECTIVITY_STATUS_ONLINE: Device is online (heartbeat active).\n - DEVICE_CONNECTIVITY_STATUS_OFFLINE: Device is offline (heartbeat expired).\n - DEVICE_CONNECTIVITY_STATUS_NEVER_SEEN: Device has never communicated since creation.\n - DEVICE_CONNECTIVITY_STATUS_PARTIALLY_ONLINE: Some devices in a group are online (aggregate use)."
     },
-    "platformDeviceType": {
+    "platformDeviceSubType": {
       "type": "string",
       "enum": [
-        "DEVICE_TYPE_UNKNOWN",
-        "DEVICE_TYPE_LORAWAN_DEVICE",
-        "DEVICE_TYPE_CELLULAR_GSM",
-        "DEVICE_TYPE_CELLULAR_LTE",
-        "DEVICE_TYPE_CELLULAR_GSM_LTE",
-        "DEVICE_TYPE_GATEWAY",
-        "DEVICE_TYPE_LORAWAN_GATEWAY",
-        "DEVICE_TYPE_WMBUS_C_MODE_END_DEVICE",
-        "DEVICE_TYPE_WMBUS_C_MODE_HHU_GATEWAY_DEVICE",
-        "DEVICE_TYPE_LORAWAN_WMBUS_C_MODE_DUAL_END_DEVICE"
+        "DEVICE_SUB_TYPE_UNKNOWN",
+        "DEVICE_SUB_TYPE_LORAWAN_DEVICE",
+        "DEVICE_SUB_TYPE_CELLULAR_GSM",
+        "DEVICE_SUB_TYPE_CELLULAR_LTE",
+        "DEVICE_SUB_TYPE_CELLULAR_GSM_LTE",
+        "DEVICE_SUB_TYPE_GATEWAY",
+        "DEVICE_SUB_TYPE_LORAWAN_GATEWAY",
+        "DEVICE_SUB_TYPE_WMBUS_C_MODE_END_DEVICE",
+        "DEVICE_SUB_TYPE_WMBUS_C_MODE_HHU_GATEWAY_DEVICE",
+        "DEVICE_SUB_TYPE_LORAWAN_WMBUS_C_MODE_DUAL_END_DEVICE"
       ],
-      "default": "DEVICE_TYPE_UNKNOWN",
-      "description": "Communication mode enumeration - unified for inventory and other services.\n\n - DEVICE_TYPE_UNKNOWN: Unknown device type.\n - DEVICE_TYPE_LORAWAN_DEVICE: LoRaWAN device type.\n - DEVICE_TYPE_CELLULAR_GSM: Cellular MQTT device type.\n - DEVICE_TYPE_CELLULAR_LTE: Cellular TCP device type.\n - DEVICE_TYPE_CELLULAR_GSM_LTE: Cellular UDP device type.\n - DEVICE_TYPE_GATEWAY: Gateway device type.\n - DEVICE_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device type.\n - DEVICE_TYPE_WMBUS_C_MODE_END_DEVICE: Wmbus C Mode End Device type.\n - DEVICE_TYPE_WMBUS_C_MODE_HHU_GATEWAY_DEVICE: Wmbus C Mode HHU Gateway Device type.\n - DEVICE_TYPE_LORAWAN_WMBUS_C_MODE_DUAL_END_DEVICE: LoRaWAN WMBUS C Mode Dual End Device type."
+      "default": "DEVICE_SUB_TYPE_UNKNOWN",
+      "description": "Communication mode enumeration - unified for inventory and other services.\n\n - DEVICE_SUB_TYPE_UNKNOWN: Unknown device sub type.\n - DEVICE_SUB_TYPE_LORAWAN_DEVICE: LoRaWAN device sub type.\n - DEVICE_SUB_TYPE_CELLULAR_GSM: Cellular MQTT device sub type.\n - DEVICE_SUB_TYPE_CELLULAR_LTE: Cellular TCP device sub type.\n - DEVICE_SUB_TYPE_CELLULAR_GSM_LTE: Cellular UDP device sub type.\n - DEVICE_SUB_TYPE_GATEWAY: Gateway device sub type.\n - DEVICE_SUB_TYPE_LORAWAN_GATEWAY: LoRaWAN Gateway device sub type.\n - DEVICE_SUB_TYPE_WMBUS_C_MODE_END_DEVICE: Wmbus C Mode End Device sub type.\n - DEVICE_SUB_TYPE_WMBUS_C_MODE_HHU_GATEWAY_DEVICE: Wmbus C Mode HHU Gateway Device sub type.\n - DEVICE_SUB_TYPE_LORAWAN_WMBUS_C_MODE_DUAL_END_DEVICE: LoRaWAN WMBUS C Mode Dual End Device sub type."
     },
     "platformDownlinkMode": {
       "type": "string",
@@ -245,12 +245,12 @@
           },
           "description": "Location sources."
         },
-        "deviceTypes": {
+        "deviceSubTypes": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/platformDeviceType"
+            "$ref": "#/definitions/platformDeviceSubType"
           },
-          "description": "Device types."
+          "description": "Device sub types."
         },
         "inventoryStatus": {
           "type": "array",

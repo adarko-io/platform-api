@@ -39,36 +39,36 @@ enum TransportProtocol {
 }
 
 // Communication mode enumeration - unified for inventory and other services.
-enum DeviceType {
-  // Unknown device type.
-  DEVICE_TYPE_UNKNOWN = 0;
+enum DeviceSubType {
+  // Unknown device sub type.
+  DEVICE_SUB_TYPE_UNKNOWN = 0;
 
-  // LoRaWAN device type.
-  DEVICE_TYPE_LORAWAN_DEVICE = 1;
+  // LoRaWAN device sub type.
+  DEVICE_SUB_TYPE_LORAWAN_DEVICE = 1;
 
-  // Cellular MQTT device type.
-  DEVICE_TYPE_CELLULAR_GSM = 2;
+  // Cellular MQTT device sub type.
+  DEVICE_SUB_TYPE_CELLULAR_GSM = 2;
 
-  // Cellular TCP device type.
-  DEVICE_TYPE_CELLULAR_LTE = 3;
+  // Cellular TCP device sub type.
+  DEVICE_SUB_TYPE_CELLULAR_LTE = 3;
 
-  // Cellular UDP device type.
-  DEVICE_TYPE_CELLULAR_GSM_LTE = 4;
+  // Cellular UDP device sub type.
+  DEVICE_SUB_TYPE_CELLULAR_GSM_LTE = 4;
 
-  // Gateway device type.
-  DEVICE_TYPE_GATEWAY = 5;
+  // Gateway device sub type.
+  DEVICE_SUB_TYPE_GATEWAY = 5;
 
-  // LoRaWAN Gateway device type.
-  DEVICE_TYPE_LORAWAN_GATEWAY = 6;
+  // LoRaWAN Gateway device sub type.
+  DEVICE_SUB_TYPE_LORAWAN_GATEWAY = 6;
 
-  // Wmbus C Mode End Device type.
-  DEVICE_TYPE_WMBUS_C_MODE_END_DEVICE = 7;
+  // Wmbus C Mode End Device sub type.
+  DEVICE_SUB_TYPE_WMBUS_C_MODE_END_DEVICE = 7;
 
-  //Wmbus C Mode HHU Gateway Device type.
-  DEVICE_TYPE_WMBUS_C_MODE_HHU_GATEWAY_DEVICE = 8;
+  //Wmbus C Mode HHU Gateway Device sub type.
+  DEVICE_SUB_TYPE_WMBUS_C_MODE_HHU_GATEWAY_DEVICE = 8;
 
-  //LoRaWAN WMBUS C Mode Dual End Device type.
-  DEVICE_TYPE_LORAWAN_WMBUS_C_MODE_DUAL_END_DEVICE = 9;
+  //LoRaWAN WMBUS C Mode Dual End Device sub type.
+  DEVICE_SUB_TYPE_LORAWAN_WMBUS_C_MODE_DUAL_END_DEVICE = 9;
 }
 
 // Location source enumeration - unified across all services.

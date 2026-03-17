@@ -37,8 +37,8 @@ message ListEnumsHelperResponse {
   // Location sources.
   repeated LocationSource location_sources = 2;
 
-  // Device types.
-  repeated DeviceType device_types = 3;
+  // Device sub types.
+  repeated DeviceSubType device_sub_types = 3;
 
   // Inventory statuses.
   repeated InventoryStatus inventory_status = 4;
