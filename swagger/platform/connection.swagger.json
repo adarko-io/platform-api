@@ -1108,6 +1108,10 @@
         "filledFromPrevious": {
           "type": "boolean",
           "description": "True when this bucket has no real data and was filled with the previous bucket's reading."
+        },
+        "noPreviousData": {
+          "type": "boolean",
+          "description": "True when this bucket has no data and no prior data exists before the requested start time\n(device has never communicated before this period). Only set when filled_from_previous is true."
         }
       },
       "description": "A single time bucket (one period) of device readings for a connection."

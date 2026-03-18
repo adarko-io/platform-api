@@ -649,6 +649,9 @@ message ConnectionTimeBucket {
   google.protobuf.Value data = 3;
   // True when this bucket has no real data and was filled with the previous bucket's reading.
   bool filled_from_previous = 4;
+  // True when this bucket has no data and no prior data exists before the requested start time
+  // (device has never communicated before this period). Only set when filled_from_previous is true.
+  bool no_previous_data = 5;
 }
 
 // A single row in the connection time-grid: connection metadata + per-period device readings.
