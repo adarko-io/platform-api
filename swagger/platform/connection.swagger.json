@@ -1112,6 +1112,11 @@
         "noPreviousData": {
           "type": "boolean",
           "description": "True when this bucket has no data and no prior data exists before the requested start time\n(device has never communicated before this period). Only set when filled_from_previous is true."
+        },
+        "previousDataTimestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of the bucket that the carried-forward data was originally sourced from.\nOnly set when filled_from_previous=true and data is non-null."
         }
       },
       "description": "A single time bucket (one period) of device readings for a connection."
