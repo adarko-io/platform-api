@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package platform;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "platform/shared_enums.proto";
+
+option go_package = "github.com/adarko-io/platform-api/go/v4/platform";
+
+// ReportService provides generic export-job management across all export types.
+service ReportService {
+  // List async export jobs for the tenant.
+  rpc ListExportJobs(ListExportJobsRequest) returns (ListExportJobsResponse) {
+    option (google.api.http) = {
+      get: "/api/export-jobs"
+    };
+  }
+
+  // Download a completed export file (server streaming).
+  rpc DownloadExport(DownloadExportRequest) returns (stream DownloadExportResponse) {
+    option (google.api.http) = {
+      get: "/api/export-jobs/{export_id}/download"
+    };
+  }
+}
+
+// An async export job record.
+message ExportJob {
+  string export_id = 1;
+  string tenant_id = 2;
+  string export_file_name = 3;
+  ExportType export_type = 4;
+  ExportStatus status = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+  string error_message = 8;
+}
+
+message ListExportJobsRequest {
+  string tenant_id = 1;
+  ExportType export_type = 2;
+  ExportStatus status = 3;
+  uint32 limit = 4;
+  uint32 offset = 5;
+}
+
+message ListExportJobsResponse {
+  uint32 total_count = 1;
+  repeated ExportJob jobs = 2;
+}
+
+message DownloadExportRequest {
+  string export_id = 1;
+  string tenant_id = 2;
+}
+
+// Response for downloading an export file (streaming). First message contains metadata,
+// subsequent messages contain file chunks.
+message DownloadExportResponse {
+  oneof data {
+    DownloadMetadata metadata = 1;
+    bytes chunk = 2;
+  }
+}

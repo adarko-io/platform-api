@@ -478,3 +478,15 @@ enum DeviceConnectivityStatus {
   // Some devices in a group are online (aggregate use).
   DEVICE_CONNECTIVITY_STATUS_PARTIALLY_ONLINE = 4;
 }
+
+// Metadata sent as the first message in a streaming file download response.
+message DownloadMetadata {
+  // File name.
+  string filename = 1;
+
+  // MIME content type (e.g. "text/csv", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet").
+  string content_type = 2;
+
+  // Total file size in bytes.
+  int64 total_size = 3;
+}
