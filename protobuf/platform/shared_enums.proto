@@ -447,6 +447,18 @@ enum OverdueType {
   OVERDUE_TYPE_PERCENTAGE  = 5;
 }
 
+enum ExportType {
+  EXPORT_TYPE_UNSPECIFIED            = 0;
+  EXPORT_TYPE_CONNECTION_TIME_GRID   = 1;
+}
+
+enum ExportStatus {
+  EXPORT_STATUS_UNSPECIFIED  = 0;
+  EXPORT_STATUS_IN_PROGRESS  = 1;
+  EXPORT_STATUS_COMPLETED    = 2;
+  EXPORT_STATUS_FAILED       = 3;
+}
+
 // Device connectivity status enumeration.
 enum DeviceConnectivityStatus {
   // Unknown / unset (used as no-filter sentinel).

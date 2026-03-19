@@ -135,6 +135,20 @@ service ConnectionService {
       body: "*"
     };
   }
+
+  // List async export jobs for the tenant.
+  rpc ListExportJobs(ListExportJobsRequest) returns (ListExportJobsResponse) {
+    option (google.api.http) = {
+      get: "/api/export-jobs"
+    };
+  }
+
+  // Download a completed export file (server streaming).
+  rpc DownloadExport(DownloadExportRequest) returns (stream DownloadExportResponse) {
+    option (google.api.http) = {
+      get: "/api/export-jobs/{export_id}/download"
+    };
+  }
 }
 
 // Connection represents a connection configuration for a consumer.
@@ -639,6 +653,14 @@ message ListConnectionTimeGridRequest {
   repeated DataFieldSelector data_field_selector = 25;
   // Filter device data and device_stats by this port number. 0 = no filter.
   uint32 data_port = 26;
+  // When true, treat this request as an async Excel export. Returns export_id immediately.
+  // The export is processed in the background; poll ListExportJobs for status.
+  bool export = 27;
+  // Optional file name for the exported Excel file (without extension). Defaults to a generated name.
+  string export_file_name = 28;
+  // Columns to include from connection metadata in the export (e.g. path:"connectionNumber" alias:"Conn No").
+  // Uses field names from ConnectionTimeGridRow (camelCase).
+  repeated DataFieldSelector export_field_selector = 29;
 }
 
 // A single time bucket (one period) of device readings for a connection.
@@ -686,6 +708,8 @@ message ListConnectionTimeGridResponse {
   uint32 total_count = 1;
   repeated ConnectionTimeGridRow rows = 2;
   Timezone timezone = 3;
+  // Set when export=true in the request; contains the export job UUID.
+  string export_id = 4;
 }
 
 // Request message for the connection aggregated grid (consumption deltas per period).
@@ -731,4 +755,43 @@ message ListConnectionAggregatedGridResponse {
   // deltas (e.g. {"accumulated_volume_m3": 6.04}) instead of raw sensor snapshots.
   repeated ConnectionTimeGridRow rows = 2;
   Timezone timezone = 3;
+}
+
+// An async export job record.
+message ExportJob {
+  string export_id = 1;
+  string tenant_id = 2;
+  string export_file_name = 3;
+  ExportType export_type = 4;
+  ExportStatus status = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+  string error_message = 8;
+}
+
+message ListExportJobsRequest {
+  string tenant_id = 1;
+  ExportType export_type = 2;
+  ExportStatus status = 3;
+  uint32 limit = 4;
+  uint32 offset = 5;
+}
+
+message ListExportJobsResponse {
+  uint32 total_count = 1;
+  repeated ExportJob jobs = 2;
+}
+
+message DownloadExportRequest {
+  string export_id = 1;
+  string tenant_id = 2;
+}
+
+// Response for downloading an export file (streaming). First message contains metadata,
+// subsequent messages contain file chunks.
+message DownloadExportResponse {
+  oneof data {
+    DownloadMetadata metadata = 1;
+    bytes chunk = 2;
+  }
 }

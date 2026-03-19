@@ -739,6 +739,121 @@
           "ConnectionService"
         ]
       }
+    },
+    "/api/export-jobs": {
+      "get": {
+        "summary": "List async export jobs for the tenant.",
+        "operationId": "ConnectionService_ListExportJobs",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformListExportJobsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "tenantId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "exportType",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "EXPORT_TYPE_UNSPECIFIED",
+              "EXPORT_TYPE_CONNECTION_TIME_GRID"
+            ],
+            "default": "EXPORT_TYPE_UNSPECIFIED"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "EXPORT_STATUS_UNSPECIFIED",
+              "EXPORT_STATUS_IN_PROGRESS",
+              "EXPORT_STATUS_COMPLETED",
+              "EXPORT_STATUS_FAILED"
+            ],
+            "default": "EXPORT_STATUS_UNSPECIFIED"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
+    },
+    "/api/export-jobs/{exportId}/download": {
+      "get": {
+        "summary": "Download a completed export file (server streaming).",
+        "operationId": "ConnectionService_DownloadExport",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/platformDownloadExportResponse"
+                },
+                "error": {
+                  "$ref": "#/definitions/runtimeStreamError"
+                }
+              },
+              "title": "Stream result of platformDownloadExportResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "exportId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tenantId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ConnectionService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -1247,6 +1362,19 @@
       "default": "DEVICE_CONNECTIVITY_STATUS_UNKNOWN",
       "description": "Device connectivity status enumeration.\n\n - DEVICE_CONNECTIVITY_STATUS_UNKNOWN: Unknown / unset (used as no-filter sentinel).\n - DEVICE_CONNECTIVITY_STATUS_ONLINE: Device is online (heartbeat active).\n - DEVICE_CONNECTIVITY_STATUS_OFFLINE: Device is offline (heartbeat expired).\n - DEVICE_CONNECTIVITY_STATUS_NEVER_SEEN: Device has never communicated since creation.\n - DEVICE_CONNECTIVITY_STATUS_PARTIALLY_ONLINE: Some devices in a group are online (aggregate use)."
     },
+    "platformDownloadExportResponse": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/platformDownloadMetadata"
+        },
+        "chunk": {
+          "type": "string",
+          "format": "byte"
+        }
+      },
+      "description": "Response for downloading an export file (streaming). First message contains metadata,\nsubsequent messages contain file chunks."
+    },
     "platformDownloadMetadata": {
       "type": "object",
       "properties": {
@@ -1280,6 +1408,56 @@
         }
       },
       "title": "Response for downloading report files (streaming)"
+    },
+    "platformExportJob": {
+      "type": "object",
+      "properties": {
+        "exportId": {
+          "type": "string"
+        },
+        "tenantId": {
+          "type": "string"
+        },
+        "exportFileName": {
+          "type": "string"
+        },
+        "exportType": {
+          "$ref": "#/definitions/platformExportType"
+        },
+        "status": {
+          "$ref": "#/definitions/platformExportStatus"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "errorMessage": {
+          "type": "string"
+        }
+      },
+      "description": "An async export job record."
+    },
+    "platformExportStatus": {
+      "type": "string",
+      "enum": [
+        "EXPORT_STATUS_UNSPECIFIED",
+        "EXPORT_STATUS_IN_PROGRESS",
+        "EXPORT_STATUS_COMPLETED",
+        "EXPORT_STATUS_FAILED"
+      ],
+      "default": "EXPORT_STATUS_UNSPECIFIED"
+    },
+    "platformExportType": {
+      "type": "string",
+      "enum": [
+        "EXPORT_TYPE_UNSPECIFIED",
+        "EXPORT_TYPE_CONNECTION_TIME_GRID"
+      ],
+      "default": "EXPORT_TYPE_UNSPECIFIED"
     },
     "platformFileType": {
       "type": "string",
@@ -1615,6 +1793,21 @@
           "type": "integer",
           "format": "int64",
           "description": "Filter device data and device_stats by this port number. 0 = no filter."
+        },
+        "export": {
+          "type": "boolean",
+          "description": "When true, treat this request as an async Excel export. Returns export_id immediately.\nThe export is processed in the background; poll ListExportJobs for status."
+        },
+        "exportFileName": {
+          "type": "string",
+          "description": "Optional file name for the exported Excel file (without extension). Defaults to a generated name."
+        },
+        "exportFieldSelector": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformDataFieldSelector"
+          },
+          "description": "Columns to include from connection metadata in the export (e.g. path:\"connectionNumber\" alias:\"Conn No\").\nUses field names from ConnectionTimeGridRow (camelCase)."
         }
       }
     },
@@ -1633,6 +1826,10 @@
         },
         "timezone": {
           "$ref": "#/definitions/platformTimezone"
+        },
+        "exportId": {
+          "type": "string",
+          "description": "Set when export=true in the request; contains the export job UUID."
         }
       },
       "description": "Response message for the connection time-grid."
@@ -1654,6 +1851,21 @@
         }
       },
       "description": "Response message for listing connections."
+    },
+    "platformListExportJobsResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "jobs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformExportJob"
+          }
+        }
+      }
     },
     "platformListMeterResponse": {
       "type": "object",
