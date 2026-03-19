@@ -607,12 +607,20 @@ message ListConnectionGridRequest {
   // Dot-notation paths (e.g. "counter.accumulated_volume_m3"). When any alias
   // is present, output is a flat map keyed by alias (or path if no alias).
   repeated DataFieldSelector data_field_selector = 20;
+  // When true, treat this request as an async Excel export. Returns export_id immediately.
+  bool export = 21;
+  // Optional file name for the exported Excel file (without extension). Defaults to a generated name.
+  string export_file_name = 22;
+  // Metadata columns to include from ConnectionGridRow in the export (camelCase field names).
+  repeated DataFieldSelector export_field_selector = 23;
 }
 
 // Response message for listing connections in datagrid format.
 message ListConnectionGridResponse {
   uint32 total_count = 1;
   repeated ConnectionGridRow rows = 2;
+  // Set when export=true in the request; contains the export job UUID.
+  string export_id = 3;
 }
 
 // Request message for listing connections with time-bucketed device readings.
@@ -746,6 +754,12 @@ message ListConnectionAggregatedGridRequest {
   // Optional field projection applied to each bucket's delta data.
   // Empty = return all counter fields. Dot-notation paths into the delta map.
   repeated DataFieldSelector data_field_selector = 25;
+  // When true, treat this request as an async Excel export. Returns export_id immediately.
+  bool export = 26;
+  // Optional file name for the exported Excel file (without extension). Defaults to a generated name.
+  string export_file_name = 27;
+  // Metadata columns to include from ConnectionTimeGridRow in the export (camelCase field names).
+  repeated DataFieldSelector export_field_selector = 28;
 }
 
 // Response message for the connection aggregated grid.
@@ -755,6 +769,8 @@ message ListConnectionAggregatedGridResponse {
   // deltas (e.g. {"accumulated_volume_m3": 6.04}) instead of raw sensor snapshots.
   repeated ConnectionTimeGridRow rows = 2;
   Timezone timezone = 3;
+  // Set when export=true in the request; contains the export job UUID.
+  string export_id = 4;
 }
 
 // An async export job record.

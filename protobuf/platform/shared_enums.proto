@@ -450,6 +450,8 @@ enum OverdueType {
 enum ExportType {
   EXPORT_TYPE_UNSPECIFIED            = 0;
   EXPORT_TYPE_CONNECTION_TIME_GRID   = 1;
+  EXPORT_TYPE_CONNECTION_GRID        = 2;
+  EXPORT_TYPE_CONNECTION_AGGREGATED_GRID = 3;
 }
 
 enum ExportStatus {

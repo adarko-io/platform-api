@@ -772,7 +772,9 @@
             "type": "string",
             "enum": [
               "EXPORT_TYPE_UNSPECIFIED",
-              "EXPORT_TYPE_CONNECTION_TIME_GRID"
+              "EXPORT_TYPE_CONNECTION_TIME_GRID",
+              "EXPORT_TYPE_CONNECTION_GRID",
+              "EXPORT_TYPE_CONNECTION_AGGREGATED_GRID"
             ],
             "default": "EXPORT_TYPE_UNSPECIFIED"
           },
@@ -1455,7 +1457,9 @@
       "type": "string",
       "enum": [
         "EXPORT_TYPE_UNSPECIFIED",
-        "EXPORT_TYPE_CONNECTION_TIME_GRID"
+        "EXPORT_TYPE_CONNECTION_TIME_GRID",
+        "EXPORT_TYPE_CONNECTION_GRID",
+        "EXPORT_TYPE_CONNECTION_AGGREGATED_GRID"
       ],
       "default": "EXPORT_TYPE_UNSPECIFIED"
     },
@@ -1594,6 +1598,21 @@
             "$ref": "#/definitions/platformDataFieldSelector"
           },
           "description": "Optional field projection applied to each bucket's delta data.\nEmpty = return all counter fields. Dot-notation paths into the delta map."
+        },
+        "export": {
+          "type": "boolean",
+          "description": "When true, treat this request as an async Excel export. Returns export_id immediately."
+        },
+        "exportFileName": {
+          "type": "string",
+          "description": "Optional file name for the exported Excel file (without extension). Defaults to a generated name."
+        },
+        "exportFieldSelector": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformDataFieldSelector"
+          },
+          "description": "Metadata columns to include from ConnectionTimeGridRow in the export (camelCase field names)."
         }
       },
       "description": "Request message for the connection aggregated grid (consumption deltas per period)."
@@ -1614,6 +1633,10 @@
         },
         "timezone": {
           "$ref": "#/definitions/platformTimezone"
+        },
+        "exportId": {
+          "type": "string",
+          "description": "Set when export=true in the request; contains the export job UUID."
         }
       },
       "description": "Response message for the connection aggregated grid."
@@ -1689,6 +1712,21 @@
             "$ref": "#/definitions/platformDataFieldSelector"
           },
           "description": "Optional field projection. Empty = return full device JSONB unchanged.\nDot-notation paths (e.g. \"counter.accumulated_volume_m3\"). When any alias\nis present, output is a flat map keyed by alias (or path if no alias)."
+        },
+        "export": {
+          "type": "boolean",
+          "description": "When true, treat this request as an async Excel export. Returns export_id immediately."
+        },
+        "exportFileName": {
+          "type": "string",
+          "description": "Optional file name for the exported Excel file (without extension). Defaults to a generated name."
+        },
+        "exportFieldSelector": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformDataFieldSelector"
+          },
+          "description": "Metadata columns to include from ConnectionGridRow in the export (camelCase field names)."
         }
       },
       "description": "Request message for listing connections in datagrid format."
@@ -1705,6 +1743,10 @@
           "items": {
             "$ref": "#/definitions/platformConnectionGridRow"
           }
+        },
+        "exportId": {
+          "type": "string",
+          "description": "Set when export=true in the request; contains the export job UUID."
         }
       },
       "description": "Response message for listing connections in datagrid format."
