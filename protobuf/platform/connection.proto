@@ -102,8 +102,8 @@ service ConnectionService {
     };
   }
 
-  // Download a report file (server streaming for large files)
-  rpc DownloadReport(DownloadReportRequest) returns (stream DownloadReportResponse) {
+  // Download a bulk-upload report file (server streaming for large files)
+  rpc DownloadBulkUploadReport(DownloadBulkUploadReportRequest) returns (stream DownloadBulkUploadReportResponse) {
     option (google.api.http) = {
       get: "/api/connections/bulk-upload/report/{filename}"
     };
@@ -514,14 +514,14 @@ message ReportFile {
   uint64 processing_time_ms = 10;
 }
 
-// Request to download a report file
-message DownloadReportRequest {
+// Request to download a bulk-upload report file
+message DownloadBulkUploadReportRequest {
   // File name
   string filename = 1;
 }
 
-// Response for downloading report files (streaming)
-message DownloadReportResponse {
+// Response for downloading bulk-upload report files (streaming)
+message DownloadBulkUploadReportResponse {
   oneof data {
     // First response contains metadata
     DownloadMetadata metadata = 1;

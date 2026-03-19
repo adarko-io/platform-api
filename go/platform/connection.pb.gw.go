@@ -737,8 +737,8 @@ func local_request_ConnectionService_ListReportFiles_0(ctx context.Context, mars
 
 }
 
-func request_ConnectionService_DownloadReport_0(ctx context.Context, marshaler runtime.Marshaler, client ConnectionServiceClient, req *http.Request, pathParams map[string]string) (ConnectionService_DownloadReportClient, runtime.ServerMetadata, error) {
-	var protoReq DownloadReportRequest
+func request_ConnectionService_DownloadBulkUploadReport_0(ctx context.Context, marshaler runtime.Marshaler, client ConnectionServiceClient, req *http.Request, pathParams map[string]string) (ConnectionService_DownloadBulkUploadReportClient, runtime.ServerMetadata, error) {
+	var protoReq DownloadBulkUploadReportRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -759,7 +759,7 @@ func request_ConnectionService_DownloadReport_0(ctx context.Context, marshaler r
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "filename", err)
 	}
 
-	stream, err := client.DownloadReport(ctx, &protoReq)
+	stream, err := client.DownloadBulkUploadReport(ctx, &protoReq)
 	if err != nil {
 		return nil, metadata, err
 	}
@@ -1156,7 +1156,7 @@ func RegisterConnectionServiceHandlerServer(ctx context.Context, mux *runtime.Se
 
 	})
 
-	mux.Handle("GET", pattern_ConnectionService_DownloadReport_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_ConnectionService_DownloadBulkUploadReport_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -1513,7 +1513,7 @@ func RegisterConnectionServiceHandlerClient(ctx context.Context, mux *runtime.Se
 
 	})
 
-	mux.Handle("GET", pattern_ConnectionService_DownloadReport_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_ConnectionService_DownloadBulkUploadReport_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -1522,14 +1522,14 @@ func RegisterConnectionServiceHandlerClient(ctx context.Context, mux *runtime.Se
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_ConnectionService_DownloadReport_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_ConnectionService_DownloadBulkUploadReport_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_ConnectionService_DownloadReport_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
+		forward_ConnectionService_DownloadBulkUploadReport_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -1621,7 +1621,7 @@ var (
 
 	pattern_ConnectionService_ListReportFiles_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "connections", "bulk-upload", "reports"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_ConnectionService_DownloadReport_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "connections", "bulk-upload", "report", "filename"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_ConnectionService_DownloadBulkUploadReport_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "connections", "bulk-upload", "report", "filename"}, "", runtime.AssumeColonVerbOpt(true)))
 
 	pattern_ConnectionService_ListConnectionGrid_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"api", "connection-grid"}, "", runtime.AssumeColonVerbOpt(true)))
 
@@ -1655,7 +1655,7 @@ var (
 
 	forward_ConnectionService_ListReportFiles_0 = runtime.ForwardResponseMessage
 
-	forward_ConnectionService_DownloadReport_0 = runtime.ForwardResponseStream
+	forward_ConnectionService_DownloadBulkUploadReport_0 = runtime.ForwardResponseStream
 
 	forward_ConnectionService_ListConnectionGrid_0 = runtime.ForwardResponseMessage
 

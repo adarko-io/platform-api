@@ -280,8 +280,8 @@
     },
     "/api/connections/bulk-upload/report/{filename}": {
       "get": {
-        "summary": "Download a report file (server streaming for large files)",
-        "operationId": "ConnectionService_DownloadReport",
+        "summary": "Download a bulk-upload report file (server streaming for large files)",
+        "operationId": "ConnectionService_DownloadBulkUploadReport",
         "responses": {
           "200": {
             "description": "A successful response.(streaming responses)",
@@ -289,13 +289,13 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/platformDownloadReportResponse"
+                  "$ref": "#/definitions/platformDownloadBulkUploadReportResponse"
                 },
                 "error": {
                   "$ref": "#/definitions/runtimeStreamError"
                 }
               },
-              "title": "Stream result of platformDownloadReportResponse"
+              "title": "Stream result of platformDownloadBulkUploadReportResponse"
             }
           },
           "default": {
@@ -1247,6 +1247,21 @@
       "default": "DEVICE_CONNECTIVITY_STATUS_UNKNOWN",
       "description": "Device connectivity status enumeration.\n\n - DEVICE_CONNECTIVITY_STATUS_UNKNOWN: Unknown / unset (used as no-filter sentinel).\n - DEVICE_CONNECTIVITY_STATUS_ONLINE: Device is online (heartbeat active).\n - DEVICE_CONNECTIVITY_STATUS_OFFLINE: Device is offline (heartbeat expired).\n - DEVICE_CONNECTIVITY_STATUS_NEVER_SEEN: Device has never communicated since creation.\n - DEVICE_CONNECTIVITY_STATUS_PARTIALLY_ONLINE: Some devices in a group are online (aggregate use)."
     },
+    "platformDownloadBulkUploadReportResponse": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/platformDownloadMetadata",
+          "title": "First response contains metadata"
+        },
+        "chunk": {
+          "type": "string",
+          "format": "byte",
+          "title": "Subsequent responses contain file chunks"
+        }
+      },
+      "title": "Response for downloading bulk-upload report files (streaming)"
+    },
     "platformDownloadMetadata": {
       "type": "object",
       "properties": {
@@ -1265,21 +1280,6 @@
         }
       },
       "description": "Metadata sent as the first message in a streaming file download response."
-    },
-    "platformDownloadReportResponse": {
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/platformDownloadMetadata",
-          "title": "First response contains metadata"
-        },
-        "chunk": {
-          "type": "string",
-          "format": "byte",
-          "title": "Subsequent responses contain file chunks"
-        }
-      },
-      "title": "Response for downloading report files (streaming)"
     },
     "platformFileType": {
       "type": "string",
