@@ -8,56 +8,61 @@ import "platform/shared_enums.proto";
 
 option go_package = "github.com/adarko-io/platform-api/go/v4/platform";
 
-// ReportService provides generic export-job management across all export types.
+// ReportService manages report jobs (exports, and future imports) for a tenant.
 service ReportService {
-  // List async export jobs for the tenant.
-  rpc ListExportJobs(ListExportJobsRequest) returns (ListExportJobsResponse) {
+  // List reports for the tenant.
+  rpc ListReports(ListReportsRequest) returns (ListReportsResponse) {
     option (google.api.http) = {
-      get: "/api/export-jobs"
+      get: "/api/reports"
     };
   }
 
-  // Download a completed export file (server streaming).
-  rpc DownloadExport(DownloadExportRequest) returns (stream DownloadExportResponse) {
+  // Download a completed report file (server streaming).
+  rpc DownloadReport(DownloadReportRequest) returns (stream DownloadReportResponse) {
     option (google.api.http) = {
-      get: "/api/export-jobs/{export_id}/download"
+      get: "/api/reports/{report_id}/download"
     };
   }
 }
 
-// An async export job record.
-message ExportJob {
-  string export_id = 1;
+// A report job record.
+message Report {
+  string report_id = 1;
   string tenant_id = 2;
-  string export_file_name = 3;
-  ExportType export_type = 4;
-  ExportStatus status = 5;
-  google.protobuf.Timestamp created_at = 6;
-  google.protobuf.Timestamp updated_at = 7;
-  string error_message = 8;
+  // File name (without path).
+  string name = 3;
+  ReportType report_type = 4;
+  ReportCategory category = 5;
+  ReportStatus status = 6;
+  // Contextual metadata: e.g. {"type":"consumption","start_time":"...","field":"..."}
+  map<string, string> tags = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+  string error_message = 10;
 }
 
-message ListExportJobsRequest {
+message ListReportsRequest {
   string tenant_id = 1;
-  ExportType export_type = 2;
-  ExportStatus status = 3;
-  uint32 limit = 4;
-  uint32 offset = 5;
+  ReportType report_type = 2;
+  ReportCategory category = 3;
+  ReportStatus status = 4;
+  uint32 limit = 5;
+  uint32 offset = 6;
 }
 
-message ListExportJobsResponse {
+message ListReportsResponse {
   uint32 total_count = 1;
-  repeated ExportJob jobs = 2;
+  repeated Report reports = 2;
 }
 
-message DownloadExportRequest {
-  string export_id = 1;
+message DownloadReportRequest {
+  string report_id = 1;
   string tenant_id = 2;
 }
 
-// Response for downloading an export file (streaming). First message contains metadata,
+// Response for downloading a report file (streaming). First message contains metadata,
 // subsequent messages contain file chunks.
-message DownloadExportResponse {
+message DownloadReportResponse {
   oneof data {
     DownloadMetadata metadata = 1;
     bytes chunk = 2;

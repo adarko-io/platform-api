@@ -447,18 +447,27 @@ enum OverdueType {
   OVERDUE_TYPE_PERCENTAGE  = 5;
 }
 
-enum ExportType {
-  EXPORT_TYPE_UNSPECIFIED            = 0;
-  EXPORT_TYPE_CONNECTION_TIME_GRID   = 1;
-  EXPORT_TYPE_CONNECTION_GRID        = 2;
-  EXPORT_TYPE_CONNECTION_AGGREGATED_GRID = 3;
+// Report type — what kind of data the report covers.
+enum ReportType {
+  REPORT_TYPE_UNSPECIFIED                = 0;
+  REPORT_TYPE_CONNECTION_TIME_GRID       = 1;
+  REPORT_TYPE_CONNECTION_GRID            = 2;
+  REPORT_TYPE_CONNECTION_AGGREGATED_GRID = 3;
 }
 
-enum ExportStatus {
-  EXPORT_STATUS_UNSPECIFIED  = 0;
-  EXPORT_STATUS_IN_PROGRESS  = 1;
-  EXPORT_STATUS_COMPLETED    = 2;
-  EXPORT_STATUS_FAILED       = 3;
+// Report processing status.
+enum ReportStatus {
+  REPORT_STATUS_UNSPECIFIED  = 0;
+  REPORT_STATUS_IN_PROGRESS  = 1;
+  REPORT_STATUS_COMPLETED    = 2;
+  REPORT_STATUS_FAILED       = 3;
+}
+
+// Report category — direction of data flow.
+enum ReportCategory {
+  REPORT_CATEGORY_UNSPECIFIED = 0;
+  REPORT_CATEGORY_EXPORT      = 1;
+  REPORT_CATEGORY_IMPORT      = 2;
 }
 
 // Device connectivity status enumeration.

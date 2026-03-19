@@ -11,15 +11,15 @@
     "application/json"
   ],
   "paths": {
-    "/api/export-jobs": {
+    "/api/reports": {
       "get": {
-        "summary": "List async export jobs for the tenant.",
-        "operationId": "ReportService_ListExportJobs",
+        "summary": "List reports for the tenant.",
+        "operationId": "ReportService_ListReports",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/platformListExportJobsResponse"
+              "$ref": "#/definitions/platformListReportsResponse"
             }
           },
           "default": {
@@ -37,17 +37,29 @@
             "type": "string"
           },
           {
-            "name": "exportType",
+            "name": "reportType",
             "in": "query",
             "required": false,
             "type": "string",
             "enum": [
-              "EXPORT_TYPE_UNSPECIFIED",
-              "EXPORT_TYPE_CONNECTION_TIME_GRID",
-              "EXPORT_TYPE_CONNECTION_GRID",
-              "EXPORT_TYPE_CONNECTION_AGGREGATED_GRID"
+              "REPORT_TYPE_UNSPECIFIED",
+              "REPORT_TYPE_CONNECTION_TIME_GRID",
+              "REPORT_TYPE_CONNECTION_GRID",
+              "REPORT_TYPE_CONNECTION_AGGREGATED_GRID"
             ],
-            "default": "EXPORT_TYPE_UNSPECIFIED"
+            "default": "REPORT_TYPE_UNSPECIFIED"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "REPORT_CATEGORY_UNSPECIFIED",
+              "REPORT_CATEGORY_EXPORT",
+              "REPORT_CATEGORY_IMPORT"
+            ],
+            "default": "REPORT_CATEGORY_UNSPECIFIED"
           },
           {
             "name": "status",
@@ -55,12 +67,12 @@
             "required": false,
             "type": "string",
             "enum": [
-              "EXPORT_STATUS_UNSPECIFIED",
-              "EXPORT_STATUS_IN_PROGRESS",
-              "EXPORT_STATUS_COMPLETED",
-              "EXPORT_STATUS_FAILED"
+              "REPORT_STATUS_UNSPECIFIED",
+              "REPORT_STATUS_IN_PROGRESS",
+              "REPORT_STATUS_COMPLETED",
+              "REPORT_STATUS_FAILED"
             ],
-            "default": "EXPORT_STATUS_UNSPECIFIED"
+            "default": "REPORT_STATUS_UNSPECIFIED"
           },
           {
             "name": "limit",
@@ -82,10 +94,10 @@
         ]
       }
     },
-    "/api/export-jobs/{exportId}/download": {
+    "/api/reports/{reportId}/download": {
       "get": {
-        "summary": "Download a completed export file (server streaming).",
-        "operationId": "ReportService_DownloadExport",
+        "summary": "Download a completed report file (server streaming).",
+        "operationId": "ReportService_DownloadReport",
         "responses": {
           "200": {
             "description": "A successful response.(streaming responses)",
@@ -93,13 +105,13 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/platformDownloadExportResponse"
+                  "$ref": "#/definitions/platformDownloadReportResponse"
                 },
                 "error": {
                   "$ref": "#/definitions/runtimeStreamError"
                 }
               },
-              "title": "Stream result of platformDownloadExportResponse"
+              "title": "Stream result of platformDownloadReportResponse"
             }
           },
           "default": {
@@ -111,7 +123,7 @@
         },
         "parameters": [
           {
-            "name": "exportId",
+            "name": "reportId",
             "in": "path",
             "required": true,
             "type": "string"
@@ -130,19 +142,6 @@
     }
   },
   "definitions": {
-    "platformDownloadExportResponse": {
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/platformDownloadMetadata"
-        },
-        "chunk": {
-          "type": "string",
-          "format": "byte"
-        }
-      },
-      "description": "Response for downloading an export file (streaming). First message contains metadata,\nsubsequent messages contain file chunks."
-    },
     "platformDownloadMetadata": {
       "type": "object",
       "properties": {
@@ -162,23 +161,62 @@
       },
       "description": "Metadata sent as the first message in a streaming file download response."
     },
-    "platformExportJob": {
+    "platformDownloadReportResponse": {
       "type": "object",
       "properties": {
-        "exportId": {
+        "metadata": {
+          "$ref": "#/definitions/platformDownloadMetadata"
+        },
+        "chunk": {
+          "type": "string",
+          "format": "byte"
+        }
+      },
+      "description": "Response for downloading a report file (streaming). First message contains metadata,\nsubsequent messages contain file chunks."
+    },
+    "platformListReportsResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "reports": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformReport"
+          }
+        }
+      }
+    },
+    "platformReport": {
+      "type": "object",
+      "properties": {
+        "reportId": {
           "type": "string"
         },
         "tenantId": {
           "type": "string"
         },
-        "exportFileName": {
-          "type": "string"
+        "name": {
+          "type": "string",
+          "description": "File name (without path)."
         },
-        "exportType": {
-          "$ref": "#/definitions/platformExportType"
+        "reportType": {
+          "$ref": "#/definitions/platformReportType"
+        },
+        "category": {
+          "$ref": "#/definitions/platformReportCategory"
         },
         "status": {
-          "$ref": "#/definitions/platformExportStatus"
+          "$ref": "#/definitions/platformReportStatus"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Contextual metadata: e.g. {\"type\":\"consumption\",\"start_time\":\"...\",\"field\":\"...\"}"
         },
         "createdAt": {
           "type": "string",
@@ -192,42 +230,39 @@
           "type": "string"
         }
       },
-      "description": "An async export job record."
+      "description": "A report job record."
     },
-    "platformExportStatus": {
+    "platformReportCategory": {
       "type": "string",
       "enum": [
-        "EXPORT_STATUS_UNSPECIFIED",
-        "EXPORT_STATUS_IN_PROGRESS",
-        "EXPORT_STATUS_COMPLETED",
-        "EXPORT_STATUS_FAILED"
+        "REPORT_CATEGORY_UNSPECIFIED",
+        "REPORT_CATEGORY_EXPORT",
+        "REPORT_CATEGORY_IMPORT"
       ],
-      "default": "EXPORT_STATUS_UNSPECIFIED"
+      "default": "REPORT_CATEGORY_UNSPECIFIED",
+      "description": "Report category — direction of data flow."
     },
-    "platformExportType": {
+    "platformReportStatus": {
       "type": "string",
       "enum": [
-        "EXPORT_TYPE_UNSPECIFIED",
-        "EXPORT_TYPE_CONNECTION_TIME_GRID",
-        "EXPORT_TYPE_CONNECTION_GRID",
-        "EXPORT_TYPE_CONNECTION_AGGREGATED_GRID"
+        "REPORT_STATUS_UNSPECIFIED",
+        "REPORT_STATUS_IN_PROGRESS",
+        "REPORT_STATUS_COMPLETED",
+        "REPORT_STATUS_FAILED"
       ],
-      "default": "EXPORT_TYPE_UNSPECIFIED"
+      "default": "REPORT_STATUS_UNSPECIFIED",
+      "description": "Report processing status."
     },
-    "platformListExportJobsResponse": {
-      "type": "object",
-      "properties": {
-        "totalCount": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "jobs": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/platformExportJob"
-          }
-        }
-      }
+    "platformReportType": {
+      "type": "string",
+      "enum": [
+        "REPORT_TYPE_UNSPECIFIED",
+        "REPORT_TYPE_CONNECTION_TIME_GRID",
+        "REPORT_TYPE_CONNECTION_GRID",
+        "REPORT_TYPE_CONNECTION_AGGREGATED_GRID"
+      ],
+      "default": "REPORT_TYPE_UNSPECIFIED",
+      "description": "Report type — what kind of data the report covers."
     },
     "protobufAny": {
       "type": "object",
