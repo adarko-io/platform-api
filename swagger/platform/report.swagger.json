@@ -1,0 +1,291 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "platform/report.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/export-jobs": {
+      "get": {
+        "summary": "List async export jobs for the tenant.",
+        "operationId": "ReportService_ListExportJobs",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformListExportJobsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "tenantId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "exportType",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "EXPORT_TYPE_UNSPECIFIED",
+              "EXPORT_TYPE_CONNECTION_TIME_GRID",
+              "EXPORT_TYPE_CONNECTION_GRID",
+              "EXPORT_TYPE_CONNECTION_AGGREGATED_GRID"
+            ],
+            "default": "EXPORT_TYPE_UNSPECIFIED"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "EXPORT_STATUS_UNSPECIFIED",
+              "EXPORT_STATUS_IN_PROGRESS",
+              "EXPORT_STATUS_COMPLETED",
+              "EXPORT_STATUS_FAILED"
+            ],
+            "default": "EXPORT_STATUS_UNSPECIFIED"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "ReportService"
+        ]
+      }
+    },
+    "/api/export-jobs/{exportId}/download": {
+      "get": {
+        "summary": "Download a completed export file (server streaming).",
+        "operationId": "ReportService_DownloadExport",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/platformDownloadExportResponse"
+                },
+                "error": {
+                  "$ref": "#/definitions/runtimeStreamError"
+                }
+              },
+              "title": "Stream result of platformDownloadExportResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "exportId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tenantId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ReportService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "platformDownloadExportResponse": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/platformDownloadMetadata"
+        },
+        "chunk": {
+          "type": "string",
+          "format": "byte"
+        }
+      },
+      "description": "Response for downloading an export file (streaming). First message contains metadata,\nsubsequent messages contain file chunks."
+    },
+    "platformDownloadMetadata": {
+      "type": "object",
+      "properties": {
+        "filename": {
+          "type": "string",
+          "description": "File name."
+        },
+        "contentType": {
+          "type": "string",
+          "description": "MIME content type (e.g. \"text/csv\", \"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\")."
+        },
+        "totalSize": {
+          "type": "string",
+          "format": "int64",
+          "description": "Total file size in bytes."
+        }
+      },
+      "description": "Metadata sent as the first message in a streaming file download response."
+    },
+    "platformExportJob": {
+      "type": "object",
+      "properties": {
+        "exportId": {
+          "type": "string"
+        },
+        "tenantId": {
+          "type": "string"
+        },
+        "exportFileName": {
+          "type": "string"
+        },
+        "exportType": {
+          "$ref": "#/definitions/platformExportType"
+        },
+        "status": {
+          "$ref": "#/definitions/platformExportStatus"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "errorMessage": {
+          "type": "string"
+        }
+      },
+      "description": "An async export job record."
+    },
+    "platformExportStatus": {
+      "type": "string",
+      "enum": [
+        "EXPORT_STATUS_UNSPECIFIED",
+        "EXPORT_STATUS_IN_PROGRESS",
+        "EXPORT_STATUS_COMPLETED",
+        "EXPORT_STATUS_FAILED"
+      ],
+      "default": "EXPORT_STATUS_UNSPECIFIED"
+    },
+    "platformExportType": {
+      "type": "string",
+      "enum": [
+        "EXPORT_TYPE_UNSPECIFIED",
+        "EXPORT_TYPE_CONNECTION_TIME_GRID",
+        "EXPORT_TYPE_CONNECTION_GRID",
+        "EXPORT_TYPE_CONNECTION_AGGREGATED_GRID"
+      ],
+      "default": "EXPORT_TYPE_UNSPECIFIED"
+    },
+    "platformListExportJobsResponse": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "jobs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/platformExportJob"
+          }
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "runtimeStreamError": {
+      "type": "object",
+      "properties": {
+        "grpcCode": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "httpCode": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "httpStatus": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
