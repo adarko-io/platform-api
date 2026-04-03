@@ -187,6 +187,38 @@
         ]
       }
     },
+    "/api/devices-by-eui/{eui}": {
+      "get": {
+        "summary": "Get device by EUI.",
+        "operationId": "DeviceService_GetByEUI",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetDeviceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "eui",
+            "description": "EUI (hex string, e.g. \"0102030405060708\").",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "DeviceService"
+        ]
+      }
+    },
     "/api/devices-summary": {
       "get": {
         "summary": "GetDevicesSummary returns an aggregated summary of the devices (online,offline,never seen based DeviceSubType, TransportProtocol, AssetType, tenantid, applicationid).",

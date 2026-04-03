@@ -28,6 +28,13 @@ service DeviceService {
     };
   }
 
+  // Get device by EUI.
+  rpc GetByEUI(GetDeviceByEUIRequest) returns (GetDeviceResponse) {
+    option (google.api.http) = {
+      get: "/api/devices-by-eui/{eui}"
+    };
+  }
+
   // Update the given device.
   rpc Update(UpdateDeviceRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
@@ -222,6 +229,11 @@ message CreateDeviceResponse {
 message GetDeviceRequest {
   // ID.
   string id = 1;
+}
+
+message GetDeviceByEUIRequest {
+  // EUI (hex string, e.g. "0102030405060708").
+  string eui = 1;
 }
 
 message GetDeviceResponse {
