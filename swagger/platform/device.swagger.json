@@ -360,6 +360,38 @@
         ]
       }
     },
+    "/api/devices/{deviceId}/zones": {
+      "get": {
+        "summary": "GetDeviceZones returns the zone IDs associated with a device via its application.",
+        "operationId": "DeviceService_GetDeviceZones",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/platformGetDeviceZonesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "deviceId",
+            "description": "Device ID (UUID).",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "DeviceService"
+        ]
+      }
+    },
     "/api/devices/{id}": {
       "get": {
         "summary": "Get returns the device for the given EUI.",
@@ -636,6 +668,18 @@
         "device": {
           "$ref": "#/definitions/platformDevice",
           "description": "Device object."
+        }
+      }
+    },
+    "platformGetDeviceZonesResponse": {
+      "type": "object",
+      "properties": {
+        "zoneIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Zone IDs associated with the device via its application."
         }
       }
     },

@@ -63,6 +63,13 @@ service DeviceService {
             get: "/api/devices-summary"
         };
     }
+
+  // GetDeviceZones returns the zone IDs associated with a device via its application.
+  rpc GetDeviceZones(GetDeviceZonesRequest) returns (GetDeviceZonesResponse) {
+    option (google.api.http) = {
+      get: "/api/devices/{device_id}/zones"
+    };
+  }
 }
 
 message GetDevicesSummaryRequest {
@@ -99,6 +106,16 @@ message GetDevicesSummaryResponse {
     // Number of never seen devices.
     uint32 never_seen_count = 4;
   }
+
+message GetDeviceZonesRequest {
+  // Device ID (UUID).
+  string device_id = 1;
+}
+
+message GetDeviceZonesResponse {
+  // Zone IDs associated with the device via its application.
+  repeated string zone_ids = 1;
+}
 
 message Device {
   //ID
