@@ -113,8 +113,8 @@ message GetDeviceZonesRequest {
 }
 
 message GetDeviceZonesResponse {
-  // Zone IDs associated with the device via its application.
-  repeated string zone_ids = 1;
+  // Zone ID associated with the device via its application.
+  string zone_id = 1;
 }
 
 message Device {

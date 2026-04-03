@@ -674,12 +674,9 @@
     "platformGetDeviceZonesResponse": {
       "type": "object",
       "properties": {
-        "zoneIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Zone IDs associated with the device via its application."
+        "zoneId": {
+          "type": "string",
+          "description": "Zone ID associated with the device via its application."
         }
       }
     },
