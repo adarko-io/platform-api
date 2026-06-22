@@ -587,6 +587,28 @@
           "type": "string",
           "format": "date-time",
           "title": "Validity of the tenant"
+        },
+        "logoUrl": {
+          "type": "string",
+          "description": "Public URL for tenant logo (object storage)."
+        },
+        "logoStorageKey": {
+          "type": "string",
+          "description": "Storage key of the logo object (internal use)."
+        },
+        "logoContentType": {
+          "type": "string",
+          "description": "MIME content type of the stored logo (e.g. image/webp)."
+        },
+        "logoSize": {
+          "type": "string",
+          "format": "int64",
+          "description": "Size of the logo in bytes."
+        },
+        "logoUpdatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when logo was last updated."
         }
       }
     },
