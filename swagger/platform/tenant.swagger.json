@@ -443,6 +443,10 @@
         "id": {
           "type": "string",
           "description": "Tenant ID."
+        },
+        "tenant": {
+          "$ref": "#/definitions/platformTenant",
+          "title": "Optional tenant object for convenience (includes logo fields)"
         }
       }
     },
@@ -587,6 +591,23 @@
           "type": "string",
           "format": "date-time",
           "title": "Validity of the tenant"
+        },
+        "logoUrl": {
+          "type": "string",
+          "title": "Tenant logo metadata"
+        },
+        "logoFileName": {
+          "type": "string",
+          "description": "Original file name of the logo (e.g. \"logo.png\")."
+        },
+        "logoContentType": {
+          "type": "string",
+          "description": "Content type of the logo (e.g. \"image/png\")."
+        },
+        "logoSize": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Size of the logo in bytes."
         }
       }
     },

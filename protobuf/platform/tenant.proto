@@ -131,6 +131,14 @@ message Tenant {
   string notes = 14;
   //Validity of the tenant
   google.protobuf.Timestamp valid_until = 15;
+  // Tenant logo metadata
+  string logo_url = 16;
+  // Original file name of the logo (e.g. "logo.png").
+  string logo_file_name = 17;
+  // Content type of the logo (e.g. "image/png").
+  string logo_content_type = 18;
+  // Size of the logo in bytes.
+  uint64 logo_size = 19;
 }
 
 
@@ -142,6 +150,8 @@ message CreateTenantRequest {
 message CreateTenantResponse {
   // Tenant ID.
   string id = 1;
+  // Optional tenant object for convenience (includes logo fields)
+  Tenant tenant = 2;
 }
 
 message GetTenantRequest {
