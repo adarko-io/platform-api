@@ -131,69 +131,12 @@ message Tenant {
   string notes = 14;
   //Validity of the tenant
   google.protobuf.Timestamp valid_until = 15;
-  // Public URL for tenant logo (object storage).
-  string logo_url = 16;
-  // Storage key of the logo object (internal use).
-  string logo_storage_key = 17;
-  // MIME content type of the stored logo (e.g. image/webp).
-  string logo_content_type = 18;
-  // Size of the logo in bytes.
-  int64 logo_size = 19;
-  // Timestamp when logo was last updated.
-  google.protobuf.Timestamp logo_updated_at = 20;
 }
 
 
 message CreateTenantRequest {
   // Tenant object to create.
   Tenant tenant = 1;
-}
-
-message GenerateTenantLogoUploadUrlRequest {
-  // Tenant ID (UUID).
-  string tenant_id = 1;
-  // Expected content type for the upload (e.g. image/webp).
-  string content_type = 2;
-  // Expected size of the upload in bytes.
-  int64 size = 3;
-}
-
-message GenerateTenantLogoUploadUrlResponse {
-  // Presigned upload URL for direct client upload.
-  string upload_url = 1;
-  // The storage key the server generated for this upload.
-  string storage_key = 2;
-  // Expiration timestamp for the signed URL.
-  google.protobuf.Timestamp expires_at = 3;
-}
-
-message UpdateTenantLogoRequest {
-  // Tenant ID (UUID).
-  string tenant_id = 1;
-  // Storage key returned from GenerateTenantLogoUploadUrlResponse.
-  string storage_key = 2;
-  // Content type of the stored object.
-  string content_type = 3;
-  // Size in bytes of the stored object.
-  int64 size = 4;
-}
-
-message GetTenantLogoRequest {
-  // Tenant ID (UUID).
-  string tenant_id = 1;
-}
-
-message GetTenantLogoResponse {
-  // Public URL for the logo (if available).
-  string logo_url = 1;
-  // Internal storage key.
-  string storage_key = 2;
-  // MIME type.
-  string content_type = 3;
-  // Size in bytes.
-  int64 size = 4;
-  // Last updated timestamp.
-  google.protobuf.Timestamp updated_at = 5;
 }
 
 message CreateTenantResponse {
