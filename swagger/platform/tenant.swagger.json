@@ -608,6 +608,11 @@
           "type": "string",
           "format": "uint64",
           "description": "Size of the logo in bytes."
+        },
+        "logoUpdatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last time the logo was updated."
         }
       }
     },

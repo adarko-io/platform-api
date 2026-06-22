@@ -139,6 +139,8 @@ message Tenant {
   string logo_content_type = 18;
   // Size of the logo in bytes.
   uint64 logo_size = 19;
+  // Last time the logo was updated.
+  google.protobuf.Timestamp logo_updated_at = 20;
 }
 
 
